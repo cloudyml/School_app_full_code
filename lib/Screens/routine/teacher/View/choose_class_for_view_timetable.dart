@@ -4,7 +4,6 @@ import '../../../../constants/style.dart';
 import '../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
-import '../Upload/entry_page_timetable_set.dart';
 
 class TeacherChooseClassForViewTimetable extends StatefulWidget {
   const TeacherChooseClassForViewTimetable({Key? key}) : super(key: key);

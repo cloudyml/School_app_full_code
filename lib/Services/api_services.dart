@@ -497,7 +497,45 @@ class ApiServices {
     return studentDailyRoutine;
   }
 
-//  Teacher Upload Assignment...............................
+// Teacher see class routine Day wise....................................................
+  static Future<StudentEachdayRoutineModel> TeacherSeeDayRoutine(
+    String selectedClass,
+    String selectedSection,
+  ) async {
+    StudentEachdayRoutineModel studentDailyRoutine =
+        StudentEachdayRoutineModel();
+    try {
+      var queryParam =
+          "${ApiUrl.dailyRoutine}?class=$selectedClass&section=$selectedSection";
+      var response = await ApiBase.getRequest(
+        extendedURL: queryParam,
+      );
+      log(response.statusCode.toString());
+
+      log(response.statusCode.toString());
+      log(response.body);
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          log("success");
+          studentDailyRoutine =
+              studentEachdayRoutineModelFromJson(response.body);
+        } else {
+          log("else 2");
+          studentDailyRoutine = StudentEachdayRoutineModel();
+        }
+      } else {
+        log("else 2");
+        studentDailyRoutine = StudentEachdayRoutineModel();
+      }
+    } catch (e) {
+      log("Catch");
+      studentDailyRoutine = StudentEachdayRoutineModel();
+    }
+
+    return studentDailyRoutine;
+  }
+
+//  Teacher Upload Assignment...................................................
 
   static Future<bool> TeacherAddAssignment(
     String givenDate,

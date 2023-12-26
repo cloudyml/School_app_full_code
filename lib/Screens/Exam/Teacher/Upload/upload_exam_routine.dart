@@ -346,7 +346,7 @@ class _UploadResultState extends State<UploadExamRoutine> {
                 await ApiServices.uploadExamRoutine(postData).then((value) {
                   if (value == true) {
                     showSuccessSnackbar();
-                    Navigator.push(
+                    Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>

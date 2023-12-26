@@ -26,7 +26,6 @@ class TeacherEventCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16.0, left: 10, right: 10),
       child: Container(
         height: height * 0.3,
-        //  width: width * 0.5,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(13),
@@ -57,12 +56,14 @@ class TeacherEventCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, bottom: 4, top: 8),
                 child: Container(
-                  //color: Colors.blue,
-                  width: width * 0.55,
+                  // color: Colors.blue,
+                  width: width * 0.54,
                   child: Text(
                     heading,
                     style: GoogleFonts.inter(
                         fontSize: 18, fontWeight: FontWeight.w700),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

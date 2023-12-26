@@ -44,7 +44,8 @@ class _TeacherViewDayWiseRoutineState extends State<TeacherViewDayWiseRoutine> {
           ),
         ),
         body: FutureBuilder<StudentEachdayRoutineModel>(
-          future: ApiServices.StudentEachDayRoutine(),
+          future:
+              ApiServices.TeacherSeeDayRoutine(widget.wclass, widget.section),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());

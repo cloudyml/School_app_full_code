@@ -27,7 +27,7 @@ class _EditMyAccountDetailsState extends State<StudentRegisterEvents> {
   TextEditingController phonenoInput = TextEditingController();
   TextEditingController eventNameInput = TextEditingController();
   TextEditingController genderInput = TextEditingController();
-
+  bool isClicked = false;
   @override
   void initState() {
     nameInput.text = SharedService.loginDetails()!.data!.data!.name.toString();
@@ -310,48 +310,56 @@ class _EditMyAccountDetailsState extends State<StudentRegisterEvents> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: MyElevatedButton(
-                  onPressed: () {
-                    print("Event ID =${widget.eventID}");
-                    ApiServices.studentRegisterEvent(
-                      nameInput.text,
-                      classInput.text,
-                      sectionInput.text,
-                      rollnumbeInput.text,
-                      emailInput.text,
-                      phonenoInput.text,
-                      eventNameInput.text,
-                      genderInput.text,
-                      widget.eventID,
-                    ).then((value) {
-                      if (value == true) {
-                        // Successful API call
-                        final controller =
-                            ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Registration successful"),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                        controller.closed.then((reason) {
-                          if (reason == SnackBarClosedReason.timeout) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Dashboard()),
-                            );
-                          }
-                        });
-                      } else {
-                        // Unsuccessful API call
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                "Registration failed. Please try again later."),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    });
+                  onPressed: () async {
+                    if (isClicked == false) {
+                      setState(() {
+                        isClicked = true;
+                      });
+
+                      print("Event ID =${widget.eventID}");
+                      await ApiServices.studentRegisterEvent(
+                        nameInput.text,
+                        classInput.text,
+                        sectionInput.text,
+                        rollnumbeInput.text,
+                        emailInput.text,
+                        phonenoInput.text,
+                        eventNameInput.text,
+                        genderInput.text,
+                        widget.eventID,
+                      ).then((value) {
+                        if (value == true) {
+                          // Successful API call
+                          final controller =
+                              ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Registration successful"),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          controller.closed.then((reason) {
+                            if (reason == SnackBarClosedReason.timeout) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Dashboard()),
+                              ).whenComplete(() {
+                                isClicked = false;
+                              });
+                            }
+                          });
+                        } else {
+                          // Unsuccessful API call
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "Registration failed. Please try again later."),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      });
+                    }
                   },
                   child: const Text(
                     "SUBMIT",

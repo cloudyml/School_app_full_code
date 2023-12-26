@@ -338,11 +338,37 @@ class ViewAboutSchool extends StatelessWidget {
                         border: Border.all(color: deepBlue),
                         color: Colors.teal,
                       ),
-                      child: Image.network(
-                        aboutSchool.data!.profilePic!.link.toString(),
+                      child: SizedBox(
+                        width: width * 0.24,
+                        child: Image.network(
+                          aboutSchool.data!.profilePic!.link.toString(),
+                          fit: BoxFit.fill,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          (loadingProgress.expectedTotalBytes ??
+                                              1)
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                          errorBuilder: (BuildContext context, Object error,
+                              StackTrace? stackTrace) {
+                            return Image.asset(
+                                'assets/imagee.png'); // Replace with your placeholder image asset
+                          },
+                        ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             );
