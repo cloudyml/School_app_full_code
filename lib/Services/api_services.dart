@@ -1804,6 +1804,31 @@ class ApiServices {
 
   // Notice Student View Get.................................................
 
+    static Future<ViewNoticeResponseModel> viewNoticeParent() async {
+    ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
+    try {
+    fetchChildData();
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.childDetails()?.data?.school}",
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          viewNotice = viewNoticeResponseModelFromJson(response.body);
+        } else {
+          viewNotice = ViewNoticeResponseModel();
+        }
+      } else {
+        viewNotice = ViewNoticeResponseModel();
+      }
+    } catch (e) {
+      viewNotice = ViewNoticeResponseModel();
+    }
+
+    return viewNotice;
+  }
+//student teacher
   static Future<ViewNoticeResponseModel> viewNotice() async {
     ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
     try {
@@ -2244,6 +2269,37 @@ class ApiServices {
   }
 
   // View About School.........................................................
+
+//parent
+  static Future<AboutSchoolResponseModel> ViewAboutSchoolParent() async {
+    AboutSchoolResponseModel about = AboutSchoolResponseModel();
+   
+    try {
+       fetchChildData();
+      var school = SharedService.loginDetails()!.data!.data!.school;
+      var response = await ApiBase.getRequest(
+        extendedURL: "${ApiUrl.viewAboutSchool}?schoolName=${SharedService.childDetails()?.data?.school}",
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          about = aboutSchoolResponseModelFromJson(response.body);
+        } else {
+          about = AboutSchoolResponseModel();
+        }
+      } else {
+        about = AboutSchoolResponseModel();
+      }
+    } catch (e) {
+      about = AboutSchoolResponseModel();
+    }
+
+    return about;
+  }
+
+  //all
 
   static Future<AboutSchoolResponseModel> ViewAboutSchool() async {
     AboutSchoolResponseModel about = AboutSchoolResponseModel();

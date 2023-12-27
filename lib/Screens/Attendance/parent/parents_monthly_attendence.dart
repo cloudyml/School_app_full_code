@@ -10,7 +10,8 @@ class ParentMonthAttendance extends StatelessWidget {
   final String month;
   final String year;
 
-  const ParentMonthAttendance({super.key, required this.month, required this.year});
+  const ParentMonthAttendance(
+      {super.key, required this.month, required this.year});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class ParentMonthAttendance extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return const Center(child: Text("Error..."));
                   } else if (!snapshot.hasData ||
-                      snapshot.data!.data!.data!.isEmpty) {
+                      snapshot.data?.data?.data?.length == null) {
                     return const Center(child: Text("No data found"));
                   } else {
                     StudentMonthlyAttendanceModel? monthAttDate = snapshot.data;
