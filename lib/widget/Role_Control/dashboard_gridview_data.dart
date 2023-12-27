@@ -27,7 +27,6 @@ import '../../Screens/Gallery/student/view_gallery_student.dart';
 import '../../Screens/Gallery/teacher/select_gallery_options.dart';
 import '../../Screens/Result/Teacher/first_page_select_result_options.dart';
 import '../../Screens/Routine/student/days_routine.dart';
-import '../../Screens/Routine/teacher/choose_class_for_set_timetable.dart';
 import '../../Services/shared_services.dart';
 
 class CategoryData {

@@ -44,17 +44,6 @@ class _DetailsEventScreenState
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // DecorativeAppBar(
-            //   barHeight: 180,
-            //   barPad: 150,
-            //   radii: 100,
-            //   background: Colors.white,
-            //   gradient1: lightBlue,
-            //   gradient2: deepBlue,
-            //   extra: appbar("assets/add_events.png", "Events", context,() {
-            //     Navigator.of(context).pop();
-            //   }),
-            // ),
             DecorativeAppBar(
               barHeight: MediaQuery.of(context).size.height * 0.24,
               barPad: MediaQuery.of(context).size.height * 0.19,
@@ -158,7 +147,7 @@ class _DetailsEventScreenState
                                 color: const Color.fromARGB(255, 48, 48, 48)),
                           ),
                           Text(
-                            "11:00 AM- 2:00PM",
+                            widget.time,
                             style: GoogleFonts.inter(
                                 fontSize: 13,
                                 // fontWeight: FontWeight.w600,

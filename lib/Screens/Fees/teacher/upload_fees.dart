@@ -337,15 +337,15 @@ class _UploadFeesState extends State<UploadFees> {
                 isChecked = true;
               });
 
-              widget.feesModel != null &&
+              widget.feesModel != null ||
                       int.tryParse(classInput.text) != null &&
-                      int.tryParse(admissionInput.text) != null &&
-                      int.tryParse(tuitionInput.text) != null &&
-                      int.tryParse(examInput.text) != null &&
-                      int.tryParse(libraryInput.text) != null &&
-                      int.tryParse(transportInput.text) != null &&
-                      int.tryParse(miscellaneousInput.text) != null &&
-                      int.tryParse(discountInput.text) != null
+                          int.tryParse(admissionInput.text) != null &&
+                          int.tryParse(tuitionInput.text) != null &&
+                          int.tryParse(examInput.text) != null &&
+                          int.tryParse(libraryInput.text) != null &&
+                          int.tryParse(transportInput.text) != null &&
+                          int.tryParse(miscellaneousInput.text) != null &&
+                          int.tryParse(discountInput.text) != null
                   ? await ApiServices.updateFees(
                       classInput.text,
                       admissionInput.text,

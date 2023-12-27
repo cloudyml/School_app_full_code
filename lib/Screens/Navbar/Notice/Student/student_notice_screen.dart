@@ -1,14 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Screens/Login/forgot_password.dart';
 import 'package:school_management_system/Services/api_services.dart';
-import 'package:school_management_system/widget/Role_Control/dashboard_gridview_data.dart';
 import '../../../../Models/Student/Notice/view_notice_response_model.dart';
 import '../../../../constants/style.dart';
-import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../../widget/student/Notice/student_notice_card.dart';
 import 'notice_detailed_screen.dart';
@@ -28,6 +22,7 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
 
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -41,29 +36,33 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
           background: Colors.white,
           gradient1: lightBlue,
           gradient2: deepBlue,
-          extra: Padding(
-            padding: EdgeInsets.only(top: height * 0.07, left: height * 0.07),
-            child: Row(
-              children: [
-                Container(
-                  width: 35,
-                  height: 35,
-                  child: Image.asset("assets/add_events.png"),
+          extra: Container(
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Padding(
+                padding: EdgeInsets.only(top: height * 0.07, left: width * 0.2),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 35,
+                      height: 35,
+                      child: Image.asset("assets/add_events.png"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: SizedBox(
+                        width: height * 0.3,
+                        child: Text("Notice",
+                            style: GoogleFonts.inter(
+                                color: Colors.white,
+                                letterSpacing: 1.0,
+                                fontSize: height * 0.03,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: SizedBox(
-                    width: height * 0.3,
-                    child: Text("Notice",
-                        style: GoogleFonts.inter(
-                            color: Colors.white,
-                            letterSpacing: 1.0,
-                            fontSize: height * 0.03,
-                            fontWeight: FontWeight.w500)),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ]),
           ),
         ),
       ),

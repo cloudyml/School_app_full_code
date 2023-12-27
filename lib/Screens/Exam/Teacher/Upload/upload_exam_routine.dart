@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Exam/Teacher/Upload/teacher_choose_examtype.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
@@ -31,6 +33,7 @@ class _UploadResultState extends State<UploadExamRoutine> {
 
   bool isEditing = false;
   ExamRoutineData? selectPaper;
+  bool isClicked = false;
 
   void deletePeriod(int index) {
     setState(() {
@@ -312,31 +315,55 @@ class _UploadResultState extends State<UploadExamRoutine> {
       ),
       persistentFooterButtons: [
         RecElevatedButton(
-          onPressed: () {
-            Map<String, dynamic> postData = {
-              "schoolName":
-                  SharedService.loginDetails()!.data!.data!.school.toString(),
-              "class": widget.selectedClass,
-              "examType": widget.testType,
-              "remarks": widget.remarks,
-              "examDetails": examData.map((subjects) {
-                return {
-                  "date": subjects.date,
-                  "subject": subjects.subject,
-                  "time": subjects.time,
-                };
-              }).toList(),
-            };
-
-            log(postData.toString());
-            ApiServices.uploadExamRoutine(postData).then((value) {
-              if (value == true) {
-                showSuccessSnackbar();
-                Navigator.pop(context);
-              } else {
-                showFailureSnackbar();
+          onPressed: () async {
+            try {
+              if (isClicked == true) {
+                return;
               }
-            });
+              if (isClicked == false) {
+                setState(() {
+                  isClicked = true;
+                });
+                Map<String, dynamic> postData = {
+                  "schoolName": SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .school
+                      .toString(),
+                  "class": widget.selectedClass,
+                  "examType": widget.testType,
+                  "remarks": widget.remarks,
+                  "examDetails": examData.map((subjects) {
+                    return {
+                      "date": subjects.date,
+                      "subject": subjects.subject,
+                      "time": subjects.time,
+                    };
+                  }).toList(),
+                };
+
+                // log(postData.toString());
+                await ApiServices.uploadExamRoutine(postData).then((value) {
+                  if (value == true) {
+                    showSuccessSnackbar();
+                    Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const TeacherSelectExamType()))
+                        .whenComplete(() {
+                      setState(() {
+                        isClicked = false;
+                      });
+                    });
+                  } else {
+                    showFailureSnackbar();
+                  }
+                });
+              }
+            } catch (e) {
+              EasyLoading.showError(e.toString());
+            }
           },
           child: const Text(
             "SUBMIT",

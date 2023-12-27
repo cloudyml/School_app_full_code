@@ -57,12 +57,14 @@ class CompletedTeacherEventCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, bottom: 4, top: 8),
                 child: Container(
-                  //color: Colors.blue,
-                  width: width * 0.55,
+                  // color: Colors.blue,
+                  width: width * 0.54,
                   child: Text(
                     heading,
                     style: GoogleFonts.inter(
                         fontSize: 18, fontWeight: FontWeight.w700),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

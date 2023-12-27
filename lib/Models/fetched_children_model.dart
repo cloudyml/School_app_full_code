@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final fetchedChildrenModel = fetchedChildrenModelFromJson(jsonString);
-
 import 'dart:convert';
 
 FetchedChildrenModel fetchedChildrenModelFromJson(String str) => FetchedChildrenModel.fromJson(json.decode(str));

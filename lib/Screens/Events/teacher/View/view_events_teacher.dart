@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/detailed_completed_events_screen_teacher.dart';
-import 'package:school_management_system/Screens/Events/teacher/View/detailed_upcoming_events_screen_teacher.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/registered_students_list.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import '../../../../Models/Student/Events/view_events_response_model.dart';
@@ -217,8 +215,11 @@ class _EventScreen extends State<TeacherViewEvents> {
                                     eligibleClass: upcomingEventsData
                                         .data![index].eligibleClass
                                         .toString(),
-                                    date: upcomingEventsData.data![index].date
-                                        .toString(),
+                                    // date: upcomingEventsData.data![index].date
+                                    //     .toString(),
+                                    date: formatDateTime(upcomingEventsData
+                                        .data![index].date
+                                        .toString()),
                                     time: upcomingEventsData
                                         .data![index].eventTime
                                         .toString(),
@@ -302,8 +303,9 @@ class _EventScreen extends State<TeacherViewEvents> {
                                   eligibleClass: completedEventsData
                                       .data![index].eligibleClass
                                       .toString(),
-                                  date: completedEventsData.data![index].date
-                                      .toString(),
+                                  date: formatDateTime(completedEventsData
+                                      .data![index].date
+                                      .toString()),
                                   time: completedEventsData
                                       .data![index].eventTime
                                       .toString(),

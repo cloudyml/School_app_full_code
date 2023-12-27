@@ -8,12 +8,18 @@ import '../../../../constants/style.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 
-class TeacherViewExamRoutine extends StatelessWidget {
+class TeacherViewExamRoutine extends StatefulWidget {
   final String testType;
   final String selectedClass;
   const TeacherViewExamRoutine(
       {super.key, required this.testType, required this.selectedClass});
 
+  @override
+  State<TeacherViewExamRoutine> createState() => _TeacherViewExamRoutineState();
+}
+
+class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
+  bool isClicked = false;
   @override
   Widget build(BuildContext context) {
     void showSuccessSnackbar() {
@@ -110,7 +116,8 @@ class TeacherViewExamRoutine extends StatelessWidget {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(selectedClass, testType),
+              future: ApiServices.viewExamRoutine(
+                  widget.selectedClass, widget.testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -187,7 +194,8 @@ class TeacherViewExamRoutine extends StatelessWidget {
               height: 5,
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(selectedClass, testType),
+              future: ApiServices.viewExamRoutine(
+                  widget.selectedClass, widget.testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();
@@ -232,13 +240,21 @@ class TeacherViewExamRoutine extends StatelessWidget {
                           height: 5,
                         ),
                         MyElevatedButton(
-                          onPressed: () {
-                            ApiServices.deleteExamRoutine(
-                                    exam.data!.id.toString())
-                                .whenComplete(() {
-                              showSuccessSnackbar();
-                              Navigator.pop(context);
-                            });
+                          onPressed: () async {
+                            if (isClicked == false) {
+                              setState(() {
+                                isClicked = true;
+                              });
+                              await ApiServices.deleteExamRoutine(
+                                      exam.data!.id.toString())
+                                  .whenComplete(() {
+                                setState(() {
+                                  isClicked = true;
+                                });
+                                showSuccessSnackbar();
+                                Navigator.pop(context);
+                              });
+                            }
                           },
                           child: const Text(
                             "Delete",

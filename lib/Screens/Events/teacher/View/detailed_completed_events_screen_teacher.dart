@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
@@ -80,14 +81,17 @@ class _CompletedDetailsEventScreenState
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 8),
-                      child: Text(
-                        widget.heading,
-                        style: GoogleFonts.inter(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: const Color.fromARGB(255, 48, 48, 48)),
+                    SizedBox(
+                      width: width * 0.8,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0, left: 8),
+                        child: Text(
+                          widget.heading,
+                          style: GoogleFonts.inter(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: const Color.fromARGB(255, 48, 48, 48)),
+                        ),
                       ),
                     ),
                     Padding(
@@ -112,23 +116,26 @@ class _CompletedDetailsEventScreenState
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, left: 8),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Eligible class : ",
-                            style: GoogleFonts.inter(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: const Color.fromARGB(255, 48, 48, 48)),
-                          ),
-                          Text(
-                            widget.eligibleClass,
-                            style: GoogleFonts.inter(
-                                fontSize: 13,
-                                // fontWeight: FontWeight.w600,
-                                color: const Color.fromARGB(255, 63, 63, 63)),
-                          ),
-                        ],
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Eligible class : ",
+                              style: GoogleFonts.inter(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color.fromARGB(255, 48, 48, 48)),
+                            ),
+                            Text(
+                              widget.eligibleClass,
+                              style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  // fontWeight: FontWeight.w600,
+                                  color: const Color.fromARGB(255, 63, 63, 63)),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Padding(
@@ -143,7 +150,7 @@ class _CompletedDetailsEventScreenState
                                 color: const Color.fromARGB(255, 48, 48, 48)),
                           ),
                           Text(
-                            "11:00 AM- 2:00PM",
+                            widget.time,
                             style: GoogleFonts.inter(
                                 fontSize: 13,
                                 // fontWeight: FontWeight.w600,

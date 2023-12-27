@@ -40,7 +40,7 @@ class TeacherSeeEventEnrolledStudents extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Text('Error: ...');
           } else if (!snapshot.hasData ||
-              snapshot.data!.data!.studentList!.length == 0) {
+              snapshot.data!.data!.studentList!.isEmpty) {
             return const Center(child: Text('No one Yet Enrolled.'));
           } else {
             EventRegisteredStudentListResponseModel? studentList =

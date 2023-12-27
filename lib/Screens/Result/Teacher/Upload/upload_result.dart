@@ -2,12 +2,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Result/Teacher/Upload/teacher_select_resulttype_for_upload_result.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/Services/shared_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../widget/Button/rectangle_elevatedbutton_card.dart';
-import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 
 class UploadResult extends StatefulWidget {
@@ -35,7 +35,7 @@ class _UploadResultState extends State<UploadResult> {
   List<PeriodData> resultData = [];
   TextEditingController subjectController = TextEditingController();
   TextEditingController marksController = TextEditingController();
-
+  bool isClicked = false;
   bool isEditing = false;
   PeriodData? selectedPeriod;
 
@@ -70,7 +70,7 @@ class _UploadResultState extends State<UploadResult> {
 
   void showSuccessSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Result uploaded successfully'),
         duration: Duration(seconds: 3), // Adjust the duration as needed
       ),
@@ -79,8 +79,8 @@ class _UploadResultState extends State<UploadResult> {
 
   void showErrorSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Student data not match'),
+      const SnackBar(
+        content: Text('Result already uploaded...'),
         duration: Duration(seconds: 3), // Adjust the duration as needed
       ),
     );
@@ -249,7 +249,7 @@ class _UploadResultState extends State<UploadResult> {
                         marksController.text.isEmpty ||
                         widget.fullMarks.isEmpty ||
                         widget.passingMarks.isEmpty) {
-                          EasyLoading.showError("Please Enter Valid Data");
+                      EasyLoading.showError("Please Enter Valid Data");
                     } else {
                       check = true;
                       if (isEditing) {
@@ -281,7 +281,8 @@ class _UploadResultState extends State<UploadResult> {
                   padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  child: Text("Please add all Subjects and related marks"),
+                  child:
+                      const Text("Please add all Subjects and related marks"),
                 )
               : Expanded(
                   child: ListView(
@@ -338,32 +339,58 @@ class _UploadResultState extends State<UploadResult> {
       persistentFooterButtons: [
         RecElevatedButton(
           onPressed: () {
-            Map<String, dynamic> postData = {
-              "schoolName":
-                  SharedService.loginDetails()!.data!.data!.school.toString(),
-              "class": widget.selectedClass,
-              "section": widget.selectedSetion,
-              "rollNumber": widget.studentRoll,
-              "examType": widget.testType,
-              "subjects": resultData.map((subjects) {
-                return {
-                  "subject": subjects.subject,
-                  "marks": subjects.marks,
-                  "outOffMarks": subjects.outOffMarks,
-                  "passingMarks": subjects.passingMarks,
-                };
-              }).toList(),
-            };
+            if (isClicked == false) {
+              setState(() {
+                isClicked = true;
+              });
 
-            log(postData.toString());
-            ApiServices.uploadResultSpecificStudent(postData).then((value) {
-              if (value == true) {
-                showSuccessSnackbar();
-                Navigator.pop(context);
-              } else {
-                showErrorSnackbar();
-              }
-            });
+              Map<String, dynamic> postData = {
+                "schoolName":
+                    SharedService.loginDetails()!.data!.data!.school.toString(),
+                "class": widget.selectedClass,
+                "section": widget.selectedSetion,
+                "rollNumber": widget.studentRoll,
+                "examType": widget.testType,
+                "subjects": resultData.map((subjects) {
+                  return {
+                    "subject": subjects.subject,
+                    "marks": subjects.marks,
+                    "outOffMarks": subjects.outOffMarks,
+                    "passingMarks": subjects.passingMarks,
+                  };
+                }).toList(),
+              };
+
+              log(postData.toString());
+              ApiServices.uploadResultSpecificStudent(postData).then((value) {
+                if (value == true) {
+                  showSuccessSnackbar();
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TeacherSelectResultTypeForUpload()))
+                      .whenComplete(() {
+                    setState(() {
+                      isClicked = false;
+                    });
+                  });
+                } else {
+                  showErrorSnackbar();
+
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TeacherSelectResultTypeForUpload()))
+                      .whenComplete(() {
+                    setState(() {
+                      isClicked = false;
+                    });
+                  });
+                }
+              });
+            }
           },
           child: const Text(
             "SUBMIT",

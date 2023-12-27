@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management_system/Screens/Assignment/Teacher/assignment_options.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -31,7 +32,7 @@ class _UploadAssignmentState extends State<UploadAssignment> {
 
   File? file;
   ImagePicker image = ImagePicker();
-
+  bool isClicked = false;
   bool canSubmit() {
     return classInput.text.isNotEmpty &&
         sectionInput.text.isNotEmpty &&
@@ -346,24 +347,37 @@ class _UploadAssignmentState extends State<UploadAssignment> {
       persistentFooterButtons: [
         RecElevatedButton(
           onPressed: canSubmit()
-              ? () {
-                  print("Button Pressed");
+              ? () async {
+                  if (isClicked == false) {
+                    setState(() {
+                      isClicked = true;
+                    });
 
-                  ApiServices.TeacherAddAssignment(
-                          dateInput.text,
-                          lastDateInput.text,
-                          classInput.text,
-                          sectionInput.text,
-                          subjectInput.text,
-                          topicInput.text,
-                          file!,
-                          context)
-                      .then((value) {
-                    if (value == true) {
-                      showSuccessSnackbar();
-                      Navigator.pop(context);
-                    }
-                  });
+                    await ApiServices.TeacherAddAssignment(
+                            dateInput.text,
+                            lastDateInput.text,
+                            classInput.text,
+                            sectionInput.text,
+                            subjectInput.text,
+                            topicInput.text,
+                            file!,
+                            context)
+                        .then((value) {
+                      if (value == true) {
+                        showSuccessSnackbar();
+                        Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TeacherAssignmentFirstPage()))
+                            .whenComplete(() {
+                          setState(() {
+                            isClicked = false;
+                          });
+                        });
+                      }
+                    });
+                  }
                 }
               : () {
                   showDialog(

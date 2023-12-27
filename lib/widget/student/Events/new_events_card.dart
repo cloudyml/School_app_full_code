@@ -54,19 +54,21 @@ class EventCard extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, bottom: 4, top: 8),
-                child: Container(
-                  //color: Colors.blue,
-                  width: width * 0.55,
+                child: SizedBox(
+                  // color: Colors.blue,
+                  width: width * 0.54,
                   child: Text(
                     heading ?? "",
                     style: GoogleFonts.inter(
                         fontSize: 18, fontWeight: FontWeight.w700),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, left: 8),
-                child: Container(
+                child: SizedBox(
                     width: width * 0.55,
                     child: Text(
                       "Date: $date",

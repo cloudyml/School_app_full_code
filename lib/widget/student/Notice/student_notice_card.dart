@@ -34,9 +34,6 @@ class _ViewNoticeCardState extends State<ViewNoticeCard> {
             color: widget.isRead == "false"
                 ? Color.fromARGB(255, 255, 215, 156)
                 : Colors.white,
-            // border: Border.symmetric(
-            //   horizontal: BorderSide(color: deepBlue),
-            // ),
             border: Border.all(color: deepBlue),
             borderRadius: BorderRadius.circular(15)),
         child: Padding(
@@ -45,21 +42,45 @@ class _ViewNoticeCardState extends State<ViewNoticeCard> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                  height: double.infinity,
-                  width: width * 0.25,
-                  child: Image.network(
-                    widget.image,
-                    fit: BoxFit.fill,
-                  )),
+                width: width * 0.24,
+                child: Image.network(
+                  widget.image,
+                  fit: BoxFit.fill,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      );
+                    }
+                  },
+                  errorBuilder: (BuildContext context, Object error,
+                      StackTrace? stackTrace) {
+                    return Image.asset(
+                        'assets/imagee.png'); // Replace with your placeholder image asset
+                  },
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
+                    SizedBox(
                       width: width * 0.63,
-                      child: Text(widget.title),
+                      child: Text(
+                        widget.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     const SizedBox(
                       height: 5,
