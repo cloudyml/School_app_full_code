@@ -61,6 +61,7 @@ class ApiUrl {
 
   static const String viewNotice = "/getAllNotice";
   static const String verifyReadUnreadNotice = "/notice-read";
+  static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
 
   // Eventts...........................................................................
   static const String getRegisteredStudentListEvents = "/getEventRegister";

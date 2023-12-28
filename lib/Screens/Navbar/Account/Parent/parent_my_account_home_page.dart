@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Student/Edit_%20Student/student_edit_own_details.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
+import 'package:school_management_system/Screens/Navbar/Notice/parent_view_notice_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../Services/shared_services.dart';
 import '../../../../constants/style.dart';
@@ -143,7 +145,7 @@ class ParentMyAccount extends StatelessWidget {
                                   height: 3,
                                 ),
                                 Text(
-                                    "+${91} ${SharedService.loginDetails()!.data!.data!.phoneNumber.toString()}"),
+                                    "+${91} ${SharedService.loginDetails()?.data?.data?.phoneNumber.toString()}"),
                                 const SizedBox(
                                   height: 3,
                                 ),
@@ -159,11 +161,7 @@ class ParentMyAccount extends StatelessWidget {
                                     //   thickness: 2,
                                     // ),
                                     Text(
-                                      SharedService.loginDetails()!
-                                          .data!
-                                          .data!
-                                          .gender
-                                          .toString(),
+                                      "${SharedService.loginDetails()?.data?.data?.gender}",
                                     ),
                                   ],
                                 )
@@ -293,7 +291,7 @@ class ParentMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ViewAboutSchool()));
+                        builder: (context) => ParentViewAboutSchool()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,
@@ -498,7 +496,7 @@ class ParentMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ViewNoticeScreen()));
+                        builder: (context) => ParentViewNoticeScreen()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,

@@ -10,7 +10,7 @@ import 'Navbar/Home/home_screen.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
-import 'Navbar/Notice/screen3.dart';
+import 'Navbar/Notice/parent_view_notice_screen.dart';
 import 'Navbar/Account/Student/student_my_acccount_home_page.dart';
 
 class Dashboard extends StatefulWidget {

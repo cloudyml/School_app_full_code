@@ -126,7 +126,7 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
-                            ApiServices.verifyReadUnreadNotice(notices
+                            ApiServices.verifyReadUnreadNoticeParent(notices
                                     .data!.noticeList![index].id
                                     .toString())
                                 .then(
@@ -134,7 +134,7 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                                 if (value == true) {
                                   if (isClicked == false) {
                                     setState(() {
-                                      isClicked == true;
+                                      isClicked = true;
                                     });
                                     Navigator.push(
                                       context,
