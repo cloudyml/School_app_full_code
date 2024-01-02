@@ -192,12 +192,10 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => Dashboard()),
-                             
-                           
                             ModalRoute.withName('/'));
-                        
-                           log("THis is the token sent to the server $fcmToken");
-                        
+
+                        log("THis is the token sent to the server $fcmToken");
+
                         showSnackBar("Login successful");
                       } else {
                         showSnackBar("Wrong email or password");

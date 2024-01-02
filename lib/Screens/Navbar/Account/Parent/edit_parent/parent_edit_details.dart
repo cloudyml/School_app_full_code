@@ -247,19 +247,21 @@ class _EditParentAccountDetailsState extends State<EditParentAccountDetails> {
                                   .toString()) {
                         EasyLoading.showInfo("Nothing to update");
                       } else {
-                        ApiServices.updateMyAccountTeacher(
-                                nameInput.text,
-                                emailInput.text,
-                                phonenoInput.text,
-                                passwordInput.text,
-                                cityInput.text)
-                            .then((value) {
-                          if (value == true) {
-                            EasyLoading.showSuccess("Updated Successfully");
-                          } else if (value == false) {
-                            EasyLoading.showSuccess("Something Went Wrong");
-                          }
-                        });
+                        
+                        // ApiServices.updateMyAccountTeacher(
+                        //         nameInput.text,
+                        //         emailInput.text,
+                        //         phonenoInput.text,
+                        //         passwordInput.text,
+                        //         cityInput.text)
+                        //     .then((value) {
+                        //   if (value == true) {
+                        //     EasyLoading.showSuccess("Updated Successfully");
+                        //   } else if (value == false) {
+                        //     EasyLoading.showSuccess("Something Went Wrong");
+                        //   }
+                        // });
+
                       }
                     },
                     child: const Text(

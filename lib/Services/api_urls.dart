@@ -1,28 +1,14 @@
 class ApiUrl {
-  // static const String baseUrl =  "us-central1-school-app-94046.cloudfunctions.net";
-  // static const String login = "/createLogin/login";
-
   static const String baseUrl = "13.232.53.26:3000";
   static const String login = "/login";
   static const String teacherlogin = "/login";
   static const String studentlogin = "/login";
 
-
-
-
-
-
-
-
-
-
 // Attendance...................................................................
 
   static const String studentListForTakeAttendance =
       "/getStudentListforAttendance";
-
   static const String teacherSubmitAttendance = "/createAttendance";
-
   static const String weekStudentAttendance = "/getWeeklyAttendanceByName";
   static const String monthStudentAttendance = "/getMonthlyAttendanceByName";
   static const String dailyRoutine = "/getWeeklyTimeTable";
@@ -63,12 +49,17 @@ class ApiUrl {
   static const String verifyReadUnreadNotice = "/notice-read";
 
   // Eventts...........................................................................
+
+
   static const String getRegisteredStudentListEvents = "/getEventRegister";
   static const String studentSeeMyEnrolledEvents = "/getAllEventsOfStudents";
 
+
   // Notice.........................................................................
 
+
   static const String teacherUploadNotice = "/createNotice";
+
 
   // Result..........................................................................
 
@@ -85,9 +76,6 @@ class ApiUrl {
 
   static const String viewAboutSchool = "/getAbout-us";
 
-
-
-
   //children Data..................................................................
-   static const String childrenDataById = "/getStudentfromParent";
+  static const String childrenDataById = "/getStudentfromParent";
 }

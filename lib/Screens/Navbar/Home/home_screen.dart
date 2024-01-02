@@ -42,7 +42,7 @@ class _MyWidgetState extends State<HomeScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.height * 0.36,
                         child: Text(
-                          "Hi, ${SharedService.loginDetails()?.data!.data!.name}",
+                          "Hi, ${SharedService.loginDetails()?.data!.data?.name}",
                           softWrap: true,
                           maxLines: 20,
                           overflow: TextOverflow.fade,

@@ -38,10 +38,10 @@ class CategoryData {
 }
 
 Widget getAttendanceScreen() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student") {
     // log("student");
     return const StuChooseAttendance();
-  } else if (SharedService.loginDetails()?.data!.data!.role == "teacher") {
+  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const ChooseClassForTakeAttendance();
   } else {
@@ -50,29 +50,29 @@ Widget getAttendanceScreen() {
 }
 
 Widget getAssignmentScreen() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student") {
     // log("student");
-    // log(SharedService.loginDetails()?.data!.data!.role ?? "");
+    // log(SharedService.loginDetails()?.data?.data?.role ?? "");
     return const StudentAssignmentChoose();
   }
 
   // changed by harsh : added to implement the navigation for parent section
-  else if (SharedService.loginDetails()?.data!.data!.role == "parent") {
+  else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
     // log("Parent");
-    // log(SharedService.loginDetails()?.data!.data!.role ?? "");
+    // log(SharedService.loginDetails()?.data?.data?.role ?? "");
     return const ParentAssignmentView();
   } else {
     // log("Teacher");
-    // log(SharedService.loginDetails()?.data!.data!.role ?? "");
+    // log(SharedService.loginDetails()?.data?.data?.role ?? "");
     return const TeacherAssignmentFirstPage();
   }
 }
 
 Widget getAwardstScreen() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student") {
     // log("student");
     return const StudentViewAwards();
-  } else if (SharedService.loginDetails()?.data!.data!.role == "teacher") {
+  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const TeacherAwardOptions();
   } else {
@@ -82,10 +82,10 @@ Widget getAwardstScreen() {
 }
 
 Widget getGalleryScreen() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student") {
     // log("student");
     return const ViewGallery();
-  } else if (SharedService.loginDetails()?.data!.data!.role == "teacher") {
+  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const TeacherGalleryOptions();
   } else {
@@ -95,10 +95,10 @@ Widget getGalleryScreen() {
 }
 
 Widget getEventsScreen() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data!.data?.role == "student") {
     // log("student");
     return const StudentsViewEvents();
-  } else if (SharedService.loginDetails()?.data!.data!.role == "parent") {
+  } else if (SharedService.loginDetails()?.data!.data?.role == "parent") {
     return const ParentsViewEvents();
   } else {
     //  log("Teacher");
@@ -107,7 +107,7 @@ Widget getEventsScreen() {
 }
 
 Widget Routine() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data!.data?.role == "student") {
     // log("student");
     return const DayRoutine();
   } else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
@@ -119,7 +119,7 @@ Widget Routine() {
 }
 
 Widget FeeDetails() {
-  if (SharedService.loginDetails()?.data!.data!.role == "teacher") {
+  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const TeacherSeeFees();
   } else {
@@ -129,10 +129,10 @@ Widget FeeDetails() {
 }
 
 Widget Examination() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student") {
     // log("student");
     return const SelectExamType();
-  } else if (SharedService.loginDetails()?.data!.data!.role == "teacher") {
+  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const TeacherExamOptions();
   } else {
@@ -141,10 +141,10 @@ Widget Examination() {
 }
 
 Widget Result() {
-  if (SharedService.loginDetails()?.data!.data!.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student") {
     // log("student");
     return const SelectResultType();
-  } else if (SharedService.loginDetails()?.data!.data!.role == "teacher") {
+  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const TeacherResultOptions();
   } else {
