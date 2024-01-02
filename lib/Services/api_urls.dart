@@ -48,6 +48,7 @@ class ApiUrl {
   // Update my account details..................................................
   static const String updateMytAccountStudent = "/updateStudentById";
   static const String updateMytAccountTeacher = "/updateTeacherById";
+  static const String updateMytAccountParent = "/updateParentById";
   //............................................................................
   static const String studentEligibilityCheckForEnrollEvents =
       "/verifyEventWithStudent";
@@ -59,7 +60,7 @@ class ApiUrl {
 
   // Notice.............................................................................
 
-  static const String viewNotice = "/getAllNotice";
+  static const String viewNotice = "/getAllNotice-parent";
   static const String verifyReadUnreadNotice = "/notice-read";
   static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
 

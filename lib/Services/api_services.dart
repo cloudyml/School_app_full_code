@@ -1814,7 +1814,7 @@ class ApiServices {
       // fetchChildData();
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.childDetails()?.data?.school}",
+            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data?.id}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -1866,7 +1866,7 @@ class ApiServices {
     var ret = false;
     try {
       var response = await ApiBase.putRequest(
-        extendedURL: ApiUrl.verifyReadUnreadNotice,
+        extendedURL: ApiUrl.verifyReadUnreadNoticeForParent,
         body: {
           "schoolName": SharedService.childDetails()?.data?.school,
           "read": "true",
@@ -1956,6 +1956,42 @@ class ApiServices {
   }
 
 //.........Students see my enrolled events GET api.........................
+
+
+///enrolled events for parent
+
+
+ static Future<StudentMyEnrolledEventsResponseModel>
+      parentSeeMyEnrolledEvents() async {
+    StudentMyEnrolledEventsResponseModel myEnrolledEventsList =
+        StudentMyEnrolledEventsResponseModel();
+    try {
+      var studentID = SharedService.childDetails()?.data?.id;
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "${ApiUrl.studentSeeMyEnrolledEvents}?studentId=$studentID",
+      );
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          myEnrolledEventsList =
+              studentMyEnrolledEventsResponseModelFromJson(response.body);
+        } else {
+          myEnrolledEventsList = StudentMyEnrolledEventsResponseModel();
+        }
+      } else {
+        myEnrolledEventsList = StudentMyEnrolledEventsResponseModel();
+      }
+    } catch (e) {
+      myEnrolledEventsList = StudentMyEnrolledEventsResponseModel();
+    }
+
+    return myEnrolledEventsList;
+  }
+
+
+/////////////////////////////////////////////////
 
   static Future<StudentMyEnrolledEventsResponseModel>
       studentSeeMyEnrolledEvents() async {

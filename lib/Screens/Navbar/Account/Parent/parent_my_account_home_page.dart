@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Events/parent/child_enrolled_event.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
@@ -115,7 +116,7 @@ class ParentMyAccount extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  SharedService.loginDetails()!.data!.data!.name.toString(),
+                                  "${SharedService.loginDetails()?.data?.data?.name.toString()}",
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
@@ -132,7 +133,7 @@ class ParentMyAccount extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          SharedService.loginDetails()!.data!.data!.email.toString(),
+                                          "${SharedService.loginDetails()?.data?.data?.email.toString()}",
 
                                           maxLines:
                                               1, // Display only one line of text
@@ -180,7 +181,7 @@ class ParentMyAccount extends StatelessWidget {
                                     ?.data!
                                     .data!
                                     .role ==
-                                "student") {
+                                "parent") {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       const EditParentAccountDetails()));
@@ -198,7 +199,7 @@ class ParentMyAccount extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentMyEnrollledEvents()));
+                            builder: (context) => const ParentViewChildEnrolledEvents()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,
@@ -291,7 +292,7 @@ class ParentMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ParentViewAboutSchool()));
+                        builder: (context) => const ParentViewAboutSchool()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,
@@ -496,7 +497,7 @@ class ParentMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ParentViewNoticeScreen()));
+                        builder: (context) => const ParentViewNoticeScreen()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,
@@ -594,7 +595,7 @@ class ParentMyAccount extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    SplashScreen()),
+                                    const SplashScreen()),
                             (Route<dynamic> route) => false);
                       }
                     });

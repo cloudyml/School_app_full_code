@@ -120,7 +120,7 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                       if (searchText.isEmpty ||
                           lowerCaseTitle.contains(searchText)) {
                         return ViewNoticeCard(
-                          title: "$title",
+                          title: title,
                           image:
                               notices.data!.noticeList![index].link.toString(),
                           isRead:
