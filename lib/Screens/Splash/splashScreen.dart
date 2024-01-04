@@ -167,7 +167,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   children: [
                     Text(
-                      "School",
+                      "A Student",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: MediaQuery.of(context).size.width * 0.09,
