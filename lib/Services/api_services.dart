@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
 import '../Models/Student/About/view_about_school.dart';
@@ -1772,12 +1773,12 @@ class ApiServices {
 
   // Notice Student View Get.................................................
 
-  static Future<ViewNoticeResponseModel> viewNotice() async {
+  static Future<ViewNoticeResponseModel> viewNoticeStudents() async {
     ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
+            "${ApiUrl.viewNoticeStudents}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -1795,14 +1796,14 @@ class ApiServices {
 
     return viewNotice;
   }
+  // Verify read Unread notices Students...............................................
 
-  // Verify read Unread notices...............................................
-
-  static Future<bool> verifyReadUnreadNotice(String noticeID) async {
+  static Future<bool> verifyReadUnreadNoticeStudents(String noticeID) async {
     var ret = false;
     try {
       var response = await ApiBase.putRequest(
-        extendedURL: ApiUrl.verifyReadUnreadNotice,
+        extendedURL:
+            "${ApiUrl.verifyReadUnreadNoticeStudent}/${SharedService.loginDetails()!.data!.id}",
         body: {
           "schoolName": SharedService.loginDetails()!.data!.data!.school,
           "read": "true",
@@ -1828,6 +1829,97 @@ class ApiServices {
     }
     return ret;
   }
+  // View notice teacher......................................................
+
+  static Future<TeacherNoticeResponseModel> viewNoticeTeacher() async {
+    TeacherNoticeResponseModel viewNotice = TeacherNoticeResponseModel();
+    try {
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "${ApiUrl.viewNoticeTeacher}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          viewNotice = teacherNoticeResponseModelFromJson(response.body);
+        } else {
+          viewNotice = TeacherNoticeResponseModel();
+        }
+      } else {
+        viewNotice = TeacherNoticeResponseModel();
+      }
+    } catch (e) {
+      viewNotice = TeacherNoticeResponseModel();
+    }
+
+    return viewNotice;
+  }
+  // Verify read Unread notices Teacher...............................................
+
+  static Future<bool> verifyReadUnreadNoticeTeacher(String noticeID) async {
+    var ret = false;
+    try {
+      var response = await ApiBase.putRequest(
+        extendedURL:
+            "${ApiUrl.verifyReadUnreadNoticeTeacher}/${SharedService.loginDetails()!.data!.id.toString()}",
+        body: {
+          "schoolName": SharedService.loginDetails()!.data!.data!.school,
+          "read": "true",
+          "noticeId": noticeID,
+        },
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful");
+        }
+      } else {
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
+//Delete Notice Teacher .......................................................
+  static Future<bool> deleteNoticeTeacher(
+    String noticeID,
+  ) async {
+    var ret = false;
+    try {
+      var response = await ApiBase.deleteRequest(
+        extendedURL:
+            "${ApiUrl.deleteNoticeTeacher}/${SharedService.loginDetails()!.data!.id}",
+        body: {
+          "noticeId": noticeID,
+        },
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful 1");
+        }
+      } else {
+        ret = false;
+        log("Not Successful 2");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
 // Teacher see registered students of partticular events.......................
 
   static Future<EventRegisteredStudentListResponseModel>

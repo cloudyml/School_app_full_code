@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Awards/teacher/Upload/upload_awards.dart';
+import 'package:school_management_system/Screens/Navbar/Notice/Teacher/view_notice_teacher.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
@@ -121,7 +122,8 @@ class TeacherNoticeOptions extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ViewNoticeScreen()));
+                            builder: (context) =>
+                                const TeacherViewNoticeScreen()));
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.45,
