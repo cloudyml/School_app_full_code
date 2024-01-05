@@ -189,9 +189,9 @@ class TeacherMyAccount extends StatelessWidget {
                   height: height * 0.05,
                 ),
 
-/// Below Button is For Coaching.......... //////////////////////// 
+                /// Below Button is For Coaching.......... ////////////////////////
 
-                SharedService.loginDetails()?.data!.data!.role == "teacher"
+                SharedService.loginDetails()?.data!.data!.role == "coaching"
                     ? InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
