@@ -229,7 +229,7 @@ class ApiServices {
       // var rollNumber = 1;
 
       var queryParam =
-          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.childDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&date=$date";
+          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&date=$date";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam, // Use queryParam here
       );
@@ -335,7 +335,7 @@ class ApiServices {
       String rollNumber = ' ${SharedService.childDetails()?.data?.rollNumber}';
 
       var queryParam =
-          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.childDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&month=$month&year=$year";
+          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&month=$month&year=$year";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam, // Use queryParam here
       );
@@ -640,7 +640,7 @@ class ApiServices {
       String studentClass = '${SharedService.childDetails()?.data?.dataClass}';
       String section = '${SharedService.childDetails()?.data?.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.childDetails()?.data?.id.toString()}/getPendingAssignment?class=$studentClass&section=$section";
+          "${ApiUrl.parentViewPendingAssignment}/${SharedService.loginDetails()?.data?.id.toString()}/getPendingAssignment?class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -680,10 +680,10 @@ class ApiServices {
           .data!
           .childrens![0]
           .toString() as String);
-      String studentClass = '${SharedService.childDetails()?.data!.dataClass}';
-      String section = '${SharedService.childDetails()?.data!.section}';
+      String studentClass = '${SharedService.childDetails()?.data?.dataClass}';
+      String section = '${SharedService.childDetails()?.data?.section}';
       var queryParam =
-          "${ApiUrl.studentSubmittedAssignment}/${SharedService.childDetails()?.data!.id.toString()}/studentseeSubmittedAssignment?class=$studentClass&section=$section";
+          "${ApiUrl.parentViewSubmittedAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/studentseeSubmittedAssignment?class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -1638,6 +1638,62 @@ class ApiServices {
     return ret;
   }
 
+
+
+
+
+
+
+
+
+
+//update parent details 
+  static Future<bool> updateMyAccountParent(
+    String name,
+    String email,
+    String phone,
+    String password,
+    String city,
+  ) async {
+    var ret = false;
+
+    try {
+      var response = await ApiBase.putRequest(
+        extendedURL:
+            "${ApiUrl.updateMytAccountParent}/${SharedService.loginDetails()?.data!.id}",
+        body: {
+          "name": name,
+          "email": email,
+          "phoneNumber": phone,
+          "password": password,
+          "address": city,
+        },
+      );
+
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful");
+        }
+      } else {
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
+
+
+
+
+
 //.... Update my account details Teacher....................................
   static Future<bool> updateMyAccountTeacher(
     String name,
@@ -1814,7 +1870,7 @@ class ApiServices {
       // fetchChildData();
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data?.id}",
+            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data?.id}?schoolName=${SharedService.childDetails()?.data?.school}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -1866,11 +1922,11 @@ class ApiServices {
     var ret = false;
     try {
       var response = await ApiBase.putRequest(
-        extendedURL: ApiUrl.verifyReadUnreadNoticeForParent,
+        extendedURL: "${ApiUrl.verifyReadUnreadNoticeForParent}/${SharedService.loginDetails()?.data!.id}",
         body: {
           "schoolName": SharedService.childDetails()?.data?.school,
           "read": "true",
-          "studentId": SharedService.loginDetails()?.data?.id,
+          "parentId": SharedService.loginDetails()?.data?.id,
           "noticeId": noticeID,
         },
       );

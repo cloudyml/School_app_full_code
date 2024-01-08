@@ -4,16 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Events/parent/child_enrolled_event.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
-import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
-import 'package:school_management_system/Screens/Navbar/Account/Student/Edit_%20Student/student_edit_own_details.dart';
-import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/parent_view_notice_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../Services/shared_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
-import '../../../Events/student/my_enrolled_events_screen.dart';
 import '../../../Splash/splashScreen.dart';
 
 class ParentMyAccount extends StatelessWidget {

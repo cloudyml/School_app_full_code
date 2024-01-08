@@ -247,7 +247,7 @@ class _EditParentAccountDetailsState extends State<EditParentAccountDetails> {
                                   .toString()) {
                         EasyLoading.showInfo("Nothing to update");
                       } else {
-                        ApiServices.updateMyAccountTeacher(
+                        ApiServices.updateMyAccountParent(
                                 nameInput.text,
                                 emailInput.text,
                                 phonenoInput.text,
