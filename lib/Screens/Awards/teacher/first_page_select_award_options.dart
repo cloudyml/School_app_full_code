@@ -18,8 +18,8 @@ class TeacherAwardOptions extends StatelessWidget {
           MediaQuery.of(context).size.height * 0.3,
         ),
         child: DecorativeAppBar(
-          barHeight: MediaQuery.of(context).size.height * 0.24,
-          barPad: MediaQuery.of(context).size.height * 0.19,
+          barHeight: MediaQuery.of(context).size.height * 0.20,
+          barPad: MediaQuery.of(context).size.height * 0.15,
           radii: 30,
           background: Colors.white,
           gradient1: lightBlue,

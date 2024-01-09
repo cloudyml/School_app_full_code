@@ -22,7 +22,6 @@ class _MyWidgetState extends State<HomeScreen> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 238, 238),
-      //  backgroundColor: Color.fromARGB(255, 238, 237, 237),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(600),
         child: DecorativeAppBar(
