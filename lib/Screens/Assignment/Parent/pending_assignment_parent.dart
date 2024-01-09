@@ -47,7 +47,7 @@ class PendingAssignmentParent extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text("Error.."));
-            } else if (!snapshot.hasData || snapshot.data?.data?.length == 0) {
+            } else if (!snapshot.hasData || snapshot.data?.data?.length == null ) {
               return const Center(
                 child: Text("No Assignment available"),
               ); // Handle the case where there is no data

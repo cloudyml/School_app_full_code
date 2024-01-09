@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Services/api_services.dart';
@@ -8,7 +7,6 @@ import 'package:school_management_system/widget/appBar/decorative_apbar_widget.d
 
 import '../../../Models/Student/submitted_assignment_model.dart';
 import '../../../widget/appBar/appbar_widget.dart';
-
 
 // added by harsh this is where parent can view his childs uploaded assignment
 
@@ -43,7 +41,7 @@ class SubmittedAssignmentParentView extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text("Error : ${snapshot.error}");
-          } else if (!snapshot.hasData || snapshot.data!.data!.isEmpty) {
+          } else if (!snapshot.hasData || snapshot.data?.data?.length == null) {
             return const Center(
               child: Text("No assignment available"),
             ); // Handle the case where there is no data

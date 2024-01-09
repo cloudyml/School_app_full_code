@@ -59,7 +59,7 @@ class ParentThisWeekAttendance extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text("Error: ${snapshot.error}"));
-                } else if (snapshot.data?.data?.data?.length == 0) {
+                } else if (snapshot.data?.data?.data?.length == null) {
                   return const Center(child: Text("No data available"));
                 } else {
                   StudentWeeklyAttendanceModel? attendanceData = snapshot.data;
@@ -138,7 +138,7 @@ class ParentThisWeekAttendance extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              if (totalData.data!.totalPresent == null)
+                              if (totalData.data?.totalPresent == null)
                                 const Text("")
                               else
                                 Text(
@@ -160,7 +160,7 @@ class ParentThisWeekAttendance extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              if (totalData.data!.totalAbsent == null)
+                              if (totalData.data?.totalAbsent == null)
                                 const Text("")
                               else
                                 Text(

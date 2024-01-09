@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
+import 'package:school_management_system/Screens/Events/parent/detail_of_the_event.dart';
 import 'package:school_management_system/Screens/Events/student/detailed_screen_completed_events.dart';
 import 'package:school_management_system/Screens/Events/student/detailed_screen_upcoming_events.dart';
 import 'package:school_management_system/Services/api_services.dart';
@@ -193,7 +194,7 @@ class _EventScreen extends State<ParentsViewEvents> {
                                 }
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      UpcomingDetailsEventScreen(
+                                      UpcomingDetailsEventScreenParent(
                                     imglink: upcomingEventsData
                                         .data![index].uploadedImage![0].link
                                         .toString(),

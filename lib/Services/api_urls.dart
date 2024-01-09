@@ -28,11 +28,13 @@ class ApiUrl {
   static const String dailyRoutine = "/getWeeklyTimeTable";
   static const String teacherUploadAssignment = "/teacher";
   static const String studentPendingAssignment = "/student";
+  static const String parentViewPendingAssignment = "/parent";
   static const String studentUploadAssignment = "/student";
   static const String teacherSeeOwnUploadedAssignments =
       "/teacher/assignmentList";
   static const String teacherSeeSubmittedStudentsAssignments = "/teacher";
   static const String studentSubmittedAssignment = "/student";
+  static const String parentViewSubmittedAssignment = "/student";
   static const String studentFeeDetails = "/getFees";
   static const String teacherUploadFees = "/addFees";
   static const String teacherUpdateFees = "/updateFees";
@@ -48,6 +50,7 @@ class ApiUrl {
   // Update my account details..................................................
   static const String updateMytAccountStudent = "/updateStudentById";
   static const String updateMytAccountTeacher = "/updateTeacherById";
+  static const String updateMytAccountParent = "/updateParent";
   //............................................................................
   static const String studentEligibilityCheckForEnrollEvents =
       "/verifyEventWithStudent";
@@ -59,8 +62,9 @@ class ApiUrl {
 
   // Notice.............................................................................
 
-  static const String viewNotice = "/getAllNotice";
+  static const String viewNotice = "/getAllNotice-parent";
   static const String verifyReadUnreadNotice = "/notice-read";
+  static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
 
   // Eventts...........................................................................
   static const String getRegisteredStudentListEvents = "/getEventRegister";

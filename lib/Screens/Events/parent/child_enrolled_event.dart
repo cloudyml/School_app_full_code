@@ -8,8 +8,8 @@ import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/Events/Register_Event/my_enrolled_events_list_model.dart';
 import '../../../widget/student/Events/Enrolled Events/student_my_enrolled_events_card.dart';
 
-class StudentMyEnrollledEvents extends StatelessWidget {
-  const StudentMyEnrollledEvents({
+class ParentViewChildEnrolledEvents extends StatelessWidget {
+  const ParentViewChildEnrolledEvents({
     super.key,
   });
 

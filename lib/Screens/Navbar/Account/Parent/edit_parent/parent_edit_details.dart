@@ -28,16 +28,16 @@ class _EditParentAccountDetailsState extends State<EditParentAccountDetails> {
   void initState() {
     nameInput.text = SharedService.loginDetails()!.data!.data!.name.toString();
     emailInput.text =
-        SharedService.loginDetails()!.data!.data!.email.toString();
+        "${SharedService.loginDetails()?.data?.data?.email.toString()}";
     super.initState();
     phonenoInput.text =
-        SharedService.loginDetails()!.data!.data!.phoneNumber.toString();
+        "${SharedService.loginDetails()?.data?.data?.phoneNumber.toString()}";
     super.initState();
     passwordInput.text =
-        SharedService.loginDetails()!.data!.data!.password.toString();
+       "${SharedService.loginDetails()?.data?.data?.password.toString()}";
     super.initState();
     cityInput.text =
-        SharedService.loginDetails()!.data!.data!.address.toString();
+        "${SharedService.loginDetails()?.data?.data?.address.toString()}";
     super.initState();
   }
 
@@ -247,7 +247,7 @@ class _EditParentAccountDetailsState extends State<EditParentAccountDetails> {
                                   .toString()) {
                         EasyLoading.showInfo("Nothing to update");
                       } else {
-                        ApiServices.updateMyAccountTeacher(
+                        ApiServices.updateMyAccountParent(
                                 nameInput.text,
                                 emailInput.text,
                                 phonenoInput.text,

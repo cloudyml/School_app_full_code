@@ -27,6 +27,7 @@ void main() async {
           messagingSenderId: "167650873505",
           projectId: "school-app-94046"),
     );
+    //
   } else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'School Management System',
+      title: 'A Student Management System',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

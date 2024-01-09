@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/parent_my_account_home_page.dart';
 import 'package:school_management_system/Services/shared_services.dart';
 import '../constants/style.dart';
@@ -9,7 +10,7 @@ import 'Navbar/Home/home_screen.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
-import 'Navbar/Notice/screen3.dart';
+import 'Navbar/Notice/parent_view_notice_screen.dart';
 import 'Navbar/Account/Student/student_my_acccount_home_page.dart';
 
 class Dashboard extends StatefulWidget {
@@ -47,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
       return const TeacherNoticeOptions();
     } else {
       // log("Parent");
-      return const screen3();
+      return const ParentViewNoticeScreen();
     }
   }
 
@@ -57,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
       return const ViewAboutSchool();
     } else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
       // log("Parent");
-      return const ViewAboutSchool();
+      return const ParentViewAboutSchool();
     } else {
       // log("Teacher");
       return const TeacherAboutSchoolOptions();

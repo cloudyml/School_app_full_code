@@ -37,9 +37,9 @@ class _RoleSelectScreen extends State<RoleSelectScreen> {
                       fontWeight: FontWeight.w500)),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
+          // SizedBox(
+          //   height: MediaQuery.of(context).size.height * 0.1,
+          // ),
           InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -63,19 +63,19 @@ class _RoleSelectScreen extends State<RoleSelectScreen> {
               context,
             ),
           ),
-          // InkWell(
-          //   onTap: () {
-          //     Navigator.of(context).push(MaterialPageRoute(
-          //         builder: (context) => NewLoginScreen(
-          //               role: 'parent',
-          //             )));
-          //   },
-          //   child: roleContainer(
-          //     "assets/Role/parent.png",
-          //     "Parent",
-          //     context,
-          //   ),
-          // )
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NewLoginScreen(
+                        role: 'parent',
+                      )));
+            },
+            child: roleContainer(
+              "assets/Role/parent.png",
+              "Parent",
+              context,
+            ),
+          )
         ]),
       ),
     );
