@@ -1004,6 +1004,7 @@ class _MondayState extends State<Monday> {
                         );
 
                         timetableData.add(periodData);
+                        //////////
 
                         t2.clear();
                         t3.clear();
