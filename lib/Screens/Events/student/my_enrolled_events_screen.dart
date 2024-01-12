@@ -35,7 +35,7 @@ class StudentMyEnrollledEvents extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<StudentMyEnrolledEventsResponseModel>(
-        future: ApiServices.parentSeeMyEnrolledEvents(),
+        future: ApiServices.studentSeeMyEnrolledEvents(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

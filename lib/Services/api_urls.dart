@@ -8,14 +8,6 @@ class ApiUrl {
   static const String studentlogin = "/login";
 
 
-
-
-
-
-
-
-
-
 // Attendance...................................................................
 
   static const String studentListForTakeAttendance =
@@ -62,6 +54,7 @@ class ApiUrl {
 
   // Notice.............................................................................
 
+  static const String viewstudentNotice = "/getAllNotice";
   static const String viewNotice = "/getAllNotice-parent";
   static const String verifyReadUnreadNotice = "/notice-read";
   static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
