@@ -215,7 +215,7 @@ class _EditTeacherAccountDetailsState extends State<EditTeacherAccountDetails> {
               child: Align(
                   alignment: Alignment.bottomLeft,
                   child: MyElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (nameInput.text ==
                               SharedService.loginDetails()!
                                   .data!
@@ -248,7 +248,7 @@ class _EditTeacherAccountDetailsState extends State<EditTeacherAccountDetails> {
                                   .toString()) {
                         EasyLoading.showInfo("Nothing to update");
                       } else {
-                        ApiServices.updateMyAccountTeacher(
+                        await ApiServices.updateMyAccountTeacher(
                                 nameInput.text,
                                 emailInput.text,
                                 phonenoInput.text,
@@ -256,10 +256,16 @@ class _EditTeacherAccountDetailsState extends State<EditTeacherAccountDetails> {
                                 cityInput.text)
                             .then((value) {
                           if (value == true) {
+                            SharedService.updateMyAccountDetails(
+                              name: nameInput.text,
+                              email: emailInput.text,
+                              phoneNumber: phonenoInput.text,
+                              password: passwordInput.text,
+                              address: cityInput.text,
+                            );
                             EasyLoading.showSuccess("Updated Successfully");
-                          
                           } else if (value == false) {
-                            EasyLoading.showSuccess("Something Went Wrong");
+                            EasyLoading.showError("Something Went Wrong");
                           }
                         });
                       }

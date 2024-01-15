@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Assignment/Parent/pending_assignment_parent.dart';
-import 'package:school_management_system/Screens/Assignment/Parent/submitted_assignment_parent.dart';
+import 'package:school_management_system/Screens/Homework/Parent/pending_assignment_parent.dart';
+import 'package:school_management_system/Screens/Homework/Parent/submitted_assignment_parent.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';

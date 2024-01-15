@@ -208,7 +208,8 @@ class StudentMyAccount extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const StudentMyEnrollledEvents()));
+                            builder: (context) =>
+                                const StudentMyEnrollledEvents()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,

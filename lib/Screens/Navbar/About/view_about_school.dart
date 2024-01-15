@@ -24,7 +24,7 @@ class ViewAboutSchool extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.data == null) {
-            return Center(child: const Text('No data found.'));
+            return const Center(child: Text('No data found.'));
           } else {
             AboutSchoolResponseModel? aboutSchool = snapshot.data;
             return SingleChildScrollView(

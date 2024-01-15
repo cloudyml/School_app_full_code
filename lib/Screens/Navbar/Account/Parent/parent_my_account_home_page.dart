@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
-import 'package:school_management_system/Screens/Navbar/Account/Student/Edit_%20Student/student_edit_own_details.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../Services/shared_services.dart';
@@ -113,7 +111,11 @@ class ParentMyAccount extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  SharedService.loginDetails()!.data!.data!.name.toString(),
+                                  SharedService.loginDetails()!
+                                      .data!
+                                      .data!
+                                      .name
+                                      .toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
@@ -130,7 +132,11 @@ class ParentMyAccount extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          SharedService.loginDetails()!.data!.data!.email.toString(),
+                                          SharedService.loginDetails()!
+                                              .data!
+                                              .data!
+                                              .email
+                                              .toString(),
 
                                           maxLines:
                                               1, // Display only one line of text
@@ -151,13 +157,6 @@ class ParentMyAccount extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Text(
-                                    //     "Class: ${SharedService.loginDetails()!.data!.data!.dataClass.toString()}"),
-                                    // const VerticalDivider(
-                                    //   width: 20,
-                                    //   color: Colors.black,
-                                    //   thickness: 2,
-                                    // ),
                                     Text(
                                       SharedService.loginDetails()!
                                           .data!
@@ -182,7 +181,7 @@ class ParentMyAccount extends StatelessWidget {
                                     ?.data!
                                     .data!
                                     .role ==
-                                "student") {
+                                "parent") {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       const EditParentAccountDetails()));
@@ -395,7 +394,7 @@ class ParentMyAccount extends StatelessWidget {
 
                     final Uri emailUrl = Uri(
                       scheme: 'mailto',
-                    path: 'kalpita@cloudyml.com',
+                      path: 'kalpita@cloudyml.com',
                       query: encodeQueryParameters(<String, String>{
                         'subject': "School app problems",
                         'body': "Dear sir/madam"
