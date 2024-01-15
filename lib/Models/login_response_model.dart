@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 LoginResponseModel loginResponseModelFromJson(String str) =>
     LoginResponseModel.fromJson(json.decode(str));
 
@@ -153,3 +152,5 @@ class LoginData {
             : List<dynamic>.from(childrens!.map((x) => x)),
       };
 }
+
+// Login Model Updated
