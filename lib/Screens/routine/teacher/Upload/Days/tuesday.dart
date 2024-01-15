@@ -117,65 +117,88 @@ class _MondayState extends State<Tuesday> {
       timetableData.removeAt(index);
       clearTextFields();
       cardWidgets = timetableData.map((periodData) {
-        return GestureDetector(
-          onTap: () {
-            populateTextFields(periodData);
-          },
-          child: Container(
-            margin: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
-            child: ListTile(
-              title: Text(
-                "Period: ${periodData.period}",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+        return Container(
+          margin: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 5),
               ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text("Start Time:  ${periodData.startTime}"),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Text("End Time:  ${periodData.endTime}"),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Text("Subject:  ${periodData.subject}"),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Text("Teacher Name:  ${periodData.teacher}"),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                ],
-              ),
-              trailing: IconButton(
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
-                onPressed: () {
-                  deletePeriod(timetableData.indexOf(periodData));
-                },
-              ),
-            ),
+            ],
           ),
+          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Period: ${periodData.period}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                            "Start Time:  ${periodData.startTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "End Time:  ${periodData.endTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text("Subject:  ${periodData.subject}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "Teacher Name:  ${periodData.teacher}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            populateTextFields(periodData);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            deletePeriod(timetableData
+                                                .indexOf(periodData));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
         );
       }).toList();
     });
@@ -193,65 +216,88 @@ class _MondayState extends State<Tuesday> {
         clearTextFields();
 
         cardWidgets = timetableData.map((periodData) {
-          return GestureDetector(
-            onTap: () {
-              populateTextFields(periodData);
-            },
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: ListTile(
-                title: Text(
-                  "Period: ${periodData.period}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
+          return Container(
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 5),
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text("Start Time:  ${periodData.startTime}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text("End Time:  ${periodData.endTime}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text("Subject:  ${periodData.subject}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text("Teacher Name:  ${periodData.teacher}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    deletePeriod(timetableData.indexOf(periodData));
-                  },
-                ),
-              ),
+              ],
             ),
+            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Period: ${periodData.period}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                            "Start Time:  ${periodData.startTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "End Time:  ${periodData.endTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text("Subject:  ${periodData.subject}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "Teacher Name:  ${periodData.teacher}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            populateTextFields(periodData);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            deletePeriod(timetableData
+                                                .indexOf(periodData));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
           );
         }).toList();
       }
@@ -357,65 +403,88 @@ class _MondayState extends State<Tuesday> {
         }
 
         cardWidgets = timetableData.map((periodData) {
-          return GestureDetector(
-            onTap: () {
-              populateTextFields(periodData);
-            },
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: ListTile(
-                title: Text(
-                  "Period: ${periodData.period}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
+          return Container(
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 5),
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text("Start Time:  ${periodData.startTime}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text("End Time:  ${periodData.endTime}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text("Subject:  ${periodData.subject}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text("Teacher Name:  ${periodData.teacher}"),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    deletePeriod(timetableData.indexOf(periodData));
-                  },
-                ),
-              ),
+              ],
             ),
+            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Period: ${periodData.period}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                            "Start Time:  ${periodData.startTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "End Time:  ${periodData.endTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text("Subject:  ${periodData.subject}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "Teacher Name:  ${periodData.teacher}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            populateTextFields(periodData);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            deletePeriod(timetableData
+                                                .indexOf(periodData));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
           );
         }).toList();
       });
@@ -514,68 +583,87 @@ class _MondayState extends State<Tuesday> {
                         t4.clear();
                         t5.clear();
                         cardWidgets = timetableData.map((periodData) {
-                          return GestureDetector(
-                            onTap: () {
-                              populateTextFields(periodData);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 3,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 5),
-                                  ),
-                                ],
-                              ),
-                              child: ListTile(
-                                title: Text(
+                          return Container(
+                            margin: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 3,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
                                   "Period: ${periodData.period}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 17),
                                 ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const SizedBox(
-                                      height: 5,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                            "Start Time:  ${periodData.startTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "End Time:  ${periodData.endTime}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text("Subject:  ${periodData.subject}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                            "Teacher Name:  ${periodData.teacher}"),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                        "Start Time:  ${periodData.startTime}"),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text("End Time:  ${periodData.endTime}"),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text("Subject:  ${periodData.subject}"),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                        "Teacher Name:  ${periodData.teacher}"),
-                                    const SizedBox(
-                                      height: 3,
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            populateTextFields(periodData);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            deletePeriod(timetableData
+                                                .indexOf(periodData));
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                trailing: IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () {
-                                    deletePeriod(
-                                        timetableData.indexOf(periodData));
-                                  },
-                                ),
-                              ),
+                              ],
                             ),
                           );
                         }).toList();
