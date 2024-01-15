@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Awards/teacher/Upload/upload_awards.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/choose_class_for_see_homework.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/upload_homework.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
-import 'View/choose_class_section_to_view_class_wise_award.dart';
 
-class TeacherAwardOptions extends StatelessWidget {
-  const TeacherAwardOptions({super.key});
+class TeacherAssignmentFirstPage extends StatelessWidget {
+  const TeacherAssignmentFirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,14 @@ class TeacherAwardOptions extends StatelessWidget {
           MediaQuery.of(context).size.height * 0.3,
         ),
         child: DecorativeAppBar(
-          barHeight: MediaQuery.of(context).size.height * 0.20,
-          barPad: MediaQuery.of(context).size.height * 0.15,
+          barHeight: MediaQuery.of(context).size.height * 0.24,
+          barPad: MediaQuery.of(context).size.height * 0.19,
           radii: 30,
           background: Colors.white,
           gradient1: lightBlue,
           gradient2: deepBlue,
-          extra: appbar("assets/awards_trophy.png", " Awards", context, () {
+          extra: appbar(
+              "assets/flaticon/_assignments.png", " Assignments", context, () {
             Navigator.pop(context);
           }),
         ),
@@ -47,10 +48,10 @@ class TeacherAwardOptions extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UploadAwards()));
+                            builder: (context) => const UploadAssignment()));
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
+                    width: MediaQuery.of(context).size.width * 0.55,
                     height: MediaQuery.of(context).size.height * 0.16,
                     decoration: BoxDecoration(
                         border: Border.all(color: deepBlue),
@@ -72,7 +73,7 @@ class TeacherAwardOptions extends StatelessWidget {
                           child: Image.asset("assets/upload.png"),
                         ),
                         Text(
-                          "Upload Awards",
+                          "Upload Assignments",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,
@@ -92,10 +93,10 @@ class TeacherAwardOptions extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ChooseClassSectionForViewAwards()));
+                                ChooseClassForViewAssignment()));
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
+                    width: MediaQuery.of(context).size.width * 0.55,
                     height: MediaQuery.of(context).size.height * 0.16,
                     decoration: BoxDecoration(
                         border: Border.all(color: deepBlue),
@@ -113,11 +114,11 @@ class TeacherAwardOptions extends StatelessWidget {
                       children: [
                         Container(
                           height: MediaQuery.of(context).size.height * 0.1,
-                          width: MediaQuery.of(context).size.width * 0.14,
+                          width: MediaQuery.of(context).size.width * 0.16,
                           child: Image.asset("assets/view.png"),
                         ),
                         Text(
-                          "View Awards",
+                          "View Assignments",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,

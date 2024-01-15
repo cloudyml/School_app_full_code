@@ -8,7 +8,7 @@ import 'shared_services.dart';
 String unicodeConverter(String code) {
   return String.fromCharCodes(Runes(code));
 }
- 
+
 class ApiBase {
   static url({required String extendedURL}) {
     log("http://${ApiUrl.baseUrl}$extendedURL");
@@ -30,11 +30,6 @@ class ApiBase {
     return client.get(url(extendedURL: extendedURL.trim()),
         headers: newHeaders);
   }
-
-
-
-
-  
 
   static Future postRequest(
       {required String extendedURL,

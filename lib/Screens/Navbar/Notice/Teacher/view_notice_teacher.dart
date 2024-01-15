@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
+import 'package:school_management_system/Screens/Navbar/Notice/Student/notice_detailed_screen.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import '../../../../Models/Student/Notice/view_notice_response_model.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../../widget/student/Notice/student_notice_card.dart';
-import 'notice_detailed_screen.dart';
 
-class ViewNoticeScreen extends StatefulWidget {
-  const ViewNoticeScreen({Key? key}) : super(key: key);
+class TeacherViewNoticeScreen extends StatefulWidget {
+  const TeacherViewNoticeScreen({Key? key}) : super(key: key);
 
   @override
-  _ViewNoticeScreenState createState() => _ViewNoticeScreenState();
+  _TeacherViewNoticeScreenState createState() =>
+      _TeacherViewNoticeScreenState();
 }
 
-class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
+class _TeacherViewNoticeScreenState extends State<TeacherViewNoticeScreen> {
   String searchText = '';
   List<String> notices = List.generate(10, (index) => 'Notice $index');
   bool isClicked = false;
@@ -99,8 +101,8 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<ViewNoticeResponseModel>(
-              future: ApiServices.viewNoticeStudents(),
+            child: FutureBuilder<TeacherNoticeResponseModel>(
+              future: ApiServices.viewNoticeTeacher(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -109,7 +111,7 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                 } else if (!snapshot.hasData || snapshot.data!.data == null) {
                   return const Center(child: Text('No events found.'));
                 } else {
-                  ViewNoticeResponseModel? notices = snapshot.data;
+                  TeacherNoticeResponseModel? notices = snapshot.data;
                   return ListView.builder(
                     itemCount: notices!.data!.noticeList!.length,
                     itemBuilder: (context, index) {
@@ -122,13 +124,13 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                         return ViewNoticeCard(
                           noticeId:
                               notices.data!.noticeList![index].id.toString(),
-                          title: "$title",
+                          title: title,
                           image:
                               notices.data!.noticeList![index].link.toString(),
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
-                            ApiServices.verifyReadUnreadNoticeStudents(notices
+                            ApiServices.verifyReadUnreadNoticeTeacher(notices
                                     .data!.noticeList![index].id
                                     .toString())
                                 .then(

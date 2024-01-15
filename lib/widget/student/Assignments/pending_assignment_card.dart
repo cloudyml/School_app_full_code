@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../Screens/Assignment/Student/submit_assignment.dart';
+import '../../../Screens/Homework/Student/submit_assignment.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
 class StudentPendingAssignmentCard extends StatelessWidget {

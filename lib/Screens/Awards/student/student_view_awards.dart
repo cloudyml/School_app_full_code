@@ -5,8 +5,6 @@ import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../widget/student/Awards/view_awards_card.dart';
-import '../../Dashboard.dart';
-import 'package:intl/intl.dart';
 
 class StudentViewAwards extends StatelessWidget {
   const StudentViewAwards({super.key});
@@ -35,17 +33,14 @@ class StudentViewAwards extends StatelessWidget {
           future: ApiServices.viewMyCertificates(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              // While the future is running, show a CircularProgressIndicator
               return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
-              // If the future encounters an error, show an error message
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.data == null ||
                 snapshot.data?.data?.awardList == null) {
-              // If there is no data, show a message
-              return Center(child: Text('No data available.'));
+              return const Center(child: Text('No data available.'));
             } else {
               StudentViewAwardsResponseModel? studentCertificates =
                   snapshot.data;
