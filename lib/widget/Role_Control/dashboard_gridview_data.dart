@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:school_management_system/Screens/Assignment/Parent/assignment_view_page_parent.dart';
+import 'package:school_management_system/Screens/Homework/Parent/assignment_view_page_parent.dart';
+import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 import 'package:school_management_system/Screens/Attendance/parent/choose_type_of_attendance_parent.dart';
 import 'package:school_management_system/Screens/Awards/parent/parent_view_awards.dart';
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
@@ -13,10 +14,10 @@ import 'package:school_management_system/Screens/Result/parent/parent_select_res
 import 'package:school_management_system/Screens/routine/parent/parent_daily_timetable.dart';
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/constants/style.dart';
-import '../../Screens/Assignment/Student/assignment_start_page.dart';
-import '../../Screens/Assignment/Teacher/assignment_options.dart';
+import '../../Screens/Homework/Student/assignment_start_page.dart';
+import '../../Screens/Homework/Teacher/homework_options.dart';
 import '../../Screens/Attendance/Student/choose_attendance.dart';
-import '../../Screens/Attendance/Teacher/choose_class_section.dart';
+import '../../Screens/Attendance/Teacher/upload/choose_class_section.dart';
 import '../../Screens/Awards/student/student_view_awards.dart';
 import '../../Screens/Awards/teacher/first_page_select_award_options.dart';
 import '../../Screens/Events/teacher/select_event_options.dart';
@@ -43,7 +44,7 @@ Widget getAttendanceScreen() {
     return const StuChooseAttendance();
   } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
-    return const ChooseClassForTakeAttendance();
+    return const TeacherAttendanceOptions();
   } else {
     return const ParentChooseAttendance();
   }
@@ -165,7 +166,7 @@ List<CategoryData> categoryList = [
   ),
   CategoryData(
     image: 'assets/fees.png',
-    name: 'Fees',
+    name: 'Admission Fees',
     screen: FeeDetails(),
   ),
   CategoryData(
@@ -186,7 +187,7 @@ List<CategoryData> categoryList = [
   ),
   CategoryData(
     image: 'assets/_assignment.png',
-    name: 'Assignments',
+    name: 'Homework',
     screen: getAssignmentScreen(),
   ),
   CategoryData(

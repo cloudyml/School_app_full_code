@@ -178,7 +178,7 @@
 
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:school_management_system/Screens/Assignment/Teacher/see_own_uploaded_assignment.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/see_own_uploaded_homework.dart';
 import '../../../constants/style.dart';
 import '../../../widget/Button/my_elevatedbutton.dart';
 import '../../../widget/appBar/appbar_widget.dart';

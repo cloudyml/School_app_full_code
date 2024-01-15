@@ -9,13 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Screens/Splash/splashScreen.dart';
 import 'constants/constants.dart';
 
-// import 'firebase_options.dart';
-// final navigatorKey = GlobalKey<NavigatorState>();
-// Future<void> initializeSecondary() async {
-//   FirebaseApp app = await Firebase.initializeApp();
-//   print('Initialized $app');
-// }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -54,6 +47,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SplashScreen(),
+      // home: ChooseClassForViewAttendance(),
       builder: EasyLoading.init(),
     );
   }

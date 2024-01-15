@@ -5,7 +5,8 @@ class ApiUrl {
   static const String studentlogin = "/login";
 
 // Attendance...................................................................
-
+  static const String teacherSeeAttendanceOfWholeClassOfAday =
+      "/totalAttendanceOfDay";
   static const String studentListForTakeAttendance =
       "/getStudentListforAttendance";
   static const String teacherSubmitAttendance = "/createAttendance";
@@ -43,16 +44,16 @@ class ApiUrl {
   static const String classWiseAwardsListOfStudents =
       "/getAllAwardListforSection";
 
-  // Notice Students.............................................................................
+  // Notice Students..................................................................
 
   static const String viewNoticeStudents = "/getAllNotice";
   static const String verifyReadUnreadNoticeStudent = "/notice-read";
 
-// Notice Teacher..............................................................................
+// Notice Teacher.....................................................................
   static const String deleteNoticeTeacher = "/deleteNotice-teacher";
   static const String viewNoticeTeacher = "/getAllNotice-teacher";
   static const String verifyReadUnreadNoticeTeacher = "/notice-read-teacher";
-  // Eventts...........................................................................
+  // Eventts..........................................................................
 
   static const String getRegisteredStudentListEvents = "/getEventRegister";
   static const String studentSeeMyEnrolledEvents = "/getAllEventsOfStudents";

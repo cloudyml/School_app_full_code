@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Assignment/Student/pending_assignment.dart';
-import 'package:school_management_system/Screens/Assignment/Student/submitted_assignment.dart';
-
+import 'package:school_management_system/Screens/Homework/Teacher/choose_class_for_see_homework.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/upload_homework.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
-class StudentAssignmentChoose extends StatelessWidget {
-  const StudentAssignmentChoose({super.key});
+class TeacherAssignmentFirstPage extends StatelessWidget {
+  const TeacherAssignmentFirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +48,10 @@ class StudentAssignmentChoose extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PendingAssignment()));
+                            builder: (context) => const UploadAssignment()));
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.55,
                     height: MediaQuery.of(context).size.height * 0.16,
                     decoration: BoxDecoration(
                         border: Border.all(color: deepBlue),
@@ -71,10 +70,10 @@ class StudentAssignmentChoose extends StatelessWidget {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.14,
-                          child: Image.asset("assets/_assignment.png"),
+                          child: Image.asset("assets/upload.png"),
                         ),
                         Text(
-                          "Pending Assignments",
+                          "Upload Assignments",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,
@@ -93,10 +92,11 @@ class StudentAssignmentChoose extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SubmittedAssignment()));
+                            builder: (context) =>
+                                ChooseClassForViewAssignment()));
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.55,
                     height: MediaQuery.of(context).size.height * 0.16,
                     decoration: BoxDecoration(
                         border: Border.all(color: deepBlue),
@@ -115,10 +115,10 @@ class StudentAssignmentChoose extends StatelessWidget {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.16,
-                          child: Image.asset("assets/_assignment.png"),
+                          child: Image.asset("assets/view.png"),
                         ),
                         Text(
-                          "Submitted Assignments",
+                          "View Assignments",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
@@ -189,7 +190,39 @@ class ApiServices {
 
     return ret;
   }
+// Teacher See Attendance of the whole class date wise......................................
 
+  static Future<TeacherViewAttendanceOfClassResponseModel>
+      teacherSeeAttendanceOfWholeClassOfAday(
+    String selectedClass,
+    String selectedSection,
+    String selectedDate,
+  ) async {
+    TeacherViewAttendanceOfClassResponseModel attendanceModel =
+        TeacherViewAttendanceOfClassResponseModel();
+    try {
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "teacher/${SharedService.loginDetails()!.data!.id.toString()}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
+      );
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          attendanceModel =
+              teacherViewAttendanceOfClassResponseModelFromJson(response.body);
+        } else {
+          attendanceModel = TeacherViewAttendanceOfClassResponseModel();
+        }
+      } else {
+        attendanceModel = TeacherViewAttendanceOfClassResponseModel();
+      }
+    } catch (e) {
+      attendanceModel = TeacherViewAttendanceOfClassResponseModel();
+    }
+
+    return attendanceModel;
+  }
 //Parent  can see his/her child's Weekly Attendance.........................................
 
   static Future<StudentWeeklyAttendanceModel> parentWeekAttendance() async {
