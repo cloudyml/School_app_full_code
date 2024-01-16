@@ -2433,7 +2433,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     try {
       var school = SharedService.loginDetails()!.data!.data!.school;
       var response = await ApiBase.getRequest(
-        extendedURL: "${ApiUrl.viewAboutSchool}/${SharedService.loginDetails()?.data?.id}?schoolName=$school&departmentId=SCH0001",
+        extendedURL: "${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}/${ApiUrl.viewAboutSchool}/?schoolName=$school&departmentId=SCH0001",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
