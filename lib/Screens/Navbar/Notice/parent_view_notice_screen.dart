@@ -165,7 +165,8 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                                 }
                               },
                             );
-                          },
+                          }, noticeId:
+                              notices.data!.noticeList![index].id.toString(),
                         );
                       } else {
                         return const SizedBox

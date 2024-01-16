@@ -56,6 +56,9 @@ class ApiUrl {
   static const String deleteNoticeTeacher = "/deleteNotice-teacher";
   static const String viewNoticeTeacher = "/getAllNotice-teacher";
   static const String verifyReadUnreadNoticeTeacher = "/notice-read-teacher";
+    static const String viewNotice = "/getAllNotice-parent";
+  static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
+
   // Eventts..........................................................................
 
   static const String getRegisteredStudentListEvents = "/getEventRegister";

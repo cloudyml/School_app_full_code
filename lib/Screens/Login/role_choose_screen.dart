@@ -18,65 +18,79 @@ class _RoleSelectScreen extends State<RoleSelectScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(children: [
-          DecorativeAppBar(
-            barHeight: MediaQuery.of(context).size.height * 0.24,
-            barPad: MediaQuery.of(context).size.height * 0.19,
-            radii: 30,
-            background: Colors.white,
-            gradient1: lightBlue,
-            gradient2: deepBlue,
-            extra: Padding(
-              padding: EdgeInsets.only(
-                  top: height * 0.08, left: width * 0.1, right: width * 0.15),
-              child: Text("Select Your Role",
+        child: Column(
+          children: [
+            DecorativeAppBar(
+              barHeight: MediaQuery.of(context).size.height * 0.24,
+              barPad: MediaQuery.of(context).size.height * 0.19,
+              radii: 30,
+              background: Colors.white,
+              gradient1: lightBlue,
+              gradient2: deepBlue,
+              extra: Padding(
+                padding: EdgeInsets.only(
+                    top: height * 0.08, left: width * 0.1, right: width * 0.15),
+                child: Text(
+                  "Select Your Role",
                   style: GoogleFonts.inter(
-                      color: Colors.white,
-                      letterSpacing: 1.0,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w500)),
-            ),
-          ),
-          // SizedBox(
-          //   height: MediaQuery.of(context).size.height * 0.1,
-          // ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NewLoginScreen(
-                  role: 'student',
+                    color: Colors.white,
+                    letterSpacing: 1.0,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ));
-            },
-            child: roleContainer("assets/Role/student.png", "Student", context),
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => NewLoginScreen(
-                        role: 'teacher',
-                      )));
-            },
-            child: roleContainer(
-              "assets/Role/teacher.png",
-              "Teacher",
-              context,
+              ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => NewLoginScreen(
-                        role: 'parent',
-                      )));
-            },
-            child: roleContainer(
-              "assets/Role/parent.png",
-              "Parent",
-              context,
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * 0.1,
+            // ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => NewLoginScreen(
+                      role: 'student',
+                    ),
+                  ),
+                );
+              },
+              child:
+                  roleContainer("assets/Role/student.png", "Student", context),
             ),
-          )
-        ]),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => NewLoginScreen(
+                      role: 'teacher',
+                    ),
+                  ),
+                );
+              },
+              child: roleContainer(
+                "assets/Role/teacher.png",
+                "Teacher",
+                context,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => NewLoginScreen(
+                      role: 'parent',
+                    ),
+                  ),
+                );
+              },
+              child: roleContainer(
+                "assets/Role/parent.png",
+                "Parent",
+                context,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -96,28 +110,31 @@ Widget roleContainer(String imglink, String text, BuildContext context) {
             BoxShadow(color: Color.fromARGB(255, 199, 198, 198), blurRadius: 20)
           ]),
       height: height * 0.18,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 30.0),
-          child: Text(
-            text,
-            style: GoogleFonts.inter(
-              fontSize: 30,
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30.0),
+            child: Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 30,
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 40.0),
-          child: SizedBox(
-              width: width * 0.4,
-              child: Image.asset(
-                imglink,
-                fit: BoxFit.fitHeight,
-              )),
-        ),
-      ]),
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: SizedBox(
+                width: width * 0.4,
+                child: Image.asset(
+                  imglink,
+                  fit: BoxFit.fitHeight,
+                )),
+          ),
+        ],
+      ),
     ),
   );
 }

@@ -20,7 +20,7 @@ void main() async {
           messagingSenderId: "167650873505",
           projectId: "school-app-94046"),
     );
-    //
+    
   } else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
