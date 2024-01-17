@@ -1,23 +1,26 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/upload/take_attandance.dart';
+import 'package:school_management_system/Screens/Attendance/Teacher/view/view_attendance_daywise.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../Dashboard.dart';
-import 'view_students_awards_screen_class_wise.dart';
 
-class ChooseClassSectionForViewAwards extends StatefulWidget {
-  const ChooseClassSectionForViewAwards({Key? key}) : super(key: key);
+class ChooseClassForViewAttendance extends StatefulWidget {
+  const ChooseClassForViewAttendance({Key? key}) : super(key: key);
 
   @override
-  State<ChooseClassSectionForViewAwards> createState() =>
-      _ChooseClassForTakeAttendanceState();
+  State<ChooseClassForViewAttendance> createState() =>
+      _ChooseClassForViewAttendanceState();
 }
 
-class _ChooseClassForTakeAttendanceState
-    extends State<ChooseClassSectionForViewAwards> {
+class _ChooseClassForViewAttendanceState
+    extends State<ChooseClassForViewAttendance> {
   String selectedClass = 'Choose Class'; // Set to default option
   String selectedSection = 'Choose Section'; // Set to default option
 
@@ -38,6 +41,7 @@ class _ChooseClassForTakeAttendanceState
   ];
   List<String> sectionOptions = ['Choose Section', 'A', 'B', 'C'];
 
+  TextEditingController dateInput = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -53,7 +57,8 @@ class _ChooseClassForTakeAttendanceState
           background: Colors.white,
           gradient1: lightBlue,
           gradient2: deepBlue,
-          extra: appbar("assets/awards_trophy.png", "Awards", context, () {
+          extra:
+              appbar("assets/attendance_appbar.png", "Attendance", context, () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const Dashboard()));
           }),
@@ -68,15 +73,15 @@ class _ChooseClassForTakeAttendanceState
               Padding(
                 padding: EdgeInsets.only(left: height * 0.03),
                 child: const Text(
-                  "Choose to view awards class wise",
+                  "Take Attendance",
                   style: TextStyle(
                       color: Color.fromARGB(255, 93, 93, 93),
-                      fontSize: 20,
+                      fontSize: 24,
                       fontWeight: FontWeight.w500),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: height * 0.04),
+                padding: EdgeInsets.only(top: height * 0.06),
                 child: Column(
                   children: [
                     Padding(
@@ -112,6 +117,8 @@ class _ChooseClassForTakeAttendanceState
                         }).toList(),
                         decoration: InputDecoration(
                           hintText: "Class*",
+                          // contentPadding: const EdgeInsets.symmetric(
+                          //     vertical: 5, horizontal: 5),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: deepBlue,
@@ -161,6 +168,8 @@ class _ChooseClassForTakeAttendanceState
                         }).toList(),
                         decoration: InputDecoration(
                           hintText: "Section*",
+                          // contentPadding: const EdgeInsets.symmetric(
+                          //     vertical: 5, horizontal: 5),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: deepBlue,
@@ -174,6 +183,62 @@ class _ChooseClassForTakeAttendanceState
                 ),
               ),
               Padding(
+                padding: EdgeInsets.only(top: height * 0.06),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.075,
+                      ),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Select Date",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: TextField(
+                          controller: dateInput,
+                          decoration: InputDecoration(
+                            suffixIcon: const Icon(
+                              Icons.calendar_month,
+                            ),
+                            hintText: "Choose date",
+                            hintStyle: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                color: Colors.black87),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: deepBlue,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime(2200));
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+                              setState(() {
+                                dateInput.text = formattedDate;
+                              });
+                            }
+                          },
+                        )),
+                  ],
+                ),
+              ),
+              Padding(
                 padding: EdgeInsets.only(left: 20, top: height * 0.05),
                 child: MyElevatedButton(
                   child: Text(
@@ -183,20 +248,23 @@ class _ChooseClassForTakeAttendanceState
                   ),
                   onPressed: () {
                     if (selectedClass == 'Choose Class' ||
-                        selectedSection == 'Choose Section') {
+                        selectedSection == 'Choose Section' ||
+                        dateInput.text.isEmpty) {
                       return; // Exit function if default values are selected
                     } else {
                       log("Selected Class= $selectedClass");
                       log("Selected Section = $selectedSection");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewAwardsOfClassScreen(
-                            selectedClass: selectedClass,
-                            selectedSection: selectedSection,
-                          ),
-                        ),
-                      );
+                      log("Selected Date =  ${dateInput.text}");
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => TeacherViewAttendanceDayWise(
+                      //       selectedClass: selectedClass,
+                      //       selectedSection: selectedSection,
+                      //       selectedDate: dateInput.text,
+                      //     ),
+                      //   ),
+                      // );
                     }
                   },
                 ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Login/role_choose_screen.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/Services/shared_services.dart';
 import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../widget/appBar/appbar_widget.dart';
 import '../../../../../widget/appBar/decorative_apbar_widget.dart';
+
 
 class EditStudentAccountDetails extends StatefulWidget {
   const EditStudentAccountDetails({super.key, l});
@@ -214,7 +214,7 @@ class _EditStudentAccountDetailsState extends State<EditStudentAccountDetails> {
               child: Align(
                   alignment: Alignment.bottomLeft,
                   child: MyElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (nameInput.text ==
                               SharedService.loginDetails()!
                                   .data!
@@ -247,7 +247,7 @@ class _EditStudentAccountDetailsState extends State<EditStudentAccountDetails> {
                                   .toString()) {
                         EasyLoading.showInfo("Nothing to update");
                       } else {
-                        ApiServices.updateMyAccountStudent(
+                        await ApiServices.updateMyAccountStudent(
                                 nameInput.text,
                                 emailInput.text,
                                 phonenoInput.text,
@@ -255,9 +255,16 @@ class _EditStudentAccountDetailsState extends State<EditStudentAccountDetails> {
                                 cityInput.text)
                             .then((value) {
                           if (value == true) {
+                            SharedService.updateMyAccountDetails(
+                              name: nameInput.text,
+                              email: emailInput.text,
+                              phoneNumber: phonenoInput.text,
+                              password: passwordInput.text,
+                              address: cityInput.text,
+                            );
                             EasyLoading.showSuccess("Updated Successfully");
                           } else if (value == false) {
-                            EasyLoading.showSuccess("Something Went Wrong");
+                            EasyLoading.showError("Something Went Wrong");
                           }
                         });
                       }

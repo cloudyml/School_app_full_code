@@ -22,7 +22,6 @@ class _MyWidgetState extends State<HomeScreen> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 238, 238),
-      //  backgroundColor: Color.fromARGB(255, 238, 237, 237),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(600),
         child: DecorativeAppBar(
@@ -42,7 +41,7 @@ class _MyWidgetState extends State<HomeScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.height * 0.36,
                         child: Text(
-                          "Hi, ${SharedService.loginDetails()?.data!.data!.name}",
+                          "Hi, ${SharedService.loginDetails()?.data!.data?.name}",
                           softWrap: true,
                           maxLines: 20,
                           overflow: TextOverflow.fade,

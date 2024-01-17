@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
-import '../../../Screens/Assignment/Teacher/submitted.dart';
+import '../../../Screens/Homework/Teacher/submitted.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
 class TeacherSeeOwnUploadedAssignmentCard extends StatelessWidget {

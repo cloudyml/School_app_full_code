@@ -100,7 +100,7 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
           ),
           Expanded(
             child: FutureBuilder<ViewNoticeResponseModel>(
-              future: ApiServices.viewNotice(),
+              future: ApiServices.viewNoticeStudents(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -120,13 +120,15 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                       if (searchText.isEmpty ||
                           lowerCaseTitle.contains(searchText)) {
                         return ViewNoticeCard(
+                          noticeId:
+                              notices.data!.noticeList![index].id.toString(),
                           title: "$title",
                           image:
                               notices.data!.noticeList![index].link.toString(),
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
-                            ApiServices.verifyReadUnreadNotice(notices
+                            ApiServices.verifyReadUnreadNoticeStudents(notices
                                     .data!.noticeList![index].id
                                     .toString())
                                 .then(
@@ -158,7 +160,7 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                                               )),
                                     ).whenComplete(() {
                                       setState(() {
-                                        isClicked == false;
+                                        isClicked = false;
                                       });
                                     });
                                   }

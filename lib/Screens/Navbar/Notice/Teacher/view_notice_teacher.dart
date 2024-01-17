@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/notice_detailed_screen.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import '../../../../Models/Student/Notice/view_notice_response_model.dart';
@@ -7,14 +8,15 @@ import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../../widget/student/Notice/student_notice_card.dart';
 
-class ParentViewNoticeScreen extends StatefulWidget {
-  const ParentViewNoticeScreen({Key? key}) : super(key: key);
+class TeacherViewNoticeScreen extends StatefulWidget {
+  const TeacherViewNoticeScreen({Key? key}) : super(key: key);
 
   @override
-  _ParentViewNoticeScreenState createState() => _ParentViewNoticeScreenState();
+  _TeacherViewNoticeScreenState createState() =>
+      _TeacherViewNoticeScreenState();
 }
 
-class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
+class _TeacherViewNoticeScreenState extends State<TeacherViewNoticeScreen> {
   String searchText = '';
   List<String> notices = List.generate(10, (index) => 'Notice $index');
   bool isClicked = false;
@@ -99,8 +101,8 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<ViewNoticeResponseModel>(
-              future: ApiServices.viewNoticeParent(),
+            child: FutureBuilder<TeacherNoticeResponseModel>(
+              future: ApiServices.viewNoticeTeacher(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -109,7 +111,7 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                 } else if (!snapshot.hasData || snapshot.data!.data == null) {
                   return const Center(child: Text('No events found.'));
                 } else {
-                  ViewNoticeResponseModel? notices = snapshot.data;
+                  TeacherNoticeResponseModel? notices = snapshot.data;
                   return ListView.builder(
                     itemCount: notices!.data!.noticeList!.length,
                     itemBuilder: (context, index) {
@@ -120,13 +122,15 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                       if (searchText.isEmpty ||
                           lowerCaseTitle.contains(searchText)) {
                         return ViewNoticeCard(
+                          noticeId:
+                              notices.data!.noticeList![index].id.toString(),
                           title: title,
                           image:
                               notices.data!.noticeList![index].link.toString(),
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
-                            ApiServices.verifyReadUnreadNoticeParent(notices
+                            ApiServices.verifyReadUnreadNoticeTeacher(notices
                                     .data!.noticeList![index].id
                                     .toString())
                                 .then(
@@ -134,7 +138,7 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                                 if (value == true) {
                                   if (isClicked == false) {
                                     setState(() {
-                                      isClicked = true;
+                                      isClicked == true;
                                     });
                                     Navigator.push(
                                       context,
@@ -158,15 +162,14 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                                               )),
                                     ).whenComplete(() {
                                       setState(() {
-                                        isClicked == false;
+                                        isClicked = false;
                                       });
                                     });
                                   }
                                 }
                               },
                             );
-                          }, noticeId:
-                              notices.data!.noticeList![index].id.toString(),
+                          },
                         );
                       } else {
                         return const SizedBox

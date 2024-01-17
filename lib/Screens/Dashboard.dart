@@ -27,16 +27,16 @@ class _DashboardState extends State<Dashboard> {
 
   Widget _myAccountScreen() {
     if (SharedService.loginDetails()?.data?.data?.role == "student") {
-      // log("Student");
+      log("Student");
       return const StudentMyAccount();
     } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
-      // log("Teacher");
+      log("Teacher");
       return const TeacherMyAccount();
-    } else {
-      // print("PArent");
-      // log("Parent");
+    } else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
+      log("Parent");
       return const ParentMyAccount();
     }
+    throw ("My account error from Dashboard line number 38");
   }
 
   Widget _noticeScreen() {

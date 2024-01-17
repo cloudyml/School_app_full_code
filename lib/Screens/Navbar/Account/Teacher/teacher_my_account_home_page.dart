@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/view_events_teacher.dart';
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
+import 'package:school_management_system/Screens/Navbar/Account/Teacher/Coaching/add_student_before_page.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
 import 'package:school_management_system/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -131,7 +132,6 @@ class TeacherMyAccount extends StatelessWidget {
                                       children: [
                                         Text(
                                           "${SharedService.loginDetails()!.data!.data!.email.toString()}",
-
                                           maxLines:
                                               1, // Display only one line of text
                                         ),
@@ -185,8 +185,106 @@ class TeacherMyAccount extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: height * 0.05,
+                ),
+
+                /// Below Button is For Coaching.......... ////////////////////////
+
+                SharedService.loginDetails()?.data!.data!.role == "coaching"
+                    ? InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddStudentCoaching()));
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.11,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            //  border: Border.all(color: deepBlue),
+                            borderRadius: BorderRadius.circular(18),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 5,
+                                color: Colors.grey,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: width * 0.09, right: width * 0.1),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: deepBlue,
+                                    child: ClipOval(
+                                      child: Image.asset(
+                                        "assets/upload.png",
+                                        color: Colors.white,
+                                        //  fit: BoxFit.cover,
+                                        width: 60,
+                                        height: height * 0.04,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: width *
+                                            0.5, // Set a width that fits your text without overflow
+                                        child: const SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Add a student",
+                                                style: TextStyle(fontSize: 20),
+
+                                                maxLines:
+                                                    1, // Display only one line of text
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width *
+                                            0.5, // Set a width that fits your text without overflow
+                                        child: const SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Register a new student",
+
+                                                maxLines:
+                                                    1, // Display only one line of text
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
                 const SizedBox(
-                  height: 40,
+                  height: 15,
                 ),
                 InkWell(
                   onTap: () {

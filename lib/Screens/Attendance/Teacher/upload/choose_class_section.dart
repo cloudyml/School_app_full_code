@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:school_management_system/Screens/Attendance/Teacher/take_attandance.dart';
-import '../../../constants/style.dart';
-import '../../../widget/Button/my_elevatedbutton.dart';
-import '../../../widget/appBar/appbar_widget.dart';
-import '../../../widget/appBar/decorative_apbar_widget.dart';
-import '../../Dashboard.dart';
+import 'package:school_management_system/Screens/Attendance/Teacher/upload/take_attandance.dart';
+import '../../../../constants/style.dart';
+import '../../../../widget/Button/my_elevatedbutton.dart';
+import '../../../../widget/appBar/appbar_widget.dart';
+import '../../../../widget/appBar/decorative_apbar_widget.dart';
+import '../../../Dashboard.dart';
 
 class ChooseClassForTakeAttendance extends StatefulWidget {
   const ChooseClassForTakeAttendance({Key? key}) : super(key: key);

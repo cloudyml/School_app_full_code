@@ -1,60 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/rectangle_elevatedbutton_card.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 
-import '../../../Models/Student/Fees/student_fee_response_model.dart';
-import '../../Dashboard.dart';
-
-class UploadFees extends StatefulWidget {
-  final SingleFeeModel? feesModel;
-  const UploadFees({super.key, this.feesModel});
+class RegisterNewStudentToCoaching extends StatefulWidget {
+  const RegisterNewStudentToCoaching({
+    super.key,
+  });
 
   @override
-  State<UploadFees> createState() => _UploadFeesState();
+  State<RegisterNewStudentToCoaching> createState() =>
+      _RegisterNewStudentToCoachingState();
 }
 
-class _UploadFeesState extends State<UploadFees> {
+class _RegisterNewStudentToCoachingState
+    extends State<RegisterNewStudentToCoaching> {
+  TextEditingController nameInput = TextEditingController();
   TextEditingController classInput = TextEditingController();
-  TextEditingController admissionInput = TextEditingController();
-  TextEditingController discountInput = TextEditingController();
-  TextEditingController miscellaneousInput = TextEditingController();
-  TextEditingController libraryInput = TextEditingController();
-  TextEditingController tuitionInput = TextEditingController();
-  TextEditingController examInput = TextEditingController();
-  TextEditingController transportInput = TextEditingController();
-  String selectedClass = 'Choose Class';
-  List<String> classOptions = [
-    'Choose Class',
-    '1',
-    '2',
-    '3',
-    "4",
-    '5',
-    '6',
-    '7',
-    "8",
-    '9',
-    '10',
-    '11',
-    "12",
-  ];
-  @override
-  void initState() {
-    if (widget.feesModel != null) {
-      selectedClass = widget.feesModel!.datumClass!.toString();
-      admissionInput.text = widget.feesModel!.admissionFees!.toString();
-      libraryInput.text = widget.feesModel!.libraryFees!.toString();
-      tuitionInput.text = widget.feesModel!.tuitionFees!.toString();
-      examInput.text = widget.feesModel!.examinationFees!.toString();
-      transportInput.text = widget.feesModel!.transportFees!.toString();
-      miscellaneousInput.text = widget.feesModel!.miscellaneousFees!.toString();
-    }
-    super.initState();
-  }
+  TextEditingController schoolInput = TextEditingController();
+  TextEditingController genderInput = TextEditingController();
+  TextEditingController emailInput = TextEditingController();
+  TextEditingController passwordInput = TextEditingController();
+  TextEditingController phoneNumberInput = TextEditingController();
+  TextEditingController addressInput = TextEditingController();
+  TextEditingController parentNameInput = TextEditingController();
+  TextEditingController ParentPhoneInput = TextEditingController();
 
   void showSuccessSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -92,10 +66,8 @@ class _UploadFeesState extends State<UploadFees> {
           background: Colors.white,
           gradient1: lightBlue,
           gradient2: deepBlue,
-          extra: appbar(
-              "assets/flaticon/_fees.png",
-              widget.feesModel != null ? "Update fees" : "Upload Fees",
-              context, () {
+          extra: appbar("assets/attendance_appbar.png", "Add Student", context,
+              () {
             Navigator.pop(context);
           }),
         ),
@@ -104,51 +76,55 @@ class _UploadFeesState extends State<UploadFees> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: 5),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text(
-                        "Select Standard",
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17,
-                          color: const Color.fromARGB(255, 96, 96, 96),
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Coaching Name*",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                        color: const Color.fromARGB(255, 96, 96, 96),
+                      ),
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      controller: phoneNumberInput,
+                      decoration: InputDecoration(
+                        hintText: "Enter Coaching Name",
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: const Color.fromARGB(255, 135, 135, 135),
                         ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Student Name*",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                      color: const Color.fromARGB(255, 96, 96, 96),
+                    ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    width: MediaQuery.of(context).size.width * 0.88,
-                    child: DropdownButtonFormField<String>(
-                      value: selectedClass,
-                      onChanged: (value) {
-                        if (value != 'Choose Class') {
-                          setState(() {
-                            selectedClass = value!;
-                          });
-                        }
-                      },
-                      items: classOptions
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        hintText: "Class*",
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: deepBlue,
-                            width: 2,
-                          ),
-                        ),
+                  TextField(
+                    controller: nameInput,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: "Enter student name",
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: const Color.fromARGB(255, 135, 135, 135),
                       ),
                     ),
                   ),
@@ -156,17 +132,13 @@ class _UploadFeesState extends State<UploadFees> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Admission Fees*",
+                      "Standard*",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -175,9 +147,9 @@ class _UploadFeesState extends State<UploadFees> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: admissionInput,
+                      controller: classInput,
                       decoration: InputDecoration(
-                        hintText: "Enter admission fees",
+                        hintText: "Enter the class",
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 135, 135, 135),
@@ -189,17 +161,13 @@ class _UploadFeesState extends State<UploadFees> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Examination Fees*",
+                      "Phone Number*",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -208,9 +176,9 @@ class _UploadFeesState extends State<UploadFees> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: examInput,
+                      controller: emailInput,
                       decoration: InputDecoration(
-                        hintText: "Enter examination fees",
+                        hintText: "Enter student phone",
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 135, 135, 135),
@@ -222,17 +190,13 @@ class _UploadFeesState extends State<UploadFees> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Tuition Fees*",
+                      "Password*",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -241,9 +205,9 @@ class _UploadFeesState extends State<UploadFees> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: tuitionInput,
+                      controller: passwordInput,
                       decoration: InputDecoration(
-                        hintText: "Enter tuition fees",
+                        hintText: "Enter password for student",
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 135, 135, 135),
@@ -255,17 +219,13 @@ class _UploadFeesState extends State<UploadFees> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Library Fees*",
+                      "Address*",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -274,9 +234,9 @@ class _UploadFeesState extends State<UploadFees> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: libraryInput,
+                      controller: addressInput,
                       decoration: InputDecoration(
-                        hintText: "Enter library fees",
+                        hintText: "Enter student address",
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 135, 135, 135),
@@ -288,17 +248,13 @@ class _UploadFeesState extends State<UploadFees> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Transport Fees*",
+                      "Parent name*",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -307,9 +263,9 @@ class _UploadFeesState extends State<UploadFees> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: transportInput,
+                      controller: genderInput,
                       decoration: InputDecoration(
-                        hintText: "Enter transport fees",
+                        hintText: "Enter parent name of student",
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 135, 135, 135),
@@ -321,17 +277,13 @@ class _UploadFeesState extends State<UploadFees> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
+              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Miscellaneous Fees*",
+                      "Parent Phone Number*",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -340,42 +292,9 @@ class _UploadFeesState extends State<UploadFees> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: miscellaneousInput,
+                      controller: schoolInput,
                       decoration: InputDecoration(
-                        hintText: "Enter miscellaneous fees",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: width * 0.05,
-                right: width * 0.05,
-                top: height * 0.025,
-              ),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Discount Fees*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.number,
-                      controller: discountInput,
-                      decoration: InputDecoration(
-                        hintText: "Enter admission fees",
+                        hintText: "Enter parent phone numberof student",
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 135, 135, 135),
@@ -400,47 +319,48 @@ class _UploadFeesState extends State<UploadFees> {
                 isChecked = true;
               });
 
-              widget.feesModel != null
+              int.tryParse(nameInput.text) != null &&
+                      int.tryParse(nameInput.text) != null &&
+                      int.tryParse(passwordInput.text) != null &&
+                      int.tryParse(phoneNumberInput.text) != null &&
+                      int.tryParse(emailInput.text) != null &&
+                      int.tryParse(addressInput.text) != null &&
+                      int.tryParse(genderInput.text) != null &&
+                      int.tryParse(schoolInput.text) != null
                   ? await ApiServices.updateFees(
-                      selectedClass,
-                      admissionInput.text,
-                      tuitionInput.text,
-                      examInput.text,
-                      libraryInput.text,
-                      transportInput.text,
-                      miscellaneousInput.text,
-                      discountInput.text,
+                      nameInput.text,
+                      nameInput.text,
+                      passwordInput.text,
+                      phoneNumberInput.text,
+                      emailInput.text,
+                      addressInput.text,
+                      genderInput.text,
+                      schoolInput.text,
                     ).then((value) {
                       if (value == true) {
-                        Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Dashboard()))
-                            .whenComplete(() {
-                          setState(() {
-                            isChecked = false;
-                          });
-                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Dashboard(),
+                          ),
+                        );
                         showSuccessSnackbar();
                       } else {
-                        setState(() {
-                          isChecked = false;
-                        });
                         showFailureSnackbar();
                       }
                     })
                   : ApiServices.uploadFees(
-                      selectedClass,
-                      admissionInput.text,
-                      tuitionInput.text,
-                      examInput.text,
-                      libraryInput.text,
-                      transportInput.text,
-                      miscellaneousInput.text,
-                      discountInput.text,
+                      nameInput.text,
+                      classInput.text,
+                      passwordInput.text,
+                      phoneNumberInput.text,
+                      emailInput.text,
+                      addressInput.text,
+                      genderInput.text,
+                      schoolInput.text,
                     ).then((value) {
                       if (value == true) {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const Dashboard()))
@@ -451,17 +371,14 @@ class _UploadFeesState extends State<UploadFees> {
                         });
                         showSuccessSnackbar();
                       } else {
-                        setState(() {
-                          isChecked = false;
-                        });
                         showFailureSnackbar();
                       }
                     });
             }
           },
-          child: Text(
-            widget.feesModel != null ? "UPDATE " : "SUBMIT",
-            style: const TextStyle(fontSize: 20, color: Colors.white),
+          child: const Text(
+            "SUBMIT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
       ],
