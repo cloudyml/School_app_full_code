@@ -223,9 +223,9 @@ class _EventScreen extends State<TeacherViewEvents> {
                                     time: upcomingEventsData
                                         .data![index].eventTime
                                         .toString(),
-                                    remark: upcomingEventsData
-                                        .data![index].remark
-                                        .toString(),
+                                    // remark: upcomingEventsData
+                                    //     .data![index].remark
+                                    //     .toString(),
                                     eventPics: completedEventsPics,
                                     eventID: upcomingEventsData.data![index].id
                                         .toString(),
@@ -309,9 +309,9 @@ class _EventScreen extends State<TeacherViewEvents> {
                                   time: completedEventsData
                                       .data![index].eventTime
                                       .toString(),
-                                  remark: completedEventsData
-                                      .data![index].remark
-                                      .toString(),
+                                  // remark: completedEventsData
+                                  //     .data![index].remark
+                                  //     .toString(),
                                   eventPics: completedEventsPics,
                                   eventID: completedEventsData.data![index].id
                                       .toString(),

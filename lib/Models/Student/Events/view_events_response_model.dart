@@ -211,7 +211,7 @@ class Datum {
   String? month;
   String? eligibleClass;
   String? status;
-  String? remark;
+  // String? remark;
   List<StudentList>? studentList;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -229,7 +229,7 @@ class Datum {
     this.month,
     this.eligibleClass,
     this.status,
-    this.remark,
+    // this.remark,
     this.studentList,
     this.createdAt,
     this.updatedAt,
@@ -251,7 +251,7 @@ class Datum {
         month: json["month"],
         eligibleClass: json["eligibleClass"],
         status: json["status"],
-        remark: json["remark"],
+        // remark: json["remark"],
         studentList: json["studentList"] == null
             ? []
             : List<StudentList>.from(
@@ -279,7 +279,7 @@ class Datum {
         "month": month,
         "eligibleClass": eligibleClass,
         "status": status,
-        "remark": remark,
+        // "remark": remark,
         "studentList": studentList == null
             ? []
             : List<dynamic>.from(studentList!.map((x) => x.toJson())),
