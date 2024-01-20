@@ -83,13 +83,7 @@ class _GalleryDetailedScreenState extends State<GalleryDetailedScreen> {
                           setState(() {
                             downloadProgress = progress;
                           });
-                          showBottomSheet(context: context, builder: (context) {
-                        return     SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text("$downloadProgress %"),
-                              duration: Duration(seconds: 0),
-                            );
-                          },);
+                         
                           //  ScaffoldMessenger.of(context).showSnackBar(
                           //    SnackBar(
                           //     backgroundColor: Colors.green,
