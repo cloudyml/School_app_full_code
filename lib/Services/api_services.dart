@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management_system/Models/Student/student_text_assignmrnt_model.dart';
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
@@ -721,22 +722,19 @@ class ApiServices {
     return submittedAttignment;
   }
 
-// Student view assignment (Pending) ...............................................................
+// Student view assignment (Pending) file ...............................................................
 
-  static Future<StudentViewAssignmentModel> StudentSeeAssignment() async {
+  static Future<StudentViewAssignmentModel> StudentSeeAssignment(
+      String type, String form) async {
     StudentViewAssignmentModel StudentCAttignment =
         StudentViewAssignmentModel();
     try {
-      // var currentDate = DateTime.now();
-      // String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
-      // String date = formattedDate;
-
       var rollNumber = SharedService.loginDetails()?.data!.data!.rollNumber;
       String studentClass =
           '${SharedService.loginDetails()?.data!.data!.dataClass}';
       String section = '${SharedService.loginDetails()?.data!.data!.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/getPendingAssignment?class=$studentClass&section=$section";
+          "${ApiUrl.studentPendingAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/$type-$form?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -763,6 +761,49 @@ class ApiServices {
     }
 
     return StudentCAttignment;
+  }
+
+// Student view assignment (Pending) Text ...............................................................
+
+  static Future<TextAssignmentStudentModel> studentSeeAssignmentText(
+      String type, String form) async {
+    TextAssignmentStudentModel studentCAttignment =
+        TextAssignmentStudentModel();
+    try {
+      var rollNumber = SharedService.loginDetails()?.data!.data!.rollNumber;
+      String studentClass =
+          '${SharedService.loginDetails()?.data!.data!.dataClass}';
+      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+      var queryParam =
+          "${ApiUrl.studentPendingAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/$type-$form?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
+      var response = await ApiBase.getRequest(
+        extendedURL: queryParam,
+      );
+
+      // log(response.statusCode.toString());
+      // log("RollNumber : ${rollNumber.toString()}");
+      // log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          // log("success");
+          studentCAttignment =
+              textAssignmentStudentModelFromJson(response.body);
+          // log(studentCAttignment.data![0].textAssignmentList![0]["question"]
+          //     .toString());
+        } else {
+          log("else 2");
+          studentCAttignment = TextAssignmentStudentModel();
+        }
+      } else {
+        log("else 2");
+        studentCAttignment = TextAssignmentStudentModel();
+      }
+    } catch (e) {
+      log(e.toString());
+      studentCAttignment = TextAssignmentStudentModel();
+    }
+
+    return studentCAttignment;
   }
 
 //...... Teacher see own uploaded assignments ..................................

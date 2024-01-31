@@ -59,7 +59,7 @@ class PendingAssignmentParent extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   String formattedGivenDate = DateFormat('dd-MM-yy').format(
                     DateTime.parse(
-                      studentAssignment.data![index].date.toString(),
+                      studentAssignment.data![index].lastDateOfSubmit.toString(),
                     ),
                   );
                   String formattedSubmitDate = DateFormat('dd-MM-yy').format(
@@ -73,7 +73,7 @@ class PendingAssignmentParent extends StatelessWidget {
                     subject: studentAssignment.data![index].subject.toString(),
                     givenDate: formattedGivenDate,
                     submitDate: formattedSubmitDate,
-                    docUrl: studentAssignment.data![index].link.toString(),
+                    docUrl: studentAssignment.data![index].uploadedImage.link.toString(),
                     assignmentID: studentAssignment.data![index].id.toString(),
                   );
                 },

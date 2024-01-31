@@ -9,8 +9,10 @@ import 'package:school_management_system/widget/student/Assignments/pending_assi
 import '../../../Models/Student/assignment_view_model.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
-class PendingAssignment extends StatelessWidget {
-  const PendingAssignment({super.key});
+class PendingAssignmentFile extends StatelessWidget {
+  PendingAssignmentFile({super.key, required this.type, required this.form});
+  String type;
+  String form;
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +31,27 @@ class PendingAssignment extends StatelessWidget {
             gradient1: lightBlue,
             gradient2: deepBlue,
             extra: appbar(
-                "assets/flaticon/_assignments.png", " Assignments", context,
-                () {
+                "assets/flaticon/_assignments.png", " Homework", context, () {
               Navigator.pop(context);
             }),
           ),
         ),
         body: FutureBuilder<StudentViewAssignmentModel>(
-          future: ApiServices.StudentSeeAssignment(),
+          future: ApiServices.StudentSeeAssignment(type, form),
           builder: (BuildContext context,
               AsyncSnapshot<StudentViewAssignmentModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text("Error.."));
-            } else if (!snapshot.hasData || snapshot.data!.data!.length == 0) {
+            } else if (!snapshot.hasData ||
+                snapshot.data?.data?.length == null ||
+                snapshot.data?.data?.length == 0) {
               return const Center(
                 child: Text("No Assignment available"),
               ); // Handle the case where there is no data
             } else {
+              // todo THERE IS WRONG NULL CHECK ABOVE FOR TEXT ASSIGNMENTS
               StudentViewAssignmentModel studentAssignment = snapshot.data!;
 
               return ListView.builder(
@@ -55,7 +59,7 @@ class PendingAssignment extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   String formattedGivenDate = DateFormat('dd-MM-yy').format(
                     DateTime.parse(
-                      studentAssignment.data![index].date.toString(),
+                      studentAssignment.data![index].givenDate.toString(),
                     ),
                   );
                   String formattedSubmitDate = DateFormat('dd-MM-yy').format(
@@ -64,14 +68,19 @@ class PendingAssignment extends StatelessWidget {
                           .toString(),
                     ),
                   );
-
                   return StudentPendingAssignmentCard(
-                    subject: studentAssignment.data![index].subject.toString(),
-                    givenDate: formattedGivenDate,
-                    submitDate: formattedSubmitDate,
-                    docUrl: studentAssignment.data![index].link.toString(),
-                    assignmentID: studentAssignment.data![index].id.toString(),
-                  );
+                          subject:
+                              studentAssignment.data![index].subject.toString(),
+                          givenDate: formattedGivenDate,
+                          submitDate: formattedSubmitDate,
+                          docUrl: studentAssignment
+                              .data![index].uploadedImage.link
+                              .toString(),
+                          assignmentID:
+                              studentAssignment.data![index].id.toString(),
+                          Type: type,
+                        )
+                      ;
                 },
               );
             }

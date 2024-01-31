@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Homework/Student/type_of_assignments.dart';
+import 'package:school_management_system/Screens/Homework/Student/pending_assignment.dart';
+import 'package:school_management_system/Screens/Homework/Student/pending_assignment_text.dart';
+import 'package:school_management_system/Screens/Homework/Student/show_detail_homework_screen.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
-class StudentAssignmentChoose extends StatelessWidget {
-  const StudentAssignmentChoose({super.key});
+class ChooseHomeWorkType extends StatelessWidget {
+  ChooseHomeWorkType({
+    super.key,
+    required this.TypeOfAssignment,
+  });
+
+  String TypeOfAssignment;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class StudentAssignmentChoose extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                "Select one to move forward",
+                "Select assignment type",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 22,
@@ -48,8 +55,9 @@ class StudentAssignmentChoose extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChooseHomeWorkType(
-                          TypeOfAssignment: "getPendingAssignment",
+                        builder: (context) => PendingAssignmentFile(
+                          type: TypeOfAssignment,
+                          form: "File",
                         ),
                       ),
                     );
@@ -77,7 +85,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                           child: Image.asset("assets/_assignment.png"),
                         ),
                         Text(
-                          "Pending Homework",
+                          "File Homework",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,
@@ -96,9 +104,9 @@ class StudentAssignmentChoose extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChooseHomeWorkType(
-                          TypeOfAssignment: "studentseeSubmittedAssignment",
-                          // typeOfAssignment: "Text",
+                        builder: (context) => PendingAssignmentText(
+                          type: TypeOfAssignment,
+                          form: "Text",
                         ),
                       ),
                     );
@@ -126,7 +134,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                           child: Image.asset("assets/_assignment.png"),
                         ),
                         Text(
-                          "Submitted Homework",
+                          "Text Homework",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,

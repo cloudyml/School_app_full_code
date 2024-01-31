@@ -76,7 +76,8 @@ class LoginData {
   String? name;
   int? dataClass;
   String? subject;
-  int? id;
+  //changed
+  String? id;
   bool? admin;
   String? email;
   //ADDED THIS by HARSH
@@ -142,7 +143,7 @@ class LoginData {
         "name": name,
         "class": dataClass,
         "subject": subject,
-        "id": id,
+        "_id": id,
         "admin": admin,
         "institutionId": institutionId,
         "schoolId": schoolId,
