@@ -1,6 +1,8 @@
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Homework/Student/question_tile_text_assignment.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -9,9 +11,7 @@ import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class TextSubmitModel {
-  String questionkey = "question";
-  String? question;
-  String answerKey = "answer";
+  String question = "question";
   String? answer;
   TextSubmitModel({this.answer});
 }
@@ -32,15 +32,10 @@ class ShowDetailHomeworkScreen extends StatefulWidget {
 class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
   List answeredList = [];
 
-  bool isdisable = false;
-
   TextEditingController answer = TextEditingController();
-
+  var temp = "";
   @override
   Widget build(BuildContext context) {
-    List<TextSubmitModel> answeredListdummy = widget.listOfquestions
-        .map((e) => TextSubmitModel(answer: "Enter Answer"))
-        .toList();
     List<TextEditingController> answerControllers =
         widget.listOfquestions.map((_) => TextEditingController()).toList();
     return Scaffold(
@@ -77,6 +72,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                     child: GestureDetector(
                       onTap: () async {
                         int currentindex = index;
+
                         showDialog(
                           barrierDismissible: false,
                           context: context,
@@ -84,195 +80,220 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                             return StatefulBuilder(
                               builder: (context, setState) {
                                 return AlertDialog(
+                                  // buttonPadding: EdgeInsets.all(0),
+                                  contentPadding: const EdgeInsets.all(0),
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  content: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    color: Colors.white,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Q${index + 1} ${widget.listOfquestions[index]["question"].toString()} ?",
+                                              style: GoogleFonts.inter(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 152, 127),
+                                                  size: 32,
+                                                ))
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        index < answeredList.length
+                                            ? answeredList[index] !=
+                                                    "Enter Answer"
 
-                                    // buttonPadding: EdgeInsets.all(0),
-                                    contentPadding: const EdgeInsets.all(0),
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    content: Container(
-                                      padding: const EdgeInsets.all(12),
-                                      color: Colors.white,
-                                      width: MediaQuery.sizeOf(context).width,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Q${currentindex + 1} ${widget.listOfquestions[currentindex]["question"].toString()} ?",
-                                                style: GoogleFonts.inter(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.04,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w400,
+                                                //If Some Vlaue is present Means After Edit it will be present
+                                                ? TextFormField(
+                                                    maxLines: 5,
+                                                    minLines: 1,
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          500)
+                                                    ],
+                                                    initialValue:
+                                                        answeredList[index],
+                                                    onChanged: (value) {
+                                                      //for re Editing the answer
+                                                      temp = value;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: Colors
+                                                                    .grey),
+                                                      ),
+                                                    ),
+                                                  )
+
+                                                //If its by default value enter answer
+                                                : TextFormField(
+                                                    maxLines: 5,
+                                                    minLines: 1,
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          500)
+                                                    ],
+                                                    controller:
+                                                        answerControllers[
+                                                            index],
+                                                    decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: Colors
+                                                                    .grey),
+                                                      ),
+                                                    ),
+                                                  )
+
+                                            //initially this will be there
+                                            : TextFormField(
+                                                maxLines: 5,
+                                                minLines: 1,
+                                                inputFormatters: [
+                                                  LengthLimitingTextInputFormatter(
+                                                      500)
+                                                ],
+                                                controller:
+                                                    answerControllers[index],
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color: Colors.grey),
+                                                  ),
                                                 ),
                                               ),
-                                              GestureDetector(
-                                                  onTap: () {
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(58),
+                                                  border: Border.all(
+                                                      color: Colors.black)),
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    shadowColor:
+                                                        Colors.transparent,
+                                                  ),
+                                                  onPressed: () {
                                                     Navigator.pop(context);
+                                                    setState(() {
+                                                      temp == ""
+                                                          ? answeredList.add(
+                                                              answerControllers[
+                                                                      index]
+                                                                  .text)
+                                                          : answeredList
+                                                              .add(temp);
+                                                    });
+                                                    for (int i = 0;
+                                                        i < answeredList.length;
+                                                        i++) {
+                                                      print(answeredList[i]);
+                                                    }
                                                   },
-                                                  child: const Icon(
-                                                    Icons.close,
-                                                    color: Color.fromARGB(
-                                                        255, 255, 152, 127),
-                                                    size: 32,
-                                                  ))
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          answeredList[index] == "Enter Answer"
-                                              ? TextFormField(
-                                                  maxLines: 5,
-                                                  minLines: 1,
-                                                  controller: answerControllers[
-                                                      currentindex],
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey),
+                                                  child: Text(
+                                                    "Save",
+                                                    style: GoogleFonts.inter(
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.04,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
+                                                  )),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(58),
+                                                  border: Border.all(
+                                                      color: Colors.black)),
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    shadowColor:
+                                                        Colors.transparent,
                                                   ),
-                                                )
-                                              : TextFormField(
-                                                  maxLines: 5,
-                                                  minLines: 1,
-                                                  initialValue:
-                                                      answeredList[index],
-                                                      onChanged: (value) {
-                                                        setState((){
-                                                          answeredList[index] = value;
-                                                        });
-                                                      },
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      index + 1;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    "Next Question",
+                                                    style: GoogleFonts.inter(
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.04,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
-                                                  ),
-                                                ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            58),
-                                                    border: Border.all(
-                                                        color: Colors.black)),
-                                                child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      shadowColor:
-                                                          Colors.transparent,
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-
-                                                      setState(() {
-                                                        answeredList.add(
-                                                            answerControllers[
-                                                                    currentindex]
-                                                                .text);
-                                                        // answeredList[index] =
-                                                        //     answerControllers[
-                                                        //             currentindex]
-                                                        //         .text;
-                                                        // answeredList[index] = answerControllers[
-                                                        //     currentindex]
-                                                        // .text;
-                                                        isdisable = true;
-                                                      });
-                                                      for (int i = 0;
-                                                          i <
-                                                              answeredList
-                                                                  .length;
-                                                          i++) {
-                                                        print(answeredList[i]);
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      "Save",
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.04,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    )),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            58),
-                                                    border: Border.all(
-                                                        color: Colors.black)),
-                                                child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      shadowColor:
-                                                          Colors.transparent,
-                                                    ),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        currentindex =
-                                                            currentindex;
-                                                      });
-                                                      print(currentindex);
-                                                    },
-                                                    child: Text(
-                                                      "Next Question",
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.04,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    )),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ));
+                                                  )),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
                               },
                             );
                           },
@@ -303,11 +324,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                     children: [
                       MyElevatedButton(
                         // height: 40,
-                        onPressed: () {
-                          for (int i = 0; i < answeredList.length; i++) {
-                            print(answeredList[i]);
-                          }
-                        },
+                        onPressed: () {},
                         child: Text(
                           "Submit",
                           style: GoogleFonts.inter(
