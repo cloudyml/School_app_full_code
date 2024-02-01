@@ -168,6 +168,8 @@ class PendingAssignmentText extends StatelessWidget {
                                         listOfquestions: studentAssignment
                                                 .data![index].textAssignmentList
                                             as List<dynamic>,
+                                            assignmentId:studentAssignment
+                                                .data![index].id.toString() ,
                                       ),
                                     ),
                                   );

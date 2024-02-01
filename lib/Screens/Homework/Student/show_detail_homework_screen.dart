@@ -1,11 +1,13 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path/path.dart';
 import 'package:school_management_system/Screens/Homework/Student/question_tile_text_assignment.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
@@ -20,9 +22,11 @@ class ShowDetailHomeworkScreen extends StatefulWidget {
   ShowDetailHomeworkScreen({
     super.key,
     required this.listOfquestions,
+    required this.assignmentId,
   });
 
   List listOfquestions;
+  String assignmentId;
 
   @override
   State<ShowDetailHomeworkScreen> createState() =>
@@ -31,8 +35,41 @@ class ShowDetailHomeworkScreen extends StatefulWidget {
 
 class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
   List answeredList = [];
+  int? indexForReference;
+  SharedPreferences? instance;
 
   TextEditingController answer = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initilizePref();
+  }
+
+  initilizePref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    instance = prefs;
+    log("pref initilized ------> $instance");
+    if (instance!.containsKey(widget.assignmentId)) {
+      print(instance?.getStringList(widget.assignmentId));
+      // for (int i = 0; i < widget.listOfquestions.length; i++) {
+      answeredList.addAll(
+          instance?.getStringList(widget.assignmentId) as List<dynamic>);
+      setState(() {});
+      for (int i = 0; i < answeredList.length; i++) {
+        log(answeredList[i]);
+      }
+      // }
+
+      ;
+    } else {
+      for (int i = 0; i < widget.listOfquestions.length; i++) {
+        answeredList.add('Enter Answer');
+        log(answeredList[i]);
+      }
+    }
+  }
+
   var temp = "";
   @override
   Widget build(BuildContext context) {
@@ -52,7 +89,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
           gradient1: lightBlue,
           gradient2: deepBlue,
           extra: appbar(
-              "assets/flaticon/_assignments.png", " Homework", context, () {
+              "assets/flaticon/_assignments.png", " Homework ", context, () {
             Navigator.pop(context);
           }),
         ),
@@ -67,11 +104,17 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
             SizedBox(
               child: Column(
                 children: List.generate(widget.listOfquestions.length, (index) {
+                  setState(() {
+                    indexForReference = index;
+                  });
                   return Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: GestureDetector(
                       onTap: () async {
                         int currentindex = index;
+                        setState(() {
+                          print(currentindex);
+                        });
 
                         showDialog(
                           barrierDismissible: false,
@@ -100,7 +143,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              "Q${index + 1} ${widget.listOfquestions[index]["question"].toString()} ?",
+                                              "Q${currentindex + 1} ${widget.listOfquestions[currentindex]["question"].toString()} ?",
                                               style: GoogleFonts.inter(
                                                 fontSize: MediaQuery.of(context)
                                                         .size
@@ -125,73 +168,23 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        index < answeredList.length
-                                            ? answeredList[index] !=
-                                                    "Enter Answer"
+                                        answeredList[currentindex] !=
+                                                "Enter Answer"
 
-                                                //If Some Vlaue is present Means After Edit it will be present
-                                                ? TextFormField(
-                                                    maxLines: 5,
-                                                    minLines: 1,
-                                                    inputFormatters: [
-                                                      LengthLimitingTextInputFormatter(
-                                                          500)
-                                                    ],
-                                                    initialValue:
-                                                        answeredList[index],
-                                                    onChanged: (value) {
-                                                      //for re Editing the answer
-                                                      temp = value;
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide:
-                                                            const BorderSide(
-                                                                color: Colors
-                                                                    .grey),
-                                                      ),
-                                                    ),
-                                                  )
-
-                                                //If its by default value enter answer
-                                                : TextFormField(
-                                                    maxLines: 5,
-                                                    minLines: 1,
-                                                    inputFormatters: [
-                                                      LengthLimitingTextInputFormatter(
-                                                          500)
-                                                    ],
-                                                    controller:
-                                                        answerControllers[
-                                                            index],
-                                                    decoration: InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide:
-                                                            const BorderSide(
-                                                                color: Colors
-                                                                    .grey),
-                                                      ),
-                                                    ),
-                                                  )
-
-                                            //initially this will be there
-                                            : TextFormField(
+                                            //If Some Vlaue is present Means After Edit it will be present
+                                            ? TextFormField(
                                                 maxLines: 5,
                                                 minLines: 1,
                                                 inputFormatters: [
                                                   LengthLimitingTextInputFormatter(
                                                       500)
                                                 ],
-                                                controller:
-                                                    answerControllers[index],
+                                                initialValue:
+                                                    answeredList[currentindex],
+                                                onChanged: (value) {
+                                                  //for re Editing the answer
+                                                  temp = value;
+                                                },
                                                 decoration: InputDecoration(
                                                   border: OutlineInputBorder(
                                                     borderRadius:
@@ -202,7 +195,32 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                             color: Colors.grey),
                                                   ),
                                                 ),
-                                              ),
+                                              )
+
+                                            //If its by default value enter answer
+                                            : TextFormField(
+                                                maxLines: 5,
+                                                minLines: 1,
+                                                inputFormatters: [
+                                                  LengthLimitingTextInputFormatter(
+                                                      500)
+                                                ],
+                                                controller: answerControllers[
+                                                    currentindex],
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color: Colors.grey),
+                                                  ),
+                                                ),
+                                              )
+
+                                        //initially this will be there
+                                        ,
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -228,12 +246,15 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                     Navigator.pop(context);
                                                     setState(() {
                                                       temp == ""
-                                                          ? answeredList.add(
+                                                          ? answeredList[
+                                                                  currentindex] =
                                                               answerControllers[
-                                                                      index]
-                                                                  .text)
-                                                          : answeredList
-                                                              .add(temp);
+                                                                      currentindex]
+                                                                  .text
+                                                          : answeredList[
+                                                                  currentindex] =
+                                                              temp;
+                                                      temp = "";
                                                     });
                                                     for (int i = 0;
                                                         i < answeredList.length;
@@ -270,9 +291,43 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                         Colors.transparent,
                                                   ),
                                                   onPressed: () {
-                                                    setState(() {
-                                                      index + 1;
-                                                    });
+                                                    setState(() {});
+                                                    if (answerControllers[
+                                                                currentindex]
+                                                            .text ==
+                                                        "") {
+                                                      // if (currentindex + 1 <
+                                                      //     answerControllers
+                                                      //         .length) {
+                                                      //   setState(() {
+                                                      //     currentindex =
+                                                      //         currentindex + 1;
+                                                      //     print(currentindex);
+                                                      //   });
+                                                      // }
+                                                    } else {
+                                                      setState(() {
+                                                        temp == ""
+                                                            ? answeredList[
+                                                                    currentindex] =
+                                                                answerControllers[
+                                                                        currentindex]
+                                                                    .text
+                                                            : answeredList[
+                                                                    currentindex] =
+                                                                temp;
+                                                      });
+                                                    }
+
+                                                    if (currentindex + 1 <
+                                                        answerControllers
+                                                            .length) {
+                                                      setState(() {
+                                                        currentindex =
+                                                            currentindex + 1;
+                                                        print(currentindex);
+                                                      });
+                                                    }
                                                   },
                                                   child: Text(
                                                     "Next Question",
@@ -324,7 +379,20 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                     children: [
                       MyElevatedButton(
                         // height: 40,
-                        onPressed: () {},
+                        onPressed: () {
+                          instance?.remove(widget.assignmentId);
+                          setState(() {
+                            answeredList.clear();
+                          });
+                          setState(() {
+                            for (int i = 0;
+                                i < widget.listOfquestions.length;
+                                i++) {
+                              answeredList.add('Enter Answer');
+                              log(answeredList[i]);
+                            }
+                          });
+                        },
                         child: Text(
                           "Submit",
                           style: GoogleFonts.inter(
@@ -336,17 +404,39 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(58),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 157, 32, 23),
-                            )),
+                          borderRadius: BorderRadius.circular(58),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 157, 32, 23),
+                          ),
+                        ),
                         child: MyElevatedButton(
                           gradient: const LinearGradient(colors: [
                             Color.fromARGB(255, 242, 156, 150),
                             Color.fromARGB(255, 242, 156, 150)
                           ]),
                           height: 40,
-                          onPressed: () {},
+                          onPressed: () {
+                            //widget.assignmentId
+                            if (answeredList.isEmpty) {
+                              EasyLoading.showError(
+                                  "Enter Data Else Cant save In Draft");
+                            } else {
+                              instance
+                                  ?.setStringList(
+                                      widget.assignmentId,
+                                      answeredList
+                                          .map((item) => item.toString())
+                                          .toList())
+                                  .whenComplete(() {
+                                EasyLoading.showSuccess("Saved in Draft");
+                              });
+                              //////////////////////////////////////////////////////////////////////////////////
+// answeredList[indexForReference!] = ,
+
+                              print(
+                                  instance?.getStringList(widget.assignmentId));
+                            }
+                          },
                           child: Text(
                             "Save As Draft",
                             style: GoogleFonts.inter(
