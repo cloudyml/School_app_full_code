@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
 import 'package:school_management_system/Screens/Homework/Student/question_tile_text_assignment.dart';
+import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constants/style.dart';
@@ -13,9 +15,15 @@ import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class TextSubmitModel {
-  String question = "question";
+  String questionKey = "question";
+  String? question;
+  String answerKey = "answer";
   String? answer;
-  TextSubmitModel({this.answer});
+  TextSubmitModel({this.answer, this.question});
+
+  Map<String, dynamic> toJson() {
+    return {questionKey: question, answerKey: answer};
+  }
 }
 
 class ShowDetailHomeworkScreen extends StatefulWidget {
@@ -37,6 +45,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
   List answeredList = [];
   int? indexForReference;
   SharedPreferences? instance;
+  List<Map<String, String>>? textAssignmentList;
 
   TextEditingController answer = TextEditingController();
   @override
@@ -168,8 +177,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        answeredList[currentindex] !=
-                                                "Enter Answer"
+                                        answeredList[index] != "Enter Answer"
 
                                             //If Some Vlaue is present Means After Edit it will be present
                                             ? TextFormField(
@@ -186,6 +194,8 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                   temp = value;
                                                 },
                                                 decoration: InputDecoration(
+                                                  fillColor: Colors.yellow,
+                                                  filled: true,
                                                   border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -208,6 +218,8 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                 controller: answerControllers[
                                                     currentindex],
                                                 decoration: InputDecoration(
+                                                  fillColor: Colors.red,
+                                                  filled: true,
                                                   border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -291,7 +303,6 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                         Colors.transparent,
                                                   ),
                                                   onPressed: () {
-                                                    setState(() {});
                                                     if (answerControllers[
                                                                 currentindex]
                                                             .text ==
@@ -322,12 +333,19 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                                     if (currentindex + 1 <
                                                         answerControllers
                                                             .length) {
-                                                      setState(() {
-                                                        currentindex =
-                                                            currentindex + 1;
-                                                        print(currentindex);
-                                                      });
+                                                      Navigator.pop(context);
+                                                      // setState(() {
+                                                      //   currentindex =
+                                                      //       currentindex + 1;
+                                                      //   print(currentindex);
+                                                      //   print(temp);
+                                                      //   print("This is the value of the list "+answeredList[currentindex]);
+                                                      //   print("This is the value of the TextEditing COntroller "+answerControllers[currentindex].text);
+                                                      // });
                                                     }
+                                                    answerControllers[
+                                                            currentindex]
+                                                        .clear();
                                                   },
                                                   child: Text(
                                                     "Next Question",
@@ -380,18 +398,35 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                       MyElevatedButton(
                         // height: 40,
                         onPressed: () {
-                          instance?.remove(widget.assignmentId);
-                          setState(() {
-                            answeredList.clear();
-                          });
-                          setState(() {
-                            for (int i = 0;
-                                i < widget.listOfquestions.length;
-                                i++) {
-                              answeredList.add('Enter Answer');
-                              log(answeredList[i]);
+                          List<TextSubmitModel> sendAnswerLIst = [];
+                          for (int i = 0; i < answeredList.length; i++) {
+                            if (answeredList[i] == "Enter Answer") {
+                              sendAnswerLIst.add(TextSubmitModel(
+                                  question: widget.listOfquestions[i]
+                                      ["question"],
+                                  answer: ""));
+                            } else {
+                              for (int i = 0; i < sendAnswerLIst.length; i++) {}
+                              sendAnswerLIst.add(TextSubmitModel(
+                                  question: widget.listOfquestions[i]
+                                          ["question"]
+                                      .toString(),
+                                  answer: answeredList[i]));
                             }
+                          }
+                          String jsonData = jsonEncode(
+                              sendAnswerLIst.map((e) => e.toJson()).toList());
+                          ApiServices.studentUploadAssignmentText(
+                                  widget.assignmentId, jsonData)
+                              .whenComplete(() {
+                            Navigator.pop(context);
+                            EasyLoading.showSuccess("Uploaded Successfully");
                           });
+                          // ApiServices.StudentSubmittedAssignment()
+                          for (int i = 0; i < sendAnswerLIst.length; i++) {
+                            log(sendAnswerLIst[i].question.toString());
+                            log(sendAnswerLIst[i].answer.toString());
+                          }
                         },
                         child: Text(
                           "Submit",

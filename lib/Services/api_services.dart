@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management_system/Models/Student/recived_text_assignment_model.dart';
+import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
 import 'package:school_management_system/Models/Student/student_text_assignmrnt_model.dart';
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
@@ -765,10 +767,10 @@ class ApiServices {
 
 // Student view assignment (Pending) Text ...............................................................
 
-  static Future<TextAssignmentStudentModel> studentSeeAssignmentText(
+  static Future<SubmittedTextAssignmentModel> studentSeeAssignmentText(
       String type, String form) async {
-    TextAssignmentStudentModel studentCAttignment =
-        TextAssignmentStudentModel();
+    SubmittedTextAssignmentModel studentCAttignment =
+        SubmittedTextAssignmentModel();
     try {
       var rollNumber = SharedService.loginDetails()?.data!.data!.rollNumber;
       String studentClass =
@@ -782,25 +784,25 @@ class ApiServices {
 
       // log(response.statusCode.toString());
       // log("RollNumber : ${rollNumber.toString()}");
-      // log(response.body.toString());
+      log(response.body.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
           // log("success");
           studentCAttignment =
-              textAssignmentStudentModelFromJson(response.body);
+              submittedTextAssignmentModelFromJson(response.body);
           // log(studentCAttignment.data![0].textAssignmentList![0]["question"]
           //     .toString());
         } else {
           log("else 2");
-          studentCAttignment = TextAssignmentStudentModel();
+          studentCAttignment = SubmittedTextAssignmentModel();
         }
       } else {
         log("else 2");
-        studentCAttignment = TextAssignmentStudentModel();
+        studentCAttignment = SubmittedTextAssignmentModel();
       }
     } catch (e) {
       log(e.toString());
-      studentCAttignment = TextAssignmentStudentModel();
+      studentCAttignment = SubmittedTextAssignmentModel();
     }
 
     return studentCAttignment;
@@ -921,6 +923,40 @@ class ApiServices {
       log("$e : not successful catch");
     }
 
+    return ret;
+  }
+
+//.............Student Upload assignment..........................................
+
+  static Future<bool> studentUploadAssignmentText(
+      String assignMentID, Object answers) async {
+    var ret = false;
+
+    try {
+      var queryParam =
+          "http://${ApiUrl.baseUrl}/${ApiUrl.studentUploadAssignment}/${SharedService.loginDetails()?.data?.id}/uploadAssignmets/$assignMentID";
+      var response = await ApiBase.postRequest(
+        body: answers,
+        extendedURL: queryParam,
+      );
+      response.statusCode.toString();
+      log(response.body);
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['status'] == true) {
+          var recivedStudentTextAssignmentModel =
+              recivedStudentTextAssignmentModelToJson(response.body);
+          ret = true;
+        } else {
+          log(response.statusCode.toString());
+          ret = false;
+          log("not successful");
+        }
+      }
+    } catch (e) {
+      ret = false;
+      log("$e : not successful catch");
+    }
     return ret;
   }
 

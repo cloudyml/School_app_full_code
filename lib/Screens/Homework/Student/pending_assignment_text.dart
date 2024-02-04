@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Import the intl package
+import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
 import 'package:school_management_system/Models/Student/student_text_assignmrnt_model.dart';
+import 'package:school_management_system/Screens/Homework/Student/seeTextAssignmentAnswer.dart';
 import 'package:school_management_system/Screens/Homework/Student/show_detail_homework_screen.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/constants/style.dart';
@@ -39,10 +41,10 @@ class PendingAssignmentText extends StatelessWidget {
             }),
           ),
         ),
-        body: FutureBuilder<TextAssignmentStudentModel>(
+        body: FutureBuilder<SubmittedTextAssignmentModel>(
           future: ApiServices.studentSeeAssignmentText(type, form),
           builder: (BuildContext context,
-              AsyncSnapshot<TextAssignmentStudentModel> snapshot) {
+              AsyncSnapshot<SubmittedTextAssignmentModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
@@ -55,7 +57,7 @@ class PendingAssignmentText extends StatelessWidget {
               ); // Handle the case where there is no data
             } else {
               // todo THERE IS WRONG NULL CHECK ABOVE FOR TEXT ASSIGNMENTS
-              TextAssignmentStudentModel studentAssignment = snapshot.data!;
+              SubmittedTextAssignmentModel studentAssignment = snapshot.data!;
 
               return SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -161,24 +163,44 @@ class PendingAssignmentText extends StatelessWidget {
                               ),
                               MyElevatedButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ShowDetailHomeworkScreen(
-                                        listOfquestions: studentAssignment
-                                                .data![index].textAssignmentList
-                                            as List<dynamic>,
-                                            assignmentId:studentAssignment
-                                                .data![index].id.toString() ,
-                                      ),
-                                    ),
-                                  );
+                                  //////////// TODO ass the anvigation to the submitted lkist
+                                  form == "getPendingAssignment"
+                                      ? Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ShowDetailHomeworkScreen(
+                                              listOfquestions: studentAssignment
+                                                      .data![index]
+                                                      .textAssignmentList
+                                                  as List<dynamic>,
+                                              assignmentId: studentAssignment
+                                                  .data![index].id
+                                                  .toString(),
+                                            ),
+                                          ),
+                                        )
+                                      : Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SubmittedAsignmentDetailScreen(
+                                                      assignmentdata: studentAssignment
+                                                          .data![index]
+                                                          .submittedStudentId![
+                                                              0]
+                                                          .textAssignmentList)),
+                                        );
                                 },
-                                child: const Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
+                                child: form == "getPendingAssignment"
+                                    ? const Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      )
+                                    : const Text(
+                                        'View',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      ),
                               ),
                             ],
                           ),
