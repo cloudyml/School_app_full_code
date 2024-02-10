@@ -4,10 +4,9 @@ import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 
-import '../../../Services/Url_launcher.dart/method.dart';
 
-class SubmittedAsignmentDetailScreenStudent extends StatelessWidget {
-  SubmittedAsignmentDetailScreenStudent({super.key, required this.assignmentdata});
+class ParentSubmittedAsignmentDetailScreen extends StatelessWidget {
+  ParentSubmittedAsignmentDetailScreen({super.key, required this.assignmentdata});
   List<SubmittedStudentIdTextAssignmentList>? assignmentdata;
 
   @override

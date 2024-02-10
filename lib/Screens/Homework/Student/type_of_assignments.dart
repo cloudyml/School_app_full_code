@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Homework/Student/pending_assignment.dart';
-import 'package:school_management_system/Screens/Homework/Student/pending_assignment_text.dart';
-import 'package:school_management_system/Screens/Homework/Student/show_detail_homework_screen.dart';
+import 'package:school_management_system/Screens/Homework/Parent/pending_Assignment_text.dart';
+import 'package:school_management_system/Screens/Homework/Parent/pending_assignment_parent_file.dart';
+import 'package:school_management_system/Screens/Homework/Student/pending_assignment_file_list.dart';
+import 'package:school_management_system/Screens/Homework/Student/pending_assignment_text_list.dart';
+import 'package:school_management_system/Services/shared_services.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -11,10 +13,10 @@ import '../../../widget/appBar/decorative_apbar_widget.dart';
 class ChooseHomeWorkType extends StatelessWidget {
   ChooseHomeWorkType({
     super.key,
-    required this.TypeOfAssignment,
+    required this.typeOfAssignment,
   });
 
-  String TypeOfAssignment;
+  String typeOfAssignment;
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +54,26 @@ class ChooseHomeWorkType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PendingAssignmentFile(
-                          type: TypeOfAssignment,
-                          form: "File",
-                        ),
-                      ),
-                    );
+                    SharedService.loginDetails()?.data?.data?.role == "parent"
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ParentPendingAssignmentFileList(
+                                type: typeOfAssignment,
+                                form: "File",
+                              ),
+                            ),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StudentPendingAssignmentFileList(
+                                type: typeOfAssignment,
+                                form: "File",
+                              ),
+                            ),
+                          );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -101,15 +114,26 @@ class ChooseHomeWorkType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PendingAssignmentText(
-                          type: TypeOfAssignment,
-                          form: "Text",
-                        ),
-                      ),
-                    );
+                    SharedService.loginDetails()?.data?.data?.role == "parent"
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ParentPendingAssignmentTextList(
+                                type: typeOfAssignment,
+                                form: "Text",
+                              ),
+                            ),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StudentPendingAssignmentTextList(
+                                type: typeOfAssignment,
+                                form: "Text",
+                              ),
+                            ),
+                          );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,

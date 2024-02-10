@@ -60,7 +60,7 @@ class _ViewGalleryStudentsState extends State<ParentViewGallery> {
                       );
                     } else if (!snapshot.hasData ||
                         schoolGall?.data?.isEmpty == true ||
-                        schoolGall!.data![0].uploadedImage!.isEmpty) {
+                        schoolGall?.data?[0].uploadedImage == null) {
                       // If there's no data or the data list is empty, you can display a message.
                       return Center(
                         child: Text('No images available.'),

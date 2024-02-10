@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:school_management_system/Screens/Homework/Parent/assignment_view_page_parent.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 import 'package:school_management_system/Screens/Attendance/parent/choose_type_of_attendance_parent.dart';
 import 'package:school_management_system/Screens/Awards/parent/parent_view_awards.dart';
@@ -10,14 +9,12 @@ import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_
 import 'package:school_management_system/Screens/Fees/student/student_view_fees_details.dart';
 import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
 import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
-import 'package:school_management_system/Screens/Result/parent/parent_select_result_type.dart';
 import 'package:school_management_system/Screens/routine/parent/parent_daily_timetable.dart';
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/constants/style.dart';
 import '../../Screens/Homework/Student/assignment_start_page.dart';
 import '../../Screens/Homework/Teacher/homework_options.dart';
 import '../../Screens/Attendance/Student/choose_attendance.dart';
-import '../../Screens/Attendance/Teacher/upload/choose_class_section.dart';
 import '../../Screens/Awards/student/student_view_awards.dart';
 import '../../Screens/Awards/teacher/first_page_select_award_options.dart';
 import '../../Screens/Events/teacher/select_event_options.dart';
@@ -51,18 +48,14 @@ Widget getAttendanceScreen() {
 }
 
 Widget getAssignmentScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student") {
+  if (SharedService.loginDetails()?.data?.data?.role == "student" ||SharedService.loginDetails()?.data?.data?.role == "parent" ) {
     // log("student");
     // log(SharedService.loginDetails()?.data?.data?.role ?? "");
     return const StudentAssignmentChoose();
   }
 
   // changed by harsh : added to implement the navigation for parent section
-  else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
-    // log("Parent");
-    // log(SharedService.loginDetails()?.data?.data?.role ?? "");
-    return const ParentAssignmentView();
-  } else {
+   else {
     // log("Teacher");
     // log(SharedService.loginDetails()?.data?.data?.role ?? "");
     return const TeacherAssignmentFirstPage();
@@ -149,7 +142,7 @@ Widget Result() {
     // log("Teacher");
     return const TeacherResultOptions();
   } else {
-    return const ParentSelectResultType();
+    return const SelectResultType();
   }
 }
 

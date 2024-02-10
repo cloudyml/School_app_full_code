@@ -49,7 +49,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ChooseHomeWorkType(
-                          TypeOfAssignment: "getPendingAssignment",
+                          typeOfAssignment: "getPendingAssignment",
                         ),
                       ),
                     );
@@ -97,7 +97,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ChooseHomeWorkType(
-                          TypeOfAssignment: "studentseeSubmittedAssignment",
+                          typeOfAssignment: "studentseeSubmittedAssignment",
                           // typeOfAssignment: "Text",
                         ),
                       ),

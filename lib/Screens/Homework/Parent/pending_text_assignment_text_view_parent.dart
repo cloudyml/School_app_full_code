@@ -4,11 +4,10 @@ import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 
-import '../../../Services/Url_launcher.dart/method.dart';
-
-class SubmittedAsignmentDetailScreenStudent extends StatelessWidget {
-  SubmittedAsignmentDetailScreenStudent({super.key, required this.assignmentdata});
-  List<SubmittedStudentIdTextAssignmentList>? assignmentdata;
+class ParentPendingTextAsignmentDetailScreen extends StatelessWidget {
+  ParentPendingTextAsignmentDetailScreen(
+      {super.key, required this.assignmentdata});
+  List<DatumTextAssignmentList>? assignmentdata;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +45,6 @@ class SubmittedAsignmentDetailScreenStudent extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.w500)),
-                  Text("Answer : ${assignmentdata![index].answer}",
-                      style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 21,
-                          fontWeight: FontWeight.w400)),
                 ],
               ),
             );

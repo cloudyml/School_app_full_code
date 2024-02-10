@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../Screens/Homework/Student/submit_assignment.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
-class StudentPendingAssignmentCard extends StatelessWidget {
+class StudentPendingFileAssignmentCard extends StatelessWidget {
   final String subject;
   final String givenDate;
   final String submitDate;
@@ -15,7 +15,7 @@ class StudentPendingAssignmentCard extends StatelessWidget {
   final String assignmentID;
   final String Type;
 
-  const StudentPendingAssignmentCard({
+  const StudentPendingFileAssignmentCard({
     super.key,
     required this.subject,
     required this.givenDate,

@@ -9,8 +9,8 @@ import 'package:school_management_system/widget/student/Assignments/pending_assi
 import '../../../Models/Student/assignment_view_model.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
-class PendingAssignmentFile extends StatelessWidget {
-  PendingAssignmentFile({super.key, required this.type, required this.form});
+class StudentPendingAssignmentFileList extends StatelessWidget {
+  StudentPendingAssignmentFileList({super.key, required this.type, required this.form});
   String type;
   String form;
 
@@ -37,7 +37,8 @@ class PendingAssignmentFile extends StatelessWidget {
           ),
         ),
         body: FutureBuilder<StudentViewAssignmentModel>(
-          future: ApiServices.StudentSeeAssignment(type, form),
+          future:
+           ApiServices.studentSeeAssignmentFile(type, form),
           builder: (BuildContext context,
               AsyncSnapshot<StudentViewAssignmentModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,7 +69,7 @@ class PendingAssignmentFile extends StatelessWidget {
                           .toString(),
                     ),
                   );
-                  return StudentPendingAssignmentCard(
+                  return StudentPendingFileAssignmentCard(
                           subject:
                               studentAssignment.data![index].subject.toString(),
                           givenDate: formattedGivenDate,

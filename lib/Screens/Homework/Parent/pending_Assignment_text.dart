@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Import the intl package
 import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
-import 'package:school_management_system/Models/Student/student_text_assignmrnt_model.dart';
+import 'package:school_management_system/Screens/Homework/Parent/details_Screen_of_text_assignment_submitted.dart';
+import 'package:school_management_system/Screens/Homework/Parent/pending_text_assignment_text_view_parent.dart';
 import 'package:school_management_system/Screens/Homework/Student/seeTextAssignmentAnswer.dart';
 import 'package:school_management_system/Screens/Homework/Student/show_detail_homework_screen.dart';
 import 'package:school_management_system/Services/api_services.dart';
@@ -9,13 +10,12 @@ import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
-import 'package:school_management_system/widget/student/Assignments/pending_assignment_card.dart';
 
-import '../../../Models/Student/assignment_view_model.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
-class PendingAssignmentText extends StatelessWidget {
-  PendingAssignmentText({super.key, required this.type, required this.form});
+class ParentPendingAssignmentTextList extends StatelessWidget {
+  ParentPendingAssignmentTextList(
+      {super.key, required this.type, required this.form});
   String type;
   String form;
 
@@ -36,13 +36,13 @@ class PendingAssignmentText extends StatelessWidget {
             gradient1: lightBlue,
             gradient2: deepBlue,
             extra: appbar(
-                "assets/flaticon/_assignments.png", " Homework", context, () {
+                "assets/flaticon/_assignments.png", " Homework ", context, () {
               Navigator.pop(context);
             }),
           ),
         ),
         body: FutureBuilder<SubmittedTextAssignmentModel>(
-          future: ApiServices.studentSeeAssignmentText(type, form),
+          future: ApiServices.parentSeeAssignmentText(type, form),
           builder: (BuildContext context,
               AsyncSnapshot<SubmittedTextAssignmentModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,7 +50,7 @@ class PendingAssignmentText extends StatelessWidget {
             } else if (snapshot.hasError) {
               return const Center(child: Text("Error.."));
             } else if (!snapshot.hasData ||
-                snapshot.data?.data?.length == null ||
+                snapshot.data == null ||
                 snapshot.data?.data?.length == 0) {
               return const Center(
                 child: Text("No Assignment available"),
@@ -164,25 +164,23 @@ class PendingAssignmentText extends StatelessWidget {
                               MyElevatedButton(
                                 onPressed: () {
                                   //////////// TODO ass the anvigation to the submitted lkist
-                                  form == "getPendingAssignment"
+                                  type == "getPendingAssignment"
                                       ? Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                ShowDetailHomeworkScreen(
-                                              listOfquestions: studentAssignment
+                                                ParentPendingTextAsignmentDetailScreen(
+                                              assignmentdata: studentAssignment
                                                       .data![index]
                                                       .textAssignmentList
-                                                  as List<dynamic>,
-                                              assignmentId: studentAssignment
-                                                  .data![index].id
-                                                  .toString(),
+                                                  as List<
+                                                      DatumTextAssignmentList>,
                                             ),
                                           ),
                                         )
                                       : Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  SubmittedAsignmentDetailScreen(
+                                                  ParentSubmittedAsignmentDetailScreen(
                                                       assignmentdata: studentAssignment
                                                           .data![index]
                                                           .submittedStudentId![
@@ -190,17 +188,11 @@ class PendingAssignmentText extends StatelessWidget {
                                                           .textAssignmentList)),
                                         );
                                 },
-                                child: form == "getPendingAssignment"
-                                    ? const Text(
-                                        'Submit',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      )
-                                    : const Text(
-                                        'View',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      ),
+                                child: const Text(
+                                  'View',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
                               ),
                             ],
                           ),

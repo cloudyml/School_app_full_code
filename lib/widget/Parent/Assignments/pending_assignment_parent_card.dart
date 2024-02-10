@@ -5,17 +5,16 @@ import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
-// added by harsh this is the card which has only the option to see the assignment not to upload one 
+// added by harsh this is the card which has only the option to see the assignment not to upload one
 
-
-class ParentPendingAssignmentViewCard extends StatelessWidget {
+class ParentPendingFileAssignmentViewCard extends StatelessWidget {
   final String subject;
   final String givenDate;
   final String submitDate;
   final String docUrl;
   final String assignmentID;
 
-  const ParentPendingAssignmentViewCard({
+  const ParentPendingFileAssignmentViewCard({
     super.key,
     required this.subject,
     required this.givenDate,
@@ -70,7 +69,7 @@ class ParentPendingAssignmentViewCard extends StatelessWidget {
                             fontSize: 18,
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontWeight: FontWeight.bold)),
-                    Text(submitDate ,
+                    Text(submitDate,
                         style: const TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
@@ -114,21 +113,6 @@ class ParentPendingAssignmentViewCard extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),
-
-              //Removed this as there is no need for a parent to submit anything
-              // MyElevatedButton(
-              //   onPressed: () {
-              //     log(assignmentID);
-              //     Navigator.of(context).push(MaterialPageRoute(
-              //         builder: (context) => StudentSubmitAssignment(
-              //               submitAssignmentID: assignmentID,
-              //             )));
-              //   },
-              //   child: const Text(
-              //     'Submit',
-              //     style: TextStyle(color: Colors.white, fontSize: 18),
-              //   ),
-              // ),
             ],
           ),
         ],

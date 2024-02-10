@@ -1,0 +1,280 @@
+import 'dart:developer';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pdf/pdf.dart';
+import 'package:school_management_system/Models/Student/Result/student_see_result_model.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:school_management_system/Screens/Result/Student/pdf_preview_page.dart';
+
+class MakeOfPdf {
+  Future<void> makePdf(
+      context, StudentResultResponseModel data, String examType) async {
+    // Create a PDF document
+    final pdf = pw.Document();
+
+    // Add a page with content
+    // HEadings and the pragraph Values
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.standard,
+        margin: pw.EdgeInsets.symmetric(vertical: 25.w, horizontal: 15.w),
+        build: (pw.Context context) => pw.Column(
+          children: [
+            pw.Header(
+                child: pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text("Result of " + examType,
+                          style: pw.TextStyle(
+                              fontWeight: pw.FontWeight.bold, fontSize: 24.sp)),
+                      pw.Text(
+                          " ${data.data?.data?.month.toString()}/" +
+                              "${data.data?.data?.year.toString()}",
+                          style: pw.TextStyle(
+                              fontWeight: pw.FontWeight.normal,
+                              fontSize: 24.sp))
+                    ]),
+                textStyle: pw.TextStyle(fontSize: 32.sp)),
+            pw.Column(children: [
+              pw.Row(children: [
+                pw.Text("Name : ",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 20.sp)),
+                pw.Text("${data.data?.data?.studentName?.toString()}",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
+              ]),
+              pw.Row(children: [
+                pw.Text("Roll No : ",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 20.sp)),
+                pw.Text("${data.data?.data?.rollNumber?.toString()}",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
+              ]),
+              pw.Row(children: [
+                pw.Text("Marks Obtained : ",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 20.sp)),
+                pw.Text(
+                    "${data.data?.result?.totalMarks.toString()} / ${data.data?.result?.totalOutOffMarks.toString()}",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
+              ]),
+              pw.Row(children: [
+                pw.Text("Grade Obtained : ",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 20.sp)),
+                pw.Text("${data.data?.result?.overAllGrades.toString()}",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
+              ]),
+              pw.Row(children: [
+                pw.Text("Percentage : ",
+                    style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 20.sp)),
+                pw.Text("${data.data?.result?.percentage.toString()}",
+                    style: pw.TextStyle(
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                        fontSize: 18.sp)),
+              ]),
+            ]),
+            pw.SizedBox(height: 10.h),
+
+///////////////////////////////////////////////////////////..........................................................
+// bottom table view
+            ///
+            pw.Padding(
+              padding: pw.EdgeInsets.all(8.0),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Table(
+                    border: pw.TableBorder.all(style: pw.BorderStyle.dotted),
+                    columnWidths: const <int, pw.TableColumnWidth>{
+                      0: pw.FlexColumnWidth(1.5), // Subject
+                      1: pw.FlexColumnWidth(1), // Marks
+                      2: pw.FlexColumnWidth(1), // Grade
+                      3: pw.FlexColumnWidth(2), // Comment
+                    },
+                    children: [
+                      pw.TableRow(
+                        decoration: pw.BoxDecoration(
+                            gradient: pw.LinearGradient(colors: [
+                          PdfColor.fromHex("#02a2de"),
+                          PdfColor.fromHex("#01c4f5"),
+                        ])),
+                        children: [
+                          pw.SizedBox(
+                            height: 0.05.sh,
+                            child: pw.Center(
+                              child: pw.Text(
+                                'Subject',
+                                style: pw.TextStyle(
+                                    color: PdfColor.fromHex("#ffffff"),
+                                    fontSize: 16.sp,
+                                    fontWeight: pw.FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 0.05.sh,
+                            child: pw.Center(
+                              child: pw.Text(
+                                'Marks',
+                                style: pw.TextStyle(
+                                    color: PdfColor.fromHex("#ffffff"),
+                                    fontSize: 16.sp,
+                                    fontWeight: pw.FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 0.05.sh,
+                            child: pw.Center(
+                              child: pw.Text(
+                                'Grade',
+                                style: pw.TextStyle(
+                                    color: PdfColor.fromHex("#ffffff"),
+                                    fontSize: 16.sp,
+                                    fontWeight: pw.FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            height: 0.05.sh,
+                            child: pw.Center(
+                              child: pw.Text(
+                                'Comment',
+                                style: pw.TextStyle(
+                                    color: PdfColor.fromHex("#ffffff"),
+                                    fontSize: 16.sp,
+                                    fontWeight: pw.FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  pw.Column(
+                      children: List.generate(
+                          data.data!.data!.subjects!.length,
+                          (index) => pw.Table(
+                                border: pw.TableBorder.all(
+                                    style: pw.BorderStyle.dotted),
+                                columnWidths: const <int, pw.TableColumnWidth>{
+                                  0: pw.FlexColumnWidth(1.5), // Subject
+                                  1: pw.FlexColumnWidth(1), // Marks
+                                  2: pw.FlexColumnWidth(1), // Grade
+                                  3: pw.FlexColumnWidth(2), // Comment
+                                },
+                                children: [
+                                  pw.TableRow(
+                                    decoration: pw.BoxDecoration(
+                                      color: index % 2 == 0
+                                          ? PdfColor.fromHex("#ffffff")
+                                          : PdfColors.grey200,
+                                    ),
+                                    children: [
+                                      pw.SizedBox(
+                                        height: 0.05.sh,
+                                        child: pw.Center(
+                                          child: pw.Text(
+                                            "${data.data?.data?.subjects![index].subject?.toUpperCase()}",
+                                            style: pw.TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight:
+                                                    pw.FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 0.05.sh,
+                                        child: pw.Center(
+                                          child: pw.Text(
+                                            "${data.data?.data?.subjects![index].marks}",
+                                            style: pw.TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight:
+                                                    pw.FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 0.05.sh,
+                                        child: pw.Center(
+                                          child: pw.Text(
+                                            "${data.data?.data?.subjects![index].grades}",
+                                            style: pw.TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight:
+                                                    pw.FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                      pw.SizedBox(
+                                        height: 0.05.sh,
+                                        child: pw.Center(
+                                          child: pw.Text(
+                                            "${data.data?.data?.subjects![index].comment}",
+                                            style: pw.TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight:
+                                                    pw.FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ))),
+                  pw.SizedBox(
+                    height: 10.h,
+                  ),
+                  pw.SizedBox(
+                    height: 15.h,
+                  ),
+                ],
+              ),
+            ),
+            pw.SizedBox(height: 15.h),
+            pw.SizedBox(
+              child: pw.Text(
+                  data.data?.result?.result == "Pass"
+                      ? "Congratulations You have Cleared ${examType.toUpperCase()} with ${data.data?.result?.percentage}"
+                      : "You have Failed $examType as You have Only Scored ${data.data?.result?.percentage}",
+                  style: pw.TextStyle(
+                    fontSize: 18.sp,
+                  ),
+                  textAlign: pw.TextAlign.center),
+            ),
+          ],
+        ),
+      ),
+    );
+    final filename =
+        '${examType}_Roll_${data.data?.data?.rollNumber}_${data.data?.data?.studentName}_${data.data?.data?.month}_${data.data?.data?.year}.pdf';
+    final file = File('/storage/emulated/0/Documents/$filename');
+
+    try {
+      final pdfData = await pdf.save();
+      await file.writeAsBytes(pdfData);
+
+      log("PDF saved successfully: ${file.path}");
+
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) {
+          return PdfPreviewPage(
+            path: file.path,
+          );
+        },
+      ));
+      // ...
+    } catch (error) {
+      log("Error saving PDF: $error");
+    }
+  }
+}

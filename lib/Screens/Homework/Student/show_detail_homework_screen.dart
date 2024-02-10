@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
+import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
 import 'package:school_management_system/Screens/Homework/Student/question_tile_text_assignment.dart';
 import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -26,22 +27,22 @@ class TextSubmitModel {
   }
 }
 
-class ShowDetailHomeworkScreen extends StatefulWidget {
-  ShowDetailHomeworkScreen({
+class DetailHomeworkScreenStudent extends StatefulWidget {
+  DetailHomeworkScreenStudent({
     super.key,
     required this.listOfquestions,
     required this.assignmentId,
   });
 
-  List listOfquestions;
+  List<DatumTextAssignmentList> listOfquestions;
   String assignmentId;
 
   @override
-  State<ShowDetailHomeworkScreen> createState() =>
-      _ShowDetailHomeworkScreenState();
+  State<DetailHomeworkScreenStudent> createState() =>
+      _DetailHomeworkScreenStudentState();
 }
 
-class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
+class _DetailHomeworkScreenStudentState extends State<DetailHomeworkScreenStudent> {
   List answeredList = [];
   int? indexForReference;
   SharedPreferences? instance;
@@ -152,7 +153,7 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              "Q${currentindex + 1} ${widget.listOfquestions[currentindex]["question"].toString()} ?",
+                                              "Q${currentindex + 1} ${widget.listOfquestions[currentindex].question.toString()} ?",
                                               style: GoogleFonts.inter(
                                                 fontSize: MediaQuery.of(context)
                                                         .size
@@ -379,8 +380,8 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                             ? answeredList[index]
                             : "Enter Answer",
                         index: index,
-                        question: widget.listOfquestions[index]["question"]
-                            .toString(),
+                        question:
+                            widget.listOfquestions[index].question.toString(),
                       ),
                     ),
                   );
@@ -402,14 +403,12 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                           for (int i = 0; i < answeredList.length; i++) {
                             if (answeredList[i] == "Enter Answer") {
                               sendAnswerLIst.add(TextSubmitModel(
-                                  question: widget.listOfquestions[i]
-                                      ["question"],
+                                  question: widget.listOfquestions[i].question,
                                   answer: ""));
                             } else {
                               for (int i = 0; i < sendAnswerLIst.length; i++) {}
                               sendAnswerLIst.add(TextSubmitModel(
-                                  question: widget.listOfquestions[i]
-                                          ["question"]
+                                  question: widget.listOfquestions[i].question
                                       .toString(),
                                   answer: answeredList[i]));
                             }
@@ -421,6 +420,8 @@ class _ShowDetailHomeworkScreenState extends State<ShowDetailHomeworkScreen> {
                               .whenComplete(() {
                             Navigator.pop(context);
                             EasyLoading.showSuccess("Uploaded Successfully");
+                            instance?.remove(widget.assignmentId);
+                            ApiServices.studentSeeAssignmentText("Text", "getPendingAssignment");
                           });
                           // ApiServices.StudentSubmittedAssignment()
                           for (int i = 0; i < sendAnswerLIst.length; i++) {
