@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:school_management_system/Screens/Gallery/teacher/select_gallery_options.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
+import 'package:school_management_system/Services/shared_services.dart';
 import 'dart:io';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -173,7 +175,7 @@ class _UploadGalleryState extends State<UploadGallery> {
                               isClicked = true;
                             });
                             log("Total Selected Image: ${selectedImages.length.toString()}");
-                            await ApiServices.teacherUploadGallery(
+                            await TeacherApiServices.teacherUploadGallery(
                                     selectedImages)
                                 .then((value) {
                               if (value == true) {
@@ -190,9 +192,32 @@ class _UploadGalleryState extends State<UploadGallery> {
                                 });
                               } else {
                                 showFailureSnackbar();
+                                setState(() {
+                                  isClicked = false;
+                                });
                               }
                             });
                           }
+
+                          // String? schoolName = SharedService.loginDetails()
+                          //         ?.data
+                          //         ?.data
+                          //         ?.school ??
+                          //     "no1";
+                          // String? schoolId = SharedService.loginDetails()
+                          //         ?.data
+                          //         ?.data
+                          //         ?.schoolId ??
+                          //     "no2";
+                          // String? institutionId = SharedService.loginDetails()
+                          //         ?.data
+                          //         ?.data
+                          //         ?.institutionId ??
+                          //     "no3";
+
+                          // log("School Id =" + schoolId!);
+                          // log("School name =" + schoolName!);
+                          // log("Institute id =" + institutionId!);
                         },
                         height: MediaQuery.of(context).size.width * 0.115,
                         width: MediaQuery.of(context).size.width * 0.35,

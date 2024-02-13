@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 LoginResponseModel loginResponseModelFromJson(String str) =>
     LoginResponseModel.fromJson(json.decode(str));
 
@@ -79,9 +80,9 @@ class LoginData {
   int? id;
   bool? admin;
   String? email;
+  String? institutionId;
   //ADDED THIS by HARSH
   List<String>? childrens;
-  String? institutionId;
 
   LoginData(
       {this.address,
@@ -113,7 +114,7 @@ class LoginData {
         section: json["section"],
         password: json["password"],
         phoneNumber: json["phoneNumber"],
-        school: json["school"],
+        school: json["schoolName"],
         rollNumber: json["rollNumber"],
         name: json["name"],
         dataClass: json["class"],
@@ -137,7 +138,7 @@ class LoginData {
         "section": section,
         "password": password,
         "phoneNumber": phoneNumber,
-        "school": school,
+        "schoolName": school,
         "rollNumber": rollNumber,
         "name": name,
         "class": dataClass,

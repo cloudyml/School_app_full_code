@@ -1,7 +1,11 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/view%20file%20homework/file_not_submitted_student_list.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/view%20text%20homework/text_submitted_student_list.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/view%20text%20homework/view_text_homework_not_submitted_student_list.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
-import '../../../Screens/Homework/Teacher/submitted.dart';
+import '../../../Screens/Homework/Teacher/view file homework/file_submitted_student_list.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
 class TeacherSeeOwnUploadedAssignmentCard extends StatelessWidget {
@@ -12,8 +16,11 @@ class TeacherSeeOwnUploadedAssignmentCard extends StatelessWidget {
   final String assignmentID;
   final String section;
   final String wclass;
+  final String questionFile;
+  List submittedStudentList;
+  List notSubmittedStudentList;
 
-  const TeacherSeeOwnUploadedAssignmentCard({
+  TeacherSeeOwnUploadedAssignmentCard({
     super.key,
     required this.subject,
     required this.topic,
@@ -22,6 +29,9 @@ class TeacherSeeOwnUploadedAssignmentCard extends StatelessWidget {
     required this.assignmentID,
     required this.section,
     required this.wclass,
+    required this.questionFile,
+    required this.submittedStudentList,
+    required this.notSubmittedStudentList,
   });
 
   @override
@@ -122,25 +132,82 @@ class TeacherSeeOwnUploadedAssignmentCard extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 5,
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MyElevatedButton(
+                width: MediaQuery.of(context).size.width * 0.65,
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        TeacherSeeAllSubmittedStudentsAssignment(
-                      assID: assignmentID,
-                      section: section,
-                      wclass: wclass,
-                    ),
-                  ));
+                  if (questionFile == "") {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TextSubmittedStudentList(
+                        assID: assignmentID,
+                        section: section,
+                        wclass: wclass,
+                        submittedStudentList: submittedStudentList,
+                        notSubmittedStudentList: notSubmittedStudentList,
+                      ),
+                    ));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          TeacherSeeAllSubmittedStudentsAssignment(
+                        assID: assignmentID,
+                        section: section,
+                        wclass: wclass,
+                        questionFile: questionFile,
+                        submittedStudentList: submittedStudentList,
+                        notS1ubmittedStudentList: notSubmittedStudentList,
+                      ),
+                    ));
+                  }
                 },
                 child: const Text(
                   'View Submitted Students',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              MyElevatedButton(
+                width: MediaQuery.of(context).size.width * 0.65,
+                onPressed: () {
+                  if (questionFile == "") {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TextNotSubmittedStudentList(
+                        assID: assignmentID,
+                        section: section,
+                        wclass: wclass,
+                        notSubmittedStudentList: notSubmittedStudentList,
+                      ),
+                    ));
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TeacherSeeAllNotSubmittedStudentsFileAssignment(
+                          assID: assignmentID,
+                          section: section,
+                          wclass: wclass,
+                          questionFile: questionFile,
+                          submittedStudentList: submittedStudentList,
+                          notS1ubmittedStudentList: notSubmittedStudentList,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: const Text(
+                  'View Not Submitted Students',
+                  style: TextStyle(color: Colors.white, fontSize: 15),
                 ),
               ),
             ],

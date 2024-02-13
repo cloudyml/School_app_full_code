@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/rectangle_elevatedbutton_card.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
@@ -327,7 +328,7 @@ class _RegisterNewStudentToCoachingState
                       int.tryParse(addressInput.text) != null &&
                       int.tryParse(genderInput.text) != null &&
                       int.tryParse(schoolInput.text) != null
-                  ? await ApiServices.updateFees(
+                  ? await TeacherApiServices.updateFees(
                       nameInput.text,
                       nameInput.text,
                       passwordInput.text,
@@ -349,7 +350,7 @@ class _RegisterNewStudentToCoachingState
                         showFailureSnackbar();
                       }
                     })
-                  : ApiServices.uploadFees(
+                  : TeacherApiServices.uploadFees(
                       nameInput.text,
                       classInput.text,
                       passwordInput.text,

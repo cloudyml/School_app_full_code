@@ -5,42 +5,42 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
+import 'package:school_management_system/Models/Teacher/Homework/Upload/assignment_upload_model.dart';
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
-import '../Models/Student/About/view_about_school.dart';
-import '../Models/Student/Awards/view_awards_response_model.dart';
-import '../Models/Student/Events/Register_Event/eligibility_check_get_api_response_model.dart';
-import '../Models/Student/Events/Register_Event/my_enrolled_events_list_model.dart';
-import '../Models/Student/Events/view_events_response_model.dart';
-import '../Models/Student/Exam/exam_routine_response_model.dart';
-import '../Models/Student/Fees/student_fee_response_model.dart';
-import '../Models/Student/Gallery/view_gallery_response_model.dart';
-import '../Models/Student/Notice/view_notice_response_model.dart';
-import '../Models/Student/Result/student_see_result_model.dart';
-import '../Models/Teacher/Attendance/attendance_submit_model.dart';
-import '../Models/Teacher/Awards/class_wise_awards_list_response_model.dart';
-import '../Models/Teacher/Events/event_registered_student_list_model.dart';
-import '../Models/Teacher/Events/upload_events_post_api_model.dart';
-import '../Models/Teacher/Fees/delete_fees_model.dart';
-import '../Models/Teacher/Fees/update_fees_model.dart';
-import '../Models/Teacher/Fees/upload_fees_model.dart';
-import '../Models/Student/Student_Upload_Assignment.dart';
-import '../Models/Student/assignment_view_model.dart';
-import '../Models/Student/month_attendance_student_response_model.dart';
-import '../Models/Student/submitted_assignment_model.dart';
-import '../Models/Teacher/Assignment_upload_model.dart';
-import '../Models/Teacher/Gallery/upload_gallery.dart';
-import '../Models/Teacher/Result/class_wise_result_response_model.dart';
-import '../Models/Teacher/assignment_submitted_students_model.dart';
-import '../Models/Teacher/given_assignmens_list_model.dart';
-import '../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
-import '../Models/Student/day_Routine_response_medel.dart';
-import '../Models/login_response_model.dart';
-import '../Models/Student/week_attendance_student_model.dart';
-import '../constants/constants.dart';
-import 'api_urls.dart';
-import 'base_api_service.dart';
+import '../../Models/Student/About/view_about_school.dart';
+import '../../Models/Student/Awards/view_awards_response_model.dart';
+import '../../Models/Student/Events/Register_Event/eligibility_check_get_api_response_model.dart';
+import '../../Models/Student/Events/Register_Event/my_enrolled_events_list_model.dart';
+import '../../Models/Student/Events/view_events_response_model.dart';
+import '../../Models/Student/Exam/exam_routine_response_model.dart';
+import '../../Models/Student/Fees/student_fee_response_model.dart';
+import '../../Models/Student/Gallery/view_gallery_response_model.dart';
+import '../../Models/Student/Notice/view_notice_response_model.dart';
+import '../../Models/Student/Result/student_see_result_model.dart';
+import '../../Models/Teacher/Attendance/attendance_submit_model.dart';
+import '../../Models/Teacher/Awards/class_wise_awards_list_response_model.dart';
+import '../../Models/Teacher/Events/event_registered_student_list_model.dart';
+import '../../Models/Teacher/Events/upload_events_post_api_model.dart';
+import '../../Models/Teacher/Fees/delete_fees_model.dart';
+import '../../Models/Teacher/Fees/update_fees_model.dart';
+import '../../Models/Teacher/Fees/upload_fees_model.dart';
+import '../../Models/Student/Student_Upload_Assignment.dart';
+import '../../Models/Student/assignment_view_model.dart';
+import '../../Models/Student/month_attendance_student_response_model.dart';
+import '../../Models/Student/submitted_assignment_model.dart';
+import '../../Models/Teacher/Gallery/upload_gallery.dart';
+import '../../Models/Teacher/Result/Get models/class_wise_result_response_model.dart';
+import '../../Models/Teacher/assignment_submitted_students_model.dart';
+import '../../Models/Teacher/Homework/view file homework/teacher_see_own_assignments_list_response_model.dart';
+import '../../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
+import '../../Models/Student/day_Routine_response_medel.dart';
+import '../../Models/login_response_model.dart';
+import '../../Models/Student/week_attendance_student_model.dart';
+import '../../constants/constants.dart';
+import '../api_urls.dart';
+import '../base_api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 
@@ -74,7 +74,7 @@ class ApiServices {
         if (jsonDecode(response.body)['status'] == true) {
           var responseModel = loginResponseModelFromJson(response.body);
           Future.delayed(
-            Duration(seconds: 2),
+            const Duration(seconds: 2),
             () {
               fetchChildData();
             },
@@ -134,7 +134,7 @@ class ApiServices {
     return FetchedChildrenModel();
   }
 
-//................... Get all students of a class for taking attendance.....
+//...................Teacher Get all students of a class for taking attendance.....
 
   static Future<AttendanceResponseModel> takeAttendance(
     String selectedClass,
@@ -176,7 +176,7 @@ class ApiServices {
         body: attendance,
       );
 
-      log( ApiUrl.teacherSubmitAttendance);
+      log(ApiUrl.teacherSubmitAttendance);
 
       log(response.statusCode.toString());
       log("${response.body}");
@@ -512,6 +512,7 @@ class ApiServices {
   }
 
 // Teacher see class routine Day wise....................................................
+
   static Future<StudentEachdayRoutineModel> TeacherSeeDayRoutine(
     String selectedClass,
     String selectedSection,
@@ -549,89 +550,7 @@ class ApiServices {
     return studentDailyRoutine;
   }
 
-//  Teacher Upload Assignment...................................................
-
-  static Future<bool> TeacherAddAssignment(
-    String givenDate,
-    String subjectDate,
-    String wclass,
-    String section,
-    String subject,
-    String topic,
-    File file,
-    BuildContext context,
-  ) async {
-    var ret = false;
-
-    try {
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-          "http://${ApiUrl.baseUrl}${ApiUrl.teacherUploadAssignment}/${SharedService.loginDetails()?.data!.id}/createAssignment",
-        ),
-      );
-      log("http://${ApiUrl.baseUrl}${ApiUrl.teacherUploadAssignment}/${SharedService.loginDetails()?.data!.id}/createAssignment");
-      // Add headers here
-      Map<String, String> headers = {
-        'Authorization':
-            "${SharedService.loginDetails()?.data!.token.toString()}",
-      };
-      request.headers.addAll(headers);
-
-      request.fields['date'] = givenDate;
-      request.fields['lastDateOfSubmit'] = subjectDate;
-      request.fields['class'] = wclass;
-      request.fields['section'] = section;
-      request.fields['subject'] = subject;
-      request.fields['topic'] = topic;
-
-      log("SubmitDate= $subjectDate");
-      log("givendate= $givenDate");
-      log("class=$wclass");
-      log("section=$section");
-      log("topic=$topic");
-      log("subject=$subject");
-
-      var fileStream = http.ByteStream(file.openRead());
-      var length = await file.length();
-      var multipartFile = http.MultipartFile(
-        'file',
-        fileStream.cast(),
-        length,
-        filename: p.basename(file.path),
-      );
-      request.files.add(multipartFile);
-
-      var response = await http.Response.fromStream(await request.send());
-
-      log(response.statusCode.toString());
-      log(response.body);
-
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-        if (jsonResponse['status'] == true) {
-          var teacherUploadassign =
-              teacherAssignmentUploadModelFromJson(response.body);
-          ret = true;
-        } else {
-          log(response.statusCode.toString());
-          ret = false;
-          log("not successful");
-        }
-      } else {
-        log(response.statusCode.toString());
-        ret = false;
-        log("not successful");
-      }
-    } catch (e) {
-      ret = false;
-      log("$e : not successful catch");
-    }
-
-    return ret;
-  }
-
-// fetch the child details for the parent
+// fetch the child details for the parent.........................................
   static fetchChildData() async {
     await ApiServices.childrenData(SharedService.loginDetails()
         ?.data!
@@ -680,7 +599,6 @@ class ApiServices {
     return StudentCAttignment;
   }
 
-//TODO UPDATED THIS FUNCTION FOR SUBMITTED ASSIGNMENT
   static Future<StudentSubmittedAssignmentModel>
       parentViewSubmittedAssignment() async {
     StudentSubmittedAssignmentModel submittedAttignment =
@@ -727,10 +645,6 @@ class ApiServices {
     StudentViewAssignmentModel StudentCAttignment =
         StudentViewAssignmentModel();
     try {
-      // var currentDate = DateTime.now();
-      // String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
-      // String date = formattedDate;
-
       var rollNumber = SharedService.loginDetails()?.data!.data!.rollNumber;
       String studentClass =
           '${SharedService.loginDetails()?.data!.data!.dataClass}';
@@ -765,41 +679,6 @@ class ApiServices {
     return StudentCAttignment;
   }
 
-//...... Teacher see own uploaded assignments ..................................
-  static Future<TeacherSeeOwnAssignmentsListModel> teacherSeeOwnGivenAssignment(
-    String selectesClass,
-    String selectesSection,
-  ) async {
-    TeacherSeeOwnAssignmentsListModel teacherGivenAssignment =
-        TeacherSeeOwnAssignmentsListModel();
-    try {
-      var queryParam =
-          "${ApiUrl.teacherSeeOwnUploadedAssignments}?class=$selectesClass&section=$selectesSection";
-      var response = await ApiBase.getRequest(
-        extendedURL: queryParam,
-      );
-
-      log(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          log("success");
-          teacherGivenAssignment =
-              teacherSeeOwnAssignmentsListModelFromJson(response.body);
-        } else {
-          log("else 2");
-          teacherGivenAssignment = TeacherSeeOwnAssignmentsListModel();
-        }
-      } else {
-        log("else 2");
-        teacherGivenAssignment = TeacherSeeOwnAssignmentsListModel();
-      }
-    } catch (e) {
-      log("Catch");
-      teacherGivenAssignment = TeacherSeeOwnAssignmentsListModel();
-    }
-
-    return teacherGivenAssignment;
-  }
 //.............Student Upload assignment..........................................
 
   static Future<bool> StudentUploadAssignment(
@@ -828,6 +707,7 @@ class ApiServices {
         'Authorization':
             "${SharedService.loginDetails()?.data!.token}", // Replace with your token
       };
+
       request.headers.addAll(headers);
 
       request.fields['date'] = date;
@@ -883,30 +763,6 @@ class ApiServices {
     return ret;
   }
 
-// Teacher See assignment.................................................
-  static Future<StudentFeesDetailsModel> teacherSeeAssign() async {
-    StudentFeesDetailsModel viewAssignment = StudentFeesDetailsModel();
-    try {
-      var response = await ApiBase.getRequest(
-        extendedURL: ApiUrl.studentFeeDetails,
-      );
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          viewAssignment = studentFeesDetailsModelFromJson(response.body);
-        } else {
-          viewAssignment = StudentFeesDetailsModel();
-        }
-      } else {
-        viewAssignment = StudentFeesDetailsModel();
-      }
-    } catch (e) {
-      viewAssignment = StudentFeesDetailsModel();
-    }
-
-    return viewAssignment;
-  }
-
 //...................  Fees View........................................
 
   static Future<StudentFeesDetailsModel> viewFees() async {
@@ -930,151 +786,6 @@ class ApiServices {
     }
 
     return feeDetails;
-  }
-//........ Update Fees Teacher..................................................
-
-  static Future<bool> updateFees(
-    String wClass,
-    String admissionFees,
-    String tuitionFees,
-    String examinationFees,
-    String libraryFees,
-    String transportFees,
-    String miscellaneousFees,
-    String discountAmount,
-  ) async {
-    var ret = false;
-    UpdateFeesDetailsModel updateFee = UpdateFeesDetailsModel();
-    try {
-      // Convert String values to int, or use a default value (0) if parsing fails.
-      int admissionFeesInt = int.tryParse(admissionFees) ?? 0;
-      int tuitionFeesInt = int.tryParse(tuitionFees) ?? 0;
-      int examinationFeesInt = int.tryParse(examinationFees) ?? 0;
-      int libraryFeesInt = int.tryParse(libraryFees) ?? 0;
-      int transportFeesInt = int.tryParse(transportFees) ?? 0;
-      int miscellaneousFeesInt = int.tryParse(miscellaneousFees) ?? 0;
-      int discountAmountInt = int.tryParse(discountAmount) ?? 0;
-
-      var response = await ApiBase.putRequest(
-        extendedURL: ApiUrl.teacherUpdateFees,
-        body: {
-          "class": wClass,
-          "admissionFees": admissionFeesInt,
-          "tuitionFees": tuitionFeesInt,
-          "examinationFees": examinationFeesInt,
-          "libraryFees": libraryFeesInt,
-          "transportFees": transportFeesInt,
-          "miscellaneousFees": miscellaneousFeesInt,
-          "discountAmount": discountAmountInt,
-        },
-      );
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          var responseModel = updateFeesDetailsModelFromJson(response.body);
-
-          ret = true;
-        } else {
-          ret = false;
-          log("Not Successful");
-        }
-      } else {
-        ret = false;
-        log("Not Successful");
-      }
-    } catch (e) {
-      log("error: $e");
-    }
-    return ret;
-  }
-
-//......................Teacher Upload Fees....................................
-
-  static Future<bool> uploadFees(
-    String wClass,
-    String admissionFees,
-    String tuitionFees,
-    String examinationFees,
-    String libraryFees,
-    String transportFees,
-    String miscellaneousFees,
-    String discountFees,
-  ) async {
-    var ret = false;
-    try {
-      int admissionFeesInt = int.tryParse(admissionFees) ?? 0;
-      int tuitionFeesInt = int.tryParse(tuitionFees) ?? 0;
-      int examinationFeesInt = int.tryParse(examinationFees) ?? 0;
-      int libraryFeesInt = int.tryParse(libraryFees) ?? 0;
-      int transportFeesInt = int.tryParse(transportFees) ?? 0;
-      int miscellaneousFeesInt = int.tryParse(miscellaneousFees) ?? 0;
-      int discountFeesInt = int.tryParse(discountFees) ?? 0;
-      var response = await ApiBase.postRequest(
-        extendedURL: ApiUrl.teacherUploadFees,
-        body: {
-          "class": wClass,
-          "admissionFees": admissionFeesInt,
-          "tuitionFees": tuitionFeesInt,
-          "examinationFees": examinationFeesInt,
-          "libraryFees": libraryFeesInt,
-          "transportFees": transportFeesInt,
-          "miscellaneousFees": miscellaneousFeesInt,
-          "discountAmount": discountFees,
-        },
-      );
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          var responseModel = uploadFeesResponseModelFromJson(response.body);
-
-          ret = true;
-        } else {
-          ret = false;
-          log("Not Successful");
-        }
-      } else {
-        ret = false;
-        log("Not Successful");
-      }
-    } catch (e) {
-      log("error: $e");
-    }
-    return ret;
-  }
-// ............Teacher delete fees..............................................
-
-  static Future<bool> deleteFees(
-    String wClass,
-  ) async {
-    var ret = false;
-    try {
-      var response = await ApiBase.deleteRequest(
-        extendedURL: ApiUrl.teacherDeleteFees,
-        body: {
-          "class": wClass,
-        },
-      );
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == false) {
-          var responseModel = deleteFeesDetailsModelFromJson(response.body);
-
-          ret = true;
-        } else {
-          ret = false;
-          log("Not Successful");
-        }
-      } else {
-        ret = false;
-        log("Not Successful");
-      }
-    } catch (e) {
-      log("error: $e");
-    }
-    return ret;
   }
 
 // Student see his/her submitted assignment ....................................
@@ -1116,42 +827,42 @@ class ApiServices {
   }
 //....................... Teacher see submitted students assignments ...........
 
-  static Future<TeacherSeeSubmittedStudentsAssignments>
-      TeacherSeeSubittedStudents(
-    String assignmentID,
-    String wclass,
-    String section,
-  ) async {
-    TeacherSeeSubmittedStudentsAssignments submittedStudents =
-        TeacherSeeSubmittedStudentsAssignments();
-    try {
-      var queryParam =
-          "${ApiUrl.teacherSeeSubmittedStudentsAssignments}/${SharedService.loginDetails()?.data!.id.toString()}/getAssignments/${assignmentID}?class=$wclass&section=$section";
-      var response = await ApiBase.getRequest(
-        extendedURL: queryParam,
-      );
+  // static Future<TeacherSeeSubmittedStudentsAssignments>
+  //     TeacherSeeSubittedStudents(
+  //   String assignmentID,
+  //   String wclass,
+  //   String section,
+  // ) async {
+  //   TeacherSeeSubmittedStudentsAssignments submittedStudents =
+  //       TeacherSeeSubmittedStudentsAssignments();
+  //   try {
+  //     var queryParam =
+  //         "${ApiUrl.teacherSeeSubmittedStudentsAssignments}/${SharedService.loginDetails()?.data!.id.toString()}/getAssignments/${assignmentID}?class=$wclass&section=$section";
+  //     var response = await ApiBase.getRequest(
+  //       extendedURL: queryParam,
+  //     );
 
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          log("success");
-          submittedStudents =
-              teacherSeeSubmittedStudentsAssignmentsFromJson(response.body);
-        } else {
-          log("else 2");
-          submittedStudents = TeacherSeeSubmittedStudentsAssignments();
-        }
-      } else {
-        log("else 2");
-        submittedStudents = TeacherSeeSubmittedStudentsAssignments();
-      }
-    } catch (e) {
-      log("Catch");
-      submittedStudents = TeacherSeeSubmittedStudentsAssignments();
-    }
+  //     log(response.body.toString());
+  //     if (response.statusCode == 200) {
+  //       if (jsonDecode(response.body)['status'] == true) {
+  //         log("success");
+  //         submittedStudents =
+  //             teacherSeeSubmittedStudentsAssignmentsFromJson(response.body);
+  //       } else {
+  //         log("else 2");
+  //         submittedStudents = TeacherSeeSubmittedStudentsAssignments();
+  //       }
+  //     } else {
+  //       log("else 2");
+  //       submittedStudents = TeacherSeeSubmittedStudentsAssignments();
+  //     }
+  //   } catch (e) {
+  //     log("Catch");
+  //     submittedStudents = TeacherSeeSubmittedStudentsAssignments();
+  //   }
 
-    return submittedStudents;
-  }
+  //   return submittedStudents;
+  // }
   // Attendance post...............................................
 
   static Future<bool> attendancePost() async {
@@ -1183,71 +894,6 @@ class ApiServices {
     } catch (e) {
       ret = false;
       log("$e :  not successful catch");
-    }
-
-    return ret;
-  }
-
-// Gallery Teacher Upload ...................................................
-  static Future<bool> teacherUploadGallery(
-    List<XFile> files,
-  ) async {
-    var ret = false;
-
-    try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-          "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",
-        ),
-      );
-log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
-      // Add headers here
-      Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
-      };
-      request.headers.addAll(headers);
-
-      // Add your string to the request body
-      request.fields['schoolName'] = schoolName!;
-
-      for (var file in files) {
-        var fileStream = http.ByteStream(file.openRead());
-        var length = await file.length();
-        var multipartFile = http.MultipartFile(
-          'files[]', // Use 'files[]' to indicate it's an array of files
-          fileStream.cast(),
-          length,
-          filename: p.basename(file.path),
-        );
-        request.files.add(multipartFile);
-      }
-
-      var response = await http.Response.fromStream(await request.send());
-
-      log(response.statusCode.toString());
-      // log(response.body);
-
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-        if (jsonResponse['status'] == true) {
-          var teacherUploadGal = galleryUploadModelFromJson(response.body);
-          ret = true;
-        } else {
-          log(response.statusCode.toString());
-          log(response.body);
-          ret = false;
-          log("not successful");
-        }
-      } else {
-        log(response.statusCode.toString());
-        ret = false;
-        log("not successful");
-      }
-    } catch (e) {
-      ret = false;
-      log("$e : not successful catch");
     }
 
     return ret;
@@ -1288,7 +934,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewSchoolGallery}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
+            "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewSchoolGallery}?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}",
       );
       log(response.statusCode.toString());
 
@@ -1348,7 +994,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&status=$status",
+            "/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&status=$status&institutionId=${SharedService.loginDetails()?.data!.data!.institutionId}",
       );
       log(response.statusCode.toString());
 
@@ -1366,95 +1012,6 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     }
 
     return viewEvents;
-  }
-
-  //........ Teacher Upload Events.....................................................
-
-  static Future<bool> teacherUploadEvents(
-    String eventName,
-    String description,
-    String date,
-    String eventTime,
-    String status,
-    String eligibleClass,
-    String remark,
-    List<XFile> files,
-  ) async {
-    var ret = false;
-
-    try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-          "http://${ApiUrl.baseUrl}${ApiUrl.teacherUploadEvents}",
-        ),
-      );
-
-      // Add headers
-      Map<String, String> headers = {
-        'Authorization':
-            "Bearer ${SharedService.loginDetails()?.data!.token}", // Assuming 'Bearer' is required for the token
-      };
-      request.headers.addAll(headers);
-
-      // Add form fields
-      request.fields['schoolName'] = schoolName!;
-      request.fields['eventName'] = eventName;
-      request.fields['description'] = description;
-      request.fields['date'] = date;
-      request.fields['eventTime'] = eventTime;
-      request.fields['status'] = status;
-      request.fields['remark'] = remark;
-      request.fields['eligibleClass'] = eligibleClass;
-
-      // Add files
-      for (var file in files) {
-        var fileStream = http.ByteStream(file.openRead());
-        var length = await file.length();
-        var multipartFile = http.MultipartFile(
-          'files[]', // Use 'files[]' to indicate it's an array of files
-          fileStream.cast(),
-          length,
-          filename: p.basename(file.path),
-        );
-        request.files.add(multipartFile);
-      }
-
-      var response = await request.send();
-      log("http://${ApiUrl.baseUrl}${ApiUrl.teacherUploadEvents}");
-      log(response.statusCode.toString());
-      log("");
-      log(schoolName);
-      log(eventName);
-      log(description);
-      log(date);
-      log(eventTime);
-      log(status);
-      log(remark);
-      log(eligibleClass);
-      log(files.length.toString());
-
-      if (response.statusCode == 200) {
-        var jsonResponse = await response.stream.bytesToString();
-        var teacherUploadGal = teacherUploadEventsModelFromJson(jsonResponse);
-
-        if (teacherUploadGal.status == true) {
-          ret = true;
-        } else {
-          log("API returned a failure status.");
-        }
-      } else {
-        var jsonResponse = await response.stream.bytesToString();
-        var teacherUploadGal = teacherUploadEventsModelFromJson(jsonResponse);
-        log("Error mesaage = ${teacherUploadGal.message.toString()}");
-        log("API request failed with status code: ${response.statusCode}");
-      }
-    } catch (e) {
-      log("API request failed with an exception: $e");
-    }
-
-    return ret;
   }
 
 // Students View Awards/certificates.....................................................
@@ -1917,7 +1474,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
   }
   // View notice teacher......................................................
 
- static Future<ViewNoticeResponseModel> viewNoticeParent() async {
+  static Future<ViewNoticeResponseModel> viewNoticeParent() async {
     ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
     try {
       // fetchChildData();
@@ -1948,7 +1505,6 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-           
             "${ApiUrl.verifyReadUnreadNoticeTeacher}/${SharedService.loginDetails()!.data!.data?.id.toString()}",
         body: {
           "schoolName": SharedService.loginDetails()!.data!.data!.school,
@@ -1999,6 +1555,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
 
     return viewNotice;
   }
+
   static Future<bool> verifyReadUnreadNoticeParent(String noticeID) async {
     var ret = false;
     try {
@@ -2030,6 +1587,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     }
     return ret;
   }
+
 //Delete Notice Teacher .......................................................
   static Future<bool> deleteNoticeTeacher(
     String noticeID,
@@ -2071,7 +1629,7 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.getRegisteredStudentListEvents}?eventId=$eventID",
+            "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.getRegisteredStudentListEvents}/$eventID",
       );
       log(response.statusCode.toString());
 
@@ -2316,37 +1874,6 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     return ret;
   }
 
-//............... Teacher View Results..........................................
-  static Future<ClassWiseResultResponseModel> teacherViewReqsultClassWise(
-      String selectedClass, String testType) async {
-    ClassWiseResultResponseModel wholeClassResult =
-        ClassWiseResultResponseModel();
-    try {
-      var school = SharedService.loginDetails()!.data!.data!.school;
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.teacherViewReqsultClassWise}?schoolName=$school&class=$selectedClass&examType=$testType",
-      );
-      log(response.statusCode.toString());
-      log(response.body.toString());
-
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          wholeClassResult =
-              classWiseResultResponseModelFromJson(response.body);
-        } else {
-          wholeClassResult = ClassWiseResultResponseModel();
-        }
-      } else {
-        wholeClassResult = ClassWiseResultResponseModel();
-      }
-    } catch (e) {
-      wholeClassResult = ClassWiseResultResponseModel();
-    }
-
-    return wholeClassResult;
-  }
-
 // Delete result by teacher...................................................
 
   static Future<void> deleteResult(String resultId) async {
@@ -2510,16 +2037,16 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     return about;
   }
 
-  //all
-
   static Future<AboutSchoolResponseModel> ViewAboutSchool() async {
     AboutSchoolResponseModel about = AboutSchoolResponseModel();
     try {
       var school = SharedService.loginDetails()!.data!.data!.school;
       var response = await ApiBase.getRequest(
-        extendedURL: "${ApiUrl.viewAboutSchool}/${SharedService.loginDetails()?.data?.id}?schoolName=$school&departmentId=SCH0001",
+        extendedURL:
+            "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewAboutSchool}/?schoolName=$school&institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}",
       );
       log(response.statusCode.toString());
+      log(response.body.toString());
       log(response.body.toString());
 
       if (response.statusCode == 200) {
@@ -2536,113 +2063,5 @@ log( "http://${ApiUrl.baseUrl}${ApiUrl.uploadGallery}",);
     }
 
     return about;
-  }
-
-  //................... Teacher upload Aout school..........................................
-
-  static Future<bool> teacherUploadAboutUs(
-    String schoolAddress,
-    String websiteLink,
-    String schoolEmailId,
-    String aboutSchool,
-    String coreValues,
-    String principalOffice,
-    String admissionDepartment,
-    String enquiryDepartment,
-    File rulesAndRegulation,
-    File profilePic,
-    File coverPic,
-    BuildContext context,
-  ) async {
-    var ret = false;
-
-    try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-          "http://13.232.53.26:3000/createAbout-us",
-        ),
-      );
-
-      // Add headers here
-      Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
-      };
-      request.headers.addAll(headers);
-
-      request.fields['schoolName'] = schoolName!;
-      request.fields['schoolAddress'] = schoolAddress;
-      request.fields['websiteLink'] = websiteLink;
-      request.fields['schoolEmailId'] = schoolEmailId;
-      request.fields['aboutSchool'] = aboutSchool;
-      request.fields['coreValues'] = coreValues;
-      request.fields['principalOffice'] = principalOffice;
-      request.fields['admissionDepartment'] = admissionDepartment;
-      request.fields['enquiryDepartment'] = enquiryDepartment;
-
-      // log("http://${ApiUrl.baseUrl}${ApiUrl.teacherUploadAwards}");
-
-      log("SchoolName=$schoolName");
-
-      // Add rulesAndRegulation file
-      var rulesAndRegulationStream =
-          http.ByteStream(rulesAndRegulation.openRead());
-      var rulesAndRegulationLength = await rulesAndRegulation.length();
-      var rulesAndRegulationMultipartFile = http.MultipartFile(
-        'rulesAndRegulation',
-        rulesAndRegulationStream.cast(),
-        rulesAndRegulationLength,
-        filename: p.basename(rulesAndRegulation.path),
-      );
-      request.files.add(rulesAndRegulationMultipartFile);
-
-      // Add profilePic file
-      var profilePicStream = http.ByteStream(profilePic.openRead());
-      var profilePicLength = await profilePic.length();
-      var profilePicMultipartFile = http.MultipartFile(
-        'profilePic',
-        profilePicStream.cast(),
-        profilePicLength,
-        filename: p.basename(profilePic.path),
-      );
-      request.files.add(profilePicMultipartFile);
-
-      // Add coverPic file
-      var coverPicStream = http.ByteStream(coverPic.openRead());
-      var coverPicLength = await coverPic.length();
-      var coverPicMultipartFile = http.MultipartFile(
-        'coverPic',
-        coverPicStream.cast(),
-        coverPicLength,
-        filename: p.basename(coverPic.path),
-      );
-      request.files.add(coverPicMultipartFile);
-
-      var response = await http.Response.fromStream(await request.send());
-
-      log(response.statusCode.toString());
-      log(response.body);
-
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-        if (jsonResponse['status'] == true) {
-          ret = true;
-        } else {
-          log(response.statusCode.toString());
-          ret = false;
-          log("not successful else");
-        }
-      } else {
-        log(response.statusCode.toString());
-        ret = false;
-        log("not successful else 2");
-      }
-    } catch (e) {
-      ret = false;
-      log("$e : not successful catch");
-    }
-
-    return ret;
   }
 }

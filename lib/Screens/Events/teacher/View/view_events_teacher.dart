@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/detailed_completed_events_screen_teacher.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/registered_students_list.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import '../../../../Models/Student/Events/view_events_response_model.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
@@ -142,7 +143,7 @@ class _EventScreen extends State<TeacherViewEvents> {
             Visibility(
               visible: isUpcomingSelected,
               child: FutureBuilder<StudentsViewEventsResponseModel>(
-                future: ApiServices.viewSchoolEvents("Pending"),
+                future: TeacherApiServices.teacherViewSchoolEvents("Pending"),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -242,7 +243,7 @@ class _EventScreen extends State<TeacherViewEvents> {
             Visibility(
               visible: !isUpcomingSelected,
               child: FutureBuilder(
-                future: ApiServices.viewSchoolEvents("Completed"),
+                future: TeacherApiServices.teacherViewSchoolEvents("Completed"),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator(); // Show loading indicator

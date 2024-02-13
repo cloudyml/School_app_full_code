@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
 import '../../../Models/Student/Result/student_see_result_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
@@ -245,12 +245,11 @@ class StudentSeeOwnResult extends StatelessWidget {
                   return const Text('');
                 } else {
                   StudentResultResponseModel? resultDetails = snapshot.data;
-
                   return Padding(
                     padding: const EdgeInsets.all(8),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.14,
+                      // height: MediaQuery.of(context).size.height * 0.14,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),

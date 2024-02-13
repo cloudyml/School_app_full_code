@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Homework/Teacher/choose_class_for_see_homework.dart';
-import 'package:school_management_system/Screens/Homework/Teacher/upload_homework.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/choose_class_section_for_see_homework.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/upload%20homework/upload_homework.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';

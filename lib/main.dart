@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
@@ -20,7 +22,6 @@ void main() async {
           messagingSenderId: "167650873505",
           projectId: "school-app-94046"),
     );
-    
   } else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
@@ -40,16 +41,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'A Student Management System',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'A Student Management System',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const SplashScreen(),
+        // home: Arpan_Ui(),
+        builder: EasyLoading.init(),
       ),
-      home: const SplashScreen(),
-      // home: ChooseClassForViewAttendance(),
-      builder: EasyLoading.init(),
     );
   }
 }

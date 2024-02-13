@@ -13,12 +13,14 @@ class ApiUrl {
   static const String weekStudentAttendance = "/getWeeklyAttendanceByName";
   static const String monthStudentAttendance = "/getMonthlyAttendanceByName";
   static const String dailyRoutine = "/getWeeklyTimeTable";
-  static const String teacherUploadAssignment = "/teacher";
+  static const String teacherUploadAssignment = "/createAssignment";
+  static const String createAssignment = "/createAssignment";
   static const String studentPendingAssignment = "/student";
   static const String parentViewPendingAssignment = "/parent";
   static const String studentUploadAssignment = "/student";
-  static const String teacherSeeOwnUploadedAssignments =
-      "/teacher/assignmentList";
+  static const String teacherSeeOwnUploadedAssignments = "/getFileAssignments";
+  static const String teacherSeeOwnUploadedTextAssignments =
+      "/getTextAssignmentList";
   static const String teacherSeeSubmittedStudentsAssignments = "/teacher";
   static const String studentSubmittedAssignment = "/student";
   static const String parentViewSubmittedAssignment = "/student";
@@ -30,7 +32,7 @@ class ApiUrl {
   static const String uploadGallery = "/uploadGallery";
   static const String viewSchoolGallery = "/getGallery";
   static const String viewSchoolEvents = "/getEventsByStatus";
-  static const String teacherUploadEvents = "/uploadMult";
+
   static const String studentViewAwards = "/getAllAwards";
   static const String teacherUploadAwards = "/createAward";
 
@@ -56,14 +58,14 @@ class ApiUrl {
   static const String deleteNoticeTeacher = "/deleteNotice-teacher";
   static const String viewNoticeTeacher = "/getAllNotice-teacher";
   static const String verifyReadUnreadNoticeTeacher = "/notice-read-teacher";
-    static const String viewNotice = "/getAllNotice-parent";
+  static const String viewNotice = "/getAllNotice-parent";
   static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
 
   // Eventts..........................................................................
 
   static const String getRegisteredStudentListEvents = "/getEventRegister";
   static const String studentSeeMyEnrolledEvents = "/getAllEventsOfStudents";
-
+  static const String teacherUploadEvents = "/addEvent";
   // Notice.........................................................................
 
   static const String teacherUploadNotice = "/createNotice";
@@ -71,9 +73,9 @@ class ApiUrl {
   // Result..........................................................................
 
   static const String studentSeeResult = "/studentSeeResult";
-  static const String uploadResult = "/createResult";
-  static const String teacherViewReqsultClassWise = "/getClassResult";
-
+  static const String uploadResult = "/createResult-section";
+  static const String teacherViewReqsultClassWise = "/getResult-section";
+  static const String teacherUpadteResult = "/updateResultBySubjectId";
   // Exam........................................................................
 
   static const String viewExamRoutine = "/getExamDetails";

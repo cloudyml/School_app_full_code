@@ -109,7 +109,7 @@ class TeacherSelectExamType extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TeacherChooseClassForUploadExamRoutine(
+                                const TeacherChooseClassForUploadExamRoutine(
                                     testType: 'mid term')));
                   },
                   child: Container(
@@ -163,7 +163,7 @@ class TeacherSelectExamType extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TeacherChooseClassForUploadExamRoutine(
+                                const TeacherChooseClassForUploadExamRoutine(
                                     testType: 'final term')));
                   },
                   child: Container(

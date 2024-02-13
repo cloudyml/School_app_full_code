@@ -3,7 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/rectangle_elevatedbutton_card.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
@@ -636,7 +637,7 @@ class _UploadAwardsState extends State<UploadAboutSchool> {
                 'Please fill in all fields.',
               );
             } else {
-              ApiServices.teacherUploadAboutUs(
+              TeacherApiServices.teacherUpdateAboutUs(
                 schoolAddress.text,
                 schoolWebsite.text,
                 schoolEmail.text,
