@@ -15,11 +15,13 @@ class UploadExamRoutine extends StatefulWidget {
   final String selectedClass;
   final String remarks;
   final String testType;
+  final String selectedSection;
   const UploadExamRoutine({
     Key? key,
     required this.selectedClass,
     required this.remarks,
     required this.testType,
+    required this.selectedSection
   });
   @override
   _UploadResultState createState() => _UploadResultState();
@@ -316,6 +318,7 @@ class _UploadResultState extends State<UploadExamRoutine> {
       persistentFooterButtons: [
         RecElevatedButton(
           onPressed: () async {
+            log("token ${SharedService.userAuth()}");
             try {
               if (isClicked == true) {
                 return;
@@ -333,6 +336,17 @@ class _UploadResultState extends State<UploadExamRoutine> {
                   "class": widget.selectedClass,
                   "examType": widget.testType,
                   "remarks": widget.remarks,
+                  "section" : widget.selectedSection,
+                  "institutionId": SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .institutionId
+                      .toString(),
+                  "schoolId": SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .schoolId
+                      .toString(),
                   "examDetails": examData.map((subjects) {
                     return {
                       "date": subjects.date,
@@ -359,6 +373,10 @@ class _UploadResultState extends State<UploadExamRoutine> {
                   } else {
                     showFailureSnackbar();
                   }
+                });
+
+                setState(() {
+                  isClicked = false;
                 });
               }
             } catch (e) {

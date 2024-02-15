@@ -11,8 +11,9 @@ import '../../../../widget/appBar/decorative_apbar_widget.dart';
 class TeacherViewExamRoutine extends StatefulWidget {
   final String testType;
   final String selectedClass;
+  final String selectedSection;
   const TeacherViewExamRoutine(
-      {super.key, required this.testType, required this.selectedClass});
+      {super.key, required this.testType, required this.selectedClass, required this.selectedSection});
 
   @override
   State<TeacherViewExamRoutine> createState() => _TeacherViewExamRoutineState();
@@ -117,7 +118,7 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
             ),
             FutureBuilder<ExamRoutineResponseModel>(
               future: ApiServices.viewExamRoutine(
-                  widget.selectedClass, widget.testType),
+                  widget.selectedClass, widget.testType, widget.selectedSection),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -195,7 +196,7 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
             ),
             FutureBuilder<ExamRoutineResponseModel>(
               future: ApiServices.viewExamRoutine(
-                  widget.selectedClass, widget.testType),
+                  widget.selectedClass, widget.testType, widget.selectedSection),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();

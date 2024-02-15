@@ -99,9 +99,7 @@ class ParentSeeExamRoutine extends StatelessWidget {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.parentViewExamRoutine(
-                 
-                  testType),
+              future: ApiServices.parentViewExamRoutine(testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -185,7 +183,8 @@ class ParentSeeExamRoutine extends StatelessWidget {
                       .data!
                       .dataClass
                       .toString(),
-                  testType),
+                  testType,
+                  ""),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();
