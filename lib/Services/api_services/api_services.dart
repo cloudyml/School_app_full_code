@@ -8,38 +8,38 @@ import 'package:school_management_system/Models/Teacher/Attendance/view_attendan
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
-import '../Models/Student/About/view_about_school.dart';
-import '../Models/Student/Awards/view_awards_response_model.dart';
-import '../Models/Student/Events/Register_Event/eligibility_check_get_api_response_model.dart';
-import '../Models/Student/Events/Register_Event/my_enrolled_events_list_model.dart';
-import '../Models/Student/Events/view_events_response_model.dart';
-import '../Models/Student/Exam/exam_routine_response_model.dart';
-import '../Models/Student/Fees/student_fee_response_model.dart';
-import '../Models/Student/Gallery/view_gallery_response_model.dart';
-import '../Models/Student/Notice/view_notice_response_model.dart';
-import '../Models/Student/Result/student_see_result_model.dart';
-import '../Models/Teacher/Attendance/attendance_submit_model.dart';
-import '../Models/Teacher/Awards/class_wise_awards_list_response_model.dart';
-import '../Models/Teacher/Events/event_registered_student_list_model.dart';
-import '../Models/Teacher/Events/upload_events_post_api_model.dart';
-import '../Models/Teacher/Fees/delete_fees_model.dart';
-import '../Models/Teacher/Fees/update_fees_model.dart';
-import '../Models/Teacher/Fees/upload_fees_model.dart';
-import '../Models/Student/Student_Upload_Assignment.dart';
-import '../Models/Student/assignment_view_model.dart';
-import '../Models/Student/month_attendance_student_response_model.dart';
-import '../Models/Student/submitted_assignment_model.dart';
-import '../Models/Teacher/Assignment_upload_model.dart';
-import '../Models/Teacher/Gallery/upload_gallery.dart';
-import '../Models/Teacher/Result/class_wise_result_response_model.dart';
-import '../Models/Teacher/assignment_submitted_students_model.dart';
-import '../Models/Teacher/given_assignmens_list_model.dart';
-import '../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
-import '../Models/Student/day_Routine_response_medel.dart';
-import '../Models/login_response_model.dart';
-import '../Models/Student/week_attendance_student_model.dart';
-import 'api_urls.dart';
-import 'base_api_service.dart';
+import '../../Models/Student/About/view_about_school.dart';
+import '../../Models/Student/Awards/view_awards_response_model.dart';
+import '../../Models/Student/Events/Register_Event/eligibility_check_get_api_response_model.dart';
+import '../../Models/Student/Events/Register_Event/my_enrolled_events_list_model.dart';
+import '../../Models/Student/Events/view_events_response_model.dart';
+import '../../Models/Student/Exam/exam_routine_response_model.dart';
+import '../../Models/Student/Fees/student_fee_response_model.dart';
+import '../../Models/Student/Gallery/view_gallery_response_model.dart';
+import '../../Models/Student/Notice/view_notice_response_model.dart';
+import '../../Models/Student/Result/student_see_result_model.dart';
+import '../../Models/Teacher/Attendance/attendance_submit_model.dart';
+import '../../Models/Teacher/Awards/class_wise_awards_list_response_model.dart';
+import '../../Models/Teacher/Events/event_registered_student_list_model.dart';
+import '../../Models/Teacher/Events/upload_events_post_api_model.dart';
+import '../../Models/Teacher/Fees/delete_fees_model.dart';
+import '../../Models/Teacher/Fees/update_fees_model.dart';
+import '../../Models/Teacher/Fees/upload_fees_model.dart';
+import '../../Models/Student/Student_Upload_Assignment.dart';
+import '../../Models/Student/assignment_view_model.dart';
+import '../../Models/Student/month_attendance_student_response_model.dart';
+import '../../Models/Student/submitted_assignment_model.dart';
+import '../../Models/Teacher/Assignment_upload_model.dart';
+import '../../Models/Teacher/Gallery/upload_gallery.dart';
+import '../../Models/Teacher/Result/Get models/class_wise_result_response_model.dart';
+import '../../Models/Teacher/assignment_submitted_students_model.dart';
+import '../../Models/Teacher/given_assignmens_list_model.dart';
+import '../../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
+import '../../Models/Student/day_Routine_response_medel.dart';
+import '../../Models/login_response_model.dart';
+import '../../Models/Student/week_attendance_student_model.dart';
+import '../api_urls.dart';
+import '../base_api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 
@@ -1183,7 +1183,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1276,7 +1276,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewSchoolGallery}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
+            "${ApiUrl.viewSchoolGallery}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
       );
       log(response.statusCode.toString());
 
@@ -1336,7 +1336,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&status=$status",
+            "${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&status=$status",
       );
       log(response.statusCode.toString());
 
@@ -1371,7 +1371,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1520,7 +1520,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName = SharedService.loginDetails()?.data!.data!.school;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1781,7 +1781,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.classWiseAwardsListOfStudents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&class=${selectedClass}&section=${selectedSection}",
+            "${ApiUrl.classWiseAwardsListOfStudents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&class=${selectedClass}&section=${selectedSection}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1810,7 +1810,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNoticeStudents}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
+            "${ApiUrl.viewNoticeStudents}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -1837,7 +1837,7 @@ class ApiServices {
         extendedURL:
             "${ApiUrl.verifyReadUnreadNoticeStudent}/${SharedService.loginDetails()!.data!.id}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
+          "schoolName": SharedService.loginDetails()!.data!.data!.school,
           "read": "true",
           "studentId": SharedService.loginDetails()!.data!.id,
           "noticeId": noticeID,
@@ -1868,7 +1868,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNoticeTeacher}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
+            "${ApiUrl.viewNoticeTeacher}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1896,7 +1896,7 @@ class ApiServices {
         extendedURL:
             "${ApiUrl.verifyReadUnreadNoticeTeacher}/${SharedService.loginDetails()!.data!.id.toString()}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
+          "schoolName": SharedService.loginDetails()!.data!.data!.school,
           "read": "true",
           "noticeId": noticeID,
         },
@@ -2025,7 +2025,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName = SharedService.loginDetails()?.data!.data!.school;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -2122,7 +2122,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.schoolName}",
+            "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.school}",
       );
       log(response.statusCode.toString());
 
@@ -2179,7 +2179,7 @@ class ApiServices {
     ClassWiseResultResponseModel wholeClassResult =
         ClassWiseResultResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.schoolName;
+      var school = SharedService.loginDetails()!.data!.data!.school;
       var response = await ApiBase.getRequest(
         extendedURL:
             "${ApiUrl.teacherViewReqsultClassWise}?schoolName=$school&class=$selectedClass&examType=$testType",
@@ -2262,7 +2262,7 @@ class ApiServices {
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
       var schoolName =
-          SharedService.loginDetails()!.data!.data!.schoolName;
+          SharedService.loginDetails()!.data!.data!.school;
       var schoolID = SharedService.loginDetails()!.data!.data!.schoolId;
       var institutionId = SharedService.loginDetails()!.data!.data!.institutionId;
       var id = SharedService.loginDetails()?.data?.data?.id;
@@ -2344,7 +2344,7 @@ class ApiServices {
   static Future<AboutSchoolResponseModel> ViewAboutSchool() async {
     AboutSchoolResponseModel about = AboutSchoolResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.schoolName;
+      var school = SharedService.loginDetails()!.data!.data!.school;
       var response = await ApiBase.getRequest(
         extendedURL: "${ApiUrl.viewAboutSchool}?schoolName=$school",
       );
@@ -2386,7 +2386,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName = SharedService.loginDetails()?.data!.data!.school;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(

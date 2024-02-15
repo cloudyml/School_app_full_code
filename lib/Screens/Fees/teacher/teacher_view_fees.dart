@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/Fees/student_fee_response_model.dart';
-import '../../../Services/api_services.dart';
+import '../../../Services/api_services/api_services.dart';
 import '../../../constants/style.dart';
 import '../../Dashboard.dart';
 import '../teacher/upload_fees.dart';

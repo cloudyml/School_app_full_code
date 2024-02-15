@@ -9,6 +9,7 @@ class TeacherSubmittedAssignmentCard extends StatelessWidget {
   final String roll;
   final String file;
   final String fileLink;
+  final String questionPaper;
 
   const TeacherSubmittedAssignmentCard({
     super.key,
@@ -17,6 +18,7 @@ class TeacherSubmittedAssignmentCard extends StatelessWidget {
     required this.roll,
     required this.file,
     required this.fileLink,
+    required this.questionPaper,
   });
 
   @override
@@ -86,7 +88,7 @@ class TeacherSubmittedAssignmentCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -95,8 +97,17 @@ class TeacherSubmittedAssignmentCard extends StatelessWidget {
                   Launceweb.launchweb(fileLink);
                 },
                 child: const Text(
-                  'View Submitted File',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  'Submitted File',
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ),
+              MyElevatedButton(
+                onPressed: () {
+                  Launceweb.launchweb(questionPaper);
+                },
+                child: const Text(
+                  'Question File',
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
             ],

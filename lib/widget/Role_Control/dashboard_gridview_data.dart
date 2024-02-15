@@ -15,7 +15,6 @@ import 'package:school_management_system/Screens/routine/parent/parent_daily_tim
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/constants/style.dart';
 import '../../Screens/Homework/Student/assignment_start_page.dart';
-import '../../Screens/Homework/Teacher/homework_options.dart';
 import '../../Screens/Attendance/Student/choose_attendance.dart';
 import '../../Screens/Attendance/Teacher/upload/choose_class_section.dart';
 import '../../Screens/Awards/student/student_view_awards.dart';
@@ -26,6 +25,7 @@ import '../../Screens/Exam/Teacher/choose_view_or_upload_exam.dart';
 import '../../Screens/Fees/teacher/teacher_view_fees.dart';
 import '../../Screens/Gallery/student/view_gallery_student.dart';
 import '../../Screens/Gallery/teacher/select_gallery_options.dart';
+import '../../Screens/Homework/Teacher/upload_view_homework_options.dart';
 import '../../Screens/Result/Teacher/first_page_select_result_options.dart';
 import '../../Screens/Routine/student/days_routine.dart';
 import '../../Services/shared_services.dart';

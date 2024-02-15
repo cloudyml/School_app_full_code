@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../widget/Button/rectangle_elevatedbutton_card.dart';

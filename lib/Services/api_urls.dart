@@ -79,4 +79,6 @@ class ApiUrl {
 
   //children Data..................................................................
   static const String childrenDataById = "/getStudentfromParent";
+  static const String teacherSeeOwnUploadedTextAssignments = "/getTextAssignmentList";
+  static const String teacherUpadteResult = "/updateResultBySubjectId";
 }

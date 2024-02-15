@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Awards/teacher/Upload/upload_awards.dart';
-import 'package:school_management_system/Screens/Result/Teacher/Upload/upload_result.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
-import 'Upload/choose_class_section_student_for_upload_result.dart';
-import 'View/choose_class_to_view_result.dart';
+import 'Upload/choose_class_section_for_upload_result.dart';
+import 'View/choose_class_section_to_view_result.dart';
 import 'Upload/teacher_select_resulttype_for_upload_result.dart';
 import 'View/teacher_select_resulttype_for_view_result.dart';
 

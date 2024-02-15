@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import 'package:school_management_system/widget/teacher/Assignments/teacher_see_own_uploaded_assignment_card.dart';
-import '../../../Models/Teacher/given_assignmens_list_model.dart';
 
-class TeacherSeeOwnUploadedAssignment extends StatelessWidget {
+import '../../../../Models/Teacher/Homework/Text Homework/teacher_uploaded_text_assignments_response_model.dart';
+//import '../../../../Models/Teacher/Homework/view file homework/teacher_see_own_assignments_list_response_model.dart';
+
+class TeacherSeeOwnUploadedTextAssignment extends StatelessWidget {
   final String wclass;
   final String section;
-  const TeacherSeeOwnUploadedAssignment(
+  const TeacherSeeOwnUploadedTextAssignment(
       {super.key, required this.wclass, required this.section});
 
   @override
@@ -32,10 +34,11 @@ class TeacherSeeOwnUploadedAssignment extends StatelessWidget {
           }),
         ),
       ),
-      body: FutureBuilder<TeacherSeeOwnAssignmentsListModel>(
-        future: ApiServices.teacherSeeOwnGivenAssignment(wclass, section),
+      body: FutureBuilder<TeacherUploadedTextAssignmentResponseModel>(
+        future: TeacherApiServices.teacherSeeOwnGivenTextAssignment(
+            wclass, section),
         builder: (context, snapshot) {
-          TeacherSeeOwnAssignmentsListModel? teacherSeeAllAssignment =
+          TeacherUploadedTextAssignmentResponseModel? teacherSeeAllAssignment =
               snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -50,7 +53,8 @@ class TeacherSeeOwnUploadedAssignment extends StatelessWidget {
                 // Format the givenDate and submitDate
                 String formattedGivenDate = DateFormat('dd-MM-yyyy').format(
                   DateTime.parse(
-                    teacherSeeAllAssignment.data![index].date.toString(),
+                    teacherSeeAllAssignment.data![index].lastDateOfSubmit
+                        .toString(),
                   ),
                 );
                 String formattedSubmitDate = DateFormat('dd-MM-yyyy').format(
@@ -62,14 +66,19 @@ class TeacherSeeOwnUploadedAssignment extends StatelessWidget {
 
                 return TeacherSeeOwnUploadedAssignmentCard(
                   assignmentID:
-                      teacherSeeAllAssignment.data![index].id.toString(),
+                      teacherSeeAllAssignment.data?[index].id.toString() ?? "",
                   givenDate: formattedGivenDate,
-                  subject:
+                  subject: 
                       teacherSeeAllAssignment.data![index].subject.toString(),
-                  submitDate: formattedSubmitDate, // Use the formatted date
+                  submitDate: formattedSubmitDate,
                   topic: teacherSeeAllAssignment.data![index].topic.toString(),
                   section: section,
                   wclass: wclass,
+                  questionFile: "",
+                  submittedStudentList: teacherSeeAllAssignment.data![index]
+                      .submittedStudentId as List<SubmittedStudentList>,
+                  notSubmittedStudentList: teacherSeeAllAssignment.data![index]
+                      .notSubmittedStudentList as List<NotSubmittedStudentList>,
                 );
               },
             );

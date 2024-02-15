@@ -70,7 +70,7 @@ class LoginData {
   String? section;
   String? password;
   String? phoneNumber;
-  String? schoolName;
+  String? school;
   String? schoolId;
   int? rollNumber;
   String? name;
@@ -92,7 +92,7 @@ class LoginData {
       this.section,
       this.password,
       this.phoneNumber,
-      this.schoolName,
+      this.school,
       this.rollNumber,
       this.name,
       this.dataClass,
@@ -113,7 +113,7 @@ class LoginData {
         section: json["section"],
         password: json["password"],
         phoneNumber: json["phoneNumber"],
-    schoolName: json["schoolName"],
+    school: json["schoolName"],
         rollNumber: json["rollNumber"],
         name: json["name"],
         dataClass: json["class"],
@@ -137,7 +137,7 @@ class LoginData {
         "section": section,
         "password": password,
         "phoneNumber": phoneNumber,
-        "schoolName": schoolName,
+        "schoolName": school,
         "rollNumber": rollNumber,
         "name": name,
         "class": dataClass,
