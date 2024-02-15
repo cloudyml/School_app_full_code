@@ -2361,47 +2361,24 @@ class ApiServices {
     return ret;
   }
 
-  // Student see own result GET api.................................................
 
-  static Future<StudentResultResponseModel> parentSeeResult(
-      String testType) async {
+  // Student and parent see own result GET api.................................................
+
+  static Future<StudentResultResponseModel> studentParentSeeResult(
+      String userType, String testType) async {
     StudentResultResponseModel result = StudentResultResponseModel();
     try {
-      // fetchChildData();
-      var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
-        extendedURL:
-            "/student/${SharedService.childDetails()?.data?.data?.id}/studentSeeTheirResult?examType=$testType",
-      );
-      log(response.statusCode.toString());
-
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          result = studentResultResponseModelFromJson(response.body);
-        } else {
-          result = StudentResultResponseModel();
-        }
-      } else {
-        result = StudentResultResponseModel();
-      }
-    } catch (e) {
-      result = StudentResultResponseModel();
-    }
-
-    return result;
-  }
-
-  // Student see own result GET api.................................................
-
-  static Future<StudentResultResponseModel> studentSeeResult(
-      String testType) async {
-    StudentResultResponseModel result = StudentResultResponseModel();
-    try {
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            // "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.school}",
-            "/${SharedService.loginDetails()!.data?.data?.role}/${SharedService.loginDetails()?.data?.id}/studentSeeTheirResult?examType=$testType",
-      );
+      var response = userType == "parent"
+          ? await ApiBase.getRequest(
+              token: SharedService.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedService.childDetails()?.data?.data?.id}/studentSeeTheirResult?examType=$testType",
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  // "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.school}",
+                  "/${SharedService.loginDetails()!.data?.data?.role}/${SharedService.loginDetails()?.data?.id}/studentSeeTheirResult?examType=$testType",
+            );
       log(response.statusCode.toString());
       log(response.body.toString());
 
@@ -2503,19 +2480,24 @@ class ApiServices {
     }
   }
 
-  // view Exam Routine parent ..................................................
-  static Future<ExamRoutineResponseModel> parentViewExamRoutine(
-      String testType) async {
+
+// student view and parent view the exam routine
+  static Future<ExamRoutineResponseModel> viewExamRoutineParentStudent(
+      String userType, String testType) async {
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
-      // fetchChildData();
-      var selectedClass =
-          SharedService.childDetails()!.data?.data?.dataClass.toString();
-      var school = SharedService.childDetails()?.data?.data?.schoolName;
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.viewExamRoutine}?schoolName=$school&class=$selectedClass&examType=$testType",
-      );
+      // var school = SharedService.loginDetails()!.data!.data!.school;
+
+      var response = userType == "parent"
+          ? await ApiBase.getRequest(
+              token: SharedService.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedService.childDetails()?.data?.data?.id}/getExamination?examType=$testType",
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedService.loginDetails()?.data?.data?.id}}/getExamination?examType=$testType",
+            );
       log(response.statusCode.toString());
       log(response.body.toString());
 
@@ -2534,6 +2516,7 @@ class ApiServices {
 
     return examRoutine;
   }
+
 // View Exam routine (GET API)..................................................
 
   static Future<ExamRoutineResponseModel> viewExamRoutine(
@@ -2543,7 +2526,7 @@ class ApiServices {
       var school = SharedService.loginDetails()!.data!.data!.school;
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewExamRoutine}?schoolName=$school&class=$selectedClass&examType=$testType",
+            "/student/${SharedService.loginDetails()?.data?.id}/getExamination?examType=$testType",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -2622,10 +2605,11 @@ class ApiServices {
 
     try {
       // fetchChildData();
-      var school = SharedService.loginDetails()!.data!.data!.school;
+      var school = SharedService.childDetails()!.data!.data?.schoolName;
       var response = await ApiBase.getRequest(
+        token: SharedService.childDetails()?.data?.token,
         extendedURL:
-            "${ApiUrl.viewAboutSchool}?schoolName=${SharedService.childDetails()?.data?.data?.schoolName}",
+            "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.viewAboutSchool}/?schoolName=$school&institutionId=${SharedService.childDetails()?.data?.data?.institutionId}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());

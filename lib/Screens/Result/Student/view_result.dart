@@ -23,6 +23,7 @@ class SeeOwnResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+    StudentResultResponseModel? result;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,10 +118,9 @@ class SeeOwnResult extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
             FutureBuilder(
-                future:
-                    SharedService.loginDetails()?.data?.data?.role == "parent"
-                        ? ApiServices.parentSeeResult(testType)
-                        : ApiServices.studentSeeResult(testType),
+                future: ApiServices.studentParentSeeResult(
+                    SharedService.loginDetails()!.data!.data!.role.toString(),
+                    testType),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator(); // Show loading indicator
@@ -132,9 +132,9 @@ class SeeOwnResult extends StatelessWidget {
                       snapshot.data?.data?.data?.subjects?.length == 0) {
                     return const Text('No result found.');
                   } else {
-                    StudentResultResponseModel? result = snapshot.data;
+                    result = snapshot.data;
                     log("Message= ${result!.message.toString()}");
-                    log("Status= ${result.status.toString()}");
+                    log("Status= ${result!.status.toString()}");
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -216,16 +216,16 @@ class SeeOwnResult extends StatelessWidget {
                           ),
                           Column(
                               children: List.generate(
-                            result.data!.data!.subjects!.length,
+                            result!.data!.data!.subjects!.length,
                             (index) => TestResultsTable(
-                              comment: result
-                                  .data!.data!.subjects![index].comment
+                              comment: result!
+                                  .data!.data!.subjects![index].comments
                                   .toString(),
-                              grade: result.data!.data!.subjects![index].grades
+                              grade: result!.data!.data!.subjects![index].grades
                                   .toString(),
-                              marks: result.data!.data!.subjects![index].marks
+                              marks: result!.data!.data!.subjects![index].marks
                                   .toString(),
-                              subjectName: result
+                              subjectName: result!
                                   .data!.data!.subjects![index].subject
                                   .toString(),
                               index: index,
@@ -234,23 +234,6 @@ class SeeOwnResult extends StatelessWidget {
                           SizedBox(
                             height: 10.h,
                           ),
-                          MyElevatedButton(
-                              gradient: LinearGradient(colors: [
-                                deepBlue,
-                                lightBlue,
-                              ]),
-                              borderRadius: BorderRadius.circular(5.r),
-                              onPressed: () async {
-                                MakeOfPdf().makePdf(context, result, testType);
-                              },
-                              child: Text(
-                                "Download Pdf",
-                                style: GoogleFonts.inter(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500),
-                              )),
                           SizedBox(
                             height: 15.h,
                           ),
@@ -264,10 +247,10 @@ class SeeOwnResult extends StatelessWidget {
                                   const Text(
                                     "Marks Obtained : ",
                                   ),
-                                  Text(result.data!.result!.totalMarks
+                                  Text(result!.data!.result!.totalMarks
                                           .toString() +
                                       "/" +
-                                      result.data!.result!.totalOutOffMarks
+                                      result!.data!.result!.totalOutOffMarks
                                           .toString()),
                                 ],
                               ),
@@ -278,7 +261,7 @@ class SeeOwnResult extends StatelessWidget {
                                   const Text(
                                     "Grade Obtained : ",
                                   ),
-                                  Text(result.data!.result!.overAllGrades
+                                  Text(result!.data!.result!.overAllGrades
                                       .toString()),
                                 ],
                               ),
@@ -289,7 +272,7 @@ class SeeOwnResult extends StatelessWidget {
                                   const Text(
                                     "Percentage Obtained : ",
                                   ),
-                                  Text(result.data!.result!.percentage
+                                  Text(result!.data!.result!.percentage
                                       .toString()),
                                 ],
                               ),
@@ -300,7 +283,7 @@ class SeeOwnResult extends StatelessWidget {
                                   const Text(
                                     "Remark From Teacher : ",
                                   ),
-                                  Text(result.data!.result!.overAllComments
+                                  Text(result!.data!.result!.overAllComments
                                       .toString()),
                                 ],
                               ),
@@ -314,6 +297,24 @@ class SeeOwnResult extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: MyElevatedButton(
+          gradient: LinearGradient(colors: [
+            deepBlue,
+            lightBlue,
+          ]),
+          borderRadius: BorderRadius.circular(5.r),
+          onPressed: () async {
+            MakeOfPdf().makePdf(context, result!, testType);
+          },
+          child: Text(
+            "Download Pdf",
+            style: GoogleFonts.inter(
+                color: Colors.white,
+                letterSpacing: 1.0,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500),
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

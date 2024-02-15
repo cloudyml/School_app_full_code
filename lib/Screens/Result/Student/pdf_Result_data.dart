@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:school_management_system/Models/Student/Result/student_see_result_model.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -13,8 +15,23 @@ class MakeOfPdf {
     // Create a PDF document
     final pdf = pw.Document();
 
+    //Add image logo to the pdf
+    final ByteData schoolLogo = await rootBundle.load('assets/schoolLogo.jpg');
+
+    Uint8List imageData = (schoolLogo).buffer.asUint8List();
+
     // Add a page with content
     // HEadings and the pragraph Values
+
+    String formatDateTime(String date) {
+      // Assuming the input date is in "yyyy-MM-dd" format
+      final inputFormat = DateFormat("yyyy-MM-dd");
+      final outputFormat =
+          DateFormat("yyyy-MM-dd"); // Change this to your desired format
+      final parsedDate = inputFormat.parse(date);
+      return outputFormat.format(parsedDate);
+    }
+
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.standard,
@@ -22,6 +39,11 @@ class MakeOfPdf {
         build: (pw.Context context) => pw.Column(
           children: [
             pw.Header(
+                padding: pw.EdgeInsets.all(8.h),
+                decoration: pw.BoxDecoration(
+                    border: pw.Border(
+                        bottom:
+                            pw.BorderSide(color: PdfColors.black, width: 2.h))),
                 child: pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                     children: [
@@ -29,13 +51,26 @@ class MakeOfPdf {
                           style: pw.TextStyle(
                               fontWeight: pw.FontWeight.bold, fontSize: 24.sp)),
                       pw.Text(
-                          " ${data.data?.data?.month.toString()}/" +
-                              "${data.data?.data?.year.toString()}",
+                          formatDateTime(
+                              "${data.data?.data?.createdAt.toString()}"),
                           style: pw.TextStyle(
                               fontWeight: pw.FontWeight.normal,
                               fontSize: 24.sp))
                     ]),
                 textStyle: pw.TextStyle(fontSize: 32.sp)),
+            pw.SizedBox(height: 10.h),
+            pw.Container(
+              width: 150.h,
+              height: 150.w,
+              child: pw.Image(pw.MemoryImage(imageData), fit: pw.BoxFit.cover),
+            ),
+            pw.SizedBox(height: 25.h),
+            pw.Row(mainAxisAlignment: pw.MainAxisAlignment.center, children: [
+              pw.Text("${data.data?.data?.schoolName?.toString()}",
+                  style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold, fontSize: 22.sp)),
+            ]),
+            pw.SizedBox(height: 25.h),
             pw.Column(children: [
               pw.Row(children: [
                 pw.Text("Name : ",
@@ -45,6 +80,7 @@ class MakeOfPdf {
                     style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
               ]),
+              pw.SizedBox(height: 5.h),
               pw.Row(children: [
                 pw.Text("Roll No : ",
                     style: pw.TextStyle(
@@ -53,6 +89,7 @@ class MakeOfPdf {
                     style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
               ]),
+              pw.SizedBox(height: 5.h),
               pw.Row(children: [
                 pw.Text("Marks Obtained : ",
                     style: pw.TextStyle(
@@ -62,6 +99,7 @@ class MakeOfPdf {
                     style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
               ]),
+              pw.SizedBox(height: 5.h),
               pw.Row(children: [
                 pw.Text("Grade Obtained : ",
                     style: pw.TextStyle(
@@ -70,6 +108,7 @@ class MakeOfPdf {
                     style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold, fontSize: 18.sp)),
               ]),
+              pw.SizedBox(height: 5.h),
               pw.Row(children: [
                 pw.Text("Percentage : ",
                     style: pw.TextStyle(
@@ -219,7 +258,7 @@ class MakeOfPdf {
                                         height: 0.05.sh,
                                         child: pw.Center(
                                           child: pw.Text(
-                                            "${data.data?.data?.subjects![index].comment}",
+                                            "${data.data?.data?.subjects![index].comments}",
                                             style: pw.TextStyle(
                                                 fontSize: 14.sp,
                                                 fontWeight:

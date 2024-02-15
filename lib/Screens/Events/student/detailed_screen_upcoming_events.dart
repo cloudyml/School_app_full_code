@@ -469,7 +469,7 @@ class _DetailsEventScreenState extends State<UpcomingDetailsEventScreen> {
                                 color: const Color.fromARGB(255, 48, 48, 48)),
                           ),
                           Text(
-                            "11:00 AM- 2:00PM",
+                            widget.time,
                             style: GoogleFonts.inter(
                                 fontSize: 13,
                                 // fontWeight: FontWeight.w600,

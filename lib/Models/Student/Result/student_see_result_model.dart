@@ -130,7 +130,7 @@ class Subject {
     int? outOffMarks;
     int? passingMarks;
     String? grades;
-    String? comment;
+    String? comments;
     String? id;
 
     Subject({
@@ -139,7 +139,7 @@ class Subject {
         this.outOffMarks,
         this.passingMarks,
         this.grades,
-        this.comment,
+        this.comments,
         this.id,
     });
 
@@ -149,7 +149,7 @@ class Subject {
         outOffMarks: json["outOffMarks"],
         passingMarks: json["passingMarks"],
         grades: json["grades"],
-        comment: json["comment"],
+        comments: json["comments"],
         id: json["_id"],
     );
 
@@ -159,7 +159,7 @@ class Subject {
         "outOffMarks": outOffMarks,
         "passingMarks": passingMarks,
         "grades": grades,
-        "comment": comment,
+        "comments": comments,
         "_id": id,
     };
 }
