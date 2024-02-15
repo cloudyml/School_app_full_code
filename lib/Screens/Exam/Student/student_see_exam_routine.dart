@@ -99,12 +99,8 @@ class StudentSeeExamRoutine extends StatelessWidget {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(
-                  SharedService.loginDetails()!
-                      .data!
-                      .data!
-                      .dataClass
-                      .toString(),
+              future: ApiServices.viewExamRoutineParentStudent(
+                  SharedService.loginDetails()!.data!.data!.role.toString(),
                   testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -184,12 +180,8 @@ class StudentSeeExamRoutine extends StatelessWidget {
               height: 5,
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(
-                  SharedService.loginDetails()!
-                      .data!
-                      .data!
-                      .dataClass
-                      .toString(),
+              future: ApiServices.viewExamRoutineParentStudent(
+                 SharedService.loginDetails()!.data!.data!.role.toString(),
                   testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

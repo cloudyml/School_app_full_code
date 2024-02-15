@@ -51,10 +51,11 @@ class SelectResultType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
+                    
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentSeeOwnResult(
+                            builder: (context) => SeeOwnResult(
                                   testType: 'class test',
                                 )));
                   },
@@ -108,7 +109,7 @@ class SelectResultType extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentSeeOwnResult(
+                            builder: (context) => SeeOwnResult(
                                   testType: 'mid term',
                                 )));
                   },
@@ -162,7 +163,7 @@ class SelectResultType extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentSeeOwnResult(
+                            builder: (context) => SeeOwnResult(
                                   testType: 'final term',
                                 )));
                   },

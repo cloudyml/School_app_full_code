@@ -116,7 +116,7 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(
+              future: ApiServices.viewExamRoutineParentStudent(
                   widget.selectedClass, widget.testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -194,7 +194,7 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
               height: 5,
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(
+              future: ApiServices.viewExamRoutineParentStudent(
                   widget.selectedClass, widget.testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

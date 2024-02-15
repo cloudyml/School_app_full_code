@@ -36,79 +36,117 @@ class StudentViewAssignmentModel {
 }
 
 class Datum {
-  String? id;
-  DateTime? date;
-  int? datumClass;
-  String? section;
-  String? subject;
-  String? topic;
-  DateTime? lastDateOfSubmit;
-  String? link;
-  String? originalImage;
-  String? path;
-  List<dynamic>? submittedStudentId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  int? v;
+    UploadedImage uploadedImage;
+    String id;
+    String institutionId;
+    String schoolId;
+    String schoolName;
+    String teacherId;
+    int datumClass;
+    String section;
+    String subject;
+    String topic;
+    DateTime givenDate;
+    DateTime lastDateOfSubmit;
+    List<dynamic> textAssignmentList;
+    List<dynamic> submittedStudentId;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int v;
 
-  Datum({
-    this.id,
-    this.date,
-    this.datumClass,
-    this.section,
-    this.subject,
-    this.topic,
-    this.lastDateOfSubmit,
-    this.link,
-    this.originalImage,
-    this.path,
-    this.submittedStudentId,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-  });
+    Datum({
+        required this.uploadedImage,
+        required this.id,
+        required this.institutionId,
+        required this.schoolId,
+        required this.schoolName,
+        required this.teacherId,
+        required this.datumClass,
+        required this.section,
+        required this.subject,
+        required this.topic,
+        required this.givenDate,
+        required this.lastDateOfSubmit,
+        required this.textAssignmentList,
+        required this.submittedStudentId,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.v,
+    });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        uploadedImage: UploadedImage.fromJson(json["uploadedImage"]),
         id: json["_id"],
-        date: json["date"] == null ? null : DateTime.parse(json["date"]),
+        institutionId: json["institutionId"],
+        schoolId: json["schoolId"],
+        schoolName: json["schoolName"],
+        teacherId: json["teacherId"],
         datumClass: json["class"],
         section: json["section"],
         subject: json["subject"],
         topic: json["topic"],
-        lastDateOfSubmit: json["lastDateOfSubmit"] == null
-            ? null
-            : DateTime.parse(json["lastDateOfSubmit"]),
-        link: json["link"],
-        originalImage: json["originalImage"],
-        path: json["path"],
-        submittedStudentId: json["submittedStudentId"] == null
-            ? []
-            : List<dynamic>.from(json["submittedStudentId"]!.map((x) => x)),
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
+        givenDate: DateTime.parse(json["givenDate"]),
+        lastDateOfSubmit: DateTime.parse(json["lastDateOfSubmit"]),
+        textAssignmentList: List<dynamic>.from(json["textAssignmentList"].map((x) => x)),
+        submittedStudentId: List<dynamic>.from(json["submittedStudentId"].map((x) => x)),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
+        "uploadedImage": uploadedImage.toJson(),
         "_id": id,
-        "date": date?.toIso8601String(),
+        "institutionId": institutionId,
+        "schoolId": schoolId,
+        "schoolName": schoolName,
+        "teacherId": teacherId,
         "class": datumClass,
         "section": section,
         "subject": subject,
         "topic": topic,
-        "lastDateOfSubmit": lastDateOfSubmit?.toIso8601String(),
-        "link": link,
-        "originalImage": originalImage,
-        "path": path,
-        "submittedStudentId": submittedStudentId == null
-            ? []
-            : List<dynamic>.from(submittedStudentId!.map((x) => x)),
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
+        "givenDate": givenDate.toIso8601String(),
+        "lastDateOfSubmit": lastDateOfSubmit.toIso8601String(),
+        "textAssignmentList": List<dynamic>.from(textAssignmentList.map((x) => x)),
+        "submittedStudentId": List<dynamic>.from(submittedStudentId.map((x) => x)),
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
-      };
+    };
+}
+
+class UploadedImage {
+    String originalName;
+    String path;
+    String key;
+    String link;
+    int count;
+    String previosName;
+
+    UploadedImage({
+        required this.originalName,
+        required this.path,
+        required this.key,
+        required this.link,
+        required this.count,
+        required this.previosName,
+    });
+
+    factory UploadedImage.fromJson(Map<String, dynamic> json) => UploadedImage(
+        originalName: json["originalName"],
+        path: json["path"],
+        key: json["key"],
+        link: json["link"],
+        count: json["count"],
+        previosName: json["previosName"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "originalName": originalName,
+        "path": path,
+        "key": key,
+        "link": link,
+        "count": count,
+        "previosName": previosName,
+    };
 }

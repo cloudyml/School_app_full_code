@@ -15,7 +15,7 @@ class UpcomingDetailsEventScreenParent extends StatefulWidget {
   final String time;
   final String date;
   final List<String> eventPics;
-  final String remark;
+  // final String remark;
   final String heading;
   final String eventID;
   const UpcomingDetailsEventScreenParent({
@@ -26,7 +26,7 @@ class UpcomingDetailsEventScreenParent extends StatefulWidget {
     required this.time,
     required this.date,
     required this.eventPics,
-    required this.remark,
+    // required this.remark,
     required this.heading,
     required this.eventID,
   });
@@ -213,27 +213,27 @@ class _DetailsEventScreenState extends State<UpcomingDetailsEventScreenParent> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0, left: 8),
-                      child: Text(
-                        "Remark :",
-                        style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: const Color.fromARGB(255, 48, 48, 48)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 8),
-                      child: Text(
-                        widget.remark,
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          // fontWeight: FontWeight.w700,
-                          color: const Color.fromARGB(255, 58, 58, 58),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 5.0, left: 8),
+                    //   child: Text(
+                    //     "Remark :",
+                    //     style: GoogleFonts.inter(
+                    //         fontSize: 15,
+                    //         fontWeight: FontWeight.w600,
+                    //         color: const Color.fromARGB(255, 48, 48, 48)),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 10.0, left: 8),
+                    //   child: Text(
+                    //     widget.remark,
+                    //     style: GoogleFonts.inter(
+                    //       fontSize: 13,
+                    //       // fontWeight: FontWeight.w700,
+                    //       color: const Color.fromARGB(255, 58, 58, 58),
+                    //     ),
+                    //   ),
+                    // ),
                     // Center(
                     //   child: Padding(
                     //     padding: const EdgeInsets.all(18.0),

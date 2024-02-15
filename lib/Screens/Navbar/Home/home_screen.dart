@@ -81,7 +81,19 @@ class _MyWidgetState extends State<HomeScreen> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.height * 0.4,
-                        child: Text("HSK International School, Delhi",
+                        child: 
+                        
+                        SharedService.loginDetails()?.data?.data?.role == "parent"?
+                        Text("${SharedService.childDetails()?.data?.data?.schoolName}",
+                            softWrap: true,
+                            maxLines: 10,
+                            overflow: TextOverflow.fade,
+                            style: GoogleFonts.inter(
+                                color: Colors.white,
+                                //  letterSpacing: 1.0,
+                                fontSize: height * 0.04,
+                                fontWeight: FontWeight.bold)):
+                        Text("${SharedService.loginDetails()?.data?.data?.school}",
                             softWrap: true,
                             maxLines: 10,
                             overflow: TextOverflow.fade,

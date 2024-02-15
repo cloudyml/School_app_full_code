@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Homework/Student/type_of_assignments.dart';
+import 'package:school_management_system/Screens/Homework/Parent/pending_Assignment_text.dart';
+import 'package:school_management_system/Screens/Homework/Parent/pending_assignment_parent_file.dart';
+import 'package:school_management_system/Screens/Homework/Student/pending_assignment_file_list.dart';
+import 'package:school_management_system/Screens/Homework/Student/pending_assignment_text_list.dart';
+import 'package:school_management_system/Services/shared_services.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
-class StudentAssignmentChoose extends StatelessWidget {
-  const StudentAssignmentChoose({super.key});
+class ChooseHomeWorkType extends StatelessWidget {
+  ChooseHomeWorkType({
+    super.key,
+    required this.typeOfAssignment,
+  });
+
+  String typeOfAssignment;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,7 @@ class StudentAssignmentChoose extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                "Select one to move forward",
+                "Select assignment type",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 22,
@@ -45,14 +54,26 @@ class StudentAssignmentChoose extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChooseHomeWorkType(
-                          typeOfAssignment: "getPendingAssignment",
-                        ),
-                      ),
-                    );
+                    SharedService.loginDetails()?.data?.data?.role == "parent"
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ParentPendingAssignmentFileList(
+                                type: typeOfAssignment,
+                                form: "File",
+                              ),
+                            ),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StudentPendingAssignmentFileList(
+                                type: typeOfAssignment,
+                                form: "File",
+                              ),
+                            ),
+                          );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -77,7 +98,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                           child: Image.asset("assets/_assignment.png"),
                         ),
                         Text(
-                          "Pending Homework",
+                          "File Homework",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,
@@ -93,15 +114,26 @@ class StudentAssignmentChoose extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChooseHomeWorkType(
-                          typeOfAssignment: "studentseeSubmittedAssignment",
-                          // typeOfAssignment: "Text",
-                        ),
-                      ),
-                    );
+                    SharedService.loginDetails()?.data?.data?.role == "parent"
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ParentPendingAssignmentTextList(
+                                type: typeOfAssignment,
+                                form: "Text",
+                              ),
+                            ),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StudentPendingAssignmentTextList(
+                                type: typeOfAssignment,
+                                form: "Text",
+                              ),
+                            ),
+                          );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -126,7 +158,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                           child: Image.asset("assets/_assignment.png"),
                         ),
                         Text(
-                          "Submitted Homework",
+                          "Text Homework",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,

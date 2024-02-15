@@ -7,20 +7,22 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../Screens/Homework/Student/submit_assignment.dart';
 import '../../../Services/Url_launcher.dart/method.dart';
 
-class StudentPendingAssignmentCard extends StatelessWidget {
+class StudentPendingFileAssignmentCard extends StatelessWidget {
   final String subject;
   final String givenDate;
   final String submitDate;
   final String docUrl;
   final String assignmentID;
+  final String Type;
 
-  const StudentPendingAssignmentCard({
+  const StudentPendingFileAssignmentCard({
     super.key,
     required this.subject,
     required this.givenDate,
     required this.submitDate,
     required this.docUrl,
     required this.assignmentID,
+    required this.Type,
   });
 
   @override
@@ -99,35 +101,47 @@ class StudentPendingAssignmentCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              MyElevatedButton(
-                onPressed: () {
-                  log("View Assignment Success");
-                  log(launchUrl.toString());
-                  Launceweb.launchweb(docUrl);
-                },
-                child: const Text(
-                  'View File',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+          Type == "studentseeSubmittedAssignment"
+              ? MyElevatedButton(
+                  onPressed: () {
+                    log("View Assignment Success");
+                    log(launchUrl.toString());
+                    Launceweb.launchweb(docUrl);
+                  },
+                  child: const Text(
+                    'View File',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MyElevatedButton(
+                      onPressed: () {
+                        log("View Assignment Success");
+                        log(launchUrl.toString());
+                        Launceweb.launchweb(docUrl);
+                      },
+                      child: const Text(
+                        'View File',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                    MyElevatedButton(
+                      onPressed: () {
+                        log(assignmentID);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => StudentSubmitAssignment(
+                                  submitAssignmentID: assignmentID,
+                                )));
+                      },
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              MyElevatedButton(
-                onPressed: () {
-                  log(assignmentID);
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => StudentSubmitAssignment(
-                            submitAssignmentID: assignmentID,
-                          )));
-                },
-                child: const Text(
-                  'Submit',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

@@ -16,14 +16,14 @@ class ApiBase {
     return Uri.parse("http://${ApiUrl.baseUrl}$extendedURL");
   }
 
-  static Future<http.Response> getRequest({required String extendedURL}) async {
+  static Future<http.Response> getRequest({required String extendedURL ,String? token}) async {
     var client = http.Client();
     Map<String, String> newHeaders = {};
     Map<String, String> conentType = {'Content-Type': 'application/json'};
 
     newHeaders.addAll(conentType);
     if (SharedService.isLoggedIn()) {
-      newHeaders.addAll({'Authorization': SharedService.userAuth()});
+      newHeaders.addAll({'Authorization': token ?? SharedService.userAuth()});
     }
 
     log(newHeaders.toString());

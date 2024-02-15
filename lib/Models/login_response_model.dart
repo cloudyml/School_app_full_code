@@ -76,7 +76,8 @@ class LoginData {
   String? name;
   int? dataClass;
   String? subject;
-  int? id;
+  //changed
+  String? id;
   bool? admin;
   String? email;
   //ADDED THIS by HARSH
@@ -113,12 +114,12 @@ class LoginData {
         section: json["section"],
         password: json["password"],
         phoneNumber: json["phoneNumber"],
-        school: json["school"],
+        school: json["schoolName"],
         rollNumber: json["rollNumber"],
         name: json["name"],
         dataClass: json["class"],
         subject: json["subject"],
-        id: json["id"],
+        id: json["_id"],
         admin: json["admin"],
         email: json["email"],
         schoolId: json["schoolId"],
@@ -137,12 +138,12 @@ class LoginData {
         "section": section,
         "password": password,
         "phoneNumber": phoneNumber,
-        "school": school,
+        "schoolName": school,
         "rollNumber": rollNumber,
         "name": name,
         "class": dataClass,
         "subject": subject,
-        "id": id,
+        "_id": id,
         "admin": admin,
         "institutionId": institutionId,
         "schoolId": schoolId,
