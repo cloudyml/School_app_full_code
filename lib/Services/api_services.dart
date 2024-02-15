@@ -38,7 +38,6 @@ import '../Models/Teacher/Attendance/Original_Model/attendance_response_model.da
 import '../Models/Student/day_Routine_response_medel.dart';
 import '../Models/login_response_model.dart';
 import '../Models/Student/week_attendance_student_model.dart';
-import '../constants/constants.dart';
 import 'api_urls.dart';
 import 'base_api_service.dart';
 import 'package:http/http.dart' as http;
@@ -1184,7 +1183,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
+      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1277,7 +1276,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewSchoolGallery}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
+            "${ApiUrl.viewSchoolGallery}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
       );
       log(response.statusCode.toString());
 
@@ -1337,7 +1336,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&status=$status",
+            "${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&status=$status",
       );
       log(response.statusCode.toString());
 
@@ -1372,7 +1371,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
+      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1521,7 +1520,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1782,7 +1781,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.classWiseAwardsListOfStudents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&class=${selectedClass}&section=${selectedSection}",
+            "${ApiUrl.classWiseAwardsListOfStudents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&class=${selectedClass}&section=${selectedSection}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1811,7 +1810,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNoticeStudents}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
+            "${ApiUrl.viewNoticeStudents}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -1838,7 +1837,7 @@ class ApiServices {
         extendedURL:
             "${ApiUrl.verifyReadUnreadNoticeStudent}/${SharedService.loginDetails()!.data!.id}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.school,
+          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
           "read": "true",
           "studentId": SharedService.loginDetails()!.data!.id,
           "noticeId": noticeID,
@@ -1869,7 +1868,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNoticeTeacher}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
+            "${ApiUrl.viewNoticeTeacher}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1897,7 +1896,7 @@ class ApiServices {
         extendedURL:
             "${ApiUrl.verifyReadUnreadNoticeTeacher}/${SharedService.loginDetails()!.data!.id.toString()}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.school,
+          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
           "read": "true",
           "noticeId": noticeID,
         },
@@ -2026,7 +2025,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -2123,7 +2122,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.school}",
+            "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.schoolName}",
       );
       log(response.statusCode.toString());
 
@@ -2175,12 +2174,12 @@ class ApiServices {
   }
 
 //............... Teacher View Results..........................................
-  static Future<ClassWiseResultResponseModel> teacherViewReqsultClassWise(
+  static Future<ClassWiseResultResponseModel> teacherViewResultClassWise(
       String selectedClass, String testType) async {
     ClassWiseResultResponseModel wholeClassResult =
         ClassWiseResultResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.school;
+      var school = SharedService.loginDetails()!.data!.data!.schoolName;
       var response = await ApiBase.getRequest(
         extendedURL:
             "${ApiUrl.teacherViewReqsultClassWise}?schoolName=$school&class=$selectedClass&examType=$testType",
@@ -2259,13 +2258,16 @@ class ApiServices {
 // View Exam routine (GET API)..................................................
 
   static Future<ExamRoutineResponseModel> viewExamRoutine(
-      String selectedClass, String testType) async {
+      String selectedClass, String testType, String selectedSection) async {
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.school;
+      var schoolName =
+          SharedService.loginDetails()!.data!.data!.schoolName;
+      var schoolID = SharedService.loginDetails()!.data!.data!.schoolId;
+      var institutionId = SharedService.loginDetails()!.data!.data!.institutionId;
+      var id = SharedService.loginDetails()?.data?.data?.id;
       var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.viewExamRoutine}?schoolName=$school&class=$selectedClass&examType=$testType",
+        extendedURL: "/teacher/$id${ApiUrl.viewExamRoutine}?schoolName=$schoolName&examType=$testType&institutionId=$institutionId&schoolId=$schoolID&class=$selectedClass&section=$selectedSection"
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -2292,11 +2294,12 @@ class ApiServices {
     var ret = false;
     try {
       var response = await ApiBase.postRequest(
-        extendedURL: ApiUrl.uploadExamRoutine,
+        extendedURL: "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.createExamSchedule}",
         body: examData,
+        token: SharedService.userAuth()
       );
 
-      log(response.statusCode.toString());
+      log("message ${jsonDecode(response.body)}");
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -2341,7 +2344,7 @@ class ApiServices {
   static Future<AboutSchoolResponseModel> ViewAboutSchool() async {
     AboutSchoolResponseModel about = AboutSchoolResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.school;
+      var school = SharedService.loginDetails()!.data!.data!.schoolName;
       var response = await ApiBase.getRequest(
         extendedURL: "${ApiUrl.viewAboutSchool}?schoolName=$school",
       );
@@ -2383,7 +2386,7 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(

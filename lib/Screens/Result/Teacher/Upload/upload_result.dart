@@ -346,7 +346,7 @@ class _UploadResultState extends State<UploadResult> {
 
               Map<String, dynamic> postData = {
                 "schoolName":
-                    SharedService.loginDetails()!.data!.data!.school.toString(),
+                    SharedService.loginDetails()!.data!.data!.schoolName.toString(),
                 "class": widget.selectedClass,
                 "section": widget.selectedSetion,
                 "rollNumber": widget.studentRoll,

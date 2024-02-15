@@ -71,7 +71,7 @@ class ApiUrl {
   // Exam........................................................................
 
   static const String viewExamRoutine = "/getExamDetails";
-  static const String uploadExamRoutine = "/createExamSchedule";
+  static const String createExamSchedule = "/createExamSchedule";
 
   //About School.................................................................
 

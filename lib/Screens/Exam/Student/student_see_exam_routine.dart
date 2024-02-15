@@ -105,7 +105,12 @@ class StudentSeeExamRoutine extends StatelessWidget {
                       .data!
                       .dataClass
                       .toString(),
-                  testType),
+                  testType,
+                  SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .section
+                      .toString()),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -190,7 +195,12 @@ class StudentSeeExamRoutine extends StatelessWidget {
                       .data!
                       .dataClass
                       .toString(),
-                  testType),
+                  testType,
+                  SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .section
+                      .toString()),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();

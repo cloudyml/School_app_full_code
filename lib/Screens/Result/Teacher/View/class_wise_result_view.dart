@@ -84,7 +84,7 @@ class _DayRoutineState extends State<ClassWiseResultView> {
           ),
         ),
         body: FutureBuilder<ClassWiseResultResponseModel>(
-          future: ApiServices.teacherViewReqsultClassWise(
+          future: ApiServices.teacherViewResultClassWise(
               widget.selectedClass, widget.testType),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
