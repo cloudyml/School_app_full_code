@@ -24,7 +24,7 @@ class StudentViewAwards extends StatelessWidget {
             background: Colors.white,
             gradient1: lightBlue,
             gradient2: deepBlue,
-            extra: appbar("assets/awards_trophy.png", " Awards", context, () {
+            extra: appbar("assets/awards_trophy.png", "Awards", context, () {
               Navigator.pop(context);
             }),
           ),
