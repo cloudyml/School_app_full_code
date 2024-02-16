@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 import 'package:school_management_system/Screens/Attendance/parent/choose_type_of_attendance_parent.dart';
-import 'package:school_management_system/Screens/Awards/parent/parent_view_awards.dart';
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
 import 'package:school_management_system/Screens/Exam/Student/student_choose_examtype.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
@@ -48,30 +46,18 @@ Widget getAttendanceScreen() {
 }
 
 Widget getAssignmentScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student" ||SharedService.loginDetails()?.data?.data?.role == "parent" ) {
-    // log("student");
-    // log(SharedService.loginDetails()?.data?.data?.role ?? "");
-    return const StudentAssignmentChoose();
-  }
-
-  // changed by harsh : added to implement the navigation for parent section
-   else {
-    // log("Teacher");
-    // log(SharedService.loginDetails()?.data?.data?.role ?? "");
+  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     return const TeacherAssignmentFirstPage();
+  } else {
+    return const StudentAssignmentChoose();
   }
 }
 
 Widget getAwardstScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student") {
-    // log("student");
-    return const StudentViewAwards();
-  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
-    // log("Teacher");
+  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     return const TeacherAwardOptions();
   } else {
-    // log("parent");
-    return const ParentViewAwards();
+    return const StudentViewAwards();
   }
 }
 
@@ -112,34 +98,26 @@ Widget Routine() {
   }
 }
 
-Widget FeeDetails() {
+Widget feeDetails() {
   if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
-    // log("Teacher");
     return const TeacherSeeFees();
   } else {
-    // log("student");
     return const StudentSeeFees();
   }
 }
 
-Widget Examination() {
+Widget examination() {
   if (SharedService.loginDetails()?.data?.data?.role == "student") {
-    // log("student");
     return const SelectExamType();
   } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
-    // log("Teacher");
     return const TeacherExamOptions();
   } else {
     return const ParentSelectExamType();
   }
 }
 
-Widget Result() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student") {
-    // log("student");
-    return const SelectResultType();
-  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
-    // log("Teacher");
+Widget result() {
+  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     return const TeacherResultOptions();
   } else {
     return const SelectResultType();
@@ -155,12 +133,12 @@ List<CategoryData> categoryList = [
   CategoryData(
     image: 'assets/exam.png',
     name: 'Examination',
-    screen: Examination(),
+    screen: examination(),
   ),
   CategoryData(
     image: 'assets/fees.png',
     name: 'Admission Fees',
-    screen: FeeDetails(),
+    screen: feeDetails(),
   ),
   CategoryData(
     image: 'assets/gallery.png',
@@ -186,7 +164,7 @@ List<CategoryData> categoryList = [
   CategoryData(
     image: 'assets/result.png',
     name: 'Results',
-    screen: Result(),
+    screen: result(),
   ),
   CategoryData(
     image: 'assets/awards.png',

@@ -67,19 +67,29 @@ class ApiServices {
         },
       );
 
-      log(response.statusCode.toString());
-      log(selectedrole.toString());
-      log("\n${response.body}");
+      // log(response.statusCode.toString());
+      // log(selectedrole.toString());
+      // log("\n${response.body}");
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
           var responseModel = loginResponseModelFromJson(response.body);
 
-          log(responseModel.message!);
+          // log(responseModel.message!);
 
           ret = true;
-          SharedService.setLoginDetails(responseModel)
-              .whenComplete(() => fetchChildData());
+          selectedrole == "parent"
+              ? {
+                  await SharedService.setLoginDetails(responseModel)
+                      .whenComplete(() => fetchChildData()),
+                  await ApiServices.dataOfAllStudents(
+                      SharedService.loginDetails()!
+                          .data!
+                          .data!
+                          .childrens!
+                          .length),
+                }
+              : SharedService.setLoginDetails(responseModel);
         } else {
           ret = false;
           log("not successful");
@@ -116,8 +126,8 @@ class ApiServices {
           SharedService.setDetailsOfFetchedChild(responseModel);
           log("  this is the data in the child detils shared pref ${SharedService.childDetails()?.data?.data?.address.toString()}");
 
-          var harsh = SharedService.childDetails();
-          log("  this is the data fetched from shared pref ${harsh?.data?.data?.address} ");
+          // var harsh = SharedService.childDetails();
+          // log("  this is the data fetched from shared pref ${harsh?.data?.data?.address} ");
         } else {
           log("not successful");
         }
@@ -305,7 +315,6 @@ class ApiServices {
       log(rollNumber.toString());
       log(studentClass);
 
-      log(response.statusCode.toString());
       log(response.body.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -639,6 +648,38 @@ class ApiServices {
         .data!
         .childrens![0]
         .toString() as String);
+  }
+
+  static dataOfAllStudents(
+    int lenOfChildrens,
+  ) async {
+    List<FetchedChildrenModel> allChildInfo = [];
+    // allChildInfo.add(value)
+    for (int i = 0; i <= lenOfChildrens; i++) {
+      try {
+        var response = await ApiBase.getRequest(
+            extendedURL:
+                "${ApiUrl.childrenDataById}/${SharedService.loginDetails()?.data?.data?.childrens?[i]}");
+        if (response.statusCode == 200) {
+          if (jsonDecode(response.body)['status'] == true) {
+            allChildInfo.add(fetchedChildrenModelFromJson(response.body));
+          } else {
+            log("not successful");
+          }
+        } else {
+          log("not successful ");
+        }
+
+        // log(response.statusCode.toString());
+        // debugPrint(response.body.toString());
+      } catch (e) {
+        log(e.toString());
+      }
+    }
+    SharedService.listOfAllTheChildrens(allChildInfo);
+    // for (int i = 0; i < allChildInfo.length; i++) {
+    //   log("this is the info of $i student${allChildInfo[i].data?.data?.name.toString()}");
+    // }
   }
 
 // Parent View Children Assignment
@@ -1620,15 +1661,23 @@ class ApiServices {
 
 // Students View Awards/certificates.....................................................
 
-  static Future<StudentViewAwardsResponseModel> viewMyCertificates() async {
+  static Future<StudentViewAwardsResponseModel>
+      viewMyCertificatesParentStudent() async {
     StudentViewAwardsResponseModel myCertificates =
         StudentViewAwardsResponseModel();
     try {
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.studentViewAwards}/${SharedService.loginDetails()?.data!.id}",
-      );
+      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+          ? await ApiBase.getRequest(
+              token: SharedService.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedService.childDetails()?.data?.data?.id}/getAllAwards",
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedService.loginDetails()?.data!.id}/getAllAwards",
+            );
       log(response.statusCode.toString());
+      log(response.body.toString());
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -1646,7 +1695,6 @@ class ApiServices {
 
     return myCertificates;
   }
-
   // Teacher Upload Awards.........................................
 
   static Future<bool> teacherUploadAwards(
@@ -2361,7 +2409,6 @@ class ApiServices {
     return ret;
   }
 
-
   // Student and parent see own result GET api.................................................
 
   static Future<StudentResultResponseModel> studentParentSeeResult(
@@ -2479,7 +2526,6 @@ class ApiServices {
       // Handle the error as needed
     }
   }
-
 
 // student view and parent view the exam routine
   static Future<ExamRoutineResponseModel> viewExamRoutineParentStudent(

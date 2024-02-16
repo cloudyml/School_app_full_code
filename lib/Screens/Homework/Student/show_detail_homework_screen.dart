@@ -62,16 +62,12 @@ class _DetailHomeworkScreenStudentState extends State<DetailHomeworkScreenStuden
     log("pref initilized ------> $instance");
     if (instance!.containsKey(widget.assignmentId)) {
       print(instance?.getStringList(widget.assignmentId));
-      // for (int i = 0; i < widget.listOfquestions.length; i++) {
       answeredList.addAll(
           instance?.getStringList(widget.assignmentId) as List<dynamic>);
       setState(() {});
       for (int i = 0; i < answeredList.length; i++) {
         log(answeredList[i]);
       }
-      // }
-
-      ;
     } else {
       for (int i = 0; i < widget.listOfquestions.length; i++) {
         answeredList.add('Enter Answer');

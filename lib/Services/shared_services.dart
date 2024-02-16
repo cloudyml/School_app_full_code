@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import '../Models/login_response_model.dart';
 import '../constants/constants.dart';
@@ -61,6 +62,15 @@ class SharedService {
     if (responseModel != null) {
       preferences!
           .setString("child_detail", jsonEncode(responseModel.toJson()));
+    }
+  }
+
+  static Future<void> listOfAllTheChildrens(
+      List<FetchedChildrenModel>? responseModel) async {
+    if (responseModel != null) {
+      final String encodedData = jsonEncode(responseModel);
+      preferences!.setString("all_child_info", encodedData);
+      log("THis is the data of the shared preference ----\n-\n-\n-\n-\n-\n--\n-\n-\n-\n--------------------->"+encodedData);
     }
   }
 
