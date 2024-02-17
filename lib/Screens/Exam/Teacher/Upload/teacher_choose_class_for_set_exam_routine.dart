@@ -1,6 +1,9 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../../../../constants/style.dart';
 import '../../../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../../../widget/appBar/appbar_widget.dart';
@@ -9,6 +12,7 @@ import 'upload_exam_routine.dart';
 
 class TeacherChooseClassForUploadExamRoutine extends StatefulWidget {
   final String testType;
+
   const TeacherChooseClassForUploadExamRoutine(
       {super.key, required this.testType});
 
@@ -37,6 +41,10 @@ class _ChooseClassForTakeAttendanceState
     '11',
     "12",
   ];
+
+  String selectedSection = 'Choose Section';
+
+  List<String> sectionOptions = ['Choose Section', "A", "B", "C", "D"];
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +129,55 @@ class _ChooseClassForTakeAttendanceState
                   ),
                 ],
               ),
+              SizedBox(
+                height: 15.sp,
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.075,
+                    ),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Select Section",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: DropdownButtonFormField<String>(
+                      value: selectedSection,
+                      onChanged: (value) {
+                        if (value != 'Choose Section') {
+                          setState(() {
+                            selectedSection = value!;
+                          });
+                        }
+                      },
+                      items: sectionOptions
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        hintText: "Section*",
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: deepBlue,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Padding(
                 padding: EdgeInsets.only(
                     left: width * 0.078,
@@ -178,6 +235,7 @@ class _ChooseClassForTakeAttendanceState
                               selectedClass: selectedClass,
                               remarks: remarks.text,
                               testType: widget.testType,
+                              selectedSection: selectedSection,
                             ),
                           )).whenComplete(() => remarks.clear());
                     }

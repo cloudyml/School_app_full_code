@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Exam/Teacher/Upload/teacher_choose_examtype.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+
 import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../widget/Button/rectangle_elevatedbutton_card.dart';
@@ -15,12 +15,15 @@ class UploadExamRoutine extends StatefulWidget {
   final String selectedClass;
   final String remarks;
   final String testType;
-  const UploadExamRoutine({
-    Key? key,
-    required this.selectedClass,
-    required this.remarks,
-    required this.testType,
-  });
+  final String selectedSection;
+
+  const UploadExamRoutine(
+      {Key? key,
+      required this.selectedClass,
+      required this.remarks,
+      required this.testType,
+      required this.selectedSection});
+
   @override
   _UploadResultState createState() => _UploadResultState();
 }
@@ -330,7 +333,18 @@ class _UploadResultState extends State<UploadExamRoutine> {
                       .data!
                       .school
                       .toString(),
+                  "institutionId": SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .institutionId
+                      .toString(),
+                  "schoolId": SharedService.loginDetails()!
+                      .data!
+                      .data!
+                      .schoolId
+                      .toString(),
                   "class": widget.selectedClass,
+                  "section": widget.selectedSection,
                   "examType": widget.testType,
                   "remarks": widget.remarks,
                   "examDetails": examData.map((subjects) {

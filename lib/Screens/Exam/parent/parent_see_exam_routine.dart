@@ -4,14 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Models/Student/Exam/exam_routine_response_model.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class ParentSeeExamRoutine extends StatelessWidget {
   final String testType;
-  const ParentSeeExamRoutine({super.key, required this.testType});
+  final String selectedClass;
+  final String selectedSection;
+
+  ParentSeeExamRoutine(
+      {super.key,
+      required this.testType,
+      required this.selectedSection,
+      required this.selectedClass});
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +106,7 @@ class ParentSeeExamRoutine extends StatelessWidget {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.parentViewExamRoutine(
-                 
-                  testType),
+              future: ApiServices.parentViewExamRoutine(testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -180,12 +185,7 @@ class ParentSeeExamRoutine extends StatelessWidget {
             ),
             FutureBuilder<ExamRoutineResponseModel>(
               future: ApiServices.viewExamRoutine(
-                  SharedService.loginDetails()!
-                      .data!
-                      .data!
-                      .dataClass
-                      .toString(),
-                  testType),
+                  selectedClass, testType, selectedSection),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();

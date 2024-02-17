@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
 import 'package:school_management_system/Models/Student/Events/view_events_response_model.dart';
-import 'package:school_management_system/Models/Student/Result/student_see_result_model.dart';
 import 'package:school_management_system/Models/Teacher/Events/upload_events_post_api_model.dart';
 import 'package:school_management_system/Models/Teacher/Exam/teacher_see_list_of_exam_types_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Fees/delete_fees_model.dart';
@@ -16,11 +19,9 @@ import 'package:school_management_system/Models/Teacher/Homework/view%20file%20h
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/class_wise_result_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_students_list_response_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
+
 import '../api_urls.dart';
 import '../base_api_service.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
-import 'package:flutter/material.dart';
 
 class TeacherApiServices {
 // ***************************8******** Fees ***********************************
@@ -137,6 +138,7 @@ class TeacherApiServices {
     }
     return ret;
   }
+
 // ............Teacher delete fees..............................................
 
   static Future<bool> deleteFees(
@@ -351,6 +353,7 @@ class TeacherApiServices {
 
     return teacherGivenAssignment;
   }
+
   // Teacher View Assignments his own uploaded assignments...................................................
 
   static Future<TeacherUploadedTextAssignmentResponseModel>
@@ -463,6 +466,7 @@ class TeacherApiServices {
 
     return ret;
   }
+
   // Get Students List for result...................................................
 
   static Future<GetStudentListForResultResponseModel>
@@ -518,7 +522,7 @@ class TeacherApiServices {
       String section = '${SharedService.loginDetails()?.data!.data!.section}';
 
       var queryParam =
-          "/teacher/65a50b8327c79639986114d6/getExamTypeList?institutionId=SCH0001&schoolId=659fa73dab8e6dd388e16534";
+          "/${SharedService.loginDetails()?.data!.data!.role}/${SharedService.loginDetails()?.data!.data!.id}/getExamTypeList?institutionId=${SharedService.loginDetails()?.data!.data!.institutionId}&schoolId=${SharedService.loginDetails()?.data!.data!.schoolId}";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -546,6 +550,54 @@ class TeacherApiServices {
     }
 
     return examTypes;
+  }
+
+  // Teacher create List of Exam Type
+
+  static Future<bool> teacherCreateExamType(
+    context, {
+    required String classofStudent,
+    required List examTypeList,
+  }) async {
+    var ret = false;
+    String schoolName =
+        SharedService.loginDetails()!.data!.data!.school.toString();
+    String institutionId =
+        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+    String schoolId =
+        SharedService.loginDetails()!.data!.data!.schoolId.toString();
+    String id = SharedService.loginDetails()!.data!.data!.id.toString();
+    try {
+      var response = await ApiBase.postRequest(
+        extendedURL: "/teacher/$id/createExamTypeList",
+        body: {
+          "institutionId": institutionId,
+          "schoolId": schoolId,
+          "schoolName": schoolName,
+          "class": classofStudent,
+          "examTypeList": examTypeList,
+        },
+      );
+      log("${response.statusCode.toString()}");
+      log("${jsonDecode(response.body)}");
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+          ret = true;
+        } else {
+          ret = false;
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+          log("Not Successful");
+        }
+      } else {
+        showSnackbar(context, message: jsonDecode(response.body)['message']);
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
   }
 
   // Teacher Post result.....................................................
@@ -885,4 +937,14 @@ class TeacherApiServices {
     }
     return ret;
   }
+}
+
+void showSnackbar(context, {message}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.black,
+      content: Text('$message'),
+      duration: const Duration(seconds: 2),
+    ),
+  );
 }

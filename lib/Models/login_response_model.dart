@@ -77,10 +77,11 @@ class LoginData {
   String? name;
   int? dataClass;
   String? subject;
-  int? id;
+  String? id;
   bool? admin;
   String? email;
   String? institutionId;
+
   //ADDED THIS by HARSH
   List<String>? childrens;
 
@@ -119,7 +120,7 @@ class LoginData {
         name: json["name"],
         dataClass: json["class"],
         subject: json["subject"],
-        id: json["id"],
+        id: json["_id"],
         admin: json["admin"],
         email: json["email"],
         schoolId: json["schoolId"],
@@ -143,7 +144,7 @@ class LoginData {
         "name": name,
         "class": dataClass,
         "subject": subject,
-        "id": id,
+        "_id": id,
         "admin": admin,
         "institutionId": institutionId,
         "schoolId": schoolId,

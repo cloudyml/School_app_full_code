@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as p;
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
-import 'package:school_management_system/Models/Teacher/Homework/Upload/assignment_upload_model.dart';
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
+
 import '../../Models/Student/About/view_about_school.dart';
 import '../../Models/Student/Awards/view_awards_response_model.dart';
 import '../../Models/Student/Events/Register_Event/eligibility_check_get_api_response_model.dart';
@@ -19,30 +21,19 @@ import '../../Models/Student/Fees/student_fee_response_model.dart';
 import '../../Models/Student/Gallery/view_gallery_response_model.dart';
 import '../../Models/Student/Notice/view_notice_response_model.dart';
 import '../../Models/Student/Result/student_see_result_model.dart';
+import '../../Models/Student/Student_Upload_Assignment.dart';
+import '../../Models/Student/assignment_view_model.dart';
+import '../../Models/Student/day_Routine_response_medel.dart';
+import '../../Models/Student/month_attendance_student_response_model.dart';
+import '../../Models/Student/submitted_assignment_model.dart';
+import '../../Models/Student/week_attendance_student_model.dart';
+import '../../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
 import '../../Models/Teacher/Attendance/attendance_submit_model.dart';
 import '../../Models/Teacher/Awards/class_wise_awards_list_response_model.dart';
 import '../../Models/Teacher/Events/event_registered_student_list_model.dart';
-import '../../Models/Teacher/Events/upload_events_post_api_model.dart';
-import '../../Models/Teacher/Fees/delete_fees_model.dart';
-import '../../Models/Teacher/Fees/update_fees_model.dart';
-import '../../Models/Teacher/Fees/upload_fees_model.dart';
-import '../../Models/Student/Student_Upload_Assignment.dart';
-import '../../Models/Student/assignment_view_model.dart';
-import '../../Models/Student/month_attendance_student_response_model.dart';
-import '../../Models/Student/submitted_assignment_model.dart';
-import '../../Models/Teacher/Gallery/upload_gallery.dart';
-import '../../Models/Teacher/Result/Get models/class_wise_result_response_model.dart';
-import '../../Models/Teacher/assignment_submitted_students_model.dart';
-import '../../Models/Teacher/Homework/view file homework/teacher_see_own_assignments_list_response_model.dart';
-import '../../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
-import '../../Models/Student/day_Routine_response_medel.dart';
 import '../../Models/login_response_model.dart';
-import '../../Models/Student/week_attendance_student_model.dart';
-import '../../constants/constants.dart';
 import '../api_urls.dart';
 import '../base_api_service.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
 
 class ApiServices {
 // ....... Login  ..................................................
@@ -199,6 +190,7 @@ class ApiServices {
 
     return ret;
   }
+
 // Teacher See Attendance of the whole class date wise......................................
 
   static Future<TeacherViewAttendanceOfClassResponseModel>
@@ -232,6 +224,7 @@ class ApiServices {
 
     return attendanceModel;
   }
+
 //Parent  can see his/her child's Weekly Attendance.........................................
 
   static Future<StudentWeeklyAttendanceModel> parentWeekAttendance() async {
@@ -825,6 +818,7 @@ class ApiServices {
 
     return submittedAttignment;
   }
+
 //....................... Teacher see submitted students assignments ...........
 
   // static Future<TeacherSeeSubmittedStudentsAssignments>
@@ -953,6 +947,7 @@ class ApiServices {
 
     return viewGalModel;
   }
+
   //..... View events Parents ......................................................
 
   static Future<StudentsViewEventsResponseModel> parentViewSchoolEvents(
@@ -1439,6 +1434,7 @@ class ApiServices {
 
     return viewNotice;
   }
+
   // Verify read Unread notices Students...............................................
 
   static Future<bool> verifyReadUnreadNoticeStudents(String noticeID) async {
@@ -1472,6 +1468,7 @@ class ApiServices {
     }
     return ret;
   }
+
   // View notice teacher......................................................
 
   static Future<ViewNoticeResponseModel> viewNoticeParent() async {
@@ -1498,6 +1495,7 @@ class ApiServices {
 
     return viewNotice;
   }
+
   // Verify read Unread notices Teacher...............................................
 
   static Future<bool> verifyReadUnreadNoticeTeacher(String noticeID) async {
@@ -1842,6 +1840,7 @@ class ApiServices {
 
     return result;
   }
+
 //......................Teacher Post Result...................................
 
   static Future<bool> uploadResultSpecificStudent(
@@ -1925,16 +1924,21 @@ class ApiServices {
 
     return examRoutine;
   }
+
 // View Exam routine (GET API)..................................................
 
   static Future<ExamRoutineResponseModel> viewExamRoutine(
-      String selectedClass, String testType) async {
+      String selectedClass, String testType, String selectedSection) async {
+    var institutionId = SharedService.loginDetails()!.data!.data!.institutionId;
+    var schoolId = SharedService.loginDetails()!.data!.data!.schoolId;
+    var school = SharedService.loginDetails()!.data!.data!.school;
+    var id = SharedService.loginDetails()!.data!.data!.id;
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
       var school = SharedService.loginDetails()!.data!.data!.school;
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewExamRoutine}?schoolName=$school&class=$selectedClass&examType=$testType",
+            "/teacher/$id${ApiUrl.viewExamRoutine}?schoolName=$school&class=$selectedClass&examType=$testType&institutionId=$institutionId&schoolId=$schoolId&section=$selectedSection",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1959,9 +1963,12 @@ class ApiServices {
 
   static Future<bool> uploadExamRoutine(Map<String, dynamic> examData) async {
     var ret = false;
+
+    var id = SharedService.loginDetails()!.data!.data!.id;
+
     try {
       var response = await ApiBase.postRequest(
-        extendedURL: ApiUrl.uploadExamRoutine,
+        extendedURL: "/teacher/$id${ApiUrl.uploadExamRoutine}",
         body: examData,
       );
 
@@ -1985,6 +1992,7 @@ class ApiServices {
 
     return ret;
   }
+
 //.... Teacher Delete Exam Routine..............................................
 
   static Future<void> deleteExamRoutine(String examId) async {
