@@ -1935,11 +1935,14 @@ class ApiServices {
     var id = SharedService.loginDetails()!.data!.data!.id;
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.school;
+      var schoolName = SharedService.loginDetails()!.data!.data!.school;
+      var schoolID = SharedService.loginDetails()!.data!.data!.schoolId;
+      var institutionId =
+          SharedService.loginDetails()!.data!.data!.institutionId;
+      var id = SharedService.loginDetails()?.data?.data?.id;
       var response = await ApiBase.getRequest(
-        extendedURL:
-            "/teacher/$id${ApiUrl.viewExamRoutine}?schoolName=$school&class=$selectedClass&examType=$testType&institutionId=$institutionId&schoolId=$schoolId&section=$selectedSection",
-      );
+          extendedURL:
+              "/teacher/$id${ApiUrl.viewExamRoutine}?schoolName=$schoolName&examType=$testType&institutionId=$institutionId&schoolId=$schoolID&class=$selectedClass&section=$selectedSection");
       log(response.statusCode.toString());
       log(response.body.toString());
 

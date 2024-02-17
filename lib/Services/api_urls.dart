@@ -81,7 +81,7 @@ class ApiUrl {
 
   // Exam........................................................................
 
-  static const String viewExamRoutine = "/getExamDetails";
+  //static const String viewExamRoutine = "/getExamDetails";
   static const String uploadExamRoutine = "/createExamSchedule";
   static const String getExamTypeList = "/getExamTypeList";
   static const String createExamTypeList = "/createExamTypeList";
@@ -92,4 +92,8 @@ class ApiUrl {
 
   //children Data..................................................................
   static const String childrenDataById = "/getStudentfromParent";
+
+  // dipen ji exam...............................................................
+  static const String viewExamRoutine = "/getExamDetails";
+  static const String createExamSchedule = "/createExamSchedule";
 }

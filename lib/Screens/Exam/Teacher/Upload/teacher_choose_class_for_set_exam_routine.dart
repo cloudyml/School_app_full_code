@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../constants/style.dart';
@@ -25,7 +24,7 @@ class _ChooseClassForTakeAttendanceState
     extends State<TeacherChooseClassForUploadExamRoutine> {
   TextEditingController remarks = TextEditingController();
   String selectedClass = 'Choose Class';
-
+  String selectedSection = 'Choose Section';
   List<String> classOptions = [
     'Choose Class',
     '1',
@@ -41,10 +40,14 @@ class _ChooseClassForTakeAttendanceState
     '11',
     "12",
   ];
-
-  String selectedSection = 'Choose Section';
-
-  List<String> sectionOptions = ['Choose Section', "A", "B", "C", "D"];
+  List<String> sectionOptions = [
+    'Choose Section',
+    'A',
+    'B',
+    'C',
+    "D",
+    'E',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +57,7 @@ class _ChooseClassForTakeAttendanceState
           backgroundColor: Colors.red,
           content: Text('Fill all the required fields'),
           duration: Duration(seconds: 3),
+          showCloseIcon: true,
         ),
       );
     }
@@ -83,6 +87,7 @@ class _ChooseClassForTakeAttendanceState
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Examination class standard
               Column(
                 children: [
                   Padding(
@@ -130,8 +135,9 @@ class _ChooseClassForTakeAttendanceState
                 ],
               ),
               SizedBox(
-                height: 15.sp,
+                height: 15,
               ),
+              // Examination class section
               Column(
                 children: [
                   Padding(
@@ -152,7 +158,7 @@ class _ChooseClassForTakeAttendanceState
                     child: DropdownButtonFormField<String>(
                       value: selectedSection,
                       onChanged: (value) {
-                        if (value != 'Choose Section') {
+                        if (value != 'Choose Class') {
                           setState(() {
                             selectedSection = value!;
                           });
@@ -220,9 +226,9 @@ class _ChooseClassForTakeAttendanceState
                   ),
                   onPressed: () {
                     if (selectedClass == 'Choose Class' ||
-                        remarks.text.isEmpty) {
+                        remarks.text.isEmpty ||
+                        selectedSection == 'Choose Section') {
                       showFailureSnackbar();
-
                       return;
                     } else {
                       log("Class= ${selectedClass}");
