@@ -85,6 +85,7 @@ class ApiUrl {
   static const String uploadExamRoutine = "/createExamSchedule";
   static const String getExamTypeList = "/getExamTypeList";
   static const String createExamTypeList = "/createExamTypeList";
+  static const String deleteExam = "/deleteExam";
 
   //About School.................................................................
 

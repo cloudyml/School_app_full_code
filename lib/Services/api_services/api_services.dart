@@ -2000,7 +2000,7 @@ class ApiServices {
 
   static Future<void> deleteExamRoutine(String examId) async {
     final response = await http.delete(
-      Uri.parse("http://13.232.53.26:3000/deleteExam/$examId"),
+      Uri.parse("http://${ApiUrl.baseUrl}${ApiUrl.deleteExam}/$examId"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         // Add any additional headers as needed
