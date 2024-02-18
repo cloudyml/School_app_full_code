@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:school_management_system/Models/Student/Events/view_events_response_model.dart';
-import 'package:school_management_system/Models/Student/Result/student_see_result_model.dart';
+import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
+import 'package:school_management_system/Models/Teacher/Awards/heading_wise_awards_list_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Events/upload_events_post_api_model.dart';
 import 'package:school_management_system/Models/Teacher/Exam/teacher_see_list_of_exam_types_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Fees/delete_fees_model.dart';
@@ -13,6 +14,7 @@ import 'package:school_management_system/Models/Teacher/Gallery/upload_gallery.d
 import 'package:school_management_system/Models/Teacher/Homework/Text%20Homework/teacher_uploaded_text_assignments_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Homework/Upload/assignment_upload_model.dart';
 import 'package:school_management_system/Models/Teacher/Homework/view%20file%20homework/teacher_see_own_assignments_list_response_model.dart';
+import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/class_wise_result_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_students_list_response_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
@@ -279,7 +281,8 @@ class TeacherApiServices {
         SharedService.loginDetails()!.data!.data!.schoolId.toString();
     try {
       var response = await ApiBase.postRequest(
-        extendedURL: "/teacher/65a50b8327c79639986114d6/createAssignment",
+        extendedURL:
+            "/teacher/${SharedService.loginDetails()?.data?.id}/createAssignment",
         body: {
           "institutionId": institutionId,
           "schoolId": schoolId,
@@ -294,9 +297,7 @@ class TeacherApiServices {
         },
       );
       log(response.statusCode.toString());
-      log(",,,,,,,,,,,,,,,,");
       log(response.body.toString());
-      log(",a,,,,u,,,,,,,,y,,e,");
       if (response.statusCode == 201) {
         if (jsonDecode(response.body)['status'] == true) {
           ret = true;
@@ -440,7 +441,7 @@ class TeacherApiServices {
 
       log(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         var jsonResponse = json.decode(response.body);
         if (jsonResponse['status'] == true) {
           var teacherUploadGal = galleryUploadModelFromJson(response.body);
@@ -465,8 +466,8 @@ class TeacherApiServices {
   }
   // Get Students List for result...................................................
 
-  static Future<GetStudentListForResultResponseModel>
-      StudentListForResult() async {
+  static Future<GetStudentListForResultResponseModel> StudentListForResult(
+      String selectedClass, String selectSection) async {
     GetStudentListForResultResponseModel studentList =
         GetStudentListForResultResponseModel();
     try {
@@ -475,7 +476,7 @@ class TeacherApiServices {
       String section = '${SharedService.loginDetails()?.data!.data!.section}';
 
       var queryParam =
-          "/teacher/65a50b8327c79639986114d6/get-default-data-for-result?institutionId=SCH0001&schoolId=659fa73dab8e6dd388e16534&class=7&section=A";
+          "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.getDefaultDataForResult}?institutionId=${SharedService.loginDetails()?.data!.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}&class=$selectedClass&section=$selectSection";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -518,7 +519,7 @@ class TeacherApiServices {
       String section = '${SharedService.loginDetails()?.data!.data!.section}';
 
       var queryParam =
-          "/teacher/65a50b8327c79639986114d6/getExamTypeList?institutionId=SCH0001&schoolId=659fa73dab8e6dd388e16534";
+          "/teacher/${SharedService.loginDetails()?.data?.id}/getExamTypeList?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -884,5 +885,324 @@ class TeacherApiServices {
       log("error: $e");
     }
     return ret;
+  }
+
+  // Teacher Upload Awards.........................................
+
+  static Future<bool> teacherUploadAwards(
+    String studentName,
+    String wclass,
+    String section,
+    String rollNumber,
+    String certificationHeading,
+    String date,
+    File file,
+    BuildContext context,
+  ) async {
+    var ret = false;
+
+    try {
+      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUploadAwards}",
+        ),
+      );
+
+      // Add headers here
+      Map<String, String> headers = {
+        'Authorization':
+            "${SharedService.loginDetails()?.data!.token}", // Replace with your token
+      };
+      request.headers.addAll(headers);
+
+      request.fields['certificationDate'] = date;
+      request.fields['class'] = wclass;
+      request.fields['section'] = section;
+      request.fields['studentName'] = studentName;
+      request.fields['rollNumber'] = rollNumber;
+      request.fields['certificationHeading'] = certificationHeading;
+      request.fields['schoolName'] = schoolName!;
+
+      log(
+        "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUploadAwards}",
+      );
+      log("date= $date");
+      log("class=$wclass");
+      log("section=$section");
+      log("Name=$studentName");
+      log("rollNumber=$rollNumber");
+      log("SchoolName=$schoolName");
+
+      var fileStream = http.ByteStream(file.openRead());
+      var length = await file.length();
+      var multipartFile = http.MultipartFile(
+        'file',
+        fileStream.cast(),
+        length,
+        filename: p.basename(file.path),
+      );
+      request.files.add(multipartFile);
+
+      var response = await http.Response.fromStream(await request.send());
+
+      log(response.statusCode.toString());
+      log(response.body);
+
+      if (response.statusCode == 201) {
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['status'] == true) {
+          // var studentUploadAssign =
+          //     studentUploadAssignmentModelFromJson(response.body);
+          ret = true;
+        } else {
+          log(response.statusCode.toString());
+          ret = false;
+          log("not successful else");
+        }
+      } else {
+        log(response.statusCode.toString());
+        ret = false;
+        log("not successful else 2");
+      }
+    } catch (e) {
+      ret = false;
+      log("$e : not successful catch");
+    }
+
+    return ret;
+  }
+
+  //.... View awards class wise Students List ( Teacher view)...................
+
+  static Future<HeadingWiseAwardsListOfStudentsResponseModel>
+      awardsListOfStudents() async {
+    HeadingWiseAwardsListOfStudentsResponseModel awardList =
+        HeadingWiseAwardsListOfStudentsResponseModel();
+    try {
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.getAllAwards}",
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          awardList = headingWiseAwardsListOfStudentsResponseModelFromJson(
+              response.body);
+        } else {
+          awardList = HeadingWiseAwardsListOfStudentsResponseModel();
+        }
+      } else {
+        awardList = HeadingWiseAwardsListOfStudentsResponseModel();
+      }
+    } catch (e) {
+      awardList = HeadingWiseAwardsListOfStudentsResponseModel();
+    }
+
+    return awardList;
+  }
+
+  // Teacher Upload Notice........................................................
+
+  static Future<bool> teacherUploadNotice(
+    String noticeNeading,
+    String noticeDescription,
+    String noticeDate,
+    File file,
+    BuildContext context,
+  ) async {
+    var ret = false;
+
+    try {
+      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var institutionId =
+          SharedService.loginDetails()?.data!.data!.institutionId;
+      var schoolId = SharedService.loginDetails()?.data!.data!.schoolId;
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUploadNotice}",
+        ),
+      );
+
+      // Add headers here
+      Map<String, String> headers = {
+        'Authorization': "${SharedService.loginDetails()?.data!.token}",
+      };
+      request.headers.addAll(headers);
+
+      request.fields['heading'] = noticeNeading;
+      request.fields['description'] = noticeDescription;
+      request.fields['date'] = noticeDate;
+      request.fields['schoolName'] = schoolName!;
+      request.fields['institutionId'] = institutionId!;
+      request.fields['schoolId'] = schoolId!;
+
+      log("http://${ApiUrl.baseUrl}${ApiUrl.teacherUploadAwards}");
+
+      log("SchoolName=$schoolName");
+
+      var fileStream = http.ByteStream(file.openRead());
+      var length = await file.length();
+      var multipartFile = http.MultipartFile(
+        'file',
+        fileStream.cast(),
+        length,
+        filename: p.basename(file.path),
+      );
+      request.files.add(multipartFile);
+
+      var response = await http.Response.fromStream(await request.send());
+
+      log(response.statusCode.toString());
+      log(response.body);
+
+      if (response.statusCode == 201) {
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['status'] == true) {
+          ret = true;
+        } else {
+          log(response.statusCode.toString());
+          ret = false;
+          log("not successful else");
+        }
+      } else {
+        log(response.statusCode.toString());
+        ret = false;
+        log("not successful else 2");
+      }
+    } catch (e) {
+      ret = false;
+      log("$e : not successful catch");
+    }
+
+    return ret;
+  }
+
+  // Verify read Unread notices Teacher...............................................
+
+  static Future<bool> verifyReadUnreadNoticeTeacher(String noticeID) async {
+    var ret = false;
+    try {
+      var response = await ApiBase.putRequest(
+        extendedURL:
+            "/teacher/${SharedService.loginDetails()!.data?.id}${ApiUrl.verifyReadUnreadNoticeTeacher}",
+        body: {
+          "schoolName": SharedService.loginDetails()!.data!.data!.school,
+          "read": "true",
+          "noticeId": noticeID,
+        },
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful");
+        }
+      } else {
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
+  // Teacher Notice get.........................................................
+  static Future<TeacherNoticeResponseModel> viewNoticeTeacher() async {
+    TeacherNoticeResponseModel viewNotice = TeacherNoticeResponseModel();
+    try {
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewNoticeTeacher}",
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          viewNotice = teacherNoticeResponseModelFromJson(response.body);
+        } else {
+          viewNotice = TeacherNoticeResponseModel();
+        }
+      } else {
+        viewNotice = TeacherNoticeResponseModel();
+      }
+    } catch (e) {
+      viewNotice = TeacherNoticeResponseModel();
+    }
+
+    return viewNotice;
+  }
+
+  //Delete Notice Teacher .......................................................
+  static Future<bool> deleteNoticeTeacher(
+    String noticeID,
+  ) async {
+    var ret = false;
+    try {
+      var response = await ApiBase.deleteRequest(
+        extendedURL:
+            "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.deleteNoticeTeacher}",
+        body: {
+          "noticeId": noticeID,
+        },
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful 1");
+        }
+      } else {
+        ret = false;
+        log("Not Successful 2");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
+  // Teacher See Attendance of the whole class date wise......................................
+
+  static Future<TeacherViewAttendanceOfClassResponseModel>
+      teacherSeeAttendanceOfWholeClassOfAday(
+    String selectedClass,
+    String selectedSection,
+    String selectedDate,
+  ) async {
+    TeacherViewAttendanceOfClassResponseModel attendanceModel =
+        TeacherViewAttendanceOfClassResponseModel();
+    try {
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
+      );
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          attendanceModel =
+              teacherViewAttendanceOfClassResponseModelFromJson(response.body);
+        } else {
+          attendanceModel = TeacherViewAttendanceOfClassResponseModel();
+        }
+      } else {
+        attendanceModel = TeacherViewAttendanceOfClassResponseModel();
+      }
+    } catch (e) {
+      attendanceModel = TeacherViewAttendanceOfClassResponseModel();
+    }
+
+    return attendanceModel;
   }
 }

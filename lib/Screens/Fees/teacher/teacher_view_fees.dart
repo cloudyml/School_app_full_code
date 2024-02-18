@@ -59,7 +59,7 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 30),
+                          left: 10, right: 10, bottom: 20, top: 10),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,

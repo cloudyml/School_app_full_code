@@ -312,7 +312,8 @@ class _ViewStudentsListForEnterResultState
   @override
   void initState() {
     super.initState();
-    _studentListFuture = TeacherApiServices.StudentListForResult();
+    _studentListFuture = TeacherApiServices.StudentListForResult(
+        widget.selectedClass, widget.selectedSection);
   }
 
   @override
@@ -389,7 +390,9 @@ class _ViewStudentsListForEnterResultState
               if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               }
-
+              if (snapshot.data!.data == null) {
+                return const Text("");
+              }
               GetStudentListForResultResponseModel? studentList = snapshot.data;
 
               return Padding(
@@ -476,7 +479,9 @@ class _ViewStudentsListForEnterResultState
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-
+                if (snapshot.data!.data == null) {
+                  return Center(child: Text("No data Found"));
+                }
                 GetStudentListForResultResponseModel? studentList =
                     snapshot.data;
                 studentCount = studentList!.data!.studentList!.length;

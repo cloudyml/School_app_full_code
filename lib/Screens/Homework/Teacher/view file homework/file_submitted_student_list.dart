@@ -25,42 +25,49 @@ class TeacherSeeAllSubmittedStudentsAssignment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(300),
-        child: DecorativeAppBar(
-          barHeight: MediaQuery.of(context).size.height * 0.24,
-          barPad: MediaQuery.of(context).size.height * 0.19,
-          radii: 30,
-          background: Colors.white,
-          gradient1: lightBlue,
-          gradient2: deepBlue,
-          extra: appbar(
-              "assets/flaticon/_assignments.png", "Assignments", context, () {
-            Navigator.pop(context);
-          }),
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(300),
+          child: DecorativeAppBar(
+            barHeight: MediaQuery.of(context).size.height * 0.24,
+            barPad: MediaQuery.of(context).size.height * 0.19,
+            radii: 30,
+            background: Colors.white,
+            gradient1: lightBlue,
+            gradient2: deepBlue,
+            extra: appbar(
+                "assets/flaticon/_assignments.png", "Assignments", context, () {
+              Navigator.pop(context);
+            }),
+          ),
         ),
-      ),
-      body: ListView.builder(
-        itemCount: submittedStudentList.length,
-        itemBuilder: (context, index) {
-          String formattedDate = DateFormat('dd-MM-yy').format(DateTime.parse(
-              submittedStudentList[index].submitDate.toString()));
-          return TeacherSubmittedAssignmentCard(
-            file: submittedStudentList[index].uploadedImage?.link.toString() ??
-                "",
+        body: submittedStudentList.isNotEmpty
+            ? ListView.builder(
+                itemCount: submittedStudentList.length,
+                itemBuilder: (context, index) {
+                  String formattedDate = DateFormat('dd-MM-yy').format(
+                      DateTime.parse(
+                          submittedStudentList[index].submitDate.toString()));
+                  return TeacherSubmittedAssignmentCard(
+                    file: submittedStudentList[index]
+                            .uploadedImage
+                            ?.link
+                            .toString() ??
+                        "",
 
-            roll: submittedStudentList[index].rollNumber.toString(),
+                    roll: submittedStudentList[index].rollNumber.toString(),
 
-            name: submittedStudentList[index].studentName.toString(),
-            fileLink:
-                submittedStudentList[index].uploadedImage?.link.toString() ??
-                    "",
-            SubmitDate: formattedDate,
-            questionPaper: questionFile, // Use the formatted date
-          );
-        },
-      ),
-    );
+                    name: submittedStudentList[index].studentName.toString(),
+                    fileLink: submittedStudentList[index]
+                            .uploadedImage
+                            ?.link
+                            .toString() ??
+                        "",
+                    SubmitDate: formattedDate,
+                    questionPaper: questionFile, // Use the formatted date
+                  );
+                },
+              )
+            : const Center(child: Text("No-one has submitted yet")));
   }
 }

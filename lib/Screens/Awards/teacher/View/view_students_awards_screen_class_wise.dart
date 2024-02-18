@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:school_management_system/Services/api_services/api_services.dart';
-import '../../../../Models/Teacher/Awards/class_wise_awards_list_response_model.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
+import '../../../../Models/Teacher/Awards/heading_wise_awards_list_response_model.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
-import '../../../../widget/teacher/Awards/class_wise_awards_card.dart';
-import 'award_list_of_particular_student.dart';
+import '../../../../widget/teacher/Awards/heading_wise_awards_card.dart';
+import 'student_list_of_particular_awards.dart';
 
 class ViewAwardsOfClassScreen extends StatelessWidget {
-  String selectedClass;
-  String selectedSection;
-  ViewAwardsOfClassScreen(
-      {super.key, required this.selectedClass, required this.selectedSection});
+  const ViewAwardsOfClassScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +32,8 @@ class ViewAwardsOfClassScreen extends StatelessWidget {
           }),
         ),
       ),
-      body: FutureBuilder<ClassWiseAwardsListOfStudentsResponseModel>(
-        future: ApiServices.classWiseAwardsListOfStudents(
-            selectedClass, selectedSection),
+      body: FutureBuilder<HeadingWiseAwardsListOfStudentsResponseModel>(
+        future: TeacherApiServices.awardsListOfStudents(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -59,56 +55,39 @@ class ViewAwardsOfClassScreen extends StatelessWidget {
               ),
             );
           } else {
-            ClassWiseAwardsListOfStudentsResponseModel?
-                classWiseStudentsAwards = snapshot.data;
+            HeadingWiseAwardsListOfStudentsResponseModel? awards =
+                snapshot.data;
 
-            return classWiseStudentsAwards?.data?.length == null
+            return awards?.data?.length == null
                 ? const Center(
                     child: Text("No Data found"),
                   )
                 : ListView.builder(
-                    itemCount: classWiseStudentsAwards!.data!.length,
+                    itemCount: awards!.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: ClassWiseViewAwardsCard(
-                          studentName: classWiseStudentsAwards
-                              .data![index].studentName
+                        child: HeadingWiseViewAwardsCard(
+                          eventname: awards.data![index].certificationHeading
                               .toString(),
-                          studentRoll: classWiseStudentsAwards
-                              .data![index].rollNumber
-                              .toString(),
+                          eventDate:
+                              awards.data![index].certificationDate as DateTime,
                           onPressed: () {
-                            List<String> headingList = [];
-                            List<String> awardsList = [];
-                            List<String> dateList = [];
+                            List studentClasslist = [];
                             for (var i = 0;
-                                i <
-                                    classWiseStudentsAwards
-                                        .data![index].awardList!.length;
+                                i < awards.data![index].studentList!.length;
                                 i++) {
-                              headingList.add(classWiseStudentsAwards
-                                  .data![index]
-                                  .awardList![i]
-                                  .certificationHeading
-                                  .toString());
-                              awardsList.add(classWiseStudentsAwards
-                                  .data![index].awardList![i].link
-                                  .toString());
-                              dateList.add(classWiseStudentsAwards
-                                  .data![index].awardList![i].certificationDate
-                                  .toString());
+                              studentClasslist.add(awards.data![index]
+                                  .studentList![i].studentListClass);
                             }
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    AwardListOfParticularStudent(
-                                  heading: headingList,
-                                  index: index,
-                                  totalCount: headingList.length,
-                                  awardDate: dateList,
-                                  awardImage: awardsList,
+                                    StudentListOfParticularAwards(
+                                  studentListAwards:
+                                      awards.data![index].studentList as List,
+                                  studentClassList: studentClasslist,
                                 ),
                               ),
                             );

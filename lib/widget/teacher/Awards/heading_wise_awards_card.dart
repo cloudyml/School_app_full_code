@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 
 // ignore: must_be_immutable
-class ClassWiseViewAwardsCard extends StatelessWidget {
-  String studentName;
-  String studentRoll;
-
+class HeadingWiseViewAwardsCard extends StatelessWidget {
+  String eventname;
+  DateTime eventDate;
   final VoidCallback onPressed;
-  ClassWiseViewAwardsCard({
+  HeadingWiseViewAwardsCard({
     super.key,
-    required this.studentName,
-    required this.studentRoll,
+    required this.eventname,
+    required this.eventDate,
     required this.onPressed,
   });
 
@@ -19,6 +19,8 @@ class ClassWiseViewAwardsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    String formattedDate = DateFormat('dd-MM-yyyy').format(eventDate);
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
@@ -42,14 +44,14 @@ class ClassWiseViewAwardsCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Name :",
+                      "Event Name :",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: width * 0.05,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " ${studentName}",
+                      " ${eventname}",
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: width * 0.05,
@@ -63,14 +65,14 @@ class ClassWiseViewAwardsCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Roll :",
+                      "Date :",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: width * 0.05,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " $studentRoll",
+                      formattedDate,
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: width * 0.05,

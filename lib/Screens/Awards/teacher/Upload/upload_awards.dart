@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Screens/Awards/teacher/first_page_select_award_options.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Screens/Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/rectangle_elevatedbutton_card.dart';
@@ -372,7 +372,7 @@ class _UploadAwardsState extends State<UploadAwards> {
                   isClicked = true;
                 });
 
-                await ApiServices.teacherUploadAwards(
+                await TeacherApiServices.teacherUploadAwards(
                   studentName.text,
                   wclass.text,
                   section.text,
@@ -396,6 +396,9 @@ class _UploadAwardsState extends State<UploadAwards> {
                   } else {
                     _showUnsuccessfulSnackBar(
                         context, "Student Data does not match.");
+                    setState(() {
+                      isClicked = false;
+                    });
                   }
                 });
               }

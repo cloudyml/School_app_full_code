@@ -188,15 +188,15 @@ class _ChooseClassForTakeAttendanceState
                     } else {
                       log("Selected Class= $selectedClass");
                       log("Selected Section = $selectedSection");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewAwardsOfClassScreen(
-                            selectedClass: selectedClass,
-                            selectedSection: selectedSection,
-                          ),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ViewAwardsOfClassScreen(
+                      //       selectedClass: selectedClass,
+                      //       selectedSection: selectedSection,
+                      //     ),
+                      //   ),
+                      // );
                     }
                   },
                 ),

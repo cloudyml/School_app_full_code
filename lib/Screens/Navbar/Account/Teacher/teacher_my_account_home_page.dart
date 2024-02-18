@@ -768,17 +768,20 @@ class TeacherMyAccount extends StatelessWidget {
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     preferences?.clear();
                     log("This  is the data in the pref ---------> ${preferences?.get("login_details")}");
-                    SharedService.logout().then((value) {
+                    await SharedService.logout().then((value) {
                       if (value == true) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const SplashScreen()),
-                            (Route<dynamic> route) => false);
+                        // Navigator.pushAndRemoveUntil(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (BuildContext context) =>
+                        //             const SplashScreen()),
+                        //     (Route<dynamic> route) => false);
+
+                        log(SharedService.isLoggedIn().toString());
+                        log(SharedService.loginDetails().toString());
                       }
                     });
                   },

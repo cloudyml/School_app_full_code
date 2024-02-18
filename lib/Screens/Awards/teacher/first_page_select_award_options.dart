@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Awards/teacher/Upload/upload_awards.dart';
+import 'package:school_management_system/Screens/Awards/teacher/View/view_students_awards_screen_class_wise.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
@@ -89,10 +90,11 @@ class TeacherAwardOptions extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ChooseClassSectionForViewAwards()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewAwardsOfClassScreen(),
+                      ),
+                    );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.45,

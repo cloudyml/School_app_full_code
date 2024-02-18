@@ -34,7 +34,7 @@ class ApiUrl {
   static const String viewSchoolEvents = "/getEventsByStatus";
 
   static const String studentViewAwards = "/getAllAwards";
-  static const String teacherUploadAwards = "/createAward";
+  static const String teacherUploadAwards = "/createAwards-teacher";
 
   // Update my account details..................................................
   static const String updateMytAccountStudent = "/updateStudentById";
@@ -46,8 +46,7 @@ class ApiUrl {
   static const String studentRegisterEventPost = "/createEventRegister";
 
   // Awards....................................................................
-  static const String classWiseAwardsListOfStudents =
-      "/getAllAwardListforSection";
+  static const String getAllAwards = "/getAllAwards";
 
   // Notice Students..................................................................
 
@@ -76,6 +75,7 @@ class ApiUrl {
   static const String uploadResult = "/createResult-section";
   static const String teacherViewReqsultClassWise = "/getResult-section";
   static const String teacherUpadteResult = "/updateResultBySubjectId";
+  static const String getDefaultDataForResult = "/get-default-data-for-result";
   // Exam........................................................................
 
   //static const String viewExamRoutine = "/getExamDetails";

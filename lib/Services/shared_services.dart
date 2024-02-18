@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:school_management_system/Models/fetched_children_model.dart';
 import '../Models/login_response_model.dart';
 import '../constants/constants.dart';
@@ -66,7 +67,8 @@ class SharedService {
 
   static Future<bool> logout() async {
     await preferences!.clear();
-    // preferences?.remove('login_details');
+
+    preferences?.remove('login_details');
     return true;
   }
 

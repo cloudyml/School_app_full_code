@@ -73,7 +73,7 @@ class _ChooseClassForViewAttendanceState
               Padding(
                 padding: EdgeInsets.only(left: height * 0.03),
                 child: const Text(
-                  "Take Attendance",
+                  "View Attendance",
                   style: TextStyle(
                       color: Color.fromARGB(255, 93, 93, 93),
                       fontSize: 24,
@@ -255,16 +255,16 @@ class _ChooseClassForViewAttendanceState
                       log("Selected Class= $selectedClass");
                       log("Selected Section = $selectedSection");
                       log("Selected Date =  ${dateInput.text}");
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => TeacherViewAttendanceDayWise(
-                      //       selectedClass: selectedClass,
-                      //       selectedSection: selectedSection,
-                      //       selectedDate: dateInput.text,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TeacherViewAttendanceDayWise(
+                            selectedClass: selectedClass,
+                            selectedSection: selectedSection,
+                            selectedDate: dateInput.text,
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),
