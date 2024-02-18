@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const SplashScreen(),
-        // home: Arpan_Ui(),
         builder: EasyLoading.init(),
       ),
     );

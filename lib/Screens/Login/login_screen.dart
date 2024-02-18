@@ -191,12 +191,13 @@ class _NewLoginScreenState extends State<NewLoginScreen> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (BuildContext context) => Dashboard()),
+                                builder: (BuildContext context) => const Dashboard()),
                             ModalRoute.withName('/'));
 
                         log("THis is the token sent to the server $fcmToken");
 
                         showSnackBar("Login successful");
+                       
                       } else {
                         showSnackBar("Wrong email or password");
                       }

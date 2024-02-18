@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 StudentEachdayRoutineModel studentEachdayRoutineModelFromJson(String str) => StudentEachdayRoutineModel.fromJson(json.decode(str));
@@ -83,6 +82,9 @@ class Heading {
 
 class DataTimeTable {
     String? id;
+    String? institutionId;
+    String? schoolName;
+    String? schoolId;
     int? timeTableClass;
     String? day;
     String? section;
@@ -93,6 +95,9 @@ class DataTimeTable {
 
     DataTimeTable({
         this.id,
+        this.institutionId,
+        this.schoolName,
+        this.schoolId,
         this.timeTableClass,
         this.day,
         this.section,
@@ -104,6 +109,9 @@ class DataTimeTable {
 
     factory DataTimeTable.fromJson(Map<String, dynamic> json) => DataTimeTable(
         id: json["_id"],
+        institutionId: json["institutionId"],
+        schoolName: json["schoolName"],
+        schoolId: json["schoolId"],
         timeTableClass: json["class"],
         day: json["day"],
         section: json["section"],
@@ -115,6 +123,9 @@ class DataTimeTable {
 
     Map<String, dynamic> toJson() => {
         "_id": id,
+        "institutionId": institutionId,
+        "schoolName": schoolName,
+        "schoolId": schoolId,
         "class": timeTableClass,
         "day": day,
         "section": section,

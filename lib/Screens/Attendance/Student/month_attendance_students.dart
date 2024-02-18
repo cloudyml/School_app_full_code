@@ -65,14 +65,14 @@ class MonthAttendance extends StatelessWidget {
               width: double.infinity,
               color: Colors.white,
               child: FutureBuilder<StudentMonthlyAttendanceModel>(
-                future: ApiServices.StudentMonthlyAttendance(month, year),
+                future: ApiServices.studentParentMonthlyAttendance(month, year),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return const Center(child: Text("Error..."));
                   } else if (!snapshot.hasData ||
-                      snapshot.data!.data!.data!.isEmpty) {
+                      snapshot.data?.data?.data?.length == null) {
                     return const Center(child: Text("No data found"));
                   } else {
                     StudentMonthlyAttendanceModel? monthAttDate = snapshot.data;

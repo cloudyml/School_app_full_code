@@ -54,7 +54,7 @@ class SelectResultType extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentSeeOwnResult(
+                            builder: (context) => SeeOwnResult(
                                   testType: 'class test',
                                 )));
                   },
@@ -108,7 +108,7 @@ class SelectResultType extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentSeeOwnResult(
+                            builder: (context) => SeeOwnResult(
                                   testType: 'mid term',
                                 )));
                   },
@@ -162,7 +162,7 @@ class SelectResultType extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentSeeOwnResult(
+                            builder: (context) => SeeOwnResult(
                                   testType: 'final term',
                                 )));
                   },

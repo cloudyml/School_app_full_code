@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final fetchedChildrenModel = fetchedChildrenModelFromJson(jsonString);
+
 import 'dart:convert';
 
 FetchedChildrenModel fetchedChildrenModelFromJson(String str) => FetchedChildrenModel.fromJson(json.decode(str));
@@ -7,7 +11,7 @@ String fetchedChildrenModelToJson(FetchedChildrenModel data) => json.encode(data
 class FetchedChildrenModel {
     bool? status;
     String? message;
-    Data? data;
+    FetchedChildrenModelData? data;
 
     FetchedChildrenModel({
         this.status,
@@ -18,7 +22,7 @@ class FetchedChildrenModel {
     factory FetchedChildrenModel.fromJson(Map<String, dynamic> json) => FetchedChildrenModel(
         status: json["status"],
         message: json["message"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : FetchedChildrenModelData.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -28,40 +32,66 @@ class FetchedChildrenModel {
     };
 }
 
-class Data {
+class FetchedChildrenModelData {
+    String? token;
+    DataData? data;
+
+    FetchedChildrenModelData({
+        this.token,
+        this.data,
+    });
+
+    factory FetchedChildrenModelData.fromJson(Map<String, dynamic> json) => FetchedChildrenModelData(
+        token: json["token"],
+        data: json["data"] == null ? null : DataData.fromJson(json["data"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "token": token,
+        "data": data?.toJson(),
+    };
+}
+
+class DataData {
     String? id;
+    String? institutionId;
+    String? schoolName;
+    String? schoolId;
     int? rollNumber;
     String? name;
     int? dataClass;
     String? section;
     String? batch;
-    String? school;
     String? gender;
     String? email;
     String? password;
     String? phoneNumber;
     String? address;
-    String? parentsId;
+    String? firstChar;
+    String? parentEmailId;
     String? role;
     bool? isDeleted;
     DateTime? createdAt;
     DateTime? updatedAt;
     int? v;
 
-    Data({
+    DataData({
         this.id,
+        this.institutionId,
+        this.schoolName,
+        this.schoolId,
         this.rollNumber,
         this.name,
         this.dataClass,
         this.section,
         this.batch,
-        this.school,
         this.gender,
         this.email,
         this.password,
         this.phoneNumber,
         this.address,
-        this.parentsId,
+        this.firstChar,
+        this.parentEmailId,
         this.role,
         this.isDeleted,
         this.createdAt,
@@ -69,20 +99,23 @@ class Data {
         this.v,
     });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+    factory DataData.fromJson(Map<String, dynamic> json) => DataData(
         id: json["_id"],
+        institutionId: json["institutionId"],
+        schoolName: json["schoolName"],
+        schoolId: json["schoolId"],
         rollNumber: json["rollNumber"],
         name: json["name"],
         dataClass: json["class"],
         section: json["section"],
         batch: json["batch"],
-        school: json["school"],
         gender: json["gender"],
         email: json["email"],
         password: json["password"],
         phoneNumber: json["phoneNumber"],
         address: json["address"],
-        parentsId: json["parentsID"],
+        firstChar: json["firstChar"],
+        parentEmailId: json["parentEmailID"],
         role: json["role"],
         isDeleted: json["isDeleted"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
@@ -92,18 +125,21 @@ class Data {
 
     Map<String, dynamic> toJson() => {
         "_id": id,
+        "institutionId": institutionId,
+        "schoolName": schoolName,
+        "schoolId": schoolId,
         "rollNumber": rollNumber,
         "name": name,
         "class": dataClass,
         "section": section,
         "batch": batch,
-        "school": school,
         "gender": gender,
         "email": email,
         "password": password,
         "phoneNumber": phoneNumber,
         "address": address,
-        "parentsID": parentsId,
+        "firstChar": firstChar,
+        "parentEmailID": parentEmailId,
         "role": role,
         "isDeleted": isDeleted,
         "createdAt": createdAt?.toIso8601String(),

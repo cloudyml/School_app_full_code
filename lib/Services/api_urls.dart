@@ -48,11 +48,13 @@ class ApiUrl {
 
   // Awards....................................................................
   static const String getAllAwards = "/getAllAwards";
+  static const String classWiseAwardsListOfStudents =
+      "/getAllAwardListforSection";
 
   // Notice Students..................................................................
 
-  static const String viewNoticeStudents = "/getAllNotice";
-  static const String verifyReadUnreadNoticeStudent = "/notice-read";
+  static const String viewNoticeStudents = "/getAllNotice-student";
+  static const String verifyReadUnreadNoticeStudent = "/notice-read-student";
 
 // Notice Teacher.....................................................................
   static const String deleteNoticeTeacher = "/deleteNotice-teacher";
@@ -60,6 +62,9 @@ class ApiUrl {
   static const String verifyReadUnreadNoticeTeacher = "/notice-read-teacher";
   static const String viewNotice = "/getAllNotice-parent";
   static const String verifyReadUnreadNoticeForParent = "/notice-read-parent";
+
+  // Notice parent...........................................................................
+  static const String viewNoticeParent = "/getAllNotice-parent";
 
   // Eventts..........................................................................
 

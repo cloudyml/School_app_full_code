@@ -277,7 +277,7 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schooleName =
-        SharedService.loginDetails()!.data!.data!.school.toString();
+        SharedService.loginDetails()!.data!.data!.schoolName.toString();
     String institutionId =
         SharedService.loginDetails()!.data!.data!.institutionId.toString();
     String schoolId =
@@ -401,7 +401,7 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data?.data?.school;
+      String? schoolName = SharedService.loginDetails()?.data?.data?.schoolName;
       String? schoolId = SharedService.loginDetails()?.data?.data?.schoolId;
       String? institutionId =
           SharedService.loginDetails()?.data?.data?.institutionId;
@@ -563,7 +563,7 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schoolName =
-        SharedService.loginDetails()!.data!.data!.school.toString();
+        SharedService.loginDetails()!.data!.data!.schoolName.toString();
     String institutionId =
         SharedService.loginDetails()!.data!.data!.institutionId.toString();
     String schoolId =
@@ -615,7 +615,7 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schoolName =
-        SharedService.loginDetails()!.data!.data!.school.toString();
+        SharedService.loginDetails()!.data!.data!.schoolName.toString();
     String institutionId =
         SharedService.loginDetails()!.data!.data!.institutionId.toString();
     String schoolId =
@@ -717,7 +717,7 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.school;
+      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       String? instituteId =
           SharedService.loginDetails()?.data!.data!.institutionId;
       var request = http.MultipartRequest(
@@ -803,7 +803,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.school}&status=$status&institutionId=${SharedService.loginDetails()?.data!.data!.institutionId}",
+            "/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${SharedService.loginDetails()?.data!.data!.institutionId}",
       );
       log(response.statusCode.toString());
 
@@ -842,7 +842,7 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var teacherId = SharedService.loginDetails()?.data!.id;
       var schoolId = SharedService.loginDetails()?.data!.data!.schoolId;
       var institutionId =
@@ -1012,7 +1012,7 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1126,7 +1126,7 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.school;
+      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
       var institutionId =
           SharedService.loginDetails()?.data!.data!.institutionId;
       var schoolId = SharedService.loginDetails()?.data!.data!.schoolId;
@@ -1200,7 +1200,7 @@ class TeacherApiServices {
         extendedURL:
             "/teacher/${SharedService.loginDetails()!.data?.id}${ApiUrl.verifyReadUnreadNoticeTeacher}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.school,
+          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
           "read": "true",
           "noticeId": noticeID,
         },

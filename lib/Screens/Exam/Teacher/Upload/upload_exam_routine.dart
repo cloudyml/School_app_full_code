@@ -331,7 +331,7 @@ class _UploadResultState extends State<UploadExamRoutine> {
                   "schoolName": SharedService.loginDetails()!
                       .data!
                       .data!
-                      .school
+                      .schoolName
                       .toString(),
                   "institutionId": SharedService.loginDetails()!
                       .data!

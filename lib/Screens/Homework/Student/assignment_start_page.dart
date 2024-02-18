@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Homework/Student/pending_assignment.dart';
-import 'package:school_management_system/Screens/Homework/Student/submitted_assignment.dart';
+import 'package:school_management_system/Screens/Homework/Student/type_of_assignments.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -26,7 +25,7 @@ class StudentAssignmentChoose extends StatelessWidget {
           gradient1: lightBlue,
           gradient2: deepBlue,
           extra: appbar(
-              "assets/flaticon/_assignments.png", " Assignments", context, () {
+              "assets/flaticon/_assignments.png", " Homework", context, () {
             Navigator.pop(context);
           }),
         ),
@@ -47,9 +46,13 @@ class StudentAssignmentChoose extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PendingAssignment()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChooseHomeWorkType(
+                          typeOfAssignment: "getPendingAssignment",
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -74,7 +77,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                           child: Image.asset("assets/_assignment.png"),
                         ),
                         Text(
-                          "Pending Assignments",
+                          "Pending Homework",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,
@@ -91,9 +94,14 @@ class StudentAssignmentChoose extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SubmittedAssignment()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChooseHomeWorkType(
+                          typeOfAssignment: "studentseeSubmittedAssignment",
+                          // typeOfAssignment: "Text",
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -118,7 +126,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                           child: Image.asset("assets/_assignment.png"),
                         ),
                         Text(
-                          "Submitted Assignments",
+                          "Submitted Homework",
                           style: GoogleFonts.inter(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                             color: Colors.black,

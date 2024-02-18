@@ -32,32 +32,35 @@ class ViewNoticeResponseModel {
 }
 
 class Data {
-  String? id;
+  String? institutionId;
+  String? schoolId;
   String? studentId;
-  String? schoolName;
   List<NoticeList>? noticeList;
+  String? id;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
 
   Data({
-    this.id,
+    this.institutionId,
+    this.schoolId,
     this.studentId,
-    this.schoolName,
     this.noticeList,
+    this.id,
     this.createdAt,
     this.updatedAt,
     this.v,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["_id"],
+        institutionId: json["institutionId"],
+        schoolId: json["schoolId"],
         studentId: json["studentId"],
-        schoolName: json["schoolName"],
         noticeList: json["noticeList"] == null
             ? []
             : List<NoticeList>.from(
                 json["noticeList"]!.map((x) => NoticeList.fromJson(x))),
+        id: json["_id"],
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -68,12 +71,13 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
+        "institutionId": institutionId,
+        "schoolId": schoolId,
         "studentId": studentId,
-        "schoolName": schoolName,
         "noticeList": noticeList == null
             ? []
             : List<dynamic>.from(noticeList!.map((x) => x.toJson())),
+        "_id": id,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
@@ -81,44 +85,49 @@ class Data {
 }
 
 class NoticeList {
+  UploadedImage? uploadedImage;
   String? id;
+  String? institutionId;
+  String? schoolName;
+  String? schoolId;
+  String? teacherId;
   String? heading;
   String? description;
-  String? schoolName;
   DateTime? date;
   bool? read;
-  String? link;
-  String? originalImage;
-  String? path;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
 
   NoticeList({
+    this.uploadedImage,
     this.id,
+    this.institutionId,
+    this.schoolName,
+    this.schoolId,
+    this.teacherId,
     this.heading,
     this.description,
-    this.schoolName,
     this.date,
     this.read,
-    this.link,
-    this.originalImage,
-    this.path,
     this.createdAt,
     this.updatedAt,
     this.v,
   });
 
   factory NoticeList.fromJson(Map<String, dynamic> json) => NoticeList(
+        uploadedImage: json["uploadedImage"] == null
+            ? null
+            : UploadedImage.fromJson(json["uploadedImage"]),
         id: json["_id"],
+        institutionId: json["institutionId"],
+        schoolName: json["schoolName"],
+        schoolId: json["schoolId"],
+        teacherId: json["teacherId"],
         heading: json["heading"],
         description: json["description"],
-        schoolName: json["schoolName"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         read: json["read"],
-        link: json["link"],
-        originalImage: json["originalImage"],
-        path: json["path"],
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -129,17 +138,42 @@ class NoticeList {
       );
 
   Map<String, dynamic> toJson() => {
+        "uploadedImage": uploadedImage?.toJson(),
         "_id": id,
+        "institutionId": institutionId,
+        "schoolName": schoolName,
+        "schoolId": schoolId,
+        "teacherId": teacherId,
         "heading": heading,
         "description": description,
-        "schoolName": schoolName,
         "date": date?.toIso8601String(),
         "read": read,
-        "link": link,
-        "originalImage": originalImage,
-        "path": path,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
+      };
+}
+
+class UploadedImage {
+  String? link;
+  String? originalName;
+  String? path;
+
+  UploadedImage({
+    this.link,
+    this.originalName,
+    this.path,
+  });
+
+  factory UploadedImage.fromJson(Map<String, dynamic> json) => UploadedImage(
+        link: json["link"],
+        originalName: json["originalName"],
+        path: json["path"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "link": link,
+        "originalName": originalName,
+        "path": path,
       };
 }

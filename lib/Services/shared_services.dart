@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
+
 import 'package:school_management_system/Models/fetched_children_model.dart';
+
 import '../Models/login_response_model.dart';
 import '../constants/constants.dart';
 
@@ -65,9 +66,16 @@ class SharedService {
     }
   }
 
+  static Future<void> listOfAllTheChildrens(
+      List<FetchedChildrenModel>? responseModel) async {
+    if (responseModel != null) {
+      final String encodedData = jsonEncode(responseModel);
+      preferences!.setString("all_child_info", encodedData);
+    }
+  }
+
   static Future<bool> logout() async {
     await preferences!.clear();
-
     preferences?.remove('login_details');
     return true;
   }

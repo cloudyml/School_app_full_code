@@ -11,7 +11,10 @@ import '../../../widget/appBar/appbar_widget.dart';
 // added by harsh this is where parent can view his childs uploaded assignment
 
 class SubmittedAssignmentParentView extends StatelessWidget {
-  const SubmittedAssignmentParentView({super.key});
+   SubmittedAssignmentParentView(
+      {super.key, required this.type, required this.form});
+  String type;
+  String form;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class SubmittedAssignmentParentView extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<StudentSubmittedAssignmentModel>(
-        future: ApiServices.parentViewSubmittedAssignment(),
+        future: ApiServices.parentViewSubmittedAssignmentFile(type,form),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/notice_detailed_screen.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+
 import '../../../../Models/Student/Notice/view_notice_response_model.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
@@ -18,6 +19,7 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
   String searchText = '';
   List<String> notices = List.generate(10, (index) => 'Notice $index');
   bool isClicked = false;
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -121,8 +123,9 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                           lowerCaseTitle.contains(searchText)) {
                         return ViewNoticeCard(
                           title: title,
-                          image:
-                              notices.data!.noticeList![index].link.toString(),
+                          image: notices
+                              .data!.noticeList![index].uploadedImage!.link
+                              .toString(),
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
@@ -152,8 +155,11 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                                                     .noticeList![index]
                                                     .description
                                                     .toString(),
-                                                imglink: notices.data!
-                                                    .noticeList![index].link
+                                                imglink: notices
+                                                    .data!
+                                                    .noticeList![index]
+                                                    .uploadedImage!
+                                                    .link
                                                     .toString(),
                                               )),
                                     ).whenComplete(() {
@@ -165,7 +171,8 @@ class _ParentViewNoticeScreenState extends State<ParentViewNoticeScreen> {
                                 }
                               },
                             );
-                          }, noticeId:
+                          },
+                          noticeId:
                               notices.data!.noticeList![index].id.toString(),
                         );
                       } else {

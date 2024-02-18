@@ -598,9 +598,9 @@ class StudentMyAccount extends StatelessWidget {
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     preferences?.clear();
-                    SharedService.logout().then((value) {
+                    await SharedService.logout().then((value) {
                       if (value == true) {
                         Navigator.pushAndRemoveUntil(
                             context,

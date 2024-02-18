@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+
 import '../../../Models/Student/Gallery/view_gallery_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -40,7 +40,7 @@ class _ViewGalleryStudentsState extends State<ViewGallery> {
         children: [
           Expanded(
               child: Padding(
-            padding:const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Container(
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -60,7 +60,7 @@ class _ViewGalleryStudentsState extends State<ViewGallery> {
                       );
                     } else if (!snapshot.hasData ||
                         schoolGall?.data?.isEmpty == true ||
-                        schoolGall!.data![0].uploadedImage!.isEmpty) {
+                        schoolGall!.data?[0].uploadedImage?.length == null) {
                       // If there's no data or the data list is empty, you can display a message.
                       return const Center(
                         child: Text('No images available.'),
@@ -69,7 +69,8 @@ class _ViewGalleryStudentsState extends State<ViewGallery> {
                       // If data is available, build the GridView.
                       return GridView.builder(
                         itemCount: schoolGall.data![0].uploadedImage!.length,
-                        gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisSpacing: 4,
                           crossAxisCount: 3,
                           childAspectRatio: 2 / 3,

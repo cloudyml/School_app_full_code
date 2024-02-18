@@ -1,13 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:school_management_system/Screens/Gallery/student/view_gallery_student.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-import '../../../constants/style.dart';
-import '../../../widget/appBar/appbar_widget.dart';
-import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class GalleryDetailedScreen extends StatefulWidget {
   final String imgurl;
@@ -82,7 +77,6 @@ class _GalleryDetailedScreenState extends State<GalleryDetailedScreen> {
                           setState(() {
                             downloadProgress = progress;
                           });
-
                           //  ScaffoldMessenger.of(context).showSnackBar(
                           //    SnackBar(
                           //     backgroundColor: Colors.green,

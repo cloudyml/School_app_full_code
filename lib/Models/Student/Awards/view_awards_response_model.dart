@@ -30,11 +30,14 @@ class StudentViewAwardsResponseModel {
 
 class Data {
     String? id;
-    String? studentName;
+    String? institutionId;
+    String? schoolName;
+    String? schoolId;
     String? studentId;
+    String? studentName;
     int? dataClass;
     String? section;
-    String? rollNumber;
+    int? rollNumber;
     List<AwardList>? awardList;
     DateTime? createdAt;
     DateTime? updatedAt;
@@ -42,8 +45,11 @@ class Data {
 
     Data({
         this.id,
-        this.studentName,
+        this.institutionId,
+        this.schoolName,
+        this.schoolId,
         this.studentId,
+        this.studentName,
         this.dataClass,
         this.section,
         this.rollNumber,
@@ -55,8 +61,11 @@ class Data {
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["_id"],
-        studentName: json["studentName"],
+        institutionId: json["institutionId"],
+        schoolName: json["schoolName"],
+        schoolId: json["schoolId"],
         studentId: json["studentId"],
+        studentName: json["studentName"],
         dataClass: json["class"],
         section: json["section"],
         rollNumber: json["rollNumber"],
@@ -68,8 +77,11 @@ class Data {
 
     Map<String, dynamic> toJson() => {
         "_id": id,
-        "studentName": studentName,
+        "institutionId": institutionId,
+        "schoolName": schoolName,
+        "schoolId": schoolId,
         "studentId": studentId,
+        "studentName": studentName,
         "class": dataClass,
         "section": section,
         "rollNumber": rollNumber,
@@ -81,36 +93,40 @@ class Data {
 }
 
 class AwardList {
+    String? teacherId;
     String? certificationHeading;
     DateTime? certificationDate;
     String? link;
-    String? originalImage;
+    String? originalName;
     String? path;
     String? id;
 
     AwardList({
+        this.teacherId,
         this.certificationHeading,
         this.certificationDate,
         this.link,
-        this.originalImage,
+        this.originalName,
         this.path,
         this.id,
     });
 
     factory AwardList.fromJson(Map<String, dynamic> json) => AwardList(
+        teacherId: json["teacherId"],
         certificationHeading: json["certificationHeading"],
         certificationDate: json["certificationDate"] == null ? null : DateTime.parse(json["certificationDate"]),
         link: json["link"],
-        originalImage: json["originalImage"],
+        originalName: json["originalName"],
         path: json["path"],
         id: json["_id"],
     );
 
     Map<String, dynamic> toJson() => {
+        "teacherId": teacherId,
         "certificationHeading": certificationHeading,
         "certificationDate": certificationDate?.toIso8601String(),
         "link": link,
-        "originalImage": originalImage,
+        "originalName": originalName,
         "path": path,
         "_id": id,
     };
