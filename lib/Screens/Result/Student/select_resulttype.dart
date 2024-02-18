@@ -51,7 +51,6 @@ class SelectResultType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -29,25 +29,25 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   dio: ^5.3.2
-  file_picker: ^6.1.1
-  flutter:
-    sdk: flutter
-  # does not support web
-  flutter_pdfview: ^1.0.0
-  http: ^1.1.0
-  image_picker: ^1.0.2
-  intl: ^0.19.0
-  provider:
-  shared_preferences: ^2.2.2
-  path: ^1.8.3
-  url_launcher: ^6.1.14
-  lottie:
-  google_fonts: ^6.1.0
   firebase_core: ^2.24.0
   firebase_messaging: ^14.7.6
   flutter_easyloading: ^3.0.5
   flutter_file_downloader: ^1.2.1
   flutter_screenutil: ^5.9.0
+  file_picker: ^6.1.1
+  flutter:
+    sdk: flutter
+  flutter_pdfview: ^1.0.0
+  google_fonts: ^6.1.0
+  http: ^1.1.0
+  image_picker: ^1.0.2
+  intl: ^0.19.0
+  get:
+  provider:
+  shared_preferences: ^2.2.2
+  path: ^1.8.3
+  url_launcher: ^6.1.14
+  lottie:
   pdf: ^3.10.7
   syncfusion_flutter_pdfviewer: ^24.2.4
   flutter_full_pdf_viewer_null_safe: ^1.0.0

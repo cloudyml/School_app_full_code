@@ -6,7 +6,7 @@ import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Events/parent/detail_of_the_event.dart';
 import 'package:school_management_system/Screens/Events/student/detailed_screen_completed_events.dart';
 import 'package:school_management_system/Screens/Events/student/detailed_screen_upcoming_events.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
 import '../../../Models/Student/Events/view_events_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';

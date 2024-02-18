@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
+import 'package:school_management_system/constants/style.dart';
+import 'package:school_management_system/widget/appBar/appbar_widget.dart';
+import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
+import 'package:school_management_system/widget/teacher/Assignments/teacher_see_own_uploaded_assignment_card.dart';
+import '../../../../Models/Teacher/Homework/Text Homework/teacher_uploaded_text_assignments_response_model.dart';
+//import '../../../../Models/Teacher/Homework/view file homework/teacher_see_own_assignments_list_response_model.dart';
+
+class TeacherSeeOwnUploadedTextAssignment extends StatelessWidget {
+  final String wclass;
+  final String section;
+  const TeacherSeeOwnUploadedTextAssignment(
+      {super.key, required this.wclass, required this.section});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(300),
+        child: DecorativeAppBar(
+          barHeight: MediaQuery.of(context).size.height * 0.24,
+          barPad: MediaQuery.of(context).size.height * 0.19,
+          radii: 30,
+          background: Colors.white,
+          gradient1: lightBlue,
+          gradient2: deepBlue,
+          extra: appbar(
+              "assets/flaticon/_assignments.png", "Assignments", context, () {
+            Navigator.pop(context);
+          }),
+        ),
+      ),
+      body: FutureBuilder<TeacherUploadedTextAssignmentResponseModel>(
+        future: TeacherApiServices.teacherSeeOwnGivenTextAssignment(
+            wclass, section),
+        builder: (context, snapshot) {
+          TeacherUploadedTextAssignmentResponseModel? teacherSeeAllAssignment =
+              snapshot.data;
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text("Error.."));
+          } else if (snapshot.data!.data!.length == 0) {
+            return const Center(child: Text("No data found"));
+          } else {
+            return ListView.builder(
+              itemCount: teacherSeeAllAssignment!.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                // Format the givenDate and submitDate
+                String formattedGivenDate = DateFormat('dd-MM-yyyy').format(
+                  DateTime.parse(
+                    teacherSeeAllAssignment.data![index].lastDateOfSubmit
+                        .toString(),
+                  ),
+                );
+                String formattedSubmitDate = DateFormat('dd-MM-yyyy').format(
+                  DateTime.parse(
+                    teacherSeeAllAssignment.data![index].lastDateOfSubmit
+                        .toString(),
+                  ),
+                );
+
+                return TeacherSeeOwnUploadedAssignmentCard(
+                  assignmentID:
+                      teacherSeeAllAssignment.data?[index].id.toString() ?? "",
+                  givenDate: formattedGivenDate,
+                  subject: 
+                      teacherSeeAllAssignment.data![index].subject.toString(),
+                  submitDate: formattedSubmitDate,
+                  topic: teacherSeeAllAssignment.data![index].topic.toString(),
+                  section: section,
+                  wclass: wclass,
+                  questionFile: "",
+                  submittedStudentList: teacherSeeAllAssignment.data![index]
+                      .submittedStudentId as List<SubmittedStudentList>,
+                  notSubmittedStudentList: teacherSeeAllAssignment.data![index]
+                      .notSubmittedStudentList as List<NotSubmittedStudentList>,
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+}

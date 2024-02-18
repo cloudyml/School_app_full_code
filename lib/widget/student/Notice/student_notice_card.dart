@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Teacher/choose_notice_options.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/Services/shared_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -174,7 +175,7 @@ class _ViewNoticeCardState extends State<ViewNoticeCard> {
   }
 
   void _deleteNotice() {
-    ApiServices.deleteNoticeTeacher(widget.noticeId).then((value) {
+    TeacherApiServices.deleteNoticeTeacher(widget.noticeId).then((value) {
       if (value == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'package:school_management_system/Models/fetched_children_model.dart';
+
 import '../Models/login_response_model.dart';
 import '../constants/constants.dart';
 
@@ -70,14 +71,12 @@ class SharedService {
     if (responseModel != null) {
       final String encodedData = jsonEncode(responseModel);
       preferences!.setString("all_child_info", encodedData);
-      log("THis is the data of all the childrens in the shared preference ----\n-\n-\n-\n-\n-\n--\n-\n-\n-\n--------------------->"+encodedData);
     }
   }
 
   static Future<bool> logout() async {
     await preferences!.clear();
     preferences?.remove('login_details');
-    // log(preferences!.getString("login_details")!);
     return true;
   }
 

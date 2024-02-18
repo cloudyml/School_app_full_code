@@ -1,9 +1,11 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Models/Student/Exam/exam_routine_response_model.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
+
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/appbar_widget.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
@@ -11,8 +13,13 @@ import '../../../../widget/appBar/decorative_apbar_widget.dart';
 class TeacherViewExamRoutine extends StatefulWidget {
   final String testType;
   final String selectedClass;
+  final String selectedSection;
+
   const TeacherViewExamRoutine(
-      {super.key, required this.testType, required this.selectedClass});
+      {super.key,
+      required this.testType,
+      required this.selectedClass,
+      required this.selectedSection});
 
   @override
   State<TeacherViewExamRoutine> createState() => _TeacherViewExamRoutineState();
@@ -20,6 +27,7 @@ class TeacherViewExamRoutine extends StatefulWidget {
 
 class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
   bool isClicked = false;
+
   @override
   Widget build(BuildContext context) {
     void showSuccessSnackbar() {
@@ -116,8 +124,8 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutineParentStudent(
-                  widget.selectedClass, widget.testType),
+              future: ApiServices.viewExamRoutine(widget.selectedClass,
+                  widget.testType, widget.selectedSection),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -194,8 +202,8 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
               height: 5,
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutineParentStudent(
-                  widget.selectedClass, widget.testType),
+              future: ApiServices.viewExamRoutine(widget.selectedClass,
+                  widget.testType, widget.selectedSection),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();
@@ -205,7 +213,6 @@ class _TeacherViewExamRoutineState extends State<TeacherViewExamRoutine> {
                   return const Text('');
                 } else {
                   ExamRoutineResponseModel? exam = snapshot.data;
-
                   return Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(

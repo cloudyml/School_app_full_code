@@ -1,10 +1,16 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:school_management_system/Models/Student/Events/view_events_response_model.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
+import 'package:school_management_system/Services/base_api_service.dart';
+import 'package:school_management_system/Services/shared_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../widget/Button/rectangle_elevatedbutton_card.dart';
@@ -400,7 +406,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     setState(() {
                       isChecked = true;
                     });
-                    await ApiServices.teacherUploadEvents(
+                    await TeacherApiServices.teacherUploadEvents(
                             heading.text,
                             des.text,
                             date.text,
@@ -426,12 +432,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             isChecked = false;
                           });
                         });
+                      } else {
+                        setState(() {
+                          isChecked = false;
+                        });
                       }
                     });
                   }
                 }
               } catch (e) {
                 EasyLoading.showError(e.toString());
+                setState(() {
+                  isChecked = false;
+                });
               }
             },
             child: const Text(
@@ -443,4 +456,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
       ],
     );
   }
+
+
 }

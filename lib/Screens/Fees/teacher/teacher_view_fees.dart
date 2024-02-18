@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/Fees/student_fee_response_model.dart';
-import '../../../Services/api_services.dart';
+import '../../../Services/api_services/api_services.dart';
 import '../../../constants/style.dart';
 import '../../Dashboard.dart';
 import '../teacher/upload_fees.dart';
@@ -58,7 +59,7 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 30),
+                          left: 10, right: 10, bottom: 20, top: 10),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -228,7 +229,7 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
                             ),
                             IconButton(
                               onPressed: () {
-                                ApiServices.deleteFees(
+                                TeacherApiServices.deleteFees(
                                         fees.data![index].datumClass.toString())
                                     .then((value) {
                                   if (value == true) {

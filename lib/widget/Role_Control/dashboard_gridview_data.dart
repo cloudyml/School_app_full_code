@@ -10,7 +10,7 @@ import 'package:school_management_system/Screens/Result/Student/select_resulttyp
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/constants/style.dart';
 import '../../Screens/Homework/Student/assignment_start_page.dart';
-import '../../Screens/Homework/Teacher/homework_options.dart';
+import '../../Screens/Homework/Teacher/upload_view_homework_options.dart';
 import '../../Screens/Attendance/Student/choose_attendance.dart';
 import '../../Screens/Awards/student/student_view_awards.dart';
 import '../../Screens/Awards/teacher/first_page_select_award_options.dart';

@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-
 
 class GalleryDetailedScreen extends StatefulWidget {
   final String imgurl;
@@ -51,7 +51,7 @@ class _GalleryDetailedScreenState extends State<GalleryDetailedScreen> {
                             downloded = false;
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
-                             SnackBar(
+                            SnackBar(
                               backgroundColor: Colors.green,
                               content: Text('Download Error\n $msg'),
                               duration: Duration(seconds: 3),
@@ -66,7 +66,7 @@ class _GalleryDetailedScreenState extends State<GalleryDetailedScreen> {
                             msg = "Success";
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
-                             SnackBar(
+                            SnackBar(
                               backgroundColor: Colors.green,
                               content: Text('Downloaded Successfully\n $path'),
                               duration: Duration(seconds: 3),
@@ -77,7 +77,6 @@ class _GalleryDetailedScreenState extends State<GalleryDetailedScreen> {
                           setState(() {
                             downloadProgress = progress;
                           });
-                         
                           //  ScaffoldMessenger.of(context).showSnackBar(
                           //    SnackBar(
                           //     backgroundColor: Colors.green,

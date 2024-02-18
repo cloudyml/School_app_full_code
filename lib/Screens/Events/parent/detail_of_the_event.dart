@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Events/student/register_events.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
 import '../../../constants/style.dart';
 import '../../../widget/Button/my_elevatedbutton.dart';
 import '../../../widget/appBar/appbar_widget.dart';

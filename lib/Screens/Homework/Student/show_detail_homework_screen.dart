@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:path/path.dart';
 import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
 import 'package:school_management_system/Screens/Homework/Student/question_tile_text_assignment.dart';
-import 'package:school_management_system/Services/api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../Services/api_services/api_services.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
@@ -20,6 +20,7 @@ class TextSubmitModel {
   String? question;
   String answerKey = "answer";
   String? answer;
+
   TextSubmitModel({this.answer, this.question});
 
   Map<String, dynamic> toJson() {
@@ -42,13 +43,15 @@ class DetailHomeworkScreenStudent extends StatefulWidget {
       _DetailHomeworkScreenStudentState();
 }
 
-class _DetailHomeworkScreenStudentState extends State<DetailHomeworkScreenStudent> {
+class _DetailHomeworkScreenStudentState
+    extends State<DetailHomeworkScreenStudent> {
   List answeredList = [];
   int? indexForReference;
   SharedPreferences? instance;
   List<Map<String, String>>? textAssignmentList;
 
   TextEditingController answer = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -77,6 +80,7 @@ class _DetailHomeworkScreenStudentState extends State<DetailHomeworkScreenStuden
   }
 
   var temp = "";
+
   @override
   Widget build(BuildContext context) {
     List<TextEditingController> answerControllers =
@@ -417,7 +421,8 @@ class _DetailHomeworkScreenStudentState extends State<DetailHomeworkScreenStuden
                             Navigator.pop(context);
                             EasyLoading.showSuccess("Uploaded Successfully");
                             instance?.remove(widget.assignmentId);
-                            ApiServices.studentSeeAssignmentText("Text", "getPendingAssignment");
+                            ApiServices.studentSeeAssignmentText(
+                                "Text", "getPendingAssignment");
                           });
                           // ApiServices.StudentSubmittedAssignment()
                           for (int i = 0; i < sendAnswerLIst.length; i++) {

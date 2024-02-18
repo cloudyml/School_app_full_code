@@ -1,12 +1,8 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Models/fetched_children_model.dart';
-import 'package:school_management_system/constants/constants.dart';
-import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
+
 import '../../../Services/shared_services.dart';
 import '../../../constants/style.dart';
 import '../../../widget/Role_Control/dashboard_gridview_data.dart';
@@ -104,7 +100,7 @@ class _MyWidgetState extends State<HomeScreen> {
                                     fontSize: height * 0.04,
                                     fontWeight: FontWeight.bold))
                             : Text(
-                                "${SharedService.loginDetails()?.data?.data?.school}",
+                                "${SharedService.loginDetails()?.data?.data?.schoolName}",
                                 softWrap: true,
                                 maxLines: 10,
                                 overflow: TextOverflow.fade,

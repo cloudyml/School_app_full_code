@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../Models/Teacher/Attendance/Original_Model/attendance_response_model.dart';
-import '../api_services.dart';
+import '../api_services/api_services.dart';
 
 class AttendanceProvider extends ChangeNotifier {
   bool loading = false;

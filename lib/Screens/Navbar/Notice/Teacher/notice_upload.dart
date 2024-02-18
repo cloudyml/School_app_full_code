@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/Button/rectangle_elevatedbutton_card.dart';
@@ -276,7 +277,7 @@ class _UploadAwardsState extends State<UploadNotice> {
                 'Please fill in all fields.',
               );
             } else {
-              ApiServices.teacherUploadNotice(
+              TeacherApiServices.teacherUploadNotice(
                 noticeHeading.text,
                 noticeDescription.text,
                 noticeDate.text,
@@ -285,7 +286,7 @@ class _UploadAwardsState extends State<UploadNotice> {
               ).then((value) {
                 log("Value = ${value.toString()}");
                 if (value == true) {
-                  _showSnackBar(context, "Event Uploaded Successfully");
+                  _showSnackBar(context, "Notice Uploaded Successfully");
                   Navigator.pop(context);
                 } else {
                   _showUnsuccessfulSnackBar(context, "Error occurred !!");
