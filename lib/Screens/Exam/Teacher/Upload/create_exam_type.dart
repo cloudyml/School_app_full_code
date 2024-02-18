@@ -42,15 +42,15 @@ class CreateExamTypeView extends StatelessWidget {
     "12",
   ].obs;
 
-  final listOfCriteria = [
-    {"no": 1, "range": "Above 35", "grades": 5, "comments": "Pass"},
-    {"no": 2, "range": "Below", "grades": 0, "comments": "Fail"},
-  ].obs;
+  final listOfCriteria = [].obs;
+
+  final srNo = 0.obs;
+
+  final marksRange = [];
+  final listOfBool = [].obs;
 
   @override
   Widget build(BuildContext context) {
-    final listOfBool =
-        List.generate(listOfCriteria.length, (index) => false).obs;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     double containerSize = MediaQuery.of(context).size.width / 6;
@@ -188,6 +188,27 @@ class CreateExamTypeView extends StatelessWidget {
               SizedBox(
                 height: 25.sp,
               ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(
+                    2,
+                    (index) => Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: SizedBox(
+                            height: 50.sp,
+                            width: 0.35.sw,
+                            child: TextField(
+                              decoration: decoration.copyWith(
+                                  labelText: hintTextOfMarks[index]),
+                              controller: textOfPassingTotalMarks[index].value,
+                            ),
+                          ),
+                        )),
+              ),
+              SizedBox(
+                height: 25.sp,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 child: Row(
@@ -258,108 +279,102 @@ class CreateExamTypeView extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                // height: 0.2.sh,
-                child: Obx(() {
-                  return GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        childAspectRatio: 8,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    listOfBool[index] = !listOfBool[index];
-                                  },
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(border: Border.all()),
-                                    height: containerSize,
-                                    width: containerSize,
-                                    child: Obx(() {
-                                      return Center(
-                                        child: listOfBool[index]
-                                            ? TextField()
-                                            : Obx(() {
-                                                return Text(
-                                                    listOfCriteria[index]["no"]
-                                                        .toString()
-                                                    // exam
-                                                    // .data!.examDetails![index].subject
-                                                    // .toString()
-                                                    );
-                                              }),
-                                      );
-                                    }),
-                                  ),
-                                ),
+              Obx(() {
+                return SizedBox(
+                  // height: 0.2.sh,
+                  child: listOfCriteria.isNotEmpty
+                      ? Obx(() {
+                          return GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                childAspectRatio: 8,
                               ),
-                              Expanded(
-                                child: Container(
-                                  decoration:
-                                      BoxDecoration(border: Border.all()),
-                                  height: containerSize,
-                                  width: containerSize,
-                                  child: Center(
-                                    child: Text(listOfCriteria[index]["range"]
-                                            .toString()
-                                        // DateFormat('dd-MM-yyyy').format(
-                                        // DateTime.parse(exam
-                                        //     .data!.examDetails![index].date
-                                        //     .toString()))
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () {
+                                            listOfBool[index] =
+                                                !listOfBool[index];
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all()),
+                                            height: containerSize,
+                                            width: containerSize,
+                                            child: Center(
+                                              child: Text("${index + 1}"),
+                                            ),
+                                          ),
                                         ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration:
-                                      BoxDecoration(border: Border.all()),
-                                  height: containerSize,
-                                  width: containerSize,
-                                  child: Center(
-                                    child: Text(listOfCriteria[index]["grades"]
-                                            .toString()
-                                        // exam
-                                        // .data!.examDetails![index].time
-                                        // .toString()
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all()),
+                                          height: containerSize,
+                                          width: containerSize,
+                                          child: Center(
+                                            child: Text(
+                                                "${listOfCriteria[index]["marksRange"][0].toString()}-${listOfCriteria[index]["marksRange"][1].toString()}"
+                                                // DateFormat('dd-MM-yyyy').format(
+                                                // DateTime.parse(exam
+                                                //     .data!.examDetails![index].date
+                                                //     .toString()))
+                                                ),
+                                          ),
                                         ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration:
-                                      BoxDecoration(border: Border.all()),
-                                  height: containerSize,
-                                  width: containerSize,
-                                  child: Center(
-                                    child: Text(listOfCriteria[index]
-                                                ["comments"]
-                                            .toString()
-                                        // exam
-                                        // .data!.examDetails![index].time
-                                        // .toString()
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all()),
+                                          height: containerSize,
+                                          width: containerSize,
+                                          child: Center(
+                                            child: Text(
+                                                "${listOfCriteria[index]["grades"]}"
+                                                // exam
+                                                // .data!.examDetails![index].time
+                                                // .toString()
+                                                ),
+                                          ),
                                         ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all()),
+                                          height: containerSize,
+                                          width: containerSize,
+                                          child: Center(
+                                            child: Text(listOfCriteria[index]
+                                                        ["comments"]
+                                                    .toString()
+                                                // exam
+                                                // .data!.examDetails![index].time
+                                                // .toString()
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      itemCount: listOfCriteria.length
-                      // exam.data!.examDetails!.length,
-                      );
-                }),
-              ),
+                                );
+                              },
+                              itemCount: listOfCriteria.length
+                              // exam.data!.examDetails!.length,
+                              );
+                        })
+                      : Container(),
+                );
+              }),
               Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -368,13 +383,17 @@ class CreateExamTypeView extends StatelessWidget {
                         height: 0.025.sh,
                         child: ElevatedButton(
                             onPressed: () {
-                              listOfCriteria.add({
-                                "no": "",
-                                "range": "",
-                                "grades": "",
-                                "comments": ""
-                              });
-                              listOfBool.add(false);
+                              // srNo.value++;
+                              // marksRange.add(textOfmarksRange[0].value.text);
+                              // marksRange.add(textOfmarksRange[1].value.text);
+                              // marksRange.toList();
+                              // listOfCriteria.add({
+                              //   "marksRange": marksRange,
+                              //   "grades": "",
+                              //   "comments": ""
+                              // });
+                              // listOfBool.add(false);
+                              showRowDialogue(context);
                             },
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -473,6 +492,17 @@ class CreateExamTypeView extends StatelessWidget {
                       await TeacherApiServices.teacherCreateExamType(context,
                           classofStudent: selectedClass.value,
                           examTypeList: examTypeList);
+                      listOfCriteria.toList();
+                      await TeacherApiServices.teacherPostGradingData(context,
+                          examType: nameController.value.text,
+                          selectedClass: selectedClass,
+                          selectedSection: selectedSection,
+                          passingMarks: textOfPassingTotalMarks[1].value.text,
+                          totalMarks: textOfPassingTotalMarks[0].value.text,
+                          gradingCriteria: listOfCriteria);
+                      textOfPassingTotalMarks.forEach((element) {
+                        element.value.clear();
+                      });
                       Navigator.pop(context);
                     }
                   },
@@ -492,4 +522,101 @@ class CreateExamTypeView extends StatelessWidget {
       ),
     );
   }
+
+  final textOfmarksRange =
+      List.generate(2, (index) => TextEditingController().obs);
+  final textOfGradeComment =
+      List.generate(2, (index) => TextEditingController().obs);
+  final textOfPassingTotalMarks =
+      List.generate(2, (index) => TextEditingController().obs);
+
+  showRowDialogue(context) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Center(child: const Text("Grade Criteria")),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel")),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: deepBlue),
+                  onPressed: () {
+                    marksRange.addAll([
+                      textOfmarksRange[0].value.text.toString(),
+                      textOfmarksRange[1].value.text.toString()
+                    ]);
+                    print("object $marksRange");
+                    marksRange.toList();
+                    listOfCriteria.add({
+                      "marksRange": marksRange,
+                      "grades": textOfGradeComment[0].value.text,
+                      "comments": textOfGradeComment[1].value.text
+                    });
+                    textOfmarksRange.forEach((element) {
+                      element.value.clear();
+                    });
+                    textOfGradeComment.forEach((element) {
+                      element.value.clear();
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Add",
+                    style: TextStyle(color: Colors.white),
+                  ))
+            ],
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(
+                      2,
+                      (index) => SizedBox(
+                            width: 0.25.sw,
+                            child: TextField(
+                              controller: textOfmarksRange[index].value,
+                              decoration: decoration.copyWith(
+                                  labelText: hintRangeText[index]),
+                            ),
+                          )),
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                Column(
+                  children: List.generate(
+                      2,
+                      (index) => Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.sp),
+                            child: SizedBox(
+                              width: 0.75.sw,
+                              child: TextField(
+                                controller: textOfGradeComment[index].value,
+                                decoration: decoration.copyWith(
+                                    labelText: hintText[index]),
+                              ),
+                            ),
+                          )),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  final decoration = InputDecoration(
+      enabledBorder: OutlineInputBorder(),
+      focusedBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)));
+  final hintRangeText = ["Range from", "Range to"];
+  final hintText = ["Grade", "Comment"];
+  final hintTextOfMarks = ["Total Marks", "Passing Marks"];
 }

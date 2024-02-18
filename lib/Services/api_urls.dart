@@ -78,6 +78,8 @@ class ApiUrl {
   static const String uploadResult = "/createResult-section";
   static const String teacherViewReqsultClassWise = "/getResult-section";
   static const String teacherUpadteResult = "/updateResultBySubjectId";
+  static const String createDefaultData = "/createDefaultData";
+  static const String getDefaultData = "/getDefaultData";
 
   // Exam........................................................................
 

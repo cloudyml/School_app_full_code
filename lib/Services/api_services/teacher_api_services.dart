@@ -600,6 +600,63 @@ class TeacherApiServices {
     return ret;
   }
 
+  // Teacher post grading data
+
+  static Future<bool> teacherPostGradingData(
+    context, {
+    required examType,
+    required selectedClass,
+    required selectedSection,
+    required passingMarks,
+    required totalMarks,
+    required gradingCriteria,
+  }) async {
+    var ret = false;
+    String schoolName =
+        SharedService.loginDetails()!.data!.data!.school.toString();
+    String institutionId =
+        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+    String schoolId =
+        SharedService.loginDetails()!.data!.data!.schoolId.toString();
+    String id = SharedService.loginDetails()!.data!.data!.id.toString();
+    try {
+      var response = await ApiBase.postRequest(
+        extendedURL: "/teacher/$id/result${ApiUrl.createDefaultData}",
+        body: {
+          "institutionId": institutionId,
+          "schoolId": schoolId,
+          "schoolName": schoolName,
+          "examType": examType,
+          "class": selectedClass,
+          "section": selectedSection,
+          "gradingSystem": {
+            "marksList": {
+              "passingMarks": passingMarks,
+              "outOffMarks": totalMarks
+            },
+            "gradingCriteria": gradingCriteria
+          }
+        },
+      );
+      log("${jsonDecode(response.body)}");
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+          ret = true;
+        } else {
+          ret = false;
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+        }
+      } else {
+        showSnackbar(context, message: jsonDecode(response.body)['message']);
+        ret = false;
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
   // Teacher Post result.....................................................
 
   static Future<bool> uploadResultAllStudents(
