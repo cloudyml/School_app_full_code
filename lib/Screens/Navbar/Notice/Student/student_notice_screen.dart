@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../../Models/Student/Notice/view_notice_response_model.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
@@ -124,11 +125,11 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                               notices.data!.noticeList![index].id.toString(),
                           title: "$title",
                           image:
-                              notices.data!.noticeList![index].link.toString(),
+                              notices.data!.noticeList![index].uploadedImage!.link.toString(),
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
-                            ApiServices.verifyReadUnreadNoticeStudents(notices
+                            ApiServices.verifyReadUnreadNoticeParentStudent(notices
                                     .data!.noticeList![index].id
                                     .toString())
                                 .then(
@@ -155,7 +156,7 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                                                     .description
                                                     .toString(),
                                                 imglink: notices.data!
-                                                    .noticeList![index].link
+                                                    .noticeList![index].uploadedImage!.link.toString()
                                                     .toString(),
                                               )),
                                     ).whenComplete(() {

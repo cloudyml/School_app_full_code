@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Services/api_services.dart';
+import 'package:school_management_system/Services/shared_services.dart';
 import '../../../Models/Student/Awards/view_awards_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -24,13 +25,13 @@ class StudentViewAwards extends StatelessWidget {
             background: Colors.white,
             gradient1: lightBlue,
             gradient2: deepBlue,
-            extra: appbar("assets/awards_trophy.png", " Awards", context, () {
+            extra: appbar("assets/awards_trophy.png", "Awards", context, () {
               Navigator.pop(context);
             }),
           ),
         ),
         body: FutureBuilder<StudentViewAwardsResponseModel>(
-          future: ApiServices.viewMyCertificates(),
+          future: ApiServices.viewMyCertificatesParentStudent(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

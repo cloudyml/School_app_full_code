@@ -10,7 +10,6 @@ import 'Navbar/Home/home_screen.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
-import 'Navbar/Notice/parent_view_notice_screen.dart';
 import 'Navbar/Account/Student/student_my_acccount_home_page.dart';
 
 class Dashboard extends StatefulWidget {
@@ -40,15 +39,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _noticeScreen() {
-    if (SharedService.loginDetails()?.data?.data?.role == "student") {
-      // log("Student");
-      return const ViewNoticeScreen();
-    } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
-      // log("Teacher");
+    if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
       return const TeacherNoticeOptions();
     } else {
-      // log("Parent");
-      return const ParentViewNoticeScreen();
+      return const ViewNoticeScreen();
     }
   }
 
