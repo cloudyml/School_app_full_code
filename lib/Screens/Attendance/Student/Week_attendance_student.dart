@@ -53,7 +53,7 @@ class ThisWeek extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.53,
             child: FutureBuilder(
-              future: ApiServices.StudentWeekAttendance(),
+              future: ApiServices.studentParentWeekAttendance(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -109,7 +109,7 @@ class ThisWeek extends StatelessWidget {
             ),
           ),
           FutureBuilder<StudentWeeklyAttendanceModel>(
-            future: ApiServices.StudentWeekAttendance(),
+            future: ApiServices.studentParentWeekAttendance(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container();

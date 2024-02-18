@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
-import 'package:school_management_system/Screens/Attendance/parent/choose_type_of_attendance_parent.dart';
+
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
 import 'package:school_management_system/Screens/Exam/Student/student_choose_examtype.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
 import 'package:school_management_system/Screens/Fees/student/student_view_fees_details.dart';
 import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
 import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
-import 'package:school_management_system/Screens/routine/parent/parent_daily_timetable.dart';
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/constants/style.dart';
 import '../../Screens/Homework/Student/assignment_start_page.dart';
@@ -34,14 +33,11 @@ class CategoryData {
 }
 
 Widget getAttendanceScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student") {
-    // log("student");
-    return const StuChooseAttendance();
-  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
     // log("Teacher");
     return const TeacherAttendanceOptions();
   } else {
-    return const ParentChooseAttendance();
+    return const StuChooseAttendance();
   }
 }
 
@@ -87,14 +83,11 @@ Widget getEventsScreen() {
 }
 
 Widget Routine() {
-  if (SharedService.loginDetails()?.data!.data?.role == "student") {
-    // log("student");
-    return const DayRoutine();
-  } else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
-    return const ParentDailyRoutine();
+  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+    return const TeacherTimetableOptions();
   } else {
     // log("Teacher");
-    return const TeacherTimetableOptions();
+    return const DayRoutine();
   }
 }
 

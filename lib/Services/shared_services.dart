@@ -70,13 +70,14 @@ class SharedService {
     if (responseModel != null) {
       final String encodedData = jsonEncode(responseModel);
       preferences!.setString("all_child_info", encodedData);
-      log("THis is the data of the shared preference ----\n-\n-\n-\n-\n-\n--\n-\n-\n-\n--------------------->"+encodedData);
+      log("THis is the data of all the childrens in the shared preference ----\n-\n-\n-\n-\n-\n--\n-\n-\n-\n--------------------->"+encodedData);
     }
   }
 
   static Future<bool> logout() async {
     await preferences!.clear();
-    // preferences?.remove('login_details');
+    preferences?.remove('login_details');
+    // log(preferences!.getString("login_details")!);
     return true;
   }
 

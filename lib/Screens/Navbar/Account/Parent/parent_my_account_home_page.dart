@@ -5,7 +5,6 @@ import 'package:school_management_system/Screens/Events/parent/child_enrolled_ev
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
-import 'package:school_management_system/Screens/Navbar/Notice/parent_view_notice_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../Services/shared_services.dart';
 import '../../../../constants/style.dart';
@@ -494,7 +493,7 @@ class ParentMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ParentViewNoticeScreen()));
+                        builder: (context) => const ViewNoticeScreen()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,

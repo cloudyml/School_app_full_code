@@ -291,7 +291,8 @@ class ApiServices {
 
 // Student can see his/her Weekly Attendance.........................................
 
-  static Future<StudentWeeklyAttendanceModel> StudentWeekAttendance() async {
+  static Future<StudentWeeklyAttendanceModel>
+      studentParentWeekAttendance() async {
     StudentWeeklyAttendanceModel WeeklyAttendance =
         StudentWeeklyAttendanceModel();
     try {
@@ -304,11 +305,16 @@ class ApiServices {
           ' ${SharedService.loginDetails()?.data!.data!.rollNumber}';
       String date = formattedDate;
 
-      var queryParam =
-          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&date=$date";
-      var response = await ApiBase.getRequest(
-        extendedURL: queryParam, // Use queryParam here
-      );
+      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+          ? await ApiBase.getRequest(
+              token: SharedService.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.weekStudentAttendance}?date=$date", // Use queryParam here
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedService.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?date=$date", // Use queryParam here
+            );
       log(response.statusCode.toString());
       log(formattedDate.toString());
       log(section.toString());
@@ -390,7 +396,7 @@ class ApiServices {
 
 // Student can see his/her Monthly Attendance.........................................
 
-  static Future<StudentMonthlyAttendanceModel> StudentMonthlyAttendance(
+  static Future<StudentMonthlyAttendanceModel> studentParentMonthlyAttendance(
     final String month,
     final String year,
   ) async {
@@ -403,11 +409,15 @@ class ApiServices {
       String rollNumber =
           ' ${SharedService.loginDetails()?.data!.data!.rollNumber}';
 
-      var queryParam =
-          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&month=$month&year=$year";
-      var response = await ApiBase.getRequest(
-        extendedURL: queryParam, // Use queryParam here
-      );
+      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+          ? await ApiBase.getRequest(
+              token: SharedService.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.monthStudentAttendance}?month=$month&year=$year")
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedService.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?month=$month&year=$year", // Use queryParam here
+            );
 
       log(response.statusCode.toString());
       log(studentClass);
@@ -484,39 +494,44 @@ class ApiServices {
   static Future<StudentEachdayRoutineModel> StudentEachDayRoutine() async {
     StudentEachdayRoutineModel studentDailyRoutine =
         StudentEachdayRoutineModel();
-    try {
-      String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+    // try {
+    //   String studentClass =
+    //       '${SharedService.loginDetails()?.data!.data!.dataClass}';
+    //   String section = '${SharedService.loginDetails()?.data!.data!.section}';
 
-      var queryParam =
-          "${ApiUrl.dailyRoutine}?class=$studentClass&section=$section";
-      var response = await ApiBase.getRequest(
-        extendedURL: queryParam,
-      );
-      log(response.statusCode.toString());
-      log(section.toString());
-      log(studentClass);
+    //   var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+    //       ? await ApiBase.getRequest(
+    //         token: SharedService.childDetails()?.data?.token,
+    //           extendedURL:
+    //               "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.dailyRoutine}",
+    //         )
+    //       : await ApiBase.getRequest(
+    //           extendedURL:
+    //               "/student/${SharedService.loginDetails()?.data?.data?.id}${ApiUrl.dailyRoutine}",
+    //         );
+    //   log(response.statusCode.toString());
+    //   log(section.toString());
+    //   log(studentClass);
 
-      log(response.statusCode.toString());
-      log(response.body);
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          log("success");
-          studentDailyRoutine =
-              studentEachdayRoutineModelFromJson(response.body);
-        } else {
-          log("else 2");
-          studentDailyRoutine = StudentEachdayRoutineModel();
-        }
-      } else {
-        log("else 2");
-        studentDailyRoutine = StudentEachdayRoutineModel();
-      }
-    } catch (e) {
-      log("Catch");
-      studentDailyRoutine = StudentEachdayRoutineModel();
-    }
+    //   log(response.statusCode.toString());
+    //   log(response.body);
+    //   if (response.statusCode == 200) {
+    //     if (jsonDecode(response.body)['status'] == true) {
+    //       log("success");
+    //       studentDailyRoutine =
+    //           studentEachdayRoutineModelFromJson(response.body);
+    //     } else {
+    //       log("else 2");
+    //       studentDailyRoutine = StudentEachdayRoutineModel();
+    //     }
+    //   } else {
+    //     log("else 2");
+    //     studentDailyRoutine = StudentEachdayRoutineModel();
+    //   }
+    // } catch (e) {
+    //   log("Catch");
+    //   studentDailyRoutine = StudentEachdayRoutineModel();
+    // }
 
     return studentDailyRoutine;
   }
@@ -1461,6 +1476,7 @@ class ApiServices {
             "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewSchoolGallery}?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}",
       );
       log(response.statusCode.toString());
+      log(response.body.toString());
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -2035,15 +2051,20 @@ class ApiServices {
     return classWiseStudentsAwards;
   }
 
-  // Notice Student View Get.................................................
+  // Notice Student  and parent View Get.................................................
 
   static Future<ViewNoticeResponseModel> viewNoticeStudents() async {
     ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
     try {
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.viewNoticeStudents}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.school}",
-      );
+      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+          ? await ApiBase.getRequest(
+              extendedURL:
+                  "/parent/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewNoticeParent}/?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolId=${SharedService.childDetails()?.data?.data?.schoolId}",
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewNoticeStudents}",
+            );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -2060,21 +2081,34 @@ class ApiServices {
 
     return viewNotice;
   }
-  // Verify read Unread notices Students...............................................
+  // Verify read Unread notices Students and parent...............................................
 
-  static Future<bool> verifyReadUnreadNoticeStudents(String noticeID) async {
+  static Future<bool> verifyReadUnreadNoticeParentStudent(
+      String noticeID) async {
     var ret = false;
     try {
-      var response = await ApiBase.putRequest(
-        extendedURL:
-            "${ApiUrl.verifyReadUnreadNoticeStudent}/${SharedService.loginDetails()!.data!.id}",
-        body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.school,
-          "read": "true",
-          "studentId": SharedService.loginDetails()!.data!.id,
-          "noticeId": noticeID,
-        },
-      );
+      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+          ? await ApiBase.putRequest(
+              extendedURL:
+                  "/parent/${SharedService.loginDetails()!.data!.id}${ApiUrl.verifyReadUnreadNoticeForParent}",
+              body: {
+                "noticeId": noticeID,
+                "read": "true",
+                "institutionId":
+                    SharedService.childDetails()?.data?.data?.institutionId,
+                "schoolId": SharedService.childDetails()?.data?.data?.schoolId
+              },
+            )
+          : await ApiBase.putRequest(
+              extendedURL:
+                  "/student/${SharedService.loginDetails()!.data!.id}${ApiUrl.verifyReadUnreadNoticeStudent}?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}",
+              body: {
+                "schoolName": SharedService.loginDetails()!.data!.data!.school,
+                "read": "true",
+                "studentId": SharedService.loginDetails()!.data!.id,
+                "noticeId": noticeID,
+              },
+            );
       log(response.statusCode.toString());
       log(response.body.toString());
       if (response.statusCode == 200) {
@@ -2092,32 +2126,6 @@ class ApiServices {
       log("error: $e");
     }
     return ret;
-  }
-  // View notice teacher......................................................
-
-  static Future<ViewNoticeResponseModel> viewNoticeParent() async {
-    ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
-    try {
-      // fetchChildData();
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data?.id}?schoolName=${SharedService.childDetails()?.data?.data?.schoolName}",
-      );
-      log(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          viewNotice = viewNoticeResponseModelFromJson(response.body);
-        } else {
-          viewNotice = ViewNoticeResponseModel();
-        }
-      } else {
-        viewNotice = ViewNoticeResponseModel();
-      }
-    } catch (e) {
-      viewNotice = ViewNoticeResponseModel();
-    }
-
-    return viewNotice;
   }
   // Verify read Unread notices Teacher...............................................
 

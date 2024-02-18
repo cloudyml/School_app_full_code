@@ -77,6 +77,7 @@ class _NoticeDetailedScreenState extends State<NoticeDetailedScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                   
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, left: 8),
                       child: Text(
