@@ -1,6 +1,8 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../../../../constants/style.dart';
 import '../../../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../../../widget/appBar/appbar_widget.dart';
@@ -9,6 +11,7 @@ import 'upload_exam_routine.dart';
 
 class TeacherChooseClassForUploadExamRoutine extends StatefulWidget {
   final String testType;
+
   const TeacherChooseClassForUploadExamRoutine(
       {super.key, required this.testType});
 
@@ -131,7 +134,9 @@ class _ChooseClassForTakeAttendanceState
                   ),
                 ],
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               // Examination class section
               Column(
                 children: [
@@ -159,8 +164,8 @@ class _ChooseClassForTakeAttendanceState
                           });
                         }
                       },
-                      items:
-                      sectionOptions.map<DropdownMenuItem<String>>((String value) {
+                      items: sectionOptions
+                          .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -221,7 +226,8 @@ class _ChooseClassForTakeAttendanceState
                   ),
                   onPressed: () {
                     if (selectedClass == 'Choose Class' ||
-                        remarks.text.isEmpty || selectedSection == 'Choose Section') {
+                        remarks.text.isEmpty ||
+                        selectedSection == 'Choose Section') {
                       showFailureSnackbar();
                       return;
                     } else {

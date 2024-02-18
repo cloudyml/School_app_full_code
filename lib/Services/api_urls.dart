@@ -40,6 +40,7 @@ class ApiUrl {
   static const String updateMytAccountStudent = "/updateStudentById";
   static const String updateMytAccountTeacher = "/updateTeacherById";
   static const String updateMytAccountParent = "/updateParent";
+
   //............................................................................
   static const String studentEligibilityCheckForEnrollEvents =
       "/verifyEventWithStudent";
@@ -65,6 +66,7 @@ class ApiUrl {
   static const String getRegisteredStudentListEvents = "/getEventRegister";
   static const String studentSeeMyEnrolledEvents = "/getAllEventsOfStudents";
   static const String teacherUploadEvents = "/addEvent";
+
   // Notice.........................................................................
 
   static const String teacherUploadNotice = "/createNotice";
@@ -76,10 +78,15 @@ class ApiUrl {
   static const String teacherViewReqsultClassWise = "/getResult-section";
   static const String teacherUpadteResult = "/updateResultBySubjectId";
   static const String getDefaultDataForResult = "/get-default-data-for-result";
-  // Exam........................................................................
+  static const String createDefaultData = "/createDefaultData";
+  static const String getDefaultData = "/getDefaultData";
 
+  // Exam........................................................................
   //static const String viewExamRoutine = "/getExamDetails";
   static const String uploadExamRoutine = "/createExamSchedule";
+  static const String getExamTypeList = "/getExamTypeList";
+  static const String createExamTypeList = "/createExamTypeList";
+  static const String deleteExam = "/deleteExam";
 
   //About School.................................................................
 

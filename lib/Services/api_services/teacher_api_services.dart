@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
 import 'package:school_management_system/Models/Student/Events/view_events_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Awards/heading_wise_awards_list_response_model.dart';
@@ -18,11 +22,9 @@ import 'package:school_management_system/Models/Teacher/Notice/teacher_view_noti
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/class_wise_result_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_students_list_response_model.dart';
 import 'package:school_management_system/Services/shared_services.dart';
+
 import '../api_urls.dart';
 import '../base_api_service.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
-import 'package:flutter/material.dart';
 
 class TeacherApiServices {
 // ***************************8******** Fees ***********************************
@@ -139,6 +141,7 @@ class TeacherApiServices {
     }
     return ret;
   }
+
 // ............Teacher delete fees..............................................
 
   static Future<bool> deleteFees(
@@ -352,6 +355,7 @@ class TeacherApiServices {
 
     return teacherGivenAssignment;
   }
+
   // Teacher View Assignments his own uploaded assignments...................................................
 
   static Future<TeacherUploadedTextAssignmentResponseModel>
@@ -464,6 +468,7 @@ class TeacherApiServices {
 
     return ret;
   }
+
   // Get Students List for result...................................................
 
   static Future<GetStudentListForResultResponseModel> StudentListForResult(
@@ -547,6 +552,111 @@ class TeacherApiServices {
     }
 
     return examTypes;
+  }
+
+  // Teacher create List of Exam Type
+
+  static Future<bool> teacherCreateExamType(
+    context, {
+    required String classofStudent,
+    required List examTypeList,
+  }) async {
+    var ret = false;
+    String schoolName =
+        SharedService.loginDetails()!.data!.data!.school.toString();
+    String institutionId =
+        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+    String schoolId =
+        SharedService.loginDetails()!.data!.data!.schoolId.toString();
+    String id = SharedService.loginDetails()!.data!.data!.id.toString();
+    try {
+      var response = await ApiBase.postRequest(
+        extendedURL: "/teacher/$id/createExamTypeList",
+        body: {
+          "institutionId": institutionId,
+          "schoolId": schoolId,
+          "schoolName": schoolName,
+          "class": classofStudent,
+          "examTypeList": examTypeList,
+        },
+      );
+      log("${response.statusCode.toString()}");
+      log("${jsonDecode(response.body)}");
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+          ret = true;
+        } else {
+          ret = false;
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+          log("Not Successful");
+        }
+      } else {
+        showSnackbar(context, message: jsonDecode(response.body)['message']);
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
+
+  // Teacher post grading data
+
+  static Future<bool> teacherPostGradingData(
+    context, {
+    required examType,
+    required selectedClass,
+    required selectedSection,
+    required passingMarks,
+    required totalMarks,
+    required gradingCriteria,
+  }) async {
+    var ret = false;
+    String schoolName =
+        SharedService.loginDetails()!.data!.data!.school.toString();
+    String institutionId =
+        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+    String schoolId =
+        SharedService.loginDetails()!.data!.data!.schoolId.toString();
+    String id = SharedService.loginDetails()!.data!.data!.id.toString();
+    try {
+      var response = await ApiBase.postRequest(
+        extendedURL: "/teacher/$id/result${ApiUrl.createDefaultData}",
+        body: {
+          "institutionId": institutionId,
+          "schoolId": schoolId,
+          "schoolName": schoolName,
+          "examType": examType,
+          "class": selectedClass,
+          "section": selectedSection,
+          "gradingSystem": {
+            "marksList": {
+              "passingMarks": passingMarks,
+              "outOffMarks": totalMarks
+            },
+            "gradingCriteria": gradingCriteria
+          }
+        },
+      );
+      log("${jsonDecode(response.body)}");
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+          ret = true;
+        } else {
+          ret = false;
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+        }
+      } else {
+        showSnackbar(context, message: jsonDecode(response.body)['message']);
+        ret = false;
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
   }
 
   // Teacher Post result.....................................................
@@ -1205,4 +1315,14 @@ class TeacherApiServices {
 
     return attendanceModel;
   }
+}
+
+void showSnackbar(context, {message}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.black,
+      content: Text('$message'),
+      duration: const Duration(seconds: 2),
+    ),
+  );
 }

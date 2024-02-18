@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Exam/Teacher/Upload/teacher_choose_examtype.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+
 import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../widget/Button/rectangle_elevatedbutton_card.dart';
@@ -16,13 +16,14 @@ class UploadExamRoutine extends StatefulWidget {
   final String remarks;
   final String testType;
   final String selectedSection;
-  const UploadExamRoutine({
-    Key? key,
-    required this.selectedClass,
-    required this.remarks,
-    required this.testType,
-    required this.selectedSection
-  });
+
+  const UploadExamRoutine(
+      {Key? key,
+      required this.selectedClass,
+      required this.remarks,
+      required this.testType,
+      required this.selectedSection});
+
   @override
   _UploadResultState createState() => _UploadResultState();
 }
@@ -318,7 +319,6 @@ class _UploadResultState extends State<UploadExamRoutine> {
       persistentFooterButtons: [
         RecElevatedButton(
           onPressed: () async {
-            log("token ${SharedService.userAuth()}");
             try {
               if (isClicked == true) {
                 return;
@@ -333,10 +333,6 @@ class _UploadResultState extends State<UploadExamRoutine> {
                       .data!
                       .school
                       .toString(),
-                  "class": widget.selectedClass,
-                  "examType": widget.testType,
-                  "remarks": widget.remarks,
-                  "section" : widget.selectedSection,
                   "institutionId": SharedService.loginDetails()!
                       .data!
                       .data!
@@ -347,6 +343,10 @@ class _UploadResultState extends State<UploadExamRoutine> {
                       .data!
                       .schoolId
                       .toString(),
+                  "class": widget.selectedClass,
+                  "section": widget.selectedSection,
+                  "examType": widget.testType,
+                  "remarks": widget.remarks,
                   "examDetails": examData.map((subjects) {
                     return {
                       "date": subjects.date,
@@ -373,10 +373,6 @@ class _UploadResultState extends State<UploadExamRoutine> {
                   } else {
                     showFailureSnackbar();
                   }
-                });
-
-                setState(() {
-                  isClicked = false;
                 });
               }
             } catch (e) {

@@ -1,13 +1,14 @@
-import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'Screens/Splash/splashScreen.dart';
 import 'constants/constants.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'A Student Management System',
         theme: ThemeData(
