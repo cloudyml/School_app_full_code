@@ -44,8 +44,7 @@ class ViewAwardsOfClassScreen extends StatelessWidget {
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );
-          } else if (!snapshot.hasData ||
-              snapshot.data!.message == "data not found") {
+          } else if (!snapshot.hasData || snapshot.data!.data!.isEmpty) {
             return const Center(
               child: Text(
                 'No awards found',

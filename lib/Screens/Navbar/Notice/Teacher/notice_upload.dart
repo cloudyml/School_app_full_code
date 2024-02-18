@@ -286,7 +286,7 @@ class _UploadAwardsState extends State<UploadNotice> {
               ).then((value) {
                 log("Value = ${value.toString()}");
                 if (value == true) {
-                  _showSnackBar(context, "Event Uploaded Successfully");
+                  _showSnackBar(context, "Notice Uploaded Successfully");
                   Navigator.pop(context);
                 } else {
                   _showUnsuccessfulSnackBar(context, "Error occurred !!");

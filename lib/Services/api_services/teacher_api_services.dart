@@ -568,7 +568,7 @@ class TeacherApiServices {
         SharedService.loginDetails()!.data!.data!.institutionId.toString();
     String schoolId =
         SharedService.loginDetails()!.data!.data!.schoolId.toString();
-    String id = SharedService.loginDetails()!.data!.data!.id.toString();
+    String id = SharedService.loginDetails()!.data!.id.toString();
     try {
       var response = await ApiBase.postRequest(
         extendedURL: "/teacher/$id/createExamTypeList",

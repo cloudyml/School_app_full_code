@@ -489,14 +489,16 @@ class CreateExamTypeView extends StatelessWidget {
                     if (selectedClass.value != "Choose Class" &&
                         selectedSection.value != "Choose Section") {
                       examTypeList.add(nameController.value.text);
+                      examTypeList.toList();
                       await TeacherApiServices.teacherCreateExamType(context,
                           classofStudent: selectedClass.value,
                           examTypeList: examTypeList);
+
                       listOfCriteria.toList();
                       await TeacherApiServices.teacherPostGradingData(context,
                           examType: nameController.value.text,
-                          selectedClass: selectedClass,
-                          selectedSection: selectedSection,
+                          selectedClass: selectedClass.value,
+                          selectedSection: selectedSection.value,
                           passingMarks: textOfPassingTotalMarks[1].value.text,
                           totalMarks: textOfPassingTotalMarks[0].value.text,
                           gradingCriteria: listOfCriteria);
