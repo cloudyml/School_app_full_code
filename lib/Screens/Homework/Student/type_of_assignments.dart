@@ -4,7 +4,7 @@ import 'package:school_management_system/Screens/Homework/Parent/pending_Assignm
 import 'package:school_management_system/Screens/Homework/Parent/pending_assignment_parent_file.dart';
 import 'package:school_management_system/Screens/Homework/Student/pending_assignment_file_list.dart';
 import 'package:school_management_system/Screens/Homework/Student/pending_assignment_text_list.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -54,7 +54,7 @@ class ChooseHomeWorkType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    SharedService.loginDetails()?.data?.data?.role == "parent"
+                    SharedServiceParentChildren.loginDetails()?.data?.data?.role == "parent"
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -114,7 +114,7 @@ class ChooseHomeWorkType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    SharedService.loginDetails()?.data?.data?.role == "parent"
+                    SharedServiceParentChildren.loginDetails()?.data?.data?.role == "parent"
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(

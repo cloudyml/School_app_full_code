@@ -5,12 +5,21 @@ import 'package:school_management_system/Models/fetched_children_model.dart';
 import '../Models/login_response_model.dart';
 import '../constants/constants.dart';
 
-class SharedService {
+class SharedServiceParentChildren {
+  static String? type() {
+    return preferences!.getString("type");
+  }
+
+  Future<void> userType(String type) {
+    return preferences!.setString("type", type);
+  }
+
   static bool isLoggedIn() {
     return preferences!.getString("login_details") != null ? true : false;
   }
 
-  static Future<void> setLoginDetails(LoginResponseModel? responseModel) async {
+  static Future<void> setLoginDetailsParentChildren(
+      LoginResponseModel? responseModel) async {
     if (responseModel != null) {
       preferences!
           .setString("login_details", jsonEncode(responseModel.toJson()));
@@ -33,7 +42,7 @@ class SharedService {
     String? password,
     String? address,
   }) async {
-    var loginDetails = SharedService.loginDetails();
+    var loginDetails = SharedServiceParentChildren.loginDetails();
 
     if (loginDetails != null) {
       if (name != null) loginDetails.data?.data?.name = name;
@@ -45,7 +54,7 @@ class SharedService {
       if (address != null) loginDetails.data?.data?.address = address;
 
       // Save the updated login details to shared preferences
-      await setLoginDetails(loginDetails);
+      await setLoginDetailsParentChildren(loginDetails);
     }
   }
 

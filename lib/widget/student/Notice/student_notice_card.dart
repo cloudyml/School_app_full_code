@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Teacher/choose_notice_options.dart';
-import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 
@@ -121,7 +119,7 @@ class _ViewNoticeCardState extends State<ViewNoticeCard> {
               ),
             ),
           ),
-          if (SharedService.loginDetails()!.data!.data!.role == "teacher")
+          if (SharedServiceParentChildren.type() == "teacher")
             Positioned(
               top: 5,
               right: 5,

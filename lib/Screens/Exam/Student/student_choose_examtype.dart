@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:school_management_system/Screens/Exam/Student/student_see_exam_routine.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
@@ -51,11 +51,11 @@ class SelectExamType extends StatelessWidget {
                 padding: EdgeInsets.only(top: height * 0.05),
                 child: InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             StudentSeeExamRoutine(testType: 'class test')));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                StudentSeeExamRoutine(testType: 'class test')));
                   },
                   child: Container(
                     height: height * 0.16,
@@ -104,11 +104,11 @@ class SelectExamType extends StatelessWidget {
                 padding: EdgeInsets.only(top: height * 0.04),
                 child: InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             StudentSeeExamRoutine(testType: 'mid term')));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                StudentSeeExamRoutine(testType: 'mid term')));
                   },
                   child: Container(
                     height: height * 0.16,
@@ -157,11 +157,11 @@ class SelectExamType extends StatelessWidget {
                 padding: EdgeInsets.only(top: height * 0.04),
                 child: InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             StudentSeeExamRoutine(testType: 'final term')));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                StudentSeeExamRoutine(testType: 'final term')));
                   },
                   child: Container(
                     height: height * 0.16,

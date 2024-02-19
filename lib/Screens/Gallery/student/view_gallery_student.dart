@@ -1,6 +1,6 @@
+
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
-
 import '../../../Models/Student/Gallery/view_gallery_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -31,8 +31,10 @@ class _ViewGalleryStudentsState extends State<ViewGallery> {
           gradient1: lightBlue,
           gradient2: deepBlue,
           extra: appbar("assets/gallery2.png", "School Gallery", context, () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const Dashboard()));
+          
+          Navigator.pop(context);
+            // Navigator.pushReplacement(context,
+            //     MaterialPageRoute(builder: (context) => const Dashboard()));
           }),
         ),
       ),
@@ -67,10 +69,10 @@ class _ViewGalleryStudentsState extends State<ViewGallery> {
                       );
                     } else {
                       // If data is available, build the GridView.
+
                       return GridView.builder(
-                        itemCount: schoolGall.data![0].uploadedImage!.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        itemCount: schoolGall.data?[0].uploadedImage?.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisSpacing: 4,
                           crossAxisCount: 3,
                           childAspectRatio: 2 / 3,

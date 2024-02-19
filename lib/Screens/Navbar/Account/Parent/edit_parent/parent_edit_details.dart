@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Login/role_choose_screen.dart';
-import 'package:school_management_system/Services/api_services/api_services.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../widget/appBar/appbar_widget.dart';
@@ -26,18 +24,18 @@ class _EditParentAccountDetailsState extends State<EditParentAccountDetails> {
 
   @override
   void initState() {
-    nameInput.text = SharedService.loginDetails()!.data!.data!.name.toString();
+    nameInput.text = SharedServiceParentChildren.loginDetails()!.data!.data!.name.toString();
     emailInput.text =
-        "${SharedService.loginDetails()?.data?.data?.email.toString()}";
+        "${SharedServiceParentChildren.loginDetails()?.data?.data?.email.toString()}";
     super.initState();
     phonenoInput.text =
-        "${SharedService.loginDetails()?.data?.data?.phoneNumber.toString()}";
+        "${SharedServiceParentChildren.loginDetails()?.data?.data?.phoneNumber.toString()}";
     super.initState();
     passwordInput.text =
-       "${SharedService.loginDetails()?.data?.data?.password.toString()}";
+       "${SharedServiceParentChildren.loginDetails()?.data?.data?.password.toString()}";
     super.initState();
     cityInput.text =
-        "${SharedService.loginDetails()?.data?.data?.address.toString()}";
+        "${SharedServiceParentChildren.loginDetails()?.data?.data?.address.toString()}";
     super.initState();
   }
 
@@ -216,31 +214,31 @@ class _EditParentAccountDetailsState extends State<EditParentAccountDetails> {
                   child: MyElevatedButton(
                     onPressed: () {
                       if (nameInput.text ==
-                              SharedService.loginDetails()!
+                              SharedServiceParentChildren.loginDetails()!
                                   .data!
                                   .data!
                                   .name
                                   .toString() &&
                           emailInput.text ==
-                              SharedService.loginDetails()!
+                              SharedServiceParentChildren.loginDetails()!
                                   .data!
                                   .data!
                                   .email
                                   .toString() &&
                           phonenoInput.text ==
-                              SharedService.loginDetails()!
+                              SharedServiceParentChildren.loginDetails()!
                                   .data!
                                   .data!
                                   .phoneNumber
                                   .toString() &&
                           passwordInput.text ==
-                              SharedService.loginDetails()!
+                              SharedServiceParentChildren.loginDetails()!
                                   .data!
                                   .data!
                                   .password
                                   .toString() &&
                           cityInput.text ==
-                              SharedService.loginDetails()!
+                              SharedServiceParentChildren.loginDetails()!
                                   .data!
                                   .data!
                                   .address

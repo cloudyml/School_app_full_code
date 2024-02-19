@@ -1,15 +1,13 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Models/Student/Result/student_see_result_model.dart';
 import 'package:school_management_system/Screens/Result/Student/pdf_Result_data.dart';
 import 'package:school_management_system/Screens/Result/Student/table_result.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
-
-import '../../../Services/api_services/api_services.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
@@ -20,7 +18,6 @@ import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class SeeOwnResult extends StatelessWidget {
   final String testType;
-
   const SeeOwnResult({super.key, required this.testType});
 
   @override
@@ -71,12 +68,14 @@ class SeeOwnResult extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: SizedBox(
                         width: height * 0.005,
-                        child: Text("",
-                            style: GoogleFonts.inter(
-                                color: Colors.white,
-                                letterSpacing: 1.0,
-                                fontSize: height * 0.03,
-                                fontWeight: FontWeight.w500)),
+                        child: Text(
+                          "",
+                          style: GoogleFonts.inter(
+                              color: Colors.white,
+                              letterSpacing: 1.0,
+                              fontSize: height * 0.03,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ),
                   ],
@@ -122,7 +121,11 @@ class SeeOwnResult extends StatelessWidget {
             ),
             FutureBuilder(
                 future: ApiServices.studentParentSeeResult(
-                    SharedService.loginDetails()!.data!.data!.role.toString(),
+                    SharedServiceParentChildren.loginDetails()!
+                        .data!
+                        .data!
+                        .role
+                        .toString(),
                     testType),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

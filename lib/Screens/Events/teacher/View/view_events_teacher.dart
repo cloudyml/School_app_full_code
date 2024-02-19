@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/detailed_completed_events_screen_teacher.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/registered_students_list.dart';
-import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import '../../../../Models/Student/Events/view_events_response_model.dart';
 import '../../../../constants/style.dart';
@@ -152,7 +150,7 @@ class _EventScreen extends State<TeacherViewEvents> {
                   } else if (snapshot.hasError) {
                     return const Text('Error...');
                   } else if (!snapshot.hasData || snapshot.data!.data == null) {
-                    return const Text('No events found.');
+                    return const Center(child:  Text('No events found.'));
                   } else {
                     StudentsViewEventsResponseModel? upcomingEventsData =
                         snapshot.data;
@@ -250,7 +248,7 @@ class _EventScreen extends State<TeacherViewEvents> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (!snapshot.hasData || snapshot.data!.data == null) {
-                    return const Text('No events found.');
+                    return Center(child: const Text('No events found.'));
                   } else {
                     StudentsViewEventsResponseModel? completedEventsData =
                         snapshot.data;

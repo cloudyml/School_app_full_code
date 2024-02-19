@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/week_attendance_student_model.dart';
-import '../../../Services/api_services/api_services.dart';
-import '../../../Services/shared_services.dart';
 import '../../../constants/style.dart';
 
 class ThisWeek extends StatelessWidget {

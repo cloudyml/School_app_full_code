@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../Services/api_services/api_services.dart';
-import '../../../Services/shared_services.dart';
+import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../../../constants/style.dart';
 import '../../../widget/Button/my_elevatedbutton.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -30,24 +30,24 @@ class _EditMyAccountDetailsState extends State<StudentRegisterEvents> {
   bool isClicked = false;
   @override
   void initState() {
-    nameInput.text = SharedService.loginDetails()!.data!.data!.name.toString();
+    nameInput.text = SharedServiceParentChildren.loginDetails()!.data!.data!.name.toString();
     emailInput.text =
-        SharedService.loginDetails()!.data!.data!.email.toString();
+        SharedServiceParentChildren.loginDetails()!.data!.data!.email.toString();
     super.initState();
     phonenoInput.text =
-        SharedService.loginDetails()!.data!.data!.phoneNumber.toString();
+        SharedServiceParentChildren.loginDetails()!.data!.data!.phoneNumber.toString();
     super.initState();
     sectionInput.text =
-        SharedService.loginDetails()!.data!.data!.section.toString();
+        SharedServiceParentChildren.loginDetails()!.data!.data!.section.toString();
     super.initState();
     rollnumbeInput.text =
-        SharedService.loginDetails()!.data!.data!.rollNumber.toString();
+        SharedServiceParentChildren.loginDetails()!.data!.data!.rollNumber.toString();
     super.initState();
     classInput.text =
-        SharedService.loginDetails()!.data!.data!.dataClass.toString();
+        SharedServiceParentChildren.loginDetails()!.data!.data!.dataClass.toString();
     super.initState();
     genderInput.text =
-        SharedService.loginDetails()!.data!.data!.gender.toString();
+        SharedServiceParentChildren.loginDetails()!.data!.data!.gender.toString();
     super.initState();
     eventNameInput.text = widget.eventHeading;
   }

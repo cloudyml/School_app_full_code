@@ -4,21 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Models/Student/Exam/exam_routine_response_model.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
-
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class StudentSeeExamRoutine extends StatelessWidget {
   final String testType;
-  final String selectedClass;
-  final String selectedSection;
-
-  StudentSeeExamRoutine(
-      {super.key,
-      required this.testType,
-      required this.selectedSection,
-      required this.selectedClass});
+  const StudentSeeExamRoutine({super.key, required this.testType});
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +99,9 @@ class StudentSeeExamRoutine extends StatelessWidget {
               ),
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(
-                  selectedClass, testType, selectedSection),
+              future: ApiServices.viewExamRoutineParentStudent(
+                  SharedServiceParentChildren.loginDetails()!.data!.data!.role.toString(),
+                  testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -186,8 +180,9 @@ class StudentSeeExamRoutine extends StatelessWidget {
               height: 5,
             ),
             FutureBuilder<ExamRoutineResponseModel>(
-              future: ApiServices.viewExamRoutine(
-                  selectedClass, testType, selectedSection),
+              future: ApiServices.viewExamRoutineParentStudent(
+                 SharedServiceParentChildren.loginDetails()!.data!.data!.role.toString(),
+                  testType),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();

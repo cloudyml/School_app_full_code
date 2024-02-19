@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../Services/shared_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../Events/student/my_enrolled_events_screen.dart';
@@ -113,7 +113,7 @@ class StudentMyAccount extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  SharedService.loginDetails()!
+                                  SharedServiceParentChildren.loginDetails()!
                                       .data!
                                       .data!
                                       .name
@@ -134,7 +134,7 @@ class StudentMyAccount extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          SharedService.loginDetails()!
+                                          SharedServiceParentChildren.loginDetails()!
                                               .data!
                                               .data!
                                               .email
@@ -151,7 +151,7 @@ class StudentMyAccount extends StatelessWidget {
                                   height: 3,
                                 ),
                                 Text(
-                                    "+${91} ${SharedService.loginDetails()!.data!.data!.phoneNumber.toString()}"),
+                                    "+${91} ${SharedServiceParentChildren.loginDetails()!.data!.data!.phoneNumber.toString()}"),
                                 const SizedBox(
                                   height: 3,
                                 ),
@@ -160,14 +160,14 @@ class StudentMyAccount extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                        "Class: ${SharedService.loginDetails()!.data!.data!.dataClass.toString()}"),
+                                        "Class: ${SharedServiceParentChildren.loginDetails()!.data!.data!.dataClass.toString()}"),
                                     const VerticalDivider(
                                       width: 20,
                                       color: Colors.black,
                                       thickness: 2,
                                     ),
                                     Text(
-                                      SharedService.loginDetails()!
+                                      SharedServiceParentChildren.loginDetails()!
                                           .data!
                                           .data!
                                           .gender
@@ -186,7 +186,7 @@ class StudentMyAccount extends StatelessWidget {
                       top: 5,
                       child: IconButton(
                           onPressed: () {
-                            if (SharedService.loginDetails()
+                            if (SharedServiceParentChildren.loginDetails()
                                     ?.data!
                                     .data!
                                     .role ==
@@ -600,7 +600,7 @@ class StudentMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () async {
                     preferences?.clear();
-                    await SharedService.logout().then((value) {
+                    await SharedServiceParentChildren.logout().then((value) {
                       if (value == true) {
                         Navigator.pushAndRemoveUntil(
                             context,

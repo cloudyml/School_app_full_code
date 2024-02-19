@@ -40,9 +40,9 @@ class _ViewGalleryStudentsState extends State<ParentViewGallery> {
         children: [
           Expanded(
               child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: FutureBuilder<ViewGalleryResponseModel>(
                   future: ApiServices.parentsViewSchoolGallery(),
@@ -50,19 +50,19 @@ class _ViewGalleryStudentsState extends State<ParentViewGallery> {
                     ViewGalleryResponseModel? schoolGall = snapshot.data;
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       // If the Future is still running, show a circular progress indicator.
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else if (snapshot.hasError) {
                       // If there was an error while fetching data, display an error message.
-                      return Center(
+                      return const Center(
                         child: Text('Error:'),
                       );
                     } else if (!snapshot.hasData ||
                         schoolGall?.data?.isEmpty == true ||
                         schoolGall?.data?[0].uploadedImage == null) {
                       // If there's no data or the data list is empty, you can display a message.
-                      return Center(
+                      return const Center(
                         child: Text('No images available.'),
                       );
                     } else {
@@ -70,7 +70,7 @@ class _ViewGalleryStudentsState extends State<ParentViewGallery> {
 
                       return GridView.builder(
                         itemCount: schoolGall!.data![0].uploadedImage!.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisSpacing: 4,
                           crossAxisCount: 3,
                           childAspectRatio: 2 / 3,

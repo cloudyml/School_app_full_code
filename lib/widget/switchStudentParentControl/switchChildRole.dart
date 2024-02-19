@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/constants/constants.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -111,7 +111,7 @@ class _SwitchChildOptionForParentState
                                                 BorderRadius.circular(5.r),
                                             onPressed: () {
                                               setState(() {
-                                                SharedService
+                                                SharedServiceParentChildren
                                                         .setDetailsOfFetchedChild(
                                                             childrenDetailsList[
                                                                 index])
@@ -144,6 +144,7 @@ class _SwitchChildOptionForParentState
         );
       },
       child: Container(
+        width: 150.w,
         decoration: BoxDecoration(
           // color: Colors.white,
           border: Border.all(color: Colors.white),
@@ -168,7 +169,7 @@ class _SwitchChildOptionForParentState
               width: 10.w,
             ),
             Text(
-              "${SharedService.childDetails()?.data?.data?.name}",
+              "${SharedServiceParentChildren.childDetails()?.data?.data?.name}",
               overflow: TextOverflow.clip,
               style: GoogleFonts.inter(
                   color: Colors.white,

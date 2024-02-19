@@ -8,6 +8,7 @@ import 'package:school_management_system/Screens/Fees/student/student_view_fees_
 import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
 import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/constants/style.dart';
 import '../../Screens/Homework/Student/assignment_start_page.dart';
 import '../../Screens/Homework/Teacher/upload_view_homework_options.dart';
@@ -22,7 +23,6 @@ import '../../Screens/Gallery/student/view_gallery_student.dart';
 import '../../Screens/Gallery/teacher/select_gallery_options.dart';
 import '../../Screens/Result/Teacher/first_page_select_result_options.dart';
 import '../../Screens/Routine/student/days_routine.dart';
-import '../../Services/shared_services.dart';
 
 class CategoryData {
   final String image;
@@ -33,7 +33,7 @@ class CategoryData {
 }
 
 Widget getAttendanceScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedServiceParentChildren.type()  == "teacher") {
     // log("Teacher");
     return const TeacherAttendanceOptions();
   } else {
@@ -42,7 +42,7 @@ Widget getAttendanceScreen() {
 }
 
 Widget getAssignmentScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedServiceParentChildren.type()  == "teacher") {
     return const TeacherAssignmentFirstPage();
   } else {
     return const StudentAssignmentChoose();
@@ -50,18 +50,20 @@ Widget getAssignmentScreen() {
 }
 
 Widget getAwardstScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedServiceParentChildren.type()  == "teacher") {
     return const TeacherAwardOptions();
   } else {
     return const StudentViewAwards();
   }
 }
 
+//work to do 
+
 Widget getGalleryScreen() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student") {
+  if (SharedServiceParentChildren.type()  == "student") {
     // log("student");
     return const ViewGallery();
-  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  } else if (SharedServiceParentChildren.type()  == "teacher") {
     // log("Teacher");
     return const TeacherGalleryOptions();
   } else {
@@ -70,11 +72,13 @@ Widget getGalleryScreen() {
   }
 }
 
+
+// work to do 
 Widget getEventsScreen() {
-  if (SharedService.loginDetails()?.data!.data?.role == "student") {
+  if (SharedServiceParentChildren.type() == "student") {
     // log("student");
     return const StudentsViewEvents();
-  } else if (SharedService.loginDetails()?.data!.data?.role == "parent") {
+  } else if (SharedServiceParentChildren.type() == "parent") {
     return const ParentsViewEvents();
   } else {
     //  log("Teacher");
@@ -83,7 +87,7 @@ Widget getEventsScreen() {
 }
 
 Widget Routine() {
-  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedServiceParentChildren.type()  == "teacher") {
     return const TeacherTimetableOptions();
   } else {
     // log("Teacher");
@@ -92,7 +96,7 @@ Widget Routine() {
 }
 
 Widget feeDetails() {
-  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedServiceParentChildren.type()  == "teacher") {
     return const TeacherSeeFees();
   } else {
     return const StudentSeeFees();
@@ -100,9 +104,9 @@ Widget feeDetails() {
 }
 
 Widget examination() {
-  if (SharedService.loginDetails()?.data?.data?.role == "student") {
+  if (SharedServiceParentChildren.type()  == "student") {
     return const SelectExamType();
-  } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  } else if (SharedServiceParentChildren.type()  == "teacher") {
     return const TeacherExamOptions();
   } else {
     return const ParentSelectExamType();
@@ -110,7 +114,7 @@ Widget examination() {
 }
 
 Widget result() {
-  if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+  if (SharedServiceParentChildren.type()  == "teacher") {
     return const TeacherResultOptions();
   } else {
     return const SelectResultType();

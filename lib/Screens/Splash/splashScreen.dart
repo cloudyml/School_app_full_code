@@ -115,7 +115,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Login/role_choose_screen.dart';
-import '../../Services/shared_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../Dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -133,15 +133,18 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(seconds: 2),
       () {
-        if (SharedService.isLoggedIn()) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Dashboard()));
-        } else {
+        if (SharedServiceParentChildren.type() == null) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => const RoleSelectScreen()));
+        } else {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Dashboard()));
         }
+
+        // if (SharedServiceParentChildren.isLoggedIn()) {
+        // } else {}
       },
     );
   }

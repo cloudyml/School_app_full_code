@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/Services/teacher_shared_service.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 
-import '../../../Services/shared_services.dart';
 import '../../../constants/style.dart';
 import '../../../widget/Role_Control/dashboard_gridview_data.dart';
 import '../../Splash/splashScreen.dart';
@@ -28,6 +29,7 @@ class _MyWidgetState extends State<HomeScreen> {
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [lightBlue, deepBlue])),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: EdgeInsets.symmetric(vertical: 35.h, horizontal: 15.w),
@@ -41,7 +43,9 @@ class _MyWidgetState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Hi, ${SharedService.loginDetails()?.data!.data?.name}",
+                          SharedServiceParentChildren.type() == "teacher"
+                              ? "Hi, ${TeacherSharedServices.loginDetails()?.data!.data?.name}"
+                              : "Hi, ${SharedServiceParentChildren.loginDetails()?.data!.data?.name}",
                           softWrap: true,
                           maxLines: 2,
                           overflow: TextOverflow.fade,
@@ -58,16 +62,28 @@ class _MyWidgetState extends State<HomeScreen> {
                             size: 30,
                           ),
                           onPressed: () {
-                            SharedService.logout().then((value) {
-                              if (value == true) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            const SplashScreen()),
-                                    (Route<dynamic> route) => false);
-                              }
-                            });
+                            SharedServiceParentChildren.type() == "teacher"
+                                ? TeacherSharedServices.logout().then((value) {
+                                    if (value == true) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  const SplashScreen()),
+                                          (Route<dynamic> route) => false);
+                                    }
+                                  })
+                                : SharedServiceParentChildren.logout()
+                                    .then((value) {
+                                    if (value == true) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  const SplashScreen()),
+                                          (Route<dynamic> route) => false);
+                                    }
+                                  });
                           },
                           // child: const Text('LOGOUT'),
                         ),
@@ -81,16 +97,15 @@ class _MyWidgetState extends State<HomeScreen> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.height * 0.4,
-                        child: SharedService.loginDetails()?.data?.data?.role ==
-                                "parent"
+                        child: SharedServiceParentChildren.type() == "parent"
                             ? Text(
-                                SharedService.childDetails()
+                                SharedServiceParentChildren.childDetails()
                                             ?.data
                                             ?.data
                                             ?.schoolName ==
                                         null
                                     ? "Loading"
-                                    : "${SharedService.childDetails()?.data?.data?.schoolName}",
+                                    : "${SharedServiceParentChildren.childDetails()?.data?.data?.schoolName}",
                                 softWrap: true,
                                 maxLines: 10,
                                 overflow: TextOverflow.fade,
@@ -100,7 +115,9 @@ class _MyWidgetState extends State<HomeScreen> {
                                     fontSize: height * 0.04,
                                     fontWeight: FontWeight.bold))
                             : Text(
-                                "${SharedService.loginDetails()?.data?.data?.schoolName}",
+                                SharedServiceParentChildren.type() == "teacher"
+                                    ? "${TeacherSharedServices.loginDetails()?.data?.data?.schoolName}"
+                                    : "${SharedServiceParentChildren.loginDetails()?.data?.data?.schoolName}",
                                 softWrap: true,
                                 maxLines: 10,
                                 overflow: TextOverflow.fade,
@@ -118,11 +135,14 @@ class _MyWidgetState extends State<HomeScreen> {
                   SizedBox(
                     width: 0.5.sw,
                     child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SharedService.loginDetails()?.data?.data?.role ==
+                        SharedServiceParentChildren.loginDetails()
+                                        ?.data
+                                        ?.data
+                                        ?.role ==
                                     "parent" &&
-                                (SharedService.loginDetails()!
+                                (SharedServiceParentChildren.loginDetails()!
                                         .data!
                                         .data!
                                         .childrens!
@@ -147,6 +167,9 @@ class _MyWidgetState extends State<HomeScreen> {
                 ),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(left: 40, right: 40),
                       child: Row(children: <Widget>[

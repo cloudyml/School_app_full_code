@@ -6,9 +6,10 @@ import 'package:school_management_system/Screens/Events/teacher/View/view_events
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Teacher/Coaching/add_student_before_page.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
+import 'package:school_management_system/Screens/Navbar/Notice/Teacher/view_notice_teacher.dart';
+import 'package:school_management_system/Services/teacher_shared_service.dart';
 import 'package:school_management_system/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../Services/shared_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../Splash/splashScreen.dart';
@@ -114,7 +115,7 @@ class TeacherMyAccount extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${SharedService.loginDetails()!.data!.data!.name.toString()}",
+                                  "${TeacherSharedServices.loginDetails()!.data!.data!.name.toString()}",
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
@@ -131,7 +132,7 @@ class TeacherMyAccount extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          "${SharedService.loginDetails()!.data!.data!.email.toString()}",
+                                          "${TeacherSharedServices.loginDetails()!.data!.data!.email.toString()}",
                                           maxLines:
                                               1, // Display only one line of text
                                         ),
@@ -143,7 +144,7 @@ class TeacherMyAccount extends StatelessWidget {
                                   height: 3,
                                 ),
                                 Text(
-                                    "+${91} ${SharedService.loginDetails()!.data!.data!.phoneNumber.toString()}"),
+                                    "+${91} ${TeacherSharedServices.loginDetails()!.data!.data!.phoneNumber.toString()}"),
                                 const SizedBox(
                                   height: 3,
                                 ),
@@ -152,7 +153,7 @@ class TeacherMyAccount extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      SharedService.loginDetails()!
+                                      TeacherSharedServices.loginDetails()!
                                           .data!
                                           .data!
                                           .gender
@@ -171,7 +172,7 @@ class TeacherMyAccount extends StatelessWidget {
                       top: 5,
                       child: IconButton(
                           onPressed: () {
-                            if (SharedService.loginDetails()
+                            if (TeacherSharedServices.loginDetails()
                                     ?.data!
                                     .data!
                                     .role ==
@@ -191,7 +192,7 @@ class TeacherMyAccount extends StatelessWidget {
 
                 /// Below Button is For Coaching.......... ////////////////////////
 
-                SharedService.loginDetails()?.data!.data!.role == "coaching"
+                TeacherSharedServices.loginDetails()?.data!.data!.role == "coaching"
                     ? InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -677,7 +678,7 @@ class TeacherMyAccount extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ViewNoticeScreen()));
+                        builder: (context) => const TeacherViewNoticeScreen()));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,
@@ -771,7 +772,7 @@ class TeacherMyAccount extends StatelessWidget {
                   onTap: () async {
                     preferences?.clear();
                     log("This  is the data in the pref ---------> ${preferences?.get("login_details")}");
-                    await SharedService.logout().then((value) {
+                    await TeacherSharedServices.logout().then((value) {
                       if (value == true) {
                         // Navigator.pushAndRemoveUntil(
                         //     context,
@@ -780,8 +781,8 @@ class TeacherMyAccount extends StatelessWidget {
                         //             const SplashScreen()),
                         //     (Route<dynamic> route) => false);
 
-                        log(SharedService.isLoggedIn().toString());
-                        log(SharedService.loginDetails().toString());
+                        log(TeacherSharedServices.isLoggedIn().toString());
+                        log(TeacherSharedServices.loginDetails().toString());
                       }
                     });
                   },

@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/Services/teacher_shared_service.dart';
 import 'api_urls.dart';
-import 'shared_services.dart';
+// import 'shared_services.dart';
 
 String unicodeConverter(String code) {
   return String.fromCharCodes(Runes(code));
@@ -16,14 +18,21 @@ class ApiBase {
     return Uri.parse("http://${ApiUrl.baseUrl}$extendedURL");
   }
 
-  static Future<http.Response> getRequest({required String extendedURL ,String? token}) async {
+  static Future<http.Response> getRequest(
+      {required String extendedURL, String? token}) async {
     var client = http.Client();
     Map<String, String> newHeaders = {};
     Map<String, String> conentType = {'Content-Type': 'application/json'};
 
     newHeaders.addAll(conentType);
-    if (SharedService.isLoggedIn()) {
-      newHeaders.addAll({'Authorization': token ?? SharedService.userAuth()});
+    if (SharedServiceParentChildren.isLoggedIn() ||
+        TeacherSharedServices.isLoggedIn()) {
+      SharedServiceParentChildren.type() == "teacher"
+          ? newHeaders
+              .addAll({'Authorization': TeacherSharedServices.userAuth()})
+          : newHeaders.addAll({
+              'Authorization': token ?? SharedServiceParentChildren.userAuth()
+            });
     }
 
     log(newHeaders.toString());
@@ -39,13 +48,19 @@ class ApiBase {
     Map<String, String> conentType = {'Content-Type': 'application/json'};
 
     newHeaders.addAll(conentType);
-    if (SharedService.isLoggedIn()) {
+    if (SharedServiceParentChildren.isLoggedIn() ||
+        TeacherSharedServices.isLoggedIn()) {
       // Authorization header will be add to the header
-      newHeaders.addAll({'Authorization': SharedService.userAuth()});
+      SharedServiceParentChildren.type() == "teacher"
+          ? newHeaders
+              .addAll({'Authorization': TeacherSharedServices.userAuth()})
+          : newHeaders.addAll({
+              'Authorization': token ?? SharedServiceParentChildren.userAuth()
+            });
     }
 
     var client = http.Client();
-    log("URL : ${ApiUrl.baseUrl}$extendedURL");
+    // log("URL : ${ApiUrl.baseUrl}$extendedURL");
     log(jsonEncode(body));
     return client.post(url(extendedURL: extendedURL),
         headers: newHeaders, body: jsonEncode(body));
@@ -57,7 +72,9 @@ class ApiBase {
   }) async {
     Map<String, String>? headers;
     headers = {
-      'Authorization': SharedService.userAuth(),
+      'Authorization': SharedServiceParentChildren.type() == "Teacher"
+          ? TeacherSharedServices.userAuth()
+          : SharedServiceParentChildren.userAuth(),
       'Content-Type': 'application/json',
     };
     var client = http.Client();
@@ -72,7 +89,9 @@ class ApiBase {
   }) async {
     Map<String, String>? headers;
     headers = {
-      'Authorization': SharedService.userAuth(),
+      'Authorization': SharedServiceParentChildren.type() == "Teacher"
+          ? TeacherSharedServices.userAuth()
+          : SharedServiceParentChildren.userAuth(),
       'Content-Type': 'application/json',
     };
     var client = http.Client();
@@ -91,8 +110,13 @@ class ApiBase {
     Map<String, String> conentType = {'Content-Type': 'application/json'};
 
     newHeaders.addAll(conentType);
-    if (SharedService.isLoggedIn()) {
-      newHeaders.addAll({'Authorization': SharedService.userAuth()});
+    if (SharedServiceParentChildren.isLoggedIn() ||
+        TeacherSharedServices.isLoggedIn()) {
+      newHeaders.addAll({
+        'Authorization': SharedServiceParentChildren.type() == "Teacher"
+            ? TeacherSharedServices.userAuth()
+            : SharedServiceParentChildren.userAuth(),
+      });
     }
     var client = http.Client();
     debugPrint("URL : ${ApiUrl.baseUrl}$extendedURL");

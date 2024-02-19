@@ -5,8 +5,8 @@ import 'package:school_management_system/Screens/Events/parent/child_enrolled_ev
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../Services/shared_services.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../../Splash/splashScreen.dart';
@@ -111,7 +111,7 @@ class ParentMyAccount extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  SharedService.loginDetails()!
+                                  SharedServiceParentChildren.loginDetails()!
                                       .data!
                                       .data!
                                       .name
@@ -132,7 +132,7 @@ class ParentMyAccount extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          SharedService.loginDetails()!
+                                          SharedServiceParentChildren.loginDetails()!
                                               .data!
                                               .data!
                                               .email
@@ -149,7 +149,7 @@ class ParentMyAccount extends StatelessWidget {
                                   height: 3,
                                 ),
                                 Text(
-                                    "+${91} ${SharedService.loginDetails()?.data?.data?.phoneNumber.toString()}"),
+                                    "+${91} ${SharedServiceParentChildren.loginDetails()?.data?.data?.phoneNumber.toString()}"),
                                 const SizedBox(
                                   height: 3,
                                 ),
@@ -158,7 +158,7 @@ class ParentMyAccount extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${SharedService.loginDetails()?.data?.data?.gender}",
+                                      "${SharedServiceParentChildren.loginDetails()?.data?.data?.gender}",
                                     ),
                                   ],
                                 )
@@ -173,7 +173,7 @@ class ParentMyAccount extends StatelessWidget {
                       top: 5,
                       child: IconButton(
                           onPressed: () {
-                            if (SharedService.loginDetails()
+                            if (SharedServiceParentChildren.loginDetails()
                                     ?.data!
                                     .data!
                                     .role ==
@@ -585,7 +585,7 @@ class ParentMyAccount extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    SharedService.logout().then((value) {
+                    SharedServiceParentChildren.logout().then((value) {
                       if (value == true) {
                         Navigator.pushAndRemoveUntil(
                             context,

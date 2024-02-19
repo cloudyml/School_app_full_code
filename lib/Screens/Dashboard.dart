@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/parent_my_account_home_page.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../constants/style.dart';
 import 'Navbar/About/view_about_school.dart';
 import 'Navbar/Account/Teacher/teacher_my_account_home_page.dart';
@@ -25,21 +25,21 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   Widget _myAccountScreen() {
-    if (SharedService.loginDetails()?.data?.data?.role == "student") {
+    if (SharedServiceParentChildren.type()  == "student") {
       log("Student");
       return const StudentMyAccount();
-    } else if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+    } else if (SharedServiceParentChildren.type()  == "teacher") {
       log("Teacher");
       return const TeacherMyAccount();
-    } else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
+    } else {
       log("Parent");
       return const ParentMyAccount();
     }
-    throw ("My account error from Dashboard line number 38");
+    // throw ("My account error from Dashboard line number 38");
   }
 
   Widget _noticeScreen() {
-    if (SharedService.loginDetails()?.data?.data?.role == "teacher") {
+    if (SharedServiceParentChildren.type()  == "teacher") {
       return const TeacherNoticeOptions();
     } else {
       return const ViewNoticeScreen();
@@ -47,10 +47,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _AboutSchool() {
-    if (SharedService.loginDetails()?.data?.data?.role == "student") {
+    if (SharedServiceParentChildren.type()  == "student") {
       // log("Student");
       return const ViewAboutSchool();
-    } else if (SharedService.loginDetails()?.data?.data?.role == "parent") {
+    } else if (SharedServiceParentChildren.type()  == "parent") {
       // log("Parent");
       return const ParentViewAboutSchool();
     } else {

@@ -7,11 +7,11 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:intl/intl.dart';
 import 'package:school_management_system/Screens/Homework/Student/assignment_start_page.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:school_management_system/widget/Button/rectangle_elevatedbutton_card.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
-import '../../../Services/shared_services.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class StudentSubmitAssignment extends StatefulWidget {
@@ -343,7 +343,7 @@ class _StudentSubmitAssignmentState extends State<StudentSubmitAssignment> {
                     section.text,
                     subject.text,
                     dateInput.text,
-                    SharedService.loginDetails()!
+                    SharedServiceParentChildren.loginDetails()!
                         .data!
                         .data!
                         .rollNumber

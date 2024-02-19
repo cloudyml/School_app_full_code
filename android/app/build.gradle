@@ -37,7 +37,7 @@ apply plugin: "com.google.gms.google-services"
 
 android {
     namespace "com.nobunk.school_management_system"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

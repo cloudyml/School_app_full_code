@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -10,10 +9,8 @@ import 'package:path/path.dart' as p;
 import 'package:school_management_system/Models/Student/recived_text_assignment_model.dart';
 import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
-import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/fetched_children_model.dart';
-import 'package:school_management_system/Services/shared_services.dart';
-
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../../Models/Student/About/view_about_school.dart';
 import '../../Models/Student/Awards/view_awards_response_model.dart';
 import '../../Models/Student/Events/Register_Event/eligibility_check_get_api_response_model.dart';
@@ -41,7 +38,7 @@ import '../base_api_service.dart';
 
 class ApiServices {
 // ....... Login  ..................................................
-  static Future<bool> userLogin(
+  static Future<bool> userLoginParentStudent(
     String email,
     String password,
     String selectedrole,
@@ -80,16 +77,24 @@ class ApiServices {
           ret = true;
           selectedrole == "parent"
               ? {
-                  await SharedService.setLoginDetails(responseModel)
+                  await SharedServiceParentChildren
+                          .setLoginDetailsParentChildren(responseModel)
                       .whenComplete(() => fetchChildData()),
                   await ApiServices.dataOfAllStudents(
-                      SharedService.loginDetails()!
+                      SharedServiceParentChildren.loginDetails()!
                           .data!
                           .data!
                           .childrens!
                           .length),
                 }
-              : SharedService.setLoginDetails(responseModel);
+              : SharedServiceParentChildren.setLoginDetailsParentChildren(
+                  responseModel);
+          SharedServiceParentChildren().userType(
+              "${SharedServiceParentChildren.loginDetails()?.data?.data!.role}");
+
+          log(
+            '-----------\n-\n-\-n-\n--\n-\n------------\n--\n-\n-\n-\n-\n----\n----\n-------------------------------- this is the data in sharepref.type  ${SharedServiceParentChildren.type()}',
+          );
         } else {
           ret = false;
           log("not successful");
@@ -123,10 +128,10 @@ class ApiServices {
           FetchedChildrenModel responseModel =
               fetchedChildrenModelFromJson(response.body);
           log(responseModel.message!);
-          SharedService.setDetailsOfFetchedChild(responseModel);
-          log("  this is the data in the child detils shared pref ${SharedService.childDetails()?.data?.data?.address.toString()}");
+          SharedServiceParentChildren.setDetailsOfFetchedChild(responseModel);
+          log("  this is the data in the child detils shared pref ${SharedServiceParentChildren.childDetails()?.data?.data?.address.toString()}");
 
-          // var harsh = SharedService.childDetails();
+          // var harsh = SharedServiceParentChildren.childDetails();
           // log("  this is the data fetched from shared pref ${harsh?.data?.data?.address} ");
         } else {
           log("not successful");
@@ -150,7 +155,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.studentListForTakeAttendance}?class=$selectedClass&section=$selectedSection",
+            "/teacher/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentListForTakeAttendance}?class=$selectedClass&section=$selectedSection",
       );
       log(response.statusCode.toString());
 
@@ -179,7 +184,7 @@ class ApiServices {
     try {
       var response = await ApiBase.postRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherSubmitAttendance}",
+            "/teacher/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.teacherSubmitAttendance}",
         body: attendance,
       );
 
@@ -220,7 +225,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "teacher/${SharedService.loginDetails()!.data!.id.toString()}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
+            "teacher/${SharedServiceParentChildren.loginDetails()!.data!.id.toString()}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
       );
       log(response.statusCode.toString());
 
@@ -252,14 +257,15 @@ class ApiServices {
       var currentDate = DateTime.now();
       String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
       String studentClass =
-          '${SharedService.childDetails()?.data?.data?.dataClass}';
-      String section = '${SharedService.childDetails()?.data?.data?.section}';
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.section}';
       String rollNumber =
-          ' ${SharedService.childDetails()?.data?.data?.rollNumber}';
+          ' ${SharedServiceParentChildren.childDetails()?.data?.data?.rollNumber}';
       String date = formattedDate;
 
       var queryParam =
-          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&date=$date";
+          "/${SharedServiceParentChildren.loginDetails()?.data?.data?.role}/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&date=$date";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam, // Use queryParam here
       );
@@ -302,21 +308,26 @@ class ApiServices {
       var currentDate = DateTime.now();
       String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
       String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
       String rollNumber =
-          ' ${SharedService.loginDetails()?.data!.data!.rollNumber}';
+          ' ${SharedServiceParentChildren.loginDetails()?.data!.data!.rollNumber}';
       String date = formattedDate;
 
-      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+      var response = SharedServiceParentChildren.loginDetails()
+                  ?.data
+                  ?.data
+                  ?.role ==
+              "parent"
           ? await ApiBase.getRequest(
-              token: SharedService.childDetails()?.data?.token,
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
               extendedURL:
-                  "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.weekStudentAttendance}?date=$date", // Use queryParam here
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}${ApiUrl.weekStudentAttendance}?date=$date", // Use queryParam here
             )
           : await ApiBase.getRequest(
               extendedURL:
-                  "/student/${SharedService.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?date=$date", // Use queryParam here
+                  "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.weekStudentAttendance}?date=$date", // Use queryParam here
             );
       log(response.statusCode.toString());
       log(formattedDate.toString());
@@ -357,13 +368,14 @@ class ApiServices {
     try {
       // fetchChildData();
       String studentClass =
-          '${SharedService.childDetails()?.data?.data?.dataClass}';
-      String section = '${SharedService.childDetails()?.data?.data?.section}';
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.section}';
       String rollNumber =
-          ' ${SharedService.childDetails()?.data?.data?.rollNumber}';
+          ' ${SharedServiceParentChildren.childDetails()?.data?.data?.rollNumber}';
 
       var queryParam =
-          "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&month=$month&year=$year";
+          "/${SharedServiceParentChildren.loginDetails()?.data?.data?.role}/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?class=$studentClass&section=$section&rollNumber=$rollNumber&month=$month&year=$year";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam, // Use queryParam here
       );
@@ -407,19 +419,24 @@ class ApiServices {
         StudentMonthlyAttendanceModel();
     try {
       String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
       String rollNumber =
-          ' ${SharedService.loginDetails()?.data!.data!.rollNumber}';
+          ' ${SharedServiceParentChildren.loginDetails()?.data!.data!.rollNumber}';
 
-      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+      var response = SharedServiceParentChildren.loginDetails()
+                  ?.data
+                  ?.data
+                  ?.role ==
+              "parent"
           ? await ApiBase.getRequest(
-              token: SharedService.childDetails()?.data?.token,
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
               extendedURL:
-                  "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.monthStudentAttendance}?month=$month&year=$year")
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}${ApiUrl.monthStudentAttendance}?month=$month&year=$year")
           : await ApiBase.getRequest(
               extendedURL:
-                  "/student/${SharedService.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?month=$month&year=$year", // Use queryParam here
+                  "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.monthStudentAttendance}?month=$month&year=$year", // Use queryParam here
             );
 
       log(response.statusCode.toString());
@@ -458,8 +475,9 @@ class ApiServices {
     try {
       // fetchChildData();
       String studentClass =
-          '${SharedService.childDetails()?.data?.data?.dataClass}';
-      String section = '${SharedService.childDetails()?.data?.data?.section}';
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.section}';
 
       var queryParam =
           "${ApiUrl.dailyRoutine}?class=$studentClass&section=$section";
@@ -497,44 +515,49 @@ class ApiServices {
   static Future<StudentEachdayRoutineModel> StudentEachDayRoutine() async {
     StudentEachdayRoutineModel studentDailyRoutine =
         StudentEachdayRoutineModel();
-    // try {
-    //   String studentClass =
-    //       '${SharedService.loginDetails()?.data!.data!.dataClass}';
-    //   String section = '${SharedService.loginDetails()?.data!.data!.section}';
+    try {
+      String studentClass =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
 
-    //   var response = SharedService.loginDetails()?.data?.data?.role == "parent"
-    //       ? await ApiBase.getRequest(
-    //         token: SharedService.childDetails()?.data?.token,
-    //           extendedURL:
-    //               "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.dailyRoutine}",
-    //         )
-    //       : await ApiBase.getRequest(
-    //           extendedURL:
-    //               "/student/${SharedService.loginDetails()?.data?.data?.id}${ApiUrl.dailyRoutine}",
-    //         );
-    //   log(response.statusCode.toString());
-    //   log(section.toString());
-    //   log(studentClass);
+      var response = SharedServiceParentChildren.loginDetails()
+                  ?.data
+                  ?.data
+                  ?.role ==
+              "parent"
+          ? await ApiBase.getRequest(
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}${ApiUrl.dailyRoutine}",
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedServiceParentChildren.loginDetails()?.data?.data?.id}${ApiUrl.dailyRoutine}",
+            );
+      log(response.statusCode.toString());
+      log(section.toString());
+      log(studentClass);
 
-    //   log(response.statusCode.toString());
-    //   log(response.body);
-    //   if (response.statusCode == 200) {
-    //     if (jsonDecode(response.body)['status'] == true) {
-    //       log("success");
-    //       studentDailyRoutine =
-    //           studentEachdayRoutineModelFromJson(response.body);
-    //     } else {
-    //       log("else 2");
-    //       studentDailyRoutine = StudentEachdayRoutineModel();
-    //     }
-    //   } else {
-    //     log("else 2");
-    //     studentDailyRoutine = StudentEachdayRoutineModel();
-    //   }
-    // } catch (e) {
-    //   log("Catch");
-    //   studentDailyRoutine = StudentEachdayRoutineModel();
-    // }
+      log(response.statusCode.toString());
+      log(response.body);
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          log("success");
+          studentDailyRoutine =
+              studentEachdayRoutineModelFromJson(response.body);
+        } else {
+          log("else 2");
+          studentDailyRoutine = StudentEachdayRoutineModel();
+        }
+      } else {
+        log("else 2");
+        studentDailyRoutine = StudentEachdayRoutineModel();
+      }
+    } catch (e) {
+      log("Catch");
+      studentDailyRoutine = StudentEachdayRoutineModel();
+    }
 
     return studentDailyRoutine;
   }
@@ -549,7 +572,7 @@ class ApiServices {
         StudentEachdayRoutineModel();
     try {
       var queryParam =
-          "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.dailyRoutine}?class=$selectedClass&section=$selectedSection";
+          "/teacher/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.dailyRoutine}?class=$selectedClass&section=$selectedSection";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -580,7 +603,7 @@ class ApiServices {
 
 // fetch the child details for the parent.........................................
   static fetchChildData() async {
-    await ApiServices.childrenData(SharedService.loginDetails()
+    await ApiServices.childrenData(SharedServiceParentChildren.loginDetails()
         ?.data!
         .data!
         .childrens![0]
@@ -596,7 +619,7 @@ class ApiServices {
       try {
         var response = await ApiBase.getRequest(
             extendedURL:
-                "${ApiUrl.childrenDataById}/${SharedService.loginDetails()?.data?.data?.childrens?[i]}");
+                "${ApiUrl.childrenDataById}/${SharedServiceParentChildren.loginDetails()?.data?.data?.childrens?[i]}");
         if (response.statusCode == 200) {
           if (jsonDecode(response.body)['status'] == true) {
             allChildInfo.add(fetchedChildrenModelFromJson(response.body));
@@ -613,7 +636,7 @@ class ApiServices {
         log(e.toString());
       }
     }
-    SharedService.listOfAllTheChildrens(allChildInfo);
+    SharedServiceParentChildren.listOfAllTheChildrens(allChildInfo);
     // for (int i = 0; i < allChildInfo.length; i++) {
     //   log("this is the info of $i student${allChildInfo[i].data?.data?.name.toString()}");
     // }
@@ -627,14 +650,16 @@ class ApiServices {
 
     try {
       // fetchChildData();
-      var rollNumber = SharedService.childDetails()?.data?.data?.rollNumber;
+      var rollNumber =
+          SharedServiceParentChildren.childDetails()?.data?.data?.rollNumber;
       String studentClass =
-          '${SharedService.childDetails()?.data?.data?.dataClass}';
-      String section = '${SharedService.childDetails()?.data?.data?.section}';
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.childDetails()?.data?.data!.id.toString()}/$type-$form?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolId=${SharedService.childDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
+          "${ApiUrl.studentPendingAssignment}/${SharedServiceParentChildren.childDetails()?.data?.data!.id.toString()}/$type-$form?institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.childDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL: queryParam,
       );
 
@@ -667,18 +692,19 @@ class ApiServices {
     StudentSubmittedAssignmentModel submittedAttignment =
         StudentSubmittedAssignmentModel();
     try {
-      await ApiServices.childrenData(SharedService.loginDetails()
+      await ApiServices.childrenData(SharedServiceParentChildren.loginDetails()
           ?.data!
           .data!
           .childrens![0]
           .toString() as String);
       String studentClass =
-          '${SharedService.childDetails()?.data?.data?.dataClass}';
-      String section = '${SharedService.childDetails()?.data?.data?.section}';
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.childDetails()?.data?.data!.id.toString()}/$type-$form?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolId=${SharedService.childDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
+          "${ApiUrl.studentPendingAssignment}/${SharedServiceParentChildren.childDetails()?.data?.data!.id.toString()}/$type-$form?institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.childDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL: queryParam,
       );
 
@@ -711,12 +737,14 @@ class ApiServices {
     StudentViewAssignmentModel studentCAttignment =
         StudentViewAssignmentModel();
     try {
-      var rollNumber = SharedService.loginDetails()?.data!.data!.rollNumber;
+      var rollNumber =
+          SharedServiceParentChildren.loginDetails()?.data!.data!.rollNumber;
       String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/$type-$form?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
+          "${ApiUrl.studentPendingAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id.toString()}/$type-$form?institutionId=${SharedServiceParentChildren.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.loginDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -752,12 +780,14 @@ class ApiServices {
     SubmittedTextAssignmentModel studentCAttignment =
         SubmittedTextAssignmentModel();
     try {
-      var rollNumber = SharedService.loginDetails()?.data!.data!.rollNumber;
+      var rollNumber =
+          SharedServiceParentChildren.loginDetails()?.data!.data!.rollNumber;
       String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/$type-$form?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
+          "${ApiUrl.studentPendingAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id.toString()}/$type-$form?institutionId=${SharedServiceParentChildren.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.loginDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -797,12 +827,13 @@ class ApiServices {
         SubmittedTextAssignmentModel();
     try {
       String studentClass =
-          '${SharedService.childDetails()?.data?.data?.dataClass}';
-      String section = '${SharedService.childDetails()?.data?.data?.section}';
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.childDetails()?.data?.data?.section}';
       var queryParam =
-          "${ApiUrl.studentPendingAssignment}/${SharedService.childDetails()?.data?.data?.id.toString()}/$type-$form?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolId=${SharedService.childDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
+          "${ApiUrl.studentPendingAssignment}/${SharedServiceParentChildren.childDetails()?.data?.data?.id.toString()}/$type-$form?institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.childDetails()?.data?.data?.schoolId}&class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL: queryParam,
       );
       log("this is type -------------------------------------->" + type);
@@ -852,15 +883,15 @@ class ApiServices {
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          "http://${ApiUrl.baseUrl}${ApiUrl.studentUploadAssignment}/${SharedService.loginDetails()?.data!.id}/uploadAssignmets/$assignMentID",
+          "http://${ApiUrl.baseUrl}${ApiUrl.studentUploadAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id}/uploadAssignmets/$assignMentID",
         ),
       );
-      log("http://${ApiUrl.baseUrl}${ApiUrl.studentUploadAssignment}/${SharedService.loginDetails()?.data!.id}/uploadAssignmets/$assignMentID");
+      log("http://${ApiUrl.baseUrl}${ApiUrl.studentUploadAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id}/uploadAssignmets/$assignMentID");
 
       // Add headers here
       Map<String, String> headers = {
         'Authorization':
-            "${SharedService.loginDetails()?.data!.token}", // Replace with your token
+            "${SharedServiceParentChildren.loginDetails()?.data!.token}", // Replace with your token
       };
 
       request.headers.addAll(headers);
@@ -926,7 +957,7 @@ class ApiServices {
 
     try {
       var queryParam =
-          "http://${ApiUrl.baseUrl}/${ApiUrl.studentUploadAssignment}/${SharedService.loginDetails()?.data?.id}/uploadAssignmets/$assignMentID";
+          "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}/uploadAssignmets/$assignMentID";
       var response = await ApiBase.postRequest(
         body: answers,
         extendedURL: queryParam,
@@ -1009,10 +1040,11 @@ class ApiServices {
         StudentSubmittedAssignmentModel();
     try {
       String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+      String section =
+          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
       var queryParam =
-          "${ApiUrl.studentSubmittedAssignment}/${SharedService.loginDetails()?.data!.id.toString()}/studentseeSubmittedAssignment?class=$studentClass&section=$section";
+          "${ApiUrl.studentSubmittedAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id.toString()}/studentseeSubmittedAssignment?class=$studentClass&section=$section";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -1051,7 +1083,7 @@ class ApiServices {
   //       TeacherSeeSubmittedStudentsAssignments();
   //   try {
   //     var queryParam =
-  //         "${ApiUrl.teacherSeeSubmittedStudentsAssignments}/${SharedService.loginDetails()?.data!.id.toString()}/getAssignments/${assignmentID}?class=$wclass&section=$section";
+  //         "${ApiUrl.teacherSeeSubmittedStudentsAssignments}/${SharedServiceParentChildren.loginDetails()?.data!.id.toString()}/getAssignments/${assignmentID}?class=$wclass&section=$section";
   //     var response = await ApiBase.getRequest(
   //       extendedURL: queryParam,
   //     );
@@ -1120,7 +1152,8 @@ class ApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      String? schoolName =
+          SharedServiceParentChildren.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1132,7 +1165,8 @@ class ApiServices {
       );
       // Add headers here
       Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
+        'Authorization':
+            "${SharedServiceParentChildren.loginDetails()?.data!.token}",
       };
       request.headers.addAll(headers);
 
@@ -1187,9 +1221,9 @@ class ApiServices {
     try {
       // fetchChildData();
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL:
-            "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.viewSchoolGallery}?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolId=${SharedService.childDetails()?.data?.data?.schoolId}",
+            "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}${ApiUrl.viewSchoolGallery}?institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.childDetails()?.data?.data?.schoolId}",
       );
       log(response.statusCode.toString());
 
@@ -1216,7 +1250,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewSchoolGallery}?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}",
+            "/${SharedServiceParentChildren.loginDetails()?.data?.data?.role}/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.viewSchoolGallery}?institutionId=${SharedServiceParentChildren.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.loginDetails()?.data?.data?.schoolId}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1247,9 +1281,9 @@ class ApiServices {
     try {
       // fetchChildData();
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL:
-            "/student/${SharedService.childDetails()?.data?.data?.id}/getEventsByStatus?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolName=${SharedService.childDetails()?.data?.data?.schoolName}&status=$status",
+            "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}/getEventsByStatus?institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}&schoolName=${SharedServiceParentChildren.childDetails()?.data?.data?.schoolName}&status=$status",
       );
       log(response.statusCode.toString());
 
@@ -1279,9 +1313,10 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${SharedService.loginDetails()?.data!.data!.institutionId}",
+            "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.viewSchoolEvents}?schoolName=${SharedServiceParentChildren.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${SharedServiceParentChildren.loginDetails()?.data!.data!.institutionId}",
       );
       log(response.statusCode.toString());
+      log(response.body.toString());
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -1309,7 +1344,7 @@ class ApiServices {
       // fetchChildData();
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.studentViewAwards}/${SharedService.childDetails()?.data?.data?.id}",
+            "${ApiUrl.studentViewAwards}/${SharedServiceParentChildren.childDetails()?.data?.data?.id}",
       );
       log(response.statusCode.toString());
 
@@ -1337,15 +1372,19 @@ class ApiServices {
     StudentViewAwardsResponseModel myCertificates =
         StudentViewAwardsResponseModel();
     try {
-      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
+      var response = SharedServiceParentChildren.loginDetails()
+                  ?.data
+                  ?.data
+                  ?.role ==
+              "parent"
           ? await ApiBase.getRequest(
-              token: SharedService.childDetails()?.data?.token,
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
               extendedURL:
-                  "/student/${SharedService.childDetails()?.data?.data?.id}/getAllAwards",
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}/getAllAwards",
             )
           : await ApiBase.getRequest(
               extendedURL:
-                  "/student/${SharedService.loginDetails()?.data!.id}/getAllAwards",
+                  "/student/${SharedServiceParentChildren.loginDetails()?.data!.id}/getAllAwards",
             );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1382,7 +1421,8 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName =
+          SharedServiceParentChildren.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -1393,7 +1433,7 @@ class ApiServices {
       // Add headers here
       Map<String, String> headers = {
         'Authorization':
-            "${SharedService.loginDetails()?.data!.token}", // Replace with your token
+            "${SharedServiceParentChildren.loginDetails()?.data!.token}", // Replace with your token
       };
       request.headers.addAll(headers);
 
@@ -1466,7 +1506,7 @@ class ApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "${ApiUrl.updateMytAccountStudent}/${SharedService.loginDetails()?.data!.id}",
+            "${ApiUrl.updateMytAccountStudent}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
         body: {
           "name": name,
           "email": email,
@@ -1509,7 +1549,7 @@ class ApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "${ApiUrl.updateMytAccountParent}/${SharedService.loginDetails()?.data!.id}",
+            "${ApiUrl.updateMytAccountParent}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
         body: {
           "name": name,
           "email": email,
@@ -1552,7 +1592,7 @@ class ApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "${ApiUrl.updateMytAccountTeacher}/${SharedService.loginDetails()?.data!.id}",
+            "${ApiUrl.updateMytAccountTeacher}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
         body: {
           "name": name,
           "email": email,
@@ -1591,10 +1631,10 @@ class ApiServices {
         StudentEnrollEventEligibilityResponseModel();
 
     try {
-      var stId = SharedService.loginDetails()?.data!.id;
+      var stId = SharedServiceParentChildren.loginDetails()?.data!.id;
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.studentEligibilityCheckForEnrollEvents}?eventId=$eventID&studentId=${SharedService.loginDetails()?.data!.id}",
+            "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentEligibilityCheckForEnrollEvents}/$eventID",
       );
       log(response.statusCode.toString());
       log("Event ID= $eventID");
@@ -1631,9 +1671,9 @@ class ApiServices {
     var ret = false;
 
     try {
-      var studentID = SharedService.loginDetails()?.data!.id;
+      var studentID = SharedServiceParentChildren.loginDetails()?.data!.id;
       var response = await ApiBase.postRequest(
-        extendedURL: ApiUrl.studentRegisterEventPost,
+        extendedURL: "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentRegisterEventPost}/$eventID",
         body: {
           "studentName": name,
           "class": wclass,
@@ -1686,7 +1726,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.classWiseAwardsListOfStudents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&class=${selectedClass}&section=${selectedSection}",
+            "${ApiUrl.classWiseAwardsListOfStudents}?schoolName=${SharedServiceParentChildren.loginDetails()?.data!.data!.schoolName}&class=${selectedClass}&section=${selectedSection}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1713,15 +1753,17 @@ class ApiServices {
   static Future<ViewNoticeResponseModel> viewNoticeStudents() async {
     ViewNoticeResponseModel viewNotice = ViewNoticeResponseModel();
     try {
-      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
-          ? await ApiBase.getRequest(
-              extendedURL:
-                  "/parent/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewNoticeParent}/?institutionId=${SharedService.childDetails()?.data?.data?.institutionId}&schoolId=${SharedService.childDetails()?.data?.data?.schoolId}",
-            )
-          : await ApiBase.getRequest(
-              extendedURL:
-                  "/student/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewNoticeStudents}",
-            );
+      var response =
+          SharedServiceParentChildren.loginDetails()?.data?.data?.role ==
+                  "parent"
+              ? await ApiBase.getRequest(
+                  extendedURL:
+                      "/parent/${SharedServiceParentChildren.loginDetails()?.data!.id}${ApiUrl.viewNoticeParent}/?institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.childDetails()?.data?.data?.schoolId}",
+                )
+              : await ApiBase.getRequest(
+                  extendedURL:
+                      "/student/${SharedServiceParentChildren.loginDetails()?.data!.id}${ApiUrl.viewNoticeStudents}",
+                );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -1745,29 +1787,39 @@ class ApiServices {
       String noticeID) async {
     var ret = false;
     try {
-      var response = SharedService.loginDetails()?.data?.data?.role == "parent"
-          ? await ApiBase.putRequest(
-              extendedURL:
-                  "/parent/${SharedService.loginDetails()!.data!.id}${ApiUrl.verifyReadUnreadNoticeForParent}",
-              body: {
-                "noticeId": noticeID,
-                "read": "true",
-                "institutionId":
-                    SharedService.childDetails()?.data?.data?.institutionId,
-                "schoolId": SharedService.childDetails()?.data?.data?.schoolId
-              },
-            )
-          : await ApiBase.putRequest(
-              extendedURL:
-                  "/student/${SharedService.loginDetails()!.data!.id}${ApiUrl.verifyReadUnreadNoticeStudent}?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}",
-              body: {
-                "schoolName":
-                    SharedService.loginDetails()!.data!.data!.schoolName,
-                "read": "true",
-                "studentId": SharedService.loginDetails()!.data!.id,
-                "noticeId": noticeID,
-              },
-            );
+      var response =
+          SharedServiceParentChildren.loginDetails()?.data?.data?.role ==
+                  "parent"
+              ? await ApiBase.putRequest(
+                  extendedURL:
+                      "/parent/${SharedServiceParentChildren.loginDetails()!.data!.id}${ApiUrl.verifyReadUnreadNoticeForParent}",
+                  body: {
+                    "noticeId": noticeID,
+                    "read": "true",
+                    "institutionId": SharedServiceParentChildren.childDetails()
+                        ?.data
+                        ?.data
+                        ?.institutionId,
+                    "schoolId": SharedServiceParentChildren.childDetails()
+                        ?.data
+                        ?.data
+                        ?.schoolId
+                  },
+                )
+              : await ApiBase.putRequest(
+                  extendedURL:
+                      "/student/${SharedServiceParentChildren.loginDetails()!.data!.id}${ApiUrl.verifyReadUnreadNoticeStudent}?institutionId=${SharedServiceParentChildren.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedServiceParentChildren.loginDetails()?.data?.data?.schoolId}",
+                  body: {
+                    "schoolName": SharedServiceParentChildren.loginDetails()!
+                        .data!
+                        .data!
+                        .schoolName,
+                    "read": "true",
+                    "studentId":
+                        SharedServiceParentChildren.loginDetails()!.data!.id,
+                    "noticeId": noticeID,
+                  },
+                );
       log(response.statusCode.toString());
       log(response.body.toString());
       if (response.statusCode == 200) {
@@ -1795,7 +1847,7 @@ class ApiServices {
       // fetchChildData();
       var response = await ApiBase.getRequest(
         extendedURL:
-            "${ApiUrl.viewNotice}/${SharedService.loginDetails()?.data?.id}?schoolName=${SharedService.childDetails()?.data?.data!.schoolName}",
+            "${ApiUrl.viewNotice}/${SharedServiceParentChildren.loginDetails()?.data?.id}?schoolName=${SharedServiceParentChildren.childDetails()?.data?.data!.schoolName}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -1821,9 +1873,12 @@ class ApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "${ApiUrl.verifyReadUnreadNoticeTeacher}/${SharedService.loginDetails()!.data!.data?.id.toString()}",
+            "${ApiUrl.verifyReadUnreadNoticeTeacher}/${SharedServiceParentChildren.loginDetails()!.data!.data?.id.toString()}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
+          "schoolName": SharedServiceParentChildren.loginDetails()!
+              .data!
+              .data!
+              .schoolName,
           "read": "true",
           "noticeId": noticeID,
         },
@@ -1847,41 +1902,44 @@ class ApiServices {
     return ret;
   }
 
-  static Future<TeacherNoticeResponseModel> viewNoticeTeacher() async {
-    TeacherNoticeResponseModel viewNotice = TeacherNoticeResponseModel();
-    try {
-      var response = await ApiBase.getRequest(
-        extendedURL:
-            "${ApiUrl.viewNoticeTeacher}/${SharedService.loginDetails()?.data!.id}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}",
-      );
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          viewNotice = teacherNoticeResponseModelFromJson(response.body);
-        } else {
-          viewNotice = TeacherNoticeResponseModel();
-        }
-      } else {
-        viewNotice = TeacherNoticeResponseModel();
-      }
-    } catch (e) {
-      viewNotice = TeacherNoticeResponseModel();
-    }
+  // static Future<TeacherNoticeResponseModel> viewNoticeTeacher() async {
+  //   TeacherNoticeResponseModel viewNotice = TeacherNoticeResponseModel();
+  //   try {
+  //     var response = await ApiBase.getRequest(
+  //       extendedURL:
+  //           "${ApiUrl.viewNoticeTeacher}/${SharedServiceParentChildren.loginDetails()?.data!.id}?schoolName=${SharedServiceParentChildren.loginDetails()?.data!.data!.schoolName}",
+  //     );
+  //     log(response.statusCode.toString());
+  //     log(response.body.toString());
+  //     if (response.statusCode == 200) {
+  //       if (jsonDecode(response.body)['status'] == true) {
+  //         viewNotice = teacherNoticeResponseModelFromJson(response.body);
+  //       } else {
+  //         viewNotice = TeacherNoticeResponseModel();
+  //       }
+  //     } else {
+  //       viewNotice = TeacherNoticeResponseModel();
+  //     }
+  //   } catch (e) {
+  //     viewNotice = TeacherNoticeResponseModel();
+  //   }
 
-    return viewNotice;
-  }
+  //   return viewNotice;
+  // }
 
   static Future<bool> verifyReadUnreadNoticeParent(String noticeID) async {
     var ret = false;
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "${ApiUrl.verifyReadUnreadNoticeForParent}/${SharedService.loginDetails()?.data!.data?.id}",
+            "${ApiUrl.verifyReadUnreadNoticeForParent}/${SharedServiceParentChildren.loginDetails()?.data!.data?.id}",
         body: {
-          "schoolName": SharedService.childDetails()?.data?.data?.schoolName,
+          "schoolName": SharedServiceParentChildren.childDetails()
+              ?.data
+              ?.data
+              ?.schoolName,
           "read": "true",
-          "parentId": SharedService.loginDetails()?.data?.id,
+          "parentId": SharedServiceParentChildren.loginDetails()?.data?.id,
           "noticeId": noticeID,
         },
       );
@@ -1912,7 +1970,7 @@ class ApiServices {
     try {
       var response = await ApiBase.deleteRequest(
         extendedURL:
-            "${ApiUrl.deleteNoticeTeacher}/${SharedService.loginDetails()!.data!.id}",
+            "${ApiUrl.deleteNoticeTeacher}/${SharedServiceParentChildren.loginDetails()!.data!.id}",
         body: {
           "noticeId": noticeID,
         },
@@ -1945,7 +2003,7 @@ class ApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.getRegisteredStudentListEvents}/$eventID",
+            "/teacher/${SharedServiceParentChildren.loginDetails()!.data!.id}${ApiUrl.getRegisteredStudentListEvents}/$eventID",
       );
       log(response.statusCode.toString());
 
@@ -1975,9 +2033,10 @@ class ApiServices {
     StudentMyEnrolledEventsResponseModel myEnrolledEventsList =
         StudentMyEnrolledEventsResponseModel();
     try {
-      var studentID = SharedService.childDetails()?.data?.data?.id;
+      var studentID =
+          SharedServiceParentChildren.childDetails()?.data?.data?.id;
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL:
             "${ApiUrl.studentSeeMyEnrolledEvents}?studentId=$studentID",
       );
@@ -2008,7 +2067,7 @@ class ApiServices {
     StudentMyEnrolledEventsResponseModel myEnrolledEventsList =
         StudentMyEnrolledEventsResponseModel();
     try {
-      var studentID = SharedService.loginDetails()?.data!.id;
+      var studentID = SharedServiceParentChildren.loginDetails()?.data!.id;
       var response = await ApiBase.getRequest(
         extendedURL:
             "${ApiUrl.studentSeeMyEnrolledEvents}?studentId=$studentID",
@@ -2045,7 +2104,8 @@ class ApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName =
+          SharedServiceParentChildren.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -2055,7 +2115,8 @@ class ApiServices {
 
       // Add headers here
       Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
+        'Authorization':
+            "${SharedServiceParentChildren.loginDetails()?.data!.token}",
       };
       request.headers.addAll(headers);
 
@@ -2113,14 +2174,14 @@ class ApiServices {
     try {
       var response = userType == "parent"
           ? await ApiBase.getRequest(
-              token: SharedService.childDetails()?.data?.token,
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
               extendedURL:
-                  "/student/${SharedService.childDetails()?.data?.data?.id}/studentSeeTheirResult?examType=$testType",
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}/studentSeeTheirResult?examType=$testType",
             )
           : await ApiBase.getRequest(
               extendedURL:
-                  // "${ApiUrl.studentSeeResult}/${SharedService.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedService.loginDetails()!.data!.data!.school}",
-                  "/${SharedService.loginDetails()!.data?.data?.role}/${SharedService.loginDetails()?.data?.id}/studentSeeTheirResult?examType=$testType",
+                  // "${ApiUrl.studentSeeResult}/${SharedServiceParentChildren.loginDetails()!.data!.id}?examType=$testType&schoolName=${SharedServiceParentChildren.loginDetails()!.data!.data!.school}",
+                  "/${SharedServiceParentChildren.loginDetails()!.data?.data?.role}/${SharedServiceParentChildren.loginDetails()?.data?.id}/studentSeeTheirResult?examType=$testType",
             );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -2198,17 +2259,17 @@ class ApiServices {
       String userType, String testType) async {
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
-      // var school = SharedService.loginDetails()!.data!.data!.school;
+      // var school = SharedServiceParentChildren.loginDetails()!.data!.data!.school;
 
       var response = userType == "parent"
           ? await ApiBase.getRequest(
-              token: SharedService.childDetails()?.data?.token,
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
               extendedURL:
-                  "/student/${SharedService.childDetails()?.data?.data?.id}/getExamination?examType=$testType",
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}/getExamination?examType=$testType",
             )
           : await ApiBase.getRequest(
               extendedURL:
-                  "/student/${SharedService.loginDetails()?.data?.data?.id}}/getExamination?examType=$testType",
+                  "/student/${SharedServiceParentChildren.loginDetails()?.data?.data?.id}/getExamination?examType=$testType",
             );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -2233,17 +2294,22 @@ class ApiServices {
 
   static Future<ExamRoutineResponseModel> viewExamRoutine(
       String selectedClass, String testType, String selectedSection) async {
-    var institutionId = SharedService.loginDetails()!.data!.data!.institutionId;
-    var schoolId = SharedService.loginDetails()!.data!.data!.schoolId;
-    var school = SharedService.loginDetails()!.data!.data!.schoolName;
-    var id = SharedService.loginDetails()!.data!.data!.id;
+    var institutionId =
+        SharedServiceParentChildren.loginDetails()!.data!.data!.institutionId;
+    var schoolId =
+        SharedServiceParentChildren.loginDetails()!.data!.data!.schoolId;
+    var school =
+        SharedServiceParentChildren.loginDetails()!.data!.data!.schoolName;
+    var id = SharedServiceParentChildren.loginDetails()!.data!.data!.id;
     ExamRoutineResponseModel examRoutine = ExamRoutineResponseModel();
     try {
-      var schoolName = SharedService.loginDetails()!.data!.data!.schoolName;
-      var schoolID = SharedService.loginDetails()!.data!.data!.schoolId;
+      var schoolName =
+          SharedServiceParentChildren.loginDetails()!.data!.data!.schoolName;
+      var schoolID =
+          SharedServiceParentChildren.loginDetails()!.data!.data!.schoolId;
       var institutionId =
-          SharedService.loginDetails()!.data!.data!.institutionId;
-      var id = SharedService.loginDetails()?.data?.data?.id;
+          SharedServiceParentChildren.loginDetails()!.data!.data!.institutionId;
+      var id = SharedServiceParentChildren.loginDetails()?.data?.data?.id;
       var response = await ApiBase.getRequest(
           extendedURL:
               "/teacher/$id${ApiUrl.viewExamRoutine}?schoolName=$schoolName&examType=$testType&institutionId=$institutionId&schoolId=$schoolID&class=$selectedClass&section=$selectedSection");
@@ -2271,7 +2337,7 @@ class ApiServices {
   static Future<bool> uploadExamRoutine(Map<String, dynamic> examData) async {
     var ret = false;
 
-    var id = SharedService.loginDetails()!.data!.data!.id;
+    var id = SharedServiceParentChildren.loginDetails()!.data!.data!.id;
 
     try {
       var response = await ApiBase.postRequest(
@@ -2328,11 +2394,12 @@ class ApiServices {
 
     try {
       // fetchChildData();
-      var school = SharedService.childDetails()!.data!.data?.schoolName;
+      var school =
+          SharedServiceParentChildren.childDetails()!.data!.data?.schoolName;
       var response = await ApiBase.getRequest(
-        token: SharedService.childDetails()?.data?.token,
+        token: SharedServiceParentChildren.childDetails()?.data?.token,
         extendedURL:
-            "/student/${SharedService.childDetails()?.data?.data?.id}${ApiUrl.viewAboutSchool}/?schoolName=$school&institutionId=${SharedService.childDetails()?.data?.data?.institutionId}",
+            "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}${ApiUrl.viewAboutSchool}/?schoolName=$school&institutionId=${SharedServiceParentChildren.childDetails()?.data?.data?.institutionId}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -2356,10 +2423,11 @@ class ApiServices {
   static Future<AboutSchoolResponseModel> ViewAboutSchool() async {
     AboutSchoolResponseModel about = AboutSchoolResponseModel();
     try {
-      var school = SharedService.loginDetails()!.data!.data!.schoolName;
+      var school =
+          SharedServiceParentChildren.loginDetails()!.data!.data!.schoolName;
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewAboutSchool}/?schoolName=$school&institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}",
+            "/${SharedServiceParentChildren.loginDetails()?.data?.data?.role}/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.viewAboutSchool}/?schoolName=$school&institutionId=${SharedServiceParentChildren.loginDetails()?.data?.data?.institutionId}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());

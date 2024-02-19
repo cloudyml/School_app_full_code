@@ -6,8 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:school_management_system/Models/Student/Result/student_see_result_model.dart';
-import 'package:school_management_system/Screens/Result/Student/pdf_preview_page.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:school_management_system/Screens/Result/Student/pdf_preview_page.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
 
 class MakeOfPdf {
   Future<void> makePdf(
@@ -296,11 +297,14 @@ class MakeOfPdf {
     );
     final filename =
         '${examType}_Roll_${data.data?.data?.rollNumber}_${data.data?.data?.studentName}_${data.data?.data?.month}_${data.data?.data?.year}.pdf';
-    final file = File('/storage/emulated/0/Documents/$filename');
+    final file = File(
+        '/storage/emulated/0/Documents/${filename}_${SharedServiceParentChildren.loginDetails()?.data?.data?.role}');
 
     try {
       final pdfData = await pdf.save();
-      await file.writeAsBytes(pdfData);
+
+    // File.fromRawPath(file).exists() 
+     await file.writeAsBytes(pdfData);
 
       log("PDF saved successfully: ${file.path}");
 

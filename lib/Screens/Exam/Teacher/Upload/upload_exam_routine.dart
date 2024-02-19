@@ -3,13 +3,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Exam/Teacher/Upload/teacher_choose_examtype.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/Services/teacher_shared_service.dart';
 
 import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../widget/Button/rectangle_elevatedbutton_card.dart';
 import '../../../../../widget/appBar/appbar_widget.dart';
 import '../../../../../widget/appBar/decorative_apbar_widget.dart';
-import '../../../../Services/shared_services.dart';
 
 class UploadExamRoutine extends StatefulWidget {
   final String selectedClass;
@@ -328,17 +328,17 @@ class _UploadResultState extends State<UploadExamRoutine> {
                   isClicked = true;
                 });
                 Map<String, dynamic> postData = {
-                  "schoolName": SharedService.loginDetails()!
+                  "schoolName": TeacherSharedServices.loginDetails()!
                       .data!
                       .data!
                       .schoolName
                       .toString(),
-                  "institutionId": SharedService.loginDetails()!
+                  "institutionId": TeacherSharedServices.loginDetails()!
                       .data!
                       .data!
                       .institutionId
                       .toString(),
-                  "schoolId": SharedService.loginDetails()!
+                  "schoolId": TeacherSharedServices.loginDetails()!
                       .data!
                       .data!
                       .schoolId

@@ -21,12 +21,72 @@ import 'package:school_management_system/Models/Teacher/Homework/view%20file%20h
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/class_wise_result_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_students_list_response_model.dart';
-import 'package:school_management_system/Services/shared_services.dart';
+import 'package:school_management_system/Models/teacher_model.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/Services/teacher_shared_service.dart';
 
 import '../api_urls.dart';
 import '../base_api_service.dart';
 
 class TeacherApiServices {
+// teacher login ....................................................................
+  static Future<bool> teacherLogin(
+    String email,
+    String password,
+    String selectedrole,
+    String fcmTokenn,
+    BuildContext context,
+  ) async {
+    var ret = false;
+
+    try {
+      var response = await ApiBase.postRequest(
+        extendedURL: ApiUrl.login,
+        body: {
+          "email": email,
+          "password": password,
+          "fcmToken": fcmTokenn,
+          "role": selectedrole,
+        },
+      );
+
+      // log(response.statusCode.toString());
+      // log(selectedrole.toString());
+      // log("\n${response.body}");
+
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          var responseModel = teacherLoginResponseModelFromJson(response.body);
+
+          // log(responseModel.message!);
+
+          ret = true;
+
+          await TeacherSharedServices.setLoginDetailsTeacher(responseModel)
+              .whenComplete(() {
+            SharedServiceParentChildren().userType(
+                "${TeacherSharedServices.loginDetails()?.data?.data?.role}");
+          });
+
+          log(
+            '-----------\n-\n-\-n-\n--\n-\n------------\n--\n-\n-\n-\n-\n----\n----\n-------------------------------- this is the data in sharepref.type  ${SharedServiceParentChildren.type()}',
+          );
+        } else {
+          ret = false;
+          log("not successful");
+        }
+      } else {
+        ret = false;
+        log("not successful ");
+      }
+    } catch (e) {
+      ret = false;
+      log("$e :  not successful catch");
+    }
+
+    return ret;
+  }
+
 // ***************************8******** Fees ***********************************
 
 //........ Update Fees Teacher..................................................
@@ -194,14 +254,14 @@ class TeacherApiServices {
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.teacherUploadAssignment}",
+          "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.teacherUploadAssignment}",
         ),
       );
-      log("http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.teacherUploadAssignment}");
+      log("http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.teacherUploadAssignment}");
       // Added headers here
       Map<String, String> headers = {
         'Authorization':
-            "${SharedService.loginDetails()?.data!.token.toString()}",
+            "${TeacherSharedServices.loginDetails()?.data!.token.toString()}",
       };
       request.headers.addAll(headers);
 
@@ -212,11 +272,14 @@ class TeacherApiServices {
       request.fields['subject'] = subject;
       request.fields['topic'] = topic;
       request.fields['schoolName'] =
-          SharedService.loginDetails()!.data!.token.toString();
-      request.fields['institutionId'] =
-          SharedService.loginDetails()!.data!.data!.institutionId.toString();
+          TeacherSharedServices.loginDetails()!.data!.token.toString();
+      request.fields['institutionId'] = TeacherSharedServices.loginDetails()!
+          .data!
+          .data!
+          .institutionId
+          .toString();
       request.fields['schoolId'] =
-          SharedService.loginDetails()!.data!.data!.schoolId.toString();
+          TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
 
       log("SubmitDate= $subjectDate");
       log("givendate= $givenDate");
@@ -277,15 +340,18 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schooleName =
-        SharedService.loginDetails()!.data!.data!.schoolName.toString();
-    String institutionId =
-        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    String institutionId = TeacherSharedServices.loginDetails()!
+        .data!
+        .data!
+        .institutionId
+        .toString();
     String schoolId =
-        SharedService.loginDetails()!.data!.data!.schoolId.toString();
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
     try {
       var response = await ApiBase.postRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}/createAssignment",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/createAssignment",
         body: {
           "institutionId": institutionId,
           "schoolId": schoolId,
@@ -329,7 +395,7 @@ class TeacherApiServices {
         TeacherSeeOwnAssignmentsListModel();
     try {
       var queryParam =
-          "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.teacherSeeOwnUploadedAssignments}?class=$selectesClass&section=$selectesSection&schoolId=${SharedService.loginDetails()!.data!.data!.schoolId}&institutionId=${SharedService.loginDetails()!.data!.data!.institutionId}";
+          "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.teacherSeeOwnUploadedAssignments}?class=$selectesClass&section=$selectesSection&schoolId=${TeacherSharedServices.loginDetails()!.data!.data!.schoolId}&institutionId=${TeacherSharedServices.loginDetails()!.data!.data!.institutionId}";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -367,7 +433,7 @@ class TeacherApiServices {
         TeacherUploadedTextAssignmentResponseModel();
     try {
       var queryParam =
-          "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.teacherSeeOwnUploadedTextAssignments}?class=$selectesClass&section=$selectesSection&schoolId=${SharedService.loginDetails()!.data!.data!.schoolId}&institutionId=${SharedService.loginDetails()!.data!.data!.institutionId}";
+          "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.teacherSeeOwnUploadedTextAssignments}?class=$selectesClass&section=$selectesSection&schoolId=${TeacherSharedServices.loginDetails()!.data!.data!.schoolId}&institutionId=${TeacherSharedServices.loginDetails()!.data!.data!.institutionId}";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
@@ -401,24 +467,26 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data?.data?.schoolName;
-      String? schoolId = SharedService.loginDetails()?.data?.data?.schoolId;
+      String? schoolName =
+          TeacherSharedServices.loginDetails()?.data?.data?.schoolName;
+      String? schoolId =
+          TeacherSharedServices.loginDetails()?.data?.data?.schoolId;
       String? institutionId =
-          SharedService.loginDetails()?.data?.data?.institutionId;
+          TeacherSharedServices.loginDetails()?.data?.data?.institutionId;
 
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.uploadGallery}",
+          "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.uploadGallery}",
         ),
       );
       log(
-        "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.uploadGallery}",
+        "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.uploadGallery}",
       );
 
       // Add headers here
       Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
+        'Authorization': "${TeacherSharedServices.loginDetails()?.data!.token}",
       };
       request.headers.addAll(headers);
 
@@ -476,18 +544,12 @@ class TeacherApiServices {
     GetStudentListForResultResponseModel studentList =
         GetStudentListForResultResponseModel();
     try {
-      String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
-
       var queryParam =
-          "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.getDefaultDataForResult}?institutionId=${SharedService.loginDetails()?.data!.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}&class=$selectedClass&section=$selectSection";
+          "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.getDefaultDataForResult}?institutionId=${TeacherSharedServices.loginDetails()?.data!.data?.institutionId}&schoolId=${TeacherSharedServices.loginDetails()?.data?.data?.schoolId}&class=$selectedClass&section=$selectSection";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
       log(response.statusCode.toString());
-      log(section.toString());
-      log(studentClass);
 
       log(response.statusCode.toString());
       log(response.body);
@@ -519,18 +581,12 @@ class TeacherApiServices {
     TeacherSeeExamTypesResponseModel examTypes =
         TeacherSeeExamTypesResponseModel();
     try {
-      String studentClass =
-          '${SharedService.loginDetails()?.data!.data!.dataClass}';
-      String section = '${SharedService.loginDetails()?.data!.data!.section}';
-
       var queryParam =
-          "/teacher/${SharedService.loginDetails()?.data?.id}/getExamTypeList?institutionId=${SharedService.loginDetails()?.data?.data?.institutionId}&schoolId=${SharedService.loginDetails()?.data?.data?.schoolId}";
+          "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/getExamTypeList?institutionId=${TeacherSharedServices.loginDetails()?.data?.data?.institutionId}&schoolId=${TeacherSharedServices.loginDetails()?.data?.data?.schoolId}";
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
       log(response.statusCode.toString());
-      log(section.toString());
-      log(studentClass);
 
       log(response.statusCode.toString());
       log(response.body);
@@ -563,12 +619,15 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schoolName =
-        SharedService.loginDetails()!.data!.data!.schoolName.toString();
-    String institutionId =
-        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    String institutionId = TeacherSharedServices.loginDetails()!
+        .data!
+        .data!
+        .institutionId
+        .toString();
     String schoolId =
-        SharedService.loginDetails()!.data!.data!.schoolId.toString();
-    String id = SharedService.loginDetails()!.data!.id.toString();
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    String id = TeacherSharedServices.loginDetails()!.data!.id.toString();
     try {
       var response = await ApiBase.postRequest(
         extendedURL: "/teacher/$id/createExamTypeList",
@@ -615,12 +674,15 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schoolName =
-        SharedService.loginDetails()!.data!.data!.schoolName.toString();
-    String institutionId =
-        SharedService.loginDetails()!.data!.data!.institutionId.toString();
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    String institutionId = TeacherSharedServices.loginDetails()!
+        .data!
+        .data!
+        .institutionId
+        .toString();
     String schoolId =
-        SharedService.loginDetails()!.data!.data!.schoolId.toString();
-    String id = SharedService.loginDetails()!.data!.data!.id.toString();
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    String id = TeacherSharedServices.loginDetails()!.data!.data!.id.toString();
     try {
       var response = await ApiBase.postRequest(
         extendedURL: "/teacher/$id/result${ApiUrl.createDefaultData}",
@@ -671,7 +733,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.postRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.uploadResult}",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.uploadResult}",
         body: {
           "class": selectedClass,
           "section": section,
@@ -717,20 +779,21 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      String? schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      String? schoolName =
+          TeacherSharedServices.loginDetails()?.data!.data!.schoolName;
       String? instituteId =
-          SharedService.loginDetails()?.data!.data!.institutionId;
+          TeacherSharedServices.loginDetails()?.data!.data!.institutionId;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.teacherUploadEvents}",
+          "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.teacherUploadEvents}",
         ),
       );
 
       // Add headers
       Map<String, String> headers = {
         'Authorization':
-            "Bearer ${SharedService.loginDetails()?.data!.token}", // Assuming 'Bearer' is required for the token
+            "Bearer ${TeacherSharedServices.loginDetails()?.data!.token}", // Assuming 'Bearer' is required for the token
       };
       request.headers.addAll(headers);
 
@@ -803,9 +866,10 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${SharedService.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${SharedService.loginDetails()?.data!.data!.institutionId}",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${TeacherSharedServices.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${TeacherSharedServices.loginDetails()?.data!.data!.institutionId}",
       );
       log(response.statusCode.toString());
+      log(response.body.toString());
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -842,11 +906,12 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
-      var teacherId = SharedService.loginDetails()?.data!.id;
-      var schoolId = SharedService.loginDetails()?.data!.data!.schoolId;
+      var schoolName =
+          TeacherSharedServices.loginDetails()?.data!.data!.schoolName;
+      var teacherId = TeacherSharedServices.loginDetails()?.data!.id;
+      var schoolId = TeacherSharedServices.loginDetails()?.data!.data!.schoolId;
       var institutionId =
-          SharedService.loginDetails()?.data!.data!.institutionId;
+          TeacherSharedServices.loginDetails()?.data!.data!.institutionId;
       var request = http.MultipartRequest(
         'PUT',
         Uri.parse(
@@ -856,7 +921,7 @@ class TeacherApiServices {
 
       // Add headers here
       Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
+        'Authorization': "${TeacherSharedServices.loginDetails()?.data!.token}",
       };
       request.headers.addAll(headers);
 
@@ -943,7 +1008,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/${SharedService.loginDetails()?.data?.data?.role}/${SharedService.loginDetails()?.data!.id}${ApiUrl.teacherViewReqsultClassWise}?examType=$examType&class=$selectedClass&section=$selectedSection",
+            "/${TeacherSharedServices.loginDetails()?.data?.data?.role}/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.teacherViewReqsultClassWise}?examType=$examType&class=$selectedClass&section=$selectedSection",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -972,7 +1037,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUpadteResult}/$resultId/$studentId",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUpadteResult}/$resultId/$studentId",
         body: {
           "subject": subject,
           "marks": marks,
@@ -1012,18 +1077,19 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName =
+          TeacherSharedServices.loginDetails()?.data!.data!.schoolName;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUploadAwards}",
+          "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUploadAwards}",
         ),
       );
 
       // Add headers here
       Map<String, String> headers = {
         'Authorization':
-            "${SharedService.loginDetails()?.data!.token}", // Replace with your token
+            "${TeacherSharedServices.loginDetails()?.data!.token}", // Replace with your token
       };
       request.headers.addAll(headers);
 
@@ -1036,7 +1102,7 @@ class TeacherApiServices {
       request.fields['schoolName'] = schoolName!;
 
       log(
-        "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUploadAwards}",
+        "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUploadAwards}",
       );
       log("date= $date");
       log("class=$wclass");
@@ -1093,7 +1159,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.getAllAwards}",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.getAllAwards}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1126,20 +1192,21 @@ class TeacherApiServices {
     var ret = false;
 
     try {
-      var schoolName = SharedService.loginDetails()?.data!.data!.schoolName;
+      var schoolName =
+          TeacherSharedServices.loginDetails()?.data!.data!.schoolName;
       var institutionId =
-          SharedService.loginDetails()?.data!.data!.institutionId;
-      var schoolId = SharedService.loginDetails()?.data!.data!.schoolId;
+          TeacherSharedServices.loginDetails()?.data!.data!.institutionId;
+      var schoolId = TeacherSharedServices.loginDetails()?.data!.data!.schoolId;
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          "http://${ApiUrl.baseUrl}/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherUploadNotice}",
+          "http://${ApiUrl.baseUrl}/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUploadNotice}",
         ),
       );
 
       // Add headers here
       Map<String, String> headers = {
-        'Authorization': "${SharedService.loginDetails()?.data!.token}",
+        'Authorization': "${TeacherSharedServices.loginDetails()?.data!.token}",
       };
       request.headers.addAll(headers);
 
@@ -1198,9 +1265,10 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()!.data?.id}${ApiUrl.verifyReadUnreadNoticeTeacher}",
+            "/teacher/${TeacherSharedServices.loginDetails()!.data?.id}${ApiUrl.verifyReadUnreadNoticeTeacher}",
         body: {
-          "schoolName": SharedService.loginDetails()!.data!.data!.schoolName,
+          "schoolName":
+              TeacherSharedServices.loginDetails()!.data!.data!.schoolName,
           "read": "true",
           "noticeId": noticeID,
         },
@@ -1230,7 +1298,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.viewNoticeTeacher}",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.viewNoticeTeacher}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1258,7 +1326,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.deleteRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()!.data!.id}${ApiUrl.deleteNoticeTeacher}",
+            "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.deleteNoticeTeacher}",
         body: {
           "noticeId": noticeID,
         },
@@ -1295,7 +1363,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${SharedService.loginDetails()?.data?.id}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
       );
       log(response.statusCode.toString());
 
