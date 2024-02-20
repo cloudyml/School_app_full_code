@@ -35,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
       log("Parent");
       return const ParentMyAccount();
     }
-    // throw ("My account error from Dashboard line number 38");
+    
   }
 
   Widget _noticeScreen() {

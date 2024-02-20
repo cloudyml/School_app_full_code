@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:school_management_system/Models/fetched_children_model.dart';
-
 import '../Models/login_response_model.dart';
 import '../constants/constants.dart';
+
 
 class SharedServiceParentChildren {
   static String? type() {
