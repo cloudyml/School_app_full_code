@@ -218,35 +218,35 @@ class _StudentSubmitAssignmentState extends State<StudentSubmitAssignment> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Headline*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: headline,
-                      decoration: InputDecoration(
-                        hintText: "Enter headline of assignment",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: width * 0.05, right: width * 0.05, top: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Enter Headline*",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: headline,
+            //           decoration: InputDecoration(
+            //             hintText: "Enter headline of assignment",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.only(
                   left: width * 0.05, right: width * 0.05, top: width * 0.05),
@@ -338,7 +338,7 @@ class _StudentSubmitAssignmentState extends State<StudentSubmitAssignment> {
       persistentFooterButtons: [
         RecElevatedButton(
           onPressed: () {
-            ApiServices.StudentUploadAssignment(
+            ApiServices.StudentUploadAssignmentFile(
                     wclass.text,
                     section.text,
                     subject.text,

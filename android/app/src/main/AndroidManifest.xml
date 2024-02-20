@@ -4,9 +4,9 @@
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="school_management_system"
+        android:label="Virohaa Education"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true">
         
         <activity
