@@ -687,6 +687,44 @@ class ApiServices {
     return studentCAttignment;
   }
 
+  // // Student see his/her submitted assignment ....................................
+
+  // static Future<StudentSubmittedAssignmentModel>
+  //     StudentSubmittedAssignment() async {
+  //   StudentSubmittedAssignmentModel submittedAttignment =
+  //       StudentSubmittedAssignmentModel();
+  //   try {
+  //     String studentClass =
+  //         '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
+  //     String section = '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
+  //     var queryParam =
+  //         "${ApiUrl.studentSubmittedAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id.toString()}/studentseeSubmittedAssignment?class=$studentClass&section=$section";
+  //     var response = await ApiBase.getRequest(
+  //       extendedURL: queryParam,
+  //     );
+
+  //     log(response.body.toString());
+  //     if (response.statusCode == 200) {
+  //       if (jsonDecode(response.body)['status'] == true) {
+  //         log("success");
+  //         submittedAttignment =
+  //             studentSubmittedAssignmentModelFromJson(response.body);
+  //       } else {
+  //         log("else 2");
+  //         submittedAttignment = StudentSubmittedAssignmentModel();
+  //       }
+  //     } else {
+  //       log("else 2");
+  //       submittedAttignment = StudentSubmittedAssignmentModel();
+  //     }
+  //   } catch (e) {
+  //     log("Catch");
+  //     submittedAttignment = StudentSubmittedAssignmentModel();
+  //   }
+
+  //   return submittedAttignment;
+  // }
+
   static Future<StudentSubmittedAssignmentModel>
       parentViewSubmittedAssignmentFile(String type, String form) async {
     StudentSubmittedAssignmentModel submittedAttignment =
@@ -791,9 +829,9 @@ class ApiServices {
       var response = await ApiBase.getRequest(
         extendedURL: queryParam,
       );
-      log("this is type -------------------------------------->" + type);
-      log("this is type -------------------------------------->" + form);
-      log(form);
+      // log("this is type -------------------------------------->" + type);
+      // log("this is type -------------------------------------->" + form);
+      // log(form);
       // log(response.statusCode.toString());
       // log("RollNumber : ${rollNumber.toString()}");
       log(response.body.toString());
@@ -867,7 +905,7 @@ class ApiServices {
 
 //.............Student Upload assignment..........................................
 
-  static Future<bool> StudentUploadAssignment(
+  static Future<bool> StudentUploadAssignmentFile(
     String wclass,
     String section,
     String subject,
@@ -952,14 +990,17 @@ class ApiServices {
 //.............Student Upload assignment..........................................
 
   static Future<bool> studentUploadAssignmentText(
-      String assignMentID, Object answers) async {
+      String assignMentID, answers) async {
     var ret = false;
 
+    // log("This is the data that is inside the function $answers");
+    // log(assignMentID);
+    // log({"textAssignmentList": answers}.toString());
     try {
       var queryParam =
           "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}/uploadAssignmets/$assignMentID";
       var response = await ApiBase.postRequest(
-        body: answers,
+        body: jsonDecode(answers),
         extendedURL: queryParam,
       );
       response.statusCode.toString();
@@ -1030,45 +1071,6 @@ class ApiServices {
     }
 
     return feeDetails;
-  }
-
-// Student see his/her submitted assignment ....................................
-
-  static Future<StudentSubmittedAssignmentModel>
-      StudentSubmittedAssignment() async {
-    StudentSubmittedAssignmentModel submittedAttignment =
-        StudentSubmittedAssignmentModel();
-    try {
-      String studentClass =
-          '${SharedServiceParentChildren.loginDetails()?.data!.data!.dataClass}';
-      String section =
-          '${SharedServiceParentChildren.loginDetails()?.data!.data!.section}';
-      var queryParam =
-          "${ApiUrl.studentSubmittedAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id.toString()}/studentseeSubmittedAssignment?class=$studentClass&section=$section";
-      var response = await ApiBase.getRequest(
-        extendedURL: queryParam,
-      );
-
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          log("success");
-          submittedAttignment =
-              studentSubmittedAssignmentModelFromJson(response.body);
-        } else {
-          log("else 2");
-          submittedAttignment = StudentSubmittedAssignmentModel();
-        }
-      } else {
-        log("else 2");
-        submittedAttignment = StudentSubmittedAssignmentModel();
-      }
-    } catch (e) {
-      log("Catch");
-      submittedAttignment = StudentSubmittedAssignmentModel();
-    }
-
-    return submittedAttignment;
   }
 
 //....................... Teacher see submitted students assignments ...........
@@ -1673,7 +1675,8 @@ class ApiServices {
     try {
       var studentID = SharedServiceParentChildren.loginDetails()?.data!.id;
       var response = await ApiBase.postRequest(
-        extendedURL: "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentRegisterEventPost}/$eventID",
+        extendedURL:
+            "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentRegisterEventPost}/$eventID",
         body: {
           "studentName": name,
           "class": wclass,
@@ -2037,8 +2040,7 @@ class ApiServices {
           SharedServiceParentChildren.childDetails()?.data?.data?.id;
       var response = await ApiBase.getRequest(
         token: SharedServiceParentChildren.childDetails()?.data?.token,
-        extendedURL:
-            "${ApiUrl.studentSeeMyEnrolledEvents}?studentId=$studentID",
+        extendedURL: "/student/$studentID${ApiUrl.studentSeeMyEnrolledEvents}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
