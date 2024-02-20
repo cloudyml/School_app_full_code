@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 
@@ -33,7 +35,7 @@ class CategoryData {
 }
 
 Widget getAttendanceScreen() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     // log("Teacher");
     return const TeacherAttendanceOptions();
   } else {
@@ -42,7 +44,7 @@ Widget getAttendanceScreen() {
 }
 
 Widget getAssignmentScreen() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherAssignmentFirstPage();
   } else {
     return const StudentAssignmentChoose();
@@ -50,20 +52,20 @@ Widget getAssignmentScreen() {
 }
 
 Widget getAwardstScreen() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherAwardOptions();
   } else {
     return const StudentViewAwards();
   }
 }
 
-//work to do 
+//work to do
 
 Widget getGalleryScreen() {
-  if (SharedServiceParentChildren.type()  == "student") {
+  if (SharedServiceParentChildren.type() == "student") {
     // log("student");
     return const ViewGallery();
-  } else if (SharedServiceParentChildren.type()  == "teacher") {
+  } else if (SharedServiceParentChildren.type() == "teacher") {
     // log("Teacher");
     return const TeacherGalleryOptions();
   } else {
@@ -72,8 +74,7 @@ Widget getGalleryScreen() {
   }
 }
 
-
-// work to do 
+// work to do
 Widget getEventsScreen() {
   if (SharedServiceParentChildren.type() == "student") {
     // log("student");
@@ -87,7 +88,7 @@ Widget getEventsScreen() {
 }
 
 Widget Routine() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherTimetableOptions();
   } else {
     // log("Teacher");
@@ -96,7 +97,7 @@ Widget Routine() {
 }
 
 Widget feeDetails() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherSeeFees();
   } else {
     return const StudentSeeFees();
@@ -104,9 +105,9 @@ Widget feeDetails() {
 }
 
 Widget examination() {
-  if (SharedServiceParentChildren.type()  == "student") {
+  if (SharedServiceParentChildren.type() == "student") {
     return const SelectExamType();
-  } else if (SharedServiceParentChildren.type()  == "teacher") {
+  } else if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherExamOptions();
   } else {
     return const ParentSelectExamType();
@@ -114,7 +115,7 @@ Widget examination() {
 }
 
 Widget result() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherResultOptions();
   } else {
     return const SelectResultType();
@@ -170,7 +171,7 @@ List<CategoryData> categoryList = [
   ),
 ];
 
-class CategoryBox extends StatelessWidget {
+class CategoryBox extends StatefulWidget {
   final CategoryData data;
 
   CategoryBox({
@@ -178,11 +179,23 @@ class CategoryBox extends StatelessWidget {
   });
 
   @override
+  State<CategoryBox> createState() => _CategoryBoxState();
+}
+
+class _CategoryBoxState extends State<CategoryBox> {
+  @override
+  void initState() {
+    super.initState();
+    log("LoginType==" + SharedServiceParentChildren.type().toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => data.screen));
+        
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => widget.data.screen));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -214,13 +227,13 @@ class CategoryBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                data.image,
+                widget.data.image,
                 height: 50,
                 width: 50,
               ),
               const SizedBox(height: 8.0),
               Text(
-                data.name,
+                widget.data.name,
                 style: const TextStyle(
                   fontFamily: 'UbuntuMedium',
                   fontSize: 12,

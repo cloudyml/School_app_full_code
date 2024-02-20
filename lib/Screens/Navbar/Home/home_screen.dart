@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,13 +20,11 @@ class HomeScreen extends StatefulWidget {
 
 class _MyWidgetState extends State<HomeScreen> {
   bool check = false;
-
+  @override
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 238, 238, 238),
-
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [lightBlue, deepBlue])),

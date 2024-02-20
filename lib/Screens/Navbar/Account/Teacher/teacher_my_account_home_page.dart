@@ -192,7 +192,8 @@ class TeacherMyAccount extends StatelessWidget {
 
                 /// Below Button is For Coaching.......... ////////////////////////
 
-                TeacherSharedServices.loginDetails()?.data!.data!.role == "coaching"
+                TeacherSharedServices.loginDetails()?.data!.data!.role ==
+                        "coaching"
                     ? InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -774,12 +775,12 @@ class TeacherMyAccount extends StatelessWidget {
                     log("This  is the data in the pref ---------> ${preferences?.get("login_details")}");
                     await TeacherSharedServices.logout().then((value) {
                       if (value == true) {
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (BuildContext context) =>
-                        //             const SplashScreen()),
-                        //     (Route<dynamic> route) => false);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const SplashScreen()),
+                            (Route<dynamic> route) => false);
 
                         log(TeacherSharedServices.isLoggedIn().toString());
                         log(TeacherSharedServices.loginDetails().toString());

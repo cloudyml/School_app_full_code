@@ -1673,7 +1673,8 @@ class ApiServices {
     try {
       var studentID = SharedServiceParentChildren.loginDetails()?.data!.id;
       var response = await ApiBase.postRequest(
-        extendedURL: "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentRegisterEventPost}/$eventID",
+        extendedURL:
+            "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentRegisterEventPost}/$eventID",
         body: {
           "studentName": name,
           "class": wclass,

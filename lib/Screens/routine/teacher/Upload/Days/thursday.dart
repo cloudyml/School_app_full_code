@@ -1,8 +1,13 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_management_system/Services/teacher_shared_service.dart';
+import 'package:school_management_system/constants/style.dart';
 import 'dart:convert';
 
 import '../../../../../widget/Button/my_elevatedbutton.dart';
+
+var dayID = "";
 
 class Thursday extends StatefulWidget {
   String selectedClass;
@@ -66,6 +71,25 @@ class _MondayState extends State<Thursday> {
     });
   }
 
+  void showPostSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Timetable uploaded successfully'),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void showUpdateSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.green,
+        content: Text('Timetable Updated Successfully'),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
   Future<void> _selectTime1(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -94,25 +118,6 @@ class _MondayState extends State<Thursday> {
     }
   }
 
-  void showPostSnackbar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Timetable uploaded successfully'),
-        duration: Duration(seconds: 3),
-      ),
-    );
-  }
-
-  void showUpdateSnackbar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        backgroundColor: Colors.green,
-        content: Text('Timetable Updated Successfully'),
-        duration: Duration(seconds: 3),
-      ),
-    );
-  }
-
   void deletePeriod(int index) {
     setState(() {
       timetableData.removeAt(index);
@@ -133,73 +138,66 @@ class _MondayState extends State<Thursday> {
             ],
           ),
           child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Period: ${periodData.period}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                            "Start Time:  ${periodData.startTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "End Time:  ${periodData.endTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text("Subject:  ${periodData.subject}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "Teacher Name:  ${periodData.teacher}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.black,
-                                          ),
-                                          onPressed: () {
-                                            populateTextFields(periodData);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () {
-                                            deletePeriod(timetableData
-                                                .indexOf(periodData));
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Period: ${periodData.period}",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text("Start Time:  ${periodData.startTime}"),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text("End Time:  ${periodData.endTime}"),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text("Subject:  ${periodData.subject}"),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text("Teacher Name:  ${periodData.teacher}"),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          populateTextFields(periodData);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          deletePeriod(timetableData.indexOf(periodData));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       }).toList();
     });
@@ -220,6 +218,7 @@ class _MondayState extends State<Thursday> {
           return Container(
             margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
+              border: Border.all(color: deepBlue),
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
@@ -231,74 +230,70 @@ class _MondayState extends State<Thursday> {
                 ),
               ],
             ),
-            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Period: ${periodData.period}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                            "Start Time:  ${periodData.startTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "End Time:  ${periodData.endTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text("Subject:  ${periodData.subject}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "Teacher Name:  ${periodData.teacher}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.black,
-                                          ),
-                                          onPressed: () {
-                                            populateTextFields(periodData);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () {
-                                            deletePeriod(timetableData
-                                                .indexOf(periodData));
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Period: ${periodData.period}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text("Start Time:  ${periodData.startTime}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("End Time:  ${periodData.endTime}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Subject:  ${periodData.subject}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Teacher Name:  ${periodData.teacher}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.black,
                             ),
+                            onPressed: () {
+                              populateTextFields(periodData);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              deletePeriod(timetableData.indexOf(periodData));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           );
         }).toList();
       }
@@ -306,8 +301,9 @@ class _MondayState extends State<Thursday> {
   }
 
   Future<void> postData() async {
-    final apiUrl = Uri.parse("http://13.232.53.26:3000/setWeeklyTimeTable");
-
+    final apiUrl = Uri.parse(
+        "http://13.232.53.26:3000/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/setWeeklyTimeTable");
+    log(apiUrl.toString());
     final inputData = {
       "day": "Thursday",
       "class": widget.selectedClass,
@@ -330,20 +326,22 @@ class _MondayState extends State<Thursday> {
       body: jsonEncode(inputData),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': '${TeacherSharedServices.loginDetails()?.data?.token}',
       },
     );
-    print(response.statusCode);
+    log(response.statusCode.toString());
     if (response.statusCode == 201) {
       showPostSnackbar();
-      print("Data saved successfully.");
+      log("Data saved successfully.");
     } else {
-      print("Failed to save data.");
+      log("Failed to save data.");
     }
   }
 
   Future<void> updateData() async {
-    final updateApiUrl = Uri.parse("http://13.232.53.26:3000/updateTimeTable");
-
+    final updateApiUrl = Uri.parse(
+        "http://13.232.53.26:3000/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/updateTimeTable-day/$dayID");
+    log(updateApiUrl.toString());
     final inputData = {
       "day": "Thursday",
       "class": widget.selectedClass,
@@ -365,32 +363,40 @@ class _MondayState extends State<Thursday> {
       updateApiUrl,
       body: jsonEncode(inputData),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json',
+        'Authorization': '${TeacherSharedServices.loginDetails()?.data?.token}',
       },
     );
 
     if (response.statusCode == 200) {
       showUpdateSnackbar();
-      print("Data updated successfully.");
+      log("Data updated successfully.");
     } else {
-      print("Failed to update data. Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
+      log("Failed to update data. Status Code: ${response.statusCode}");
+      log("Response Body: ${response.body}");
     }
   }
 
   Future<void> fetchData() async {
     final apiUrl = Uri.parse(
-        "http://13.232.53.26:3000/dayWiseTimeTable?class=${widget.selectedClass}&day=Thursday&section=${widget.selectedSection}");
+        "http://13.232.53.26:3000/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/dayWiseTimeTable?class=${widget.selectedClass}&day=Thursday&section=${widget.selectedSection}");
 
-    final response = await http.get(apiUrl);
-    print(response.body);
-    print(response.statusCode);
+    final Map<String, String> headers = {
+      'Authorization':
+          '${TeacherSharedServices.loginDetails()?.data?.token}', // Add your token here
+      'Content-Type': 'application/json',
+    };
+
+    final response = await http.get(apiUrl, headers: headers);
+    log(response.body);
+    log(response.statusCode.toString());
 
     if (response.statusCode == 200) {
       flag = true;
       final jsonResponse = jsonDecode(response.body);
       final timeTableData = jsonResponse['data']['timeTable'];
       var day_id = jsonResponse['data']['_id'];
+      dayID = day_id;
       setState(() {
         cardWidgets.clear();
         for (var periodData in timeTableData) {
@@ -408,6 +414,7 @@ class _MondayState extends State<Thursday> {
             margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.white,
+              border: Border.all(color: deepBlue),
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -418,80 +425,76 @@ class _MondayState extends State<Thursday> {
                 ),
               ],
             ),
-            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Period: ${periodData.period}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                            "Start Time:  ${periodData.startTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "End Time:  ${periodData.endTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text("Subject:  ${periodData.subject}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "Teacher Name:  ${periodData.teacher}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.black,
-                                          ),
-                                          onPressed: () {
-                                            populateTextFields(periodData);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () {
-                                            deletePeriod(timetableData
-                                                .indexOf(periodData));
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Period: ${periodData.period}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text("Start Time :  ${periodData.startTime}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("End Time:  ${periodData.endTime}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Subject:  ${periodData.subject}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Teacher Name:  ${periodData.teacher}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.black,
                             ),
+                            onPressed: () {
+                              populateTextFields(periodData);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              deletePeriod(timetableData.indexOf(periodData));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           );
         }).toList();
       });
     } else {
       flag = false;
-      print("Failed to fetch data from the API");
+      log("Failed to fetch data from the API");
     }
   }
 
@@ -563,7 +566,7 @@ class _MondayState extends State<Thursday> {
                       contentPadding: EdgeInsets.all(10),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   if (!isEditing)
@@ -588,6 +591,7 @@ class _MondayState extends State<Thursday> {
                             margin: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
+                              border: Border.all(color: deepBlue),
                               borderRadius: BorderRadius.circular(10.0),
                               boxShadow: [
                                 BoxShadow(
@@ -598,73 +602,77 @@ class _MondayState extends State<Thursday> {
                                 ),
                               ],
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Period: ${periodData.period}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                            "Start Time:  ${periodData.startTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "End Time:  ${periodData.endTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text("Subject:  ${periodData.subject}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "Teacher Name:  ${periodData.teacher}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.black,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Period: ${periodData.period}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 5,
                                           ),
-                                          onPressed: () {
-                                            populateTextFields(periodData);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
+                                          Text(
+                                              "Start Time:  ${periodData.startTime}"),
+                                          const SizedBox(
+                                            height: 3,
                                           ),
-                                          onPressed: () {
-                                            deletePeriod(timetableData
-                                                .indexOf(periodData));
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                          Text(
+                                              "End Time:  ${periodData.endTime}"),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                              "Subject:  ${periodData.subject}"),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                              "Teacher Name:  ${periodData.teacher}"),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.edit,
+                                              color: Colors.black,
+                                            ),
+                                            onPressed: () {
+                                              populateTextFields(periodData);
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () {
+                                              deletePeriod(timetableData
+                                                  .indexOf(periodData));
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }).toList();
@@ -707,13 +715,13 @@ class _MondayState extends State<Thursday> {
           },
           style: ElevatedButton.styleFrom(
             shadowColor: Colors.grey,
-            backgroundColor: Color.fromRGBO(98, 120, 247, 1.0),
-            shape: LinearBorder(),
+            backgroundColor: const Color.fromRGBO(98, 120, 247, 1.0),
+            shape: const LinearBorder(),
             minimumSize: Size(MediaQuery.of(context).size.width, 60),
           ),
           child: Text(
             flag == true ? "UPDATE" : "SUBMIT",
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: const TextStyle(fontSize: 20, color: Colors.white),
           ),
         )
       ],
