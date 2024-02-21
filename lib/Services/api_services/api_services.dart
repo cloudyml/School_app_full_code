@@ -792,7 +792,7 @@ class ApiServices {
       log(response.body.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
-          log("success");
+          log("success ");
           studentCAttignment =
               studentViewAssignmentModelFromJson(response.body);
         } else {
