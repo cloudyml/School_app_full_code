@@ -906,19 +906,19 @@ class ApiServices {
 //.............Student Upload assignment..........................................
 
   static Future<bool> StudentUploadAssignmentFile(
-    String wclass,
-    String section,
-    String subject,
-    String date,
-    String rollNumber,
+    // String wclass,
+    // String section,
+    // String subject,
+    // String date,
+    // String rollNumber,
     File file,
     String assignMentID,
-    BuildContext context,
   ) async {
     var ret = false;
 
     try {
       var request = http.MultipartRequest(
+
         'POST',
         Uri.parse(
           "http://${ApiUrl.baseUrl}${ApiUrl.studentUploadAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id}/uploadAssignmets/$assignMentID",
@@ -934,29 +934,27 @@ class ApiServices {
 
       request.headers.addAll(headers);
 
-      request.fields['date'] = date;
-      request.fields['class'] = wclass;
-      request.fields['section'] = section;
-      request.fields['subject'] = subject;
-      request.fields['rollNumber'] = rollNumber;
+      // request.fields['date'] = date;
+      // request.fields['class'] = wclass;
+      // request.fields['section'] = section;
+      // request.fields['subject'] = subject;
+      // request.fields['rollNumber'] = rollNumber;
 
-      log("date= $date");
-      log("class=$wclass");
-      log("section=$section");
-      log("subject=$subject");
-      log("rollNumber=$rollNumber");
+      // log("date= $date");
+      // log("class=$wclass");
+      // log("section=$section");
+      // log("subject=$subject");
+      // log("rollNumber=$rollNumber");
 
-      if (file != null) {
-        var fileStream = http.ByteStream(file.openRead());
-        var length = await file.length();
-        var multipartFile = http.MultipartFile(
-          'file',
-          fileStream.cast(),
-          length,
-          filename: p.basename(file.path),
-        );
-        request.files.add(multipartFile);
-      }
+      var fileStream = http.ByteStream(file.openRead());
+      var length = await file.length();
+      var multipartFile = http.MultipartFile(
+        'file',
+        fileStream.cast(),
+        length,
+        filename: p.basename(file.path),
+      );
+      request.files.add(multipartFile);
 
       var response = await http.Response.fromStream(await request.send());
 
@@ -1000,10 +998,10 @@ class ApiServices {
       var queryParam =
           "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}/uploadAssignmets/$assignMentID";
       var response = await ApiBase.postRequest(
-        body: jsonDecode(answers),
+        body: {"textAssignmentList": jsonDecode(answers)},
         extendedURL: queryParam,
       );
-      response.statusCode.toString();
+      log(response.statusCode.toString());
       log(response.body);
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);

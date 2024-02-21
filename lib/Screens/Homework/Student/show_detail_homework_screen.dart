@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Models/Student/student_tex_assignment_submitted_model.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Homework/Student/question_tile_text_assignment.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
@@ -420,15 +421,21 @@ class _DetailHomeworkScreenStudentState
                           String jsonData = jsonEncode(
                               sendAnswerLIst.map((e) => e.toJson()).toList());
 
-                              log(jsonEncode(jsonData));
-                              log(jsonDecode(jsonEncode(jsonData)));
+                          log(jsonEncode(jsonData));
+                          log(jsonDecode(jsonEncode(jsonData)));
                           ApiServices.studentUploadAssignmentText(
                                   widget.assignmentId, jsonData)
                               .whenComplete(() {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(
+                              builder: (context) {
+                                return const Dashboard();
+                              },
+                            ));
                             EasyLoading.showSuccess("Uploaded Successfully");
                             instance?.remove(widget.assignmentId);
-                            ApiServices.studentSeeAssignmentText("getPendingAssignment","text");
+                            // ApiServices.studentSeeAssignmentText(
+                            //     "getPendingAssignment", "text");
                           });
                           // ApiServices.StudentSubmittedAssignment()
                           for (int i = 0; i < sendAnswerLIst.length; i++) {

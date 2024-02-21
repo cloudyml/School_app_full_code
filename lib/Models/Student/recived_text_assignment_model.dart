@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final recivedStudentTextAssignmentModel = recivedStudentTextAssignmentModelFromJson(jsonString);
-
 import 'dart:convert';
 
 RecivedStudentTextAssignmentModel recivedStudentTextAssignmentModelFromJson(String str) => RecivedStudentTextAssignmentModel.fromJson(json.decode(str));
@@ -39,6 +35,8 @@ class Link {
     int? linkClass;
     String? section;
     int? rollNumber;
+    String? subject;
+    String? topic;
     DateTime? submitDate;
     List<TextAssignmentList>? textAssignmentList;
     String? isDone;
@@ -54,6 +52,8 @@ class Link {
         this.linkClass,
         this.section,
         this.rollNumber,
+        this.subject,
+        this.topic,
         this.submitDate,
         this.textAssignmentList,
         this.isDone,
@@ -70,6 +70,8 @@ class Link {
         linkClass: json["class"],
         section: json["section"],
         rollNumber: json["rollNumber"],
+        subject: json["subject"],
+        topic: json["topic"],
         submitDate: json["submitDate"] == null ? null : DateTime.parse(json["submitDate"]),
         textAssignmentList: json["textAssignmentList"] == null ? [] : List<TextAssignmentList>.from(json["textAssignmentList"]!.map((x) => TextAssignmentList.fromJson(x))),
         isDone: json["isDone"],
@@ -86,6 +88,8 @@ class Link {
         "class": linkClass,
         "section": section,
         "rollNumber": rollNumber,
+        "subject": subject,
+        "topic": topic,
         "submitDate": submitDate?.toIso8601String(),
         "textAssignmentList": textAssignmentList == null ? [] : List<dynamic>.from(textAssignmentList!.map((x) => x.toJson())),
         "isDone": isDone,

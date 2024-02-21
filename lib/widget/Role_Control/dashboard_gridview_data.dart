@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
-import 'package:school_management_system/Screens/Exam/Student/student_choose_examtype.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
 import 'package:school_management_system/Screens/Fees/student/student_view_fees_details.dart';
 import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
@@ -33,7 +32,7 @@ class CategoryData {
 }
 
 Widget getAttendanceScreen() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     // log("Teacher");
     return const TeacherAttendanceOptions();
   } else {
@@ -42,7 +41,7 @@ Widget getAttendanceScreen() {
 }
 
 Widget getAssignmentScreen() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherAssignmentFirstPage();
   } else {
     return const StudentAssignmentChoose();
@@ -50,20 +49,20 @@ Widget getAssignmentScreen() {
 }
 
 Widget getAwardstScreen() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherAwardOptions();
   } else {
     return const StudentViewAwards();
   }
 }
 
-//work to do 
+//work to do
 
 Widget getGalleryScreen() {
-  if (SharedServiceParentChildren.type()  == "student") {
+  if (SharedServiceParentChildren.type() == "student") {
     // log("student");
     return const ViewGallery();
-  } else if (SharedServiceParentChildren.type()  == "teacher") {
+  } else if (SharedServiceParentChildren.type() == "teacher") {
     // log("Teacher");
     return const TeacherGalleryOptions();
   } else {
@@ -72,8 +71,7 @@ Widget getGalleryScreen() {
   }
 }
 
-
-// work to do 
+// work to do
 Widget getEventsScreen() {
   if (SharedServiceParentChildren.type() == "student") {
     // log("student");
@@ -87,7 +85,7 @@ Widget getEventsScreen() {
 }
 
 Widget Routine() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherTimetableOptions();
   } else {
     // log("Teacher");
@@ -96,7 +94,7 @@ Widget Routine() {
 }
 
 Widget feeDetails() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherSeeFees();
   } else {
     return const StudentSeeFees();
@@ -104,17 +102,15 @@ Widget feeDetails() {
 }
 
 Widget examination() {
-  if (SharedServiceParentChildren.type()  == "student") {
-    return const SelectExamType();
-  } else if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherExamOptions();
   } else {
-    return const ParentSelectExamType();
+    return const ParentchildrenSelectExamType();
   }
 }
 
 Widget result() {
-  if (SharedServiceParentChildren.type()  == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherResultOptions();
   } else {
     return const SelectResultType();
