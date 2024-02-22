@@ -19,11 +19,11 @@ class FirebaseApi {
     initpushNOtificationIos();
   }
 
-  void handelMsg(RemoteMessage? msg) {
-    if (msg?.data['type'] == 'Events') return;
-    // navigatorKey.currentState
-    //     ?.pushNamed(StudentsViewEvents.route, arguments: msg);
-  }
+  // void handelMsg(RemoteMessage? msg) {
+  //   if (msg?.data['type'] == 'Events') return;
+  //   // navigatorKey.currentState
+  //   //     ?.pushNamed(StudentsViewEvents.route, arguments: msg);
+  // }
 
 // For ios mobile application
   Future initpushNOtificationIos() async {
@@ -34,9 +34,9 @@ class FirebaseApi {
       sound: true,
     );
     //to open the app using notification
-    FirebaseMessaging.instance.getInitialMessage().then(handelMsg);
-    //to open app from notificaion when running in background
-    FirebaseMessaging.onMessageOpenedApp.listen(handelMsg);
+    // FirebaseMessaging.instance.getInitialMessage().then(handelMsg);
+    // //to open app from notificaion when running in background
+    // FirebaseMessaging.onMessageOpenedApp.listen(handelMsg);
     //
     FirebaseMessaging.onBackgroundMessage(handelBackgroundNotification);
   }

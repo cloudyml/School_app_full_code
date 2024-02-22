@@ -10,7 +10,6 @@ import 'Navbar/Home/home_screen.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
-import 'Navbar/Account/Student/student_my_acccount_home_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({
@@ -25,10 +24,7 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   Widget _myAccountScreen() {
-    if (SharedServiceParentChildren.type()  == "student") {
-      log("Student");
-      return const StudentMyAccount();
-    } else if (SharedServiceParentChildren.type()  == "teacher") {
+    if (SharedServiceParentChildren.type() == "teacher") {
       log("Teacher");
       return const TeacherMyAccount();
     } else {
@@ -39,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _noticeScreen() {
-    if (SharedServiceParentChildren.type()  == "teacher") {
+    if (SharedServiceParentChildren.type() == "teacher") {
       return const TeacherNoticeOptions();
     } else {
       return const ViewNoticeScreen();
@@ -47,10 +43,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _AboutSchool() {
-    if (SharedServiceParentChildren.type()  == "student") {
+    if (SharedServiceParentChildren.type() == "student") {
       // log("Student");
       return const ViewAboutSchool();
-    } else if (SharedServiceParentChildren.type()  == "parent") {
+    } else if (SharedServiceParentChildren.type() == "parent") {
       // log("Parent");
       return const ParentViewAboutSchool();
     } else {

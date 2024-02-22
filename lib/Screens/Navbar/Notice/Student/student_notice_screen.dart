@@ -69,7 +69,8 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
             child: Container(
               height: height * 0.07,
               child: TextField(
@@ -123,14 +124,15 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                           noticeId:
                               notices.data!.noticeList![index].id.toString(),
                           title: "$title",
-                          image:
-                              notices.data!.noticeList![index].uploadedImage!.link.toString(),
+                          image: notices
+                              .data!.noticeList![index].uploadedImage!.link
+                              .toString(),
                           isRead:
                               notices.data!.noticeList![index].read.toString(),
                           onClicked: () {
-                            ApiServices.verifyReadUnreadNoticeParentStudent(notices
-                                    .data!.noticeList![index].id
-                                    .toString())
+                            ApiServices.verifyReadUnreadNoticeParentStudent(
+                                    notices.data!.noticeList![index].id
+                                        .toString())
                                 .then(
                               (value) {
                                 if (value == true) {
@@ -154,8 +156,12 @@ class _ViewNoticeScreenState extends State<ViewNoticeScreen> {
                                                     .noticeList![index]
                                                     .description
                                                     .toString(),
-                                                imglink: notices.data!
-                                                    .noticeList![index].uploadedImage!.link.toString()
+                                                imglink: notices
+                                                    .data!
+                                                    .noticeList![index]
+                                                    .uploadedImage!
+                                                    .link
+                                                    .toString()
                                                     .toString(),
                                               )),
                                     ).whenComplete(() {

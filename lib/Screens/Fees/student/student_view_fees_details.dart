@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Fees/student/pop_up_row_widget.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/Fees/student_fee_response_model.dart';
@@ -259,6 +264,161 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
           }
         },
       ),
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: SharedServiceParentChildren.type() == "student"
+          ? Container()
+          : ExpandableFab(
+              overlayStyle: ExpandableFabOverlayStyle(blur: 5.r),
+              openButtonBuilder: RotateFloatingActionButtonBuilder(
+                fabSize: ExpandableFabSize.regular,
+                shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.r)),
+                child: const Icon(Icons.add),
+                foregroundColor: Colors.white,
+                backgroundColor: deepBlue,
+              ),
+              closeButtonBuilder: RotateFloatingActionButtonBuilder(
+                child: const Icon(Icons.close),
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.deepOrange,
+              ),
+              children: [
+                FloatingActionButton.large(
+                  backgroundColor: lightBlue,
+                  heroTag: null,
+                  child: Text(
+                    "Raise Request",
+                    style:
+                        GoogleFonts.inter(color: Colors.white, fontSize: 16.sp),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.r)),
+                          contentPadding: EdgeInsets.all(0),
+                          content: Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5.h),
+                                  color: deepBlue,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Raise A Request",
+                                        style: GoogleFonts.inter(
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5.h, horizontal: 10.w),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      PopUpRowWidget(
+                                          heading: "Name",
+                                          subheading:
+                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.name}"),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      PopUpRowWidget(
+                                          heading: "Roll No",
+                                          subheading:
+                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.rollNumber}"),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      PopUpRowWidget(
+                                          heading: "Class",
+                                          subheading:
+                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}"),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      PopUpRowWidget(
+                                          heading: "section",
+                                          subheading:
+                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.section}"),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      PopUpRowWidget(
+                                          heading: "School Name",
+                                          subheading:
+                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.schoolName}"),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.r),
+                                          ),
+                                          hintText: "Enter Amount",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                MyElevatedButton(
+                                    height: 50.h,
+                                    width: 0.25.sw,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "Send",
+                                      style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                FloatingActionButton.large(
+                  backgroundColor: lightBlue,
+                  heroTag: null,
+                  child: Text(
+                    "Track Request",
+                    style:
+                        GoogleFonts.inter(color: Colors.white, fontSize: 16.sp),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
     );
   }
 }

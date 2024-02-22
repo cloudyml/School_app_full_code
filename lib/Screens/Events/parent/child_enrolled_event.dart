@@ -34,35 +34,38 @@ class ParentViewChildEnrolledEvents extends StatelessWidget {
           }),
         ),
       ),
-      body: FutureBuilder<StudentMyEnrolledEventsResponseModel>(
-        future: ApiServices.parentSeeMyEnrolledEvents(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Text('Error: ...');
-          } else if (!snapshot.hasData || snapshot.data!.data == null) {
-            return const Center(child: Text('No events found.'));
-          } else {
-            StudentMyEnrolledEventsResponseModel? eventList = snapshot.data;
-            return ListView.builder(
-                itemCount: eventList!.data!.eventList!.length,
-                itemBuilder: (context, index) {
-                  String formattedDate = DateFormat('dd-MM-yyyy').format(
-                    DateTime.parse(
-                      eventList.data!.eventList![index].eventDate.toString(),
-                    ),
-                  );
-                  return StudentMyEnrolledEventsCard(
-                    eventHeading:
-                        eventList.data!.eventList![index].eventName.toString(),
-                    eventDate: formattedDate,
-                    eventTime:
-                        eventList.data!.eventList![index].eventTime.toString(),
-                  );
-                });
-          }
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder<StudentMyEnrolledEventsResponseModel>(
+          future: ApiServices.parentSeeMyEnrolledEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Text('Error: ...');
+            } else if (!snapshot.hasData || snapshot.data!.data == null) {
+              return const Center(child: Text('No events found.'));
+            } else {
+              StudentMyEnrolledEventsResponseModel? eventList = snapshot.data;
+              return ListView.builder(
+                  itemCount: eventList!.data!.eventList!.length,
+                  itemBuilder: (context, index) {
+                    String formattedDate = DateFormat('dd-MM-yyyy').format(
+                      DateTime.parse(
+                        eventList.data!.eventList![index].eventDate.toString(),
+                      ),
+                    );
+                    return StudentMyEnrolledEventsCard(
+                      eventHeading: eventList.data!.eventList![index].eventName
+                          .toString(),
+                      eventDate: formattedDate,
+                      eventTime: eventList.data!.eventList![index].eventTime
+                          .toString(),
+                    );
+                  });
+            }
+          },
+        ),
       ),
     );
   }

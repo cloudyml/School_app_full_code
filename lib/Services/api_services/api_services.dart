@@ -918,7 +918,6 @@ class ApiServices {
 
     try {
       var request = http.MultipartRequest(
-
         'POST',
         Uri.parse(
           "http://${ApiUrl.baseUrl}${ApiUrl.studentUploadAssignment}/${SharedServiceParentChildren.loginDetails()?.data!.id}/uploadAssignmets/$assignMentID",
@@ -1494,75 +1493,33 @@ class ApiServices {
 
 // Update my account details Student..................................................
 
-  static Future<bool> updateMyAccountStudent(
-    String name,
-    String email,
-    String phone,
+  static Future<bool> updateMyAccountParentStudent(
     String password,
-    String city,
   ) async {
     var ret = false;
 
     try {
-      var response = await ApiBase.putRequest(
-        extendedURL:
-            "${ApiUrl.updateMytAccountStudent}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
-        body: {
-          "name": name,
-          "email": email,
-          "phoneNumber": phone,
-          "password": password,
-          "address": city,
-        },
-      );
+      var response = SharedServiceParentChildren.type() == "parent"
+          ? await ApiBase.putRequest(
+              extendedURL:
+                  "/${SharedServiceParentChildren.type()}/${SharedServiceParentChildren.loginDetails()?.data!.id}/updateParent",
+              body: {
+                "password": password,
+              },
+            )
+          : await ApiBase.putRequest(
+              extendedURL:
+                  "/${SharedServiceParentChildren.type()}/${SharedServiceParentChildren.loginDetails()?.data!.id}/updateStudentById",
+              body: {
+                "password": password,
+              },
+            );
 
       log(response.statusCode.toString());
       log(response.body.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
           ret = true;
-          ret = true;
-        } else {
-          ret = false;
-          log("Not Successful");
-        }
-      } else {
-        ret = false;
-        log("Not Successful");
-      }
-    } catch (e) {
-      log("error: $e");
-    }
-    return ret;
-  }
-
-//update parent details
-  static Future<bool> updateMyAccountParent(
-    String name,
-    String email,
-    String phone,
-    String password,
-    String city,
-  ) async {
-    var ret = false;
-
-    try {
-      var response = await ApiBase.putRequest(
-        extendedURL:
-            "${ApiUrl.updateMytAccountParent}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
-        body: {
-          "name": name,
-          "email": email,
-          "phoneNumber": phone,
-          "password": password,
-          "address": city,
-        },
-      );
-
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
           ret = true;
         } else {
           ret = false;

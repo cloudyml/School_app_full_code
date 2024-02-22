@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Events/parent/child_enrolled_event.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/parent_edit_details.dart';
+import 'package:school_management_system/Screens/Navbar/Account/Parent/optionTile.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -64,522 +66,187 @@ class ParentMyAccount extends StatelessWidget {
             ),
             Column(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.16,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: deepBlue),
-                        borderRadius: BorderRadius.circular(18),
-                        color: Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            //  blurStyle: BlurStyle.inner,
-                            color: Colors.grey,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.16,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: deepBlue),
+                    borderRadius: BorderRadius.circular(18),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 5,
+                        color: Colors.grey,
+                        offset: Offset(0, 3),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: width * 0.03, right: width * 0.12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundColor: deepBlue,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: ClipOval(
+                              child: Image.asset(
+                                "assets/My_account/avatar.png",
+                                width: 50,
+                                height: 80,
+                                //   fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: 40,
-                              backgroundColor: deepBlue,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    "assets/My_account/avatar.png",
-                                    width: 50,
-                                    height: 80,
-                                    //   fit: BoxFit.cover,
-                                  ),
+                            Text(
+                              SharedServiceParentChildren.loginDetails()!
+                                  .data!
+                                  .data!
+                                  .name
+                                  .toString(),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 22),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            SizedBox(
+                              width: width *
+                                  0.45, // Set a width that fits your text without overflow
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      SharedServiceParentChildren
+                                              .loginDetails()!
+                                          .data!
+                                          .data!
+                                          .email
+                                          .toString(),
+
+                                      maxLines:
+                                          1, // Display only one line of text
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                             const SizedBox(
-                              width: 20,
+                              height: 3,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Text(
+                                "+${91} ${SharedServiceParentChildren.loginDetails()?.data?.data?.phoneNumber.toString()}"),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  SharedServiceParentChildren.loginDetails()!
-                                      .data!
-                                      .data!
-                                      .name
-                                      .toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 22),
+                                  "${SharedServiceParentChildren.loginDetails()?.data?.data?.gender}",
                                 ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                SizedBox(
-                                  width: width *
-                                      0.45, // Set a width that fits your text without overflow
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          SharedServiceParentChildren.loginDetails()!
-                                              .data!
-                                              .data!
-                                              .email
-                                              .toString(),
-
-                                          maxLines:
-                                              1, // Display only one line of text
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                    "+${91} ${SharedServiceParentChildren.loginDetails()?.data?.data?.phoneNumber.toString()}"),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "${SharedServiceParentChildren.loginDetails()?.data?.data?.gender}",
-                                    ),
-                                  ],
-                                )
                               ],
-                            )
+                            ),
                           ],
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 2,
-                      top: 5,
-                      child: IconButton(
-                          onPressed: () {
-                            if (SharedServiceParentChildren.loginDetails()
-                                    ?.data!
-                                    .data!
-                                    .role ==
-                                "parent") {
+                        IconButton(
+                            onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       const EditParentAccountDetails()));
-                            }
-                          },
-                          icon: const Icon(Icons.edit)),
+                            },
+                            icon: const Icon(Icons.edit)),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ParentViewChildEnrolledEvents()));
+                    },
+                    child: OptionTileWidgetAccount(
+                        heading: "My Enrolled Events",
+                        subheading: "School events enrolled list",
+                        imageIcon: "assets/My_account/my_events.png")),
+                const SizedBox(
+                  height: 15,
+                ),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => const ParentViewChildEnrolledEvents()));
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.11,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      //  border: Border.all(color: deepBlue),
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Colors.grey,
-                          offset: Offset(0, 3),
+                          builder: (context) => const ParentViewAboutSchool(),
                         ),
-                      ],
-                    ),
-                    child: Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: width * 0.09, right: width * 0.1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: deepBlue,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    "assets/My_account/my_events.png",
-                                    //  fit: BoxFit.cover,
-                                    width: 60,
-                                    height: 30,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "My Enrolled Events",
-                                            style: TextStyle(fontSize: 20),
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "School events enrolled list",
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                      );
+                    },
+                    child: OptionTileWidgetAccount(
+                        heading: "About Us",
+                        subheading: "Know about our mission and vision",
+                        imageIcon: "assets/My_account/about_us.png")),
                 const SizedBox(
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ParentViewAboutSchool()));
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.11,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      //  border: Border.all(color: deepBlue),
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Colors.grey,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: width * 0.09, right: width * 0.1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: deepBlue,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    "assets/My_account/about_us.png",
-                                    //  fit: BoxFit.cover,
-                                    width: 60,
-                                    height: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "About Us",
-                                            style: TextStyle(fontSize: 20),
+                    onTap: () async {
+                      log("Support");
+                      String? encodeQueryParameters(
+                          Map<String, String> params) {
+                        return params.entries
+                            .map((MapEntry<String, String> e) =>
+                                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                            .join('&');
+                      }
 
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Know about our mission and vision",
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                      final Uri emailUrl = Uri(
+                        scheme: 'mailto',
+                        path: 'kalpita@cloudyml.com',
+                        query: encodeQueryParameters(<String, String>{
+                          'subject': "School app problems",
+                          'body': "Dear sir/madam"
+                        }),
+                      );
+                      if (await canLaunchUrl(emailUrl)) {
+                        launchUrl(emailUrl);
+                      } else {
+                        throw Exception('Could not launch $emailUrl');
+                      }
+                    },
+                    child: OptionTileWidgetAccount(
+                        heading: "App Support",
+                        subheading: "Email the tech team for any help",
+                        imageIcon: "assets/My_account/support.png")),
                 const SizedBox(
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () async {
-                    log("Support");
-                    String? encodeQueryParameters(Map<String, String> params) {
-                      return params.entries
-                          .map((MapEntry<String, String> e) =>
-                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                          .join('&');
-                    }
-
-                    final Uri emailUrl = Uri(
-                      scheme: 'mailto',
-                      path: 'kalpita@cloudyml.com',
-                      query: encodeQueryParameters(<String, String>{
-                        'subject': "School app problems",
-                        'body': "Dear sir/madam"
-                      }),
-                    );
-                    if (await canLaunchUrl(emailUrl)) {
-                      launchUrl(emailUrl);
-                    } else {
-                      throw Exception('Could not launch $emailUrl');
-                    }
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.11,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      //  border: Border.all(color: deepBlue),
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Colors.grey,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: width * 0.09, right: width * 0.1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: deepBlue,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    "assets/My_account/support.png",
-                                    //  fit: BoxFit.cover,
-                                    width: 60,
-                                    height: 30,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "App Support",
-                                            style: TextStyle(fontSize: 20),
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Email the tech team for any help",
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ViewNoticeScreen()));
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.11,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      //  border: Border.all(color: deepBlue),
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Colors.grey,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: width * 0.09, right: width * 0.1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: deepBlue,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    "assets/My_account/notifications.png",
-                                    //  fit: BoxFit.cover,
-                                    width: 60,
-                                    height: 30,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Notifications",
-                                            style: TextStyle(fontSize: 20),
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width *
-                                        0.5, // Set a width that fits your text without overflow
-                                    child: const SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "See all related notifications",
-
-                                            maxLines:
-                                                1, // Display only one line of text
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ViewNoticeScreen()));
+                    },
+                    child: OptionTileWidgetAccount(
+                        heading: "Notifications",
+                        subheading: "See all related notifications",
+                        imageIcon: "assets/My_account/notifications.png")),
                 const SizedBox(
                   height: 15,
                 ),
