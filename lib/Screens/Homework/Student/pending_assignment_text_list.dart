@@ -9,16 +9,17 @@ import 'package:school_management_system/widget/Button/my_elevatedbutton.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 
-// import '../../../Services/Url_launcher.dart/method.dart';
+import '../../../Services/Url_launcher.dart/method.dart';
 
 class StudentPendingAssignmentTextList extends StatelessWidget {
-  StudentPendingAssignmentTextList({super.key, required this.type, required this.form});
+  StudentPendingAssignmentTextList(
+      {super.key, required this.type, required this.form});
   String type;
   String form;
 
   @override
   Widget build(BuildContext context) {
-    // LaunceToWeb Launceweb = LaunceToWeb();
+    LaunceToWeb Launceweb = LaunceToWeb();
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(

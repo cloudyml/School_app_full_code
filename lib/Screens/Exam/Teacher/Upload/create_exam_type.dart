@@ -10,8 +10,10 @@ import '../../../../widget/appBar/decorative_apbar_widget.dart';
 
 class CreateExamTypeView extends StatelessWidget {
   List<String> examTypeList;
+  String examListId;
 
-  CreateExamTypeView({super.key, required this.examTypeList});
+  CreateExamTypeView(
+      {super.key, required this.examTypeList, required this.examListId});
 
   final selectedClass = 'Choose Class'.obs;
 
@@ -298,19 +300,13 @@ class CreateExamTypeView extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            listOfBool[index] =
-                                                !listOfBool[index];
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all()),
-                                            height: containerSize,
-                                            width: containerSize,
-                                            child: Center(
-                                              child: Text("${index + 1}"),
-                                            ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all()),
+                                          height: containerSize,
+                                          width: containerSize,
+                                          child: Center(
+                                            child: Text("${index + 1}"),
                                           ),
                                         ),
                                       ),
@@ -488,11 +484,11 @@ class CreateExamTypeView extends StatelessWidget {
                   onPressed: () async {
                     if (selectedClass.value != "Choose Class" &&
                         selectedSection.value != "Choose Section") {
-                      examTypeList.add(nameController.value.text);
-                      examTypeList.toList();
+                      // examTypeList.add(nameController.value.text);
+                      // examTypeList.toList();
                       await TeacherApiServices.teacherCreateExamType(context,
-                          classofStudent: selectedClass.value,
-                          examTypeList: examTypeList);
+                          examTypeList: ["${nameController.value.text}"],
+                          examListId: examListId);
 
                       listOfCriteria.toList();
                       await TeacherApiServices.teacherPostGradingData(context,

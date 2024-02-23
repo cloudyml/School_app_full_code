@@ -87,6 +87,8 @@ class ApiUrl {
   static const String getDefaultData = "/getDefaultData";
 
   // Exam........................................................................
+  static const String deleteExamType = "/deleteExamType";
+
   //static const String viewExamRoutine = "/getExamDetails";
   static const String uploadExamRoutine = "/createExamSchedule";
   static const String getExamTypeList = "/getExamTypeList";
