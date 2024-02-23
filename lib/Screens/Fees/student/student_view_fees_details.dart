@@ -273,7 +273,7 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
                 fabSize: ExpandableFabSize.regular,
                 shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(5.r)),
-                child: const Icon(Icons.add),
+                child: Text("₹"),
                 foregroundColor: Colors.white,
                 backgroundColor: deepBlue,
               ),
@@ -287,9 +287,9 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
                   backgroundColor: lightBlue,
                   heroTag: null,
                   child: Text(
-                    "Raise Request",
+                    "Raise payment request",
                     style:
-                        GoogleFonts.inter(color: Colors.white, fontSize: 16.sp),
+                        GoogleFonts.inter(color: Colors.white, fontSize: 14.sp),
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
@@ -312,7 +312,7 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "Raise A Request",
+                                        "Raise payment request",
                                         style: GoogleFonts.inter(
                                             fontSize: 18.sp,
                                             fontWeight: FontWeight.w800,

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Navbar/Account/Parent/edit_parent/info_tile_edit_page.dart';
+import 'package:school_management_system/Screens/Navbar/Account/ParentChildren/edit_parent/info_tile_edit_page.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
