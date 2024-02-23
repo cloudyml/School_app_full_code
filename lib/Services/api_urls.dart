@@ -24,7 +24,7 @@ class ApiUrl {
   static const String teacherSeeSubmittedStudentsAssignments = "/teacher";
   static const String studentSubmittedAssignment = "/student";
   static const String parentViewSubmittedAssignment = "/student";
-  static const String studentFeeDetails = "/getFees";
+  static const String studentFeeDetails = "/getAllFees";
   static const String teacherUploadFees = "/addFees";
   static const String teacherUpdateFees = "/updateFees";
   static const String teacherDeleteFees = "/deleteFees";

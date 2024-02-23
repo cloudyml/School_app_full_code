@@ -3,9 +3,7 @@ import 'package:school_management_system/Services/api_services/teacher_api_servi
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/Fees/student_fee_response_model.dart';
-import '../../../Services/api_services/api_services.dart';
 import '../../../constants/style.dart';
-import '../../Dashboard.dart';
 import '../teacher/upload_fees.dart';
 
 class TeacherSeeFees extends StatefulWidget {
@@ -16,6 +14,33 @@ class TeacherSeeFees extends StatefulWidget {
 }
 
 class _StudentSeeFeesState extends State<TeacherSeeFees> {
+  showAlertDialog(BuildContext context, VoidCallback onPress) {
+    Widget cancelButton = TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: const Text("Cancel"));
+    Widget deletelButton = TextButton(
+        onPressed: () {
+          onPress();
+        },
+        child: const Text("Delete"));
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete Fees"),
+      actions: [cancelButton, deletelButton],
+      content:
+          const Text("Would you like to continue delete fess of this class?"),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +62,7 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
         ),
       ),
       body: FutureBuilder<StudentFeesDetailsModel>(
-        future: ApiServices.viewFees(),
+        future: TeacherApiServices.teacherViewFees(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -210,8 +235,8 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
                       ),
                     ),
                     Positioned(
-                        top: 0,
-                        right: 0,
+                        top: 10,
+                        right: 10,
                         child: Row(
                           children: [
                             IconButton(
@@ -229,16 +254,18 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
                             ),
                             IconButton(
                               onPressed: () {
-                                TeacherApiServices.deleteFees(
-                                        fees.data![index].datumClass.toString())
-                                    .then((value) {
-                                  if (value == true) {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const TeacherSeeFees()));
-                                  }
+                                showAlertDialog(context, () {
+                                  TeacherApiServices.deleteFees(
+                                          fees.data![index].id.toString())
+                                      .then((value) {
+                                    if (value == true) {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const TeacherSeeFees()));
+                                    }
+                                  });
                                 });
                               },
                               icon: const Icon(

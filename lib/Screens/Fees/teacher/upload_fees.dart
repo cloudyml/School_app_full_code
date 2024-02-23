@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/rectangle_elevatedbutton_card.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
-
 import '../../../Models/Student/Fees/student_fee_response_model.dart';
 import '../../Dashboard.dart';
 
@@ -403,15 +401,16 @@ class _UploadFeesState extends State<UploadFees> {
 
               widget.feesModel != null
                   ? await TeacherApiServices.updateFees(
-                      selectedClass,
-                      admissionInput.text,
-                      tuitionInput.text,
-                      examInput.text,
-                      libraryInput.text,
-                      transportInput.text,
-                      miscellaneousInput.text,
-                      discountInput.text,
-                    ).then((value) {
+                          widget.feesModel!.id.toString(),
+                          selectedClass,
+                          admissionInput.text,
+                          tuitionInput.text,
+                          examInput.text,
+                          libraryInput.text,
+                          transportInput.text,
+                          miscellaneousInput.text,
+                          discountInput.text)
+                      .then((value) {
                       if (value == true) {
                         Navigator.pushReplacement(
                                 context,

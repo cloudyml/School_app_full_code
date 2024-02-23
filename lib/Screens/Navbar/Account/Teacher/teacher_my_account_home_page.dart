@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Events/teacher/View/view_events_teacher.dart';
 import 'package:school_management_system/Screens/Navbar/About/view_about_school.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Teacher/Coaching/add_student_before_page.dart';
-import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
 import 'package:school_management_system/Screens/Navbar/Notice/Teacher/view_notice_teacher.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
 import 'package:school_management_system/constants/constants.dart';
@@ -379,95 +378,6 @@ class TeacherMyAccount extends StatelessWidget {
                   ),
                 ),
 
-                // InkWell(
-                //   onTap: () {
-                //     print("Button Pressed");
-                //   },
-                //   child: Container(
-                //     height: MediaQuery.of(context).size.height * 0.11,
-                //     width: MediaQuery.of(context).size.width * 0.9,
-                //     decoration: BoxDecoration(
-                //       //  border: Border.all(color: deepBlue),
-                //       borderRadius: BorderRadius.circular(18),
-                //       color: Colors.white,
-                //       boxShadow: const [
-                //         BoxShadow(
-                //           blurRadius: 5,
-                //           color: Colors.grey,
-                //           offset: Offset(0, 3),
-                //         ),
-                //       ],
-                //     ),
-                //     child: Container(
-                //       child: Padding(
-                //         padding: EdgeInsets.only(
-                //             left: width * 0.09, right: width * 0.1),
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Container(
-                //               child: CircleAvatar(
-                //                 radius: 25,
-                //                 backgroundColor: deepBlue,
-                //                 child: ClipOval(
-                //                   child: Image.asset(
-                //                     "assets/My_account/my_download.png",
-                //                     //  fit: BoxFit.cover,
-                //                     width: 60,
-                //                     height: 30,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //             Container(
-                //               child: Column(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 children: [
-                //                   SizedBox(
-                //                     width: width *
-                //                         0.5, // Set a width that fits your text without overflow
-                //                     child: const SingleChildScrollView(
-                //                       scrollDirection: Axis.horizontal,
-                //                       child: Row(
-                //                         children: [
-                //                           Text(
-                //                             "My Downloads",
-                //                             style: TextStyle(fontSize: 20),
-
-                //                             maxLines:
-                //                                 1, // Display only one line of text
-                //                           ),
-                //                         ],
-                //                       ),
-                //                     ),
-                //                   ),
-                //                   SizedBox(
-                //                     width: width *
-                //                         0.5, // Set a width that fits your text without overflow
-                //                     child: const SingleChildScrollView(
-                //                       scrollDirection: Axis.horizontal,
-                //                       child: Row(
-                //                         children: [
-                //                           Text(
-                //                             "Result, routine and other things",
-
-                //                             maxLines:
-                //                                 1, // Display only one line of text
-                //                           ),
-                //                         ],
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ],
-                //               ),
-                //             )
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(
                   height: 15,
                 ),
