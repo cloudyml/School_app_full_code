@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:school_management_system/Models/Student/Events/view_events_response_model.dart';
+import 'package:school_management_system/Models/Student/Fees/student_fee_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Attendance/view_attendance_of_class_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Awards/heading_wise_awards_list_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Events/upload_events_post_api_model.dart';
@@ -89,9 +90,35 @@ class TeacherApiServices {
 
 // ***************************8******** Fees ***********************************
 
+//................... Teacher View Fees.................................................
+
+  static Future<StudentFeesDetailsModel> teacherViewFees() async {
+    StudentFeesDetailsModel feeDetails = StudentFeesDetailsModel();
+    try {
+      var response = await ApiBase.getRequest(
+        extendedURL:
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.studentFeeDetails}",
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          feeDetails = studentFeesDetailsModelFromJson(response.body);
+        } else {
+          feeDetails = StudentFeesDetailsModel();
+        }
+      } else {
+        feeDetails = StudentFeesDetailsModel();
+      }
+    } catch (e) {
+      feeDetails = StudentFeesDetailsModel();
+    }
+
+    return feeDetails;
+  }
 //........ Update Fees Teacher..................................................
 
   static Future<bool> updateFees(
+    String feesID,
     String wClass,
     String admissionFees,
     String tuitionFees,
@@ -114,7 +141,8 @@ class TeacherApiServices {
       int discountAmountInt = int.tryParse(discountAmount) ?? 0;
 
       var response = await ApiBase.putRequest(
-        extendedURL: ApiUrl.teacherUpdateFees,
+        extendedURL:
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUpdateFees}/$feesID",
         body: {
           "class": wClass,
           "admissionFees": admissionFeesInt,
@@ -169,7 +197,8 @@ class TeacherApiServices {
       int miscellaneousFeesInt = int.tryParse(miscellaneousFees) ?? 0;
       int discountFeesInt = int.tryParse(discountFees) ?? 0;
       var response = await ApiBase.postRequest(
-        extendedURL: ApiUrl.teacherUploadFees,
+        extendedURL:
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUploadFees}",
         body: {
           "class": wClass,
           "admissionFees": admissionFeesInt,
@@ -205,15 +234,14 @@ class TeacherApiServices {
 // ............Teacher delete fees..............................................
 
   static Future<bool> deleteFees(
-    String wClass,
+    String feesID,
   ) async {
     var ret = false;
     try {
       var response = await ApiBase.deleteRequest(
-        extendedURL: ApiUrl.teacherDeleteFees,
-        body: {
-          "class": wClass,
-        },
+        extendedURL:
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherDeleteFees}/$feesID",
+        body: {},
       );
       log(response.statusCode.toString());
       log(response.body.toString());

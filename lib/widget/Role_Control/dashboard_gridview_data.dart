@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
-
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
 import 'package:school_management_system/Screens/Exam/Student/student_choose_examtype.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
@@ -193,7 +191,6 @@ class _CategoryBoxState extends State<CategoryBox> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => widget.data.screen));
       },

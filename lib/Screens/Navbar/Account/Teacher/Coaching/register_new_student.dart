@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
-import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/Button/rectangle_elevatedbutton_card.dart';
@@ -314,69 +313,7 @@ class _RegisterNewStudentToCoachingState
       ),
       persistentFooterButtons: [
         RecElevatedButton(
-          onPressed: () async {
-            if (isChecked == false) {
-              setState(() {
-                isChecked = true;
-              });
-
-              int.tryParse(nameInput.text) != null &&
-                      int.tryParse(nameInput.text) != null &&
-                      int.tryParse(passwordInput.text) != null &&
-                      int.tryParse(phoneNumberInput.text) != null &&
-                      int.tryParse(emailInput.text) != null &&
-                      int.tryParse(addressInput.text) != null &&
-                      int.tryParse(genderInput.text) != null &&
-                      int.tryParse(schoolInput.text) != null
-                  ? await TeacherApiServices.updateFees(
-                      nameInput.text,
-                      nameInput.text,
-                      passwordInput.text,
-                      phoneNumberInput.text,
-                      emailInput.text,
-                      addressInput.text,
-                      genderInput.text,
-                      schoolInput.text,
-                    ).then((value) {
-                      if (value == true) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Dashboard(),
-                          ),
-                        );
-                        showSuccessSnackbar();
-                      } else {
-                        showFailureSnackbar();
-                      }
-                    })
-                  : TeacherApiServices.uploadFees(
-                      nameInput.text,
-                      classInput.text,
-                      passwordInput.text,
-                      phoneNumberInput.text,
-                      emailInput.text,
-                      addressInput.text,
-                      genderInput.text,
-                      schoolInput.text,
-                    ).then((value) {
-                      if (value == true) {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Dashboard()))
-                            .whenComplete(() {
-                          setState(() {
-                            isChecked = false;
-                          });
-                        });
-                        showSuccessSnackbar();
-                      } else {
-                        showFailureSnackbar();
-                      }
-                    });
-            }
-          },
+          onPressed: () async {},
           child: const Text(
             "SUBMIT",
             style: TextStyle(color: Colors.white, fontSize: 20),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Login/role_choose_screen.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
 
@@ -27,12 +26,16 @@ class _EditTeacherAccountDetailsState extends State<EditTeacherAccountDetails> {
 
   @override
   void initState() {
-    nameInput.text = TeacherSharedServices.loginDetails()!.data!.data!.name.toString();
+    nameInput.text =
+        TeacherSharedServices.loginDetails()!.data!.data!.name.toString();
     emailInput.text =
         TeacherSharedServices.loginDetails()!.data!.data!.email.toString();
     super.initState();
-    phonenoInput.text =
-        TeacherSharedServices.loginDetails()!.data!.data!.phoneNumber.toString();
+    phonenoInput.text = TeacherSharedServices.loginDetails()!
+        .data!
+        .data!
+        .phoneNumber
+        .toString();
     super.initState();
     passwordInput.text =
         TeacherSharedServices.loginDetails()!.data!.data!.password.toString();

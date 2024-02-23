@@ -25,21 +25,20 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   Widget _myAccountScreen() {
-    if (SharedServiceParentChildren.type()  == "student") {
+    if (SharedServiceParentChildren.type() == "student") {
       log("Student");
       return const StudentMyAccount();
-    } else if (SharedServiceParentChildren.type()  == "teacher") {
+    } else if (SharedServiceParentChildren.type() == "teacher") {
       log("Teacher");
       return const TeacherMyAccount();
     } else {
       log("Parent");
       return const ParentMyAccount();
     }
-    
   }
 
   Widget _noticeScreen() {
-    if (SharedServiceParentChildren.type()  == "teacher") {
+    if (SharedServiceParentChildren.type() == "teacher") {
       return const TeacherNoticeOptions();
     } else {
       return const ViewNoticeScreen();
@@ -47,10 +46,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _AboutSchool() {
-    if (SharedServiceParentChildren.type()  == "student") {
+    if (SharedServiceParentChildren.type() == "student") {
       // log("Student");
       return const ViewAboutSchool();
-    } else if (SharedServiceParentChildren.type()  == "parent") {
+    } else if (SharedServiceParentChildren.type() == "parent") {
       // log("Parent");
       return const ParentViewAboutSchool();
     } else {
