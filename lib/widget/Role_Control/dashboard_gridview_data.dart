@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
-import 'package:school_management_system/Screens/Exam/Student/student_choose_examtype.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
 import 'package:school_management_system/Screens/Fees/student/student_view_fees_details.dart';
 import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
@@ -105,12 +104,10 @@ Widget feeDetails() {
 }
 
 Widget examination() {
-  if (SharedServiceParentChildren.type() == "student") {
-    return const SelectExamType();
-  } else if (SharedServiceParentChildren.type() == "teacher") {
+  if (SharedServiceParentChildren.type() == "teacher") {
     return const TeacherExamOptions();
   } else {
-    return const ParentSelectExamType();
+    return const ParentchildrenSelectExamType();
   }
 }
 

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/Exam/Student/student_see_exam_routine.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_see_exam_routine.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
-class ParentSelectExamType extends StatelessWidget {
-  const ParentSelectExamType({super.key});
+class ParentchildrenSelectExamType extends StatelessWidget {
+  const ParentchildrenSelectExamType({super.key});
 
   @override
   Widget build(BuildContext context) {

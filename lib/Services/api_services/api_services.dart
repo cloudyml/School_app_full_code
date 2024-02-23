@@ -792,7 +792,7 @@ class ApiServices {
       log(response.body.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
-          log("success");
+          log("success ");
           studentCAttignment =
               studentViewAssignmentModelFromJson(response.body);
         } else {
@@ -906,14 +906,13 @@ class ApiServices {
 //.............Student Upload assignment..........................................
 
   static Future<bool> StudentUploadAssignmentFile(
-    String wclass,
-    String section,
-    String subject,
-    String date,
-    String rollNumber,
+    // String wclass,
+    // String section,
+    // String subject,
+    // String date,
+    // String rollNumber,
     File file,
     String assignMentID,
-    BuildContext context,
   ) async {
     var ret = false;
 
@@ -934,29 +933,27 @@ class ApiServices {
 
       request.headers.addAll(headers);
 
-      request.fields['date'] = date;
-      request.fields['class'] = wclass;
-      request.fields['section'] = section;
-      request.fields['subject'] = subject;
-      request.fields['rollNumber'] = rollNumber;
+      // request.fields['date'] = date;
+      // request.fields['class'] = wclass;
+      // request.fields['section'] = section;
+      // request.fields['subject'] = subject;
+      // request.fields['rollNumber'] = rollNumber;
 
-      log("date= $date");
-      log("class=$wclass");
-      log("section=$section");
-      log("subject=$subject");
-      log("rollNumber=$rollNumber");
+      // log("date= $date");
+      // log("class=$wclass");
+      // log("section=$section");
+      // log("subject=$subject");
+      // log("rollNumber=$rollNumber");
 
-      if (file != null) {
-        var fileStream = http.ByteStream(file.openRead());
-        var length = await file.length();
-        var multipartFile = http.MultipartFile(
-          'file',
-          fileStream.cast(),
-          length,
-          filename: p.basename(file.path),
-        );
-        request.files.add(multipartFile);
-      }
+      var fileStream = http.ByteStream(file.openRead());
+      var length = await file.length();
+      var multipartFile = http.MultipartFile(
+        'file',
+        fileStream.cast(),
+        length,
+        filename: p.basename(file.path),
+      );
+      request.files.add(multipartFile);
 
       var response = await http.Response.fromStream(await request.send());
 
@@ -1000,10 +997,10 @@ class ApiServices {
       var queryParam =
           "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}/uploadAssignmets/$assignMentID";
       var response = await ApiBase.postRequest(
-        body: jsonDecode(answers),
+        body: {"textAssignmentList": jsonDecode(answers)},
         extendedURL: queryParam,
       );
-      response.statusCode.toString();
+      log(response.statusCode.toString());
       log(response.body);
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
@@ -1496,75 +1493,33 @@ class ApiServices {
 
 // Update my account details Student..................................................
 
-  static Future<bool> updateMyAccountStudent(
-    String name,
-    String email,
-    String phone,
+  static Future<bool> updateMyAccountParentStudent(
     String password,
-    String city,
   ) async {
     var ret = false;
 
     try {
-      var response = await ApiBase.putRequest(
-        extendedURL:
-            "${ApiUrl.updateMytAccountStudent}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
-        body: {
-          "name": name,
-          "email": email,
-          "phoneNumber": phone,
-          "password": password,
-          "address": city,
-        },
-      );
+      var response = SharedServiceParentChildren.type() == "parent"
+          ? await ApiBase.putRequest(
+              extendedURL:
+                  "/${SharedServiceParentChildren.type()}/${SharedServiceParentChildren.loginDetails()?.data!.id}/updateParent",
+              body: {
+                "password": password,
+              },
+            )
+          : await ApiBase.putRequest(
+              extendedURL:
+                  "/${SharedServiceParentChildren.type()}/${SharedServiceParentChildren.loginDetails()?.data!.id}/updateStudentById",
+              body: {
+                "password": password,
+              },
+            );
 
       log(response.statusCode.toString());
       log(response.body.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
           ret = true;
-          ret = true;
-        } else {
-          ret = false;
-          log("Not Successful");
-        }
-      } else {
-        ret = false;
-        log("Not Successful");
-      }
-    } catch (e) {
-      log("error: $e");
-    }
-    return ret;
-  }
-
-//update parent details
-  static Future<bool> updateMyAccountParent(
-    String name,
-    String email,
-    String phone,
-    String password,
-    String city,
-  ) async {
-    var ret = false;
-
-    try {
-      var response = await ApiBase.putRequest(
-        extendedURL:
-            "${ApiUrl.updateMytAccountParent}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
-        body: {
-          "name": name,
-          "email": email,
-          "phoneNumber": phone,
-          "password": password,
-          "address": city,
-        },
-      );
-
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
           ret = true;
         } else {
           ret = false;
