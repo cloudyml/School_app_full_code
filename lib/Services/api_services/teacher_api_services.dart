@@ -21,7 +21,7 @@ import 'package:school_management_system/Models/Teacher/Homework/view%20file%20h
 import 'package:school_management_system/Models/Teacher/Notice/teacher_view_notice_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/class_wise_result_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_students_list_response_model.dart';
-import 'package:school_management_system/Models/teacher_model.dart';
+import 'package:school_management_system/Models/teacher_login_response_model.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
 
@@ -50,15 +50,15 @@ class TeacherApiServices {
         },
       );
 
-      // log(response.statusCode.toString());
-      // log(selectedrole.toString());
-      // log("\n${response.body}");
+      log(response.statusCode.toString());
+      log(selectedrole.toString());
+      log("\n${response.body}");
 
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
           var responseModel = teacherLoginResponseModelFromJson(response.body);
 
-          // log(responseModel.message!);
+          log(responseModel.message!);
 
           ret = true;
 

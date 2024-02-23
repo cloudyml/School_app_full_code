@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 
@@ -166,7 +168,7 @@ List<CategoryData> categoryList = [
   ),
 ];
 
-class CategoryBox extends StatelessWidget {
+class CategoryBox extends StatefulWidget {
   final CategoryData data;
 
   CategoryBox({
@@ -174,11 +176,23 @@ class CategoryBox extends StatelessWidget {
   });
 
   @override
+  State<CategoryBox> createState() => _CategoryBoxState();
+}
+
+class _CategoryBoxState extends State<CategoryBox> {
+  @override
+  void initState() {
+    super.initState();
+    log("LoginType==" + SharedServiceParentChildren.type().toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => data.screen));
+        
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => widget.data.screen));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -210,13 +224,13 @@ class CategoryBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                data.image,
+                widget.data.image,
                 height: 50,
                 width: 50,
               ),
               const SizedBox(height: 8.0),
               Text(
-                data.name,
+                widget.data.name,
                 style: const TextStyle(
                   fontFamily: 'UbuntuMedium',
                   fontSize: 12,

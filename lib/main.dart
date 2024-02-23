@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Screens/Splash/splashScreen.dart';
 import 'constants/constants.dart';
 
@@ -23,6 +22,7 @@ void main() async {
           messagingSenderId: "167650873505",
           projectId: "school-app-94046"),
     );
+    
   } else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();

@@ -1,452 +1,13 @@
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-
-// class Monday extends StatefulWidget {
-//   const Monday({Key? key}) : super(key: key);
-
-//   @override
-//   State<Monday> createState() => _MondayState();
-// }
-
-// class _MondayState extends State<Monday> {
-//   TextEditingController t1 = TextEditingController();
-//   TextEditingController t2 = TextEditingController();
-//   TextEditingController t3 = TextEditingController();
-//   TextEditingController t4 = TextEditingController();
-//   TextEditingController t5 = TextEditingController();
-//   final List<PeriodData> timetableData = [];
-//   List<Widget> cardWidgets = [];
-//   TimeOfDay? _selectedTime;
-
-//   var flag;
-
-//   // Variables to track editing mode and selected period data
-//   bool isEditing = false;
-//   PeriodData? selectedPeriod;
-
-//   // Function to populate text fields with data from a selected ListTile
-//   void populateTextFields(PeriodData periodData) {
-//     setState(() {
-//       t1.text = periodData.period.toString();
-//       t2.text = periodData.startTime;
-//       t3.text = periodData.endTime;
-//       t4.text = periodData.subject;
-//       t5.text = periodData.teacher;
-//       selectedPeriod = periodData;
-//       isEditing = true; // Enter editing mode
-//     });
-//   }
-
-//   // Function to clear text fields and exit editing mode
-//   void clearTextFields() {
-//     setState(() {
-//       t1.clear();
-//       t2.clear();
-//       t3.clear();
-//       t4.clear();
-//       t5.clear();
-//       selectedPeriod = null;
-//       isEditing = false; // Exit editing mode
-//     });
-//   }
-
-//   // Function to display the time picker
-//   Future<void> _selectTime1(BuildContext context) async {
-//     final TimeOfDay? picked = await showTimePicker(
-//       context: context,
-//       initialTime: _selectedTime ?? TimeOfDay.now(),
-//     );
-
-//     if (picked != null && picked != _selectedTime) {
-//       setState(() {
-//         _selectedTime = picked;
-//         t2.text = _selectedTime!.format(context);
-//       });
-//     }
-//   }
-
-//   Future<void> _selectTime2(BuildContext context) async {
-//     final TimeOfDay? picked = await showTimePicker(
-//       context: context,
-//       initialTime: _selectedTime ?? TimeOfDay.now(),
-//     );
-
-//     if (picked != null && picked != _selectedTime) {
-//       setState(() {
-//         _selectedTime = picked;
-//         t3.text = _selectedTime!.format(context);
-//       });
-//     }
-//   }
-
-//   // Function to delete a period based on its index
-//   void deletePeriod(int index) {
-//     setState(() {
-//       timetableData.removeAt(index);
-//       clearTextFields(); // Clear text fields and exit editing mode on delete
-//       cardWidgets = timetableData.map((periodData) {
-//         return GestureDetector(
-//           onTap: () {
-//             populateTextFields(periodData); // Populate text fields on tap
-//           },
-//           child: Card(
-//             child: ListTile(
-//               title: Text("Period: ${periodData.period}"),
-//               subtitle: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text("Start Time: ${periodData.startTime}"),
-//                   Text("End Time: ${periodData.endTime}"),
-//                   Text("Subject: ${periodData.subject}"),
-//                   Text("Teacher Name: ${periodData.teacher}"),
-//                 ],
-//               ),
-//               trailing: IconButton(
-//                 icon: Icon(Icons.delete),
-//                 onPressed: () {
-//                   deletePeriod(timetableData.indexOf(periodData));
-//                 },
-//               ),
-//             ),
-//           ),
-//         );
-//       }).toList();
-//     });
-//   }
-
-//   // Function to update the selected period data
-//   void updatePeriod() {
-//     setState(() {
-//       if (selectedPeriod != null) {
-//         selectedPeriod!.period = int.tryParse(t1.text) ?? 0;
-//         selectedPeriod!.startTime = t2.text;
-//         selectedPeriod!.endTime = t3.text;
-//         selectedPeriod!.subject = t4.text;
-//         selectedPeriod!.teacher = t5.text;
-//         isEditing = false; // Exit editing mode after update
-//         clearTextFields(); // Clear text fields after update
-
-//         // Recreate the cardWidgets list with the updated data
-//         cardWidgets = timetableData.map((periodData) {
-//           return GestureDetector(
-//             onTap: () {
-//               populateTextFields(periodData); // Populate text fields on tap
-//             },
-//             child: Card(
-//               child: ListTile(
-//                 title: Text("Period: ${periodData.period}"),
-//                 subtitle: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text("Start Time: ${periodData.startTime}"),
-//                     Text("End Time: ${periodData.endTime}"),
-//                     Text("Subject: ${periodData.subject}"),
-//                     Text("Teacher Name: ${periodData.teacher}"),
-//                   ],
-//                 ),
-//                 trailing: IconButton(
-//                   icon: Icon(Icons.delete),
-//                   onPressed: () {
-//                     deletePeriod(timetableData.indexOf(periodData));
-//                   },
-//                 ),
-//               ),
-//             ),
-//           );
-//         }).toList();
-//       }
-//     });
-//   }
-
-// // Function to send POST request to save data
-//   Future<void> postData() async {
-//     final apiUrl = Uri.parse("http://13.232.53.26:3000/setWeeklyTimeTable");
-
-//     final inputData = {
-//       "day": "Thursday",
-//       "class": 7,
-//       "section": "D",
-//       "timeTable": timetableData.map((periodData) {
-//         return {
-//           "period": {
-//             "period": periodData.period,
-//             "startTime": periodData.startTime,
-//             "endTime": periodData.endTime,
-//             "subject": periodData.subject,
-//             "teacherName": periodData.teacher,
-//           }
-//         };
-//       }).toList(),
-//     };
-
-//     final response = await http.post(
-//       apiUrl,
-//       body: jsonEncode(inputData),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//     );
-//     print(response.statusCode);
-//     if (response.statusCode == 201) {
-//       print("Data saved successfully.");
-//     } else {
-//       print("Failed to save data.");
-//     }
-//   }
-
-// // Function to send PUT request to update data
-//   Future<void> updateData() async {
-//     final updateApiUrl = Uri.parse("http://13.232.53.26:3000/updateTimeTable");
-
-//     final inputData = {
-//       "day": "Thursday",
-//       "class": 7,
-//       "section": "D",
-//       "timeTable": timetableData.map((periodData) {
-//         return {
-//           "period": {
-//             "period": periodData.period,
-//             "startTime": periodData.startTime,
-//             "endTime": periodData.endTime,
-//             "subject": periodData.subject,
-//             "teacherName": periodData.teacher,
-//           }
-//         };
-//       }).toList(),
-//     };
-
-//     final response = await http.put(
-//       updateApiUrl,
-//       body: jsonEncode(inputData),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//     );
-
-//     if (response.statusCode == 200) {
-//       print("Data updated successfully.");
-//     } else {
-//       print("Failed to update data. Status Code: ${response.statusCode}");
-//       print("Response Body: ${response.body}");
-//     }
-//   }
-
-//   Future<void> fetchData() async {
-//     final apiUrl = Uri.parse(
-//         "http://13.232.53.26:3000/dayWiseTimeTable?class=7&day=Thursday&section=D");
-
-//     final response = await http.get(apiUrl);
-//     print(response.body);
-//     print(response.statusCode);
-
-//     if (response.statusCode == 200) {
-//       flag = true;
-//       final jsonResponse = jsonDecode(response.body);
-//       final timeTableData = jsonResponse['data']['timeTable'];
-//       var day_id = jsonResponse['data']['_id'];
-//       setState(() {
-//         // Clear the existing cardWidgets
-//         cardWidgets.clear();
-
-//         // Add fetched data to cardWidgets
-//         for (var periodData in timeTableData) {
-//           timetableData.add(PeriodData(
-//             period: periodData['period']['period'],
-//             startTime: periodData['period']['startTime'],
-//             endTime: periodData['period']['endTime'],
-//             subject: periodData['period']['subject'],
-//             teacher: periodData['period']['teacherName'],
-//           ));
-//         }
-
-//         // Update cardWidgets with fetched data
-//         cardWidgets = timetableData.map((periodData) {
-//           return GestureDetector(
-//             onTap: () {
-//               populateTextFields(periodData); // Populate text fields on tap
-//             },
-//             child: Card(
-//               child: ListTile(
-//                 title: Text("Period: ${periodData.period}"),
-//                 subtitle: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text("Start Time: ${periodData.startTime}"),
-//                     Text("End Time: ${periodData.endTime}"),
-//                     Text("Subject: ${periodData.subject}"),
-//                     Text("Teacher Name: ${periodData.teacher}"),
-//                   ],
-//                 ),
-//                 trailing: IconButton(
-//                   icon: Icon(Icons.delete),
-//                   onPressed: () {
-//                     deletePeriod(timetableData.indexOf(periodData));
-//                   },
-//                 ),
-//               ),
-//             ),
-//           );
-//         }).toList();
-//       });
-//     } else {
-//       flag = false;
-//       print("Failed to fetch data from the API");
-//     }
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchData(); // Call fetchData when the widget is created.
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: [
-//           Container(
-//             //  color: const Color.fromARGB(255, 171, 214, 249),
-//             color: Color.fromRGBO(151, 181, 255, 1.0),
-//             child: Column(
-//               children: [
-//                 TextField(
-//                   controller: t1,
-//                   decoration: InputDecoration(hintText: "Period"),
-//                 ),
-//                 TextField(
-//                   controller: t2,
-//                   onTap: () async {
-//                     await _selectTime1(context);
-//                   },
-//                   decoration: InputDecoration(hintText: "Start Time"),
-//                 ),
-//                 TextField(
-//                   controller: t3,
-//                   onTap: () async {
-//                     await _selectTime2(context);
-//                   },
-//                   decoration: InputDecoration(hintText: "End Time"),
-//                 ),
-//                 TextField(
-//                   controller: t4,
-//                   decoration: InputDecoration(hintText: "Subject"),
-//                 ),
-//                 TextField(
-//                   controller: t5,
-//                   decoration: InputDecoration(hintText: "Teacher Name"),
-//                 ),
-//                 if (!isEditing) // Show "Add data" button when not in editing mode
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       final periodData = PeriodData(
-//                         period: int.tryParse(t1.text) ?? 0,
-//                         startTime: t2.text,
-//                         endTime: t3.text,
-//                         subject: t4.text,
-//                         teacher: t5.text,
-//                       );
-
-//                       timetableData.add(periodData);
-
-//                       t1.clear();
-//                       t2.clear();
-//                       t3.clear();
-//                       t4.clear();
-//                       t5.clear();
-//                       cardWidgets = timetableData.map((periodData) {
-//                         return GestureDetector(
-//                           onTap: () {
-//                             populateTextFields(
-//                                 periodData); // Populate text fields on tap
-//                           },
-//                           child: Card(
-//                             child: ListTile(
-//                               title: Text("Period: ${periodData.period}"),
-//                               subtitle: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: [
-//                                   Text("Start Time: ${periodData.startTime}"),
-//                                   Text("End Time: ${periodData.endTime}"),
-//                                   Text("Subject: ${periodData.subject}"),
-//                                   Text("Teacher Name: ${periodData.teacher}"),
-//                                 ],
-//                               ),
-//                               trailing: IconButton(
-//                                 icon: Icon(Icons.delete),
-//                                 onPressed: () {
-//                                   deletePeriod(
-//                                       timetableData.indexOf(periodData));
-//                                 },
-//                               ),
-//                             ),
-//                           ),
-//                         );
-//                       }).toList();
-
-//                       setState(() {});
-//                     },
-//                     child: Text("Add data"),
-//                   ),
-//                 if (isEditing) // Show "Update" button when in editing mode
-//                   ElevatedButton(
-//                     onPressed: updatePeriod,
-//                     child: Text("Update Period"),
-//                   ),
-//                 Container(
-//                   height: MediaQuery.of(context).size.height * 0.37,
-//                   child: ListView(
-//                     children: cardWidgets, // Display the created card widgets
-//                   ),
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: () async {
-//                     if (timetableData.isNotEmpty && flag == true) {
-//                       // Data exists, so use the update API
-//                       await updateData();
-//                     } else {
-//                       // Data does not exist, so use the post API
-//                       await postData();
-//                     }
-//                   },
-//                   style: ElevatedButton.styleFrom(
-//                       minimumSize: Size(double.infinity, 40)),
-//                   child: Text(flag == true ? "Update Timetable" : "Submit"),
-//                 )
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class PeriodData {
-//   int period;
-//   String startTime;
-//   String endTime;
-//   String subject;
-//   String teacher;
-
-//   PeriodData({
-//     required this.period,
-//     required this.startTime,
-//     required this.endTime,
-//     required this.subject,
-//     required this.teacher,
-//   });
-// }
-
-// //.... Above one is also correct code......................................
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_management_system/Services/teacher_shared_service.dart';
+import 'package:school_management_system/constants/style.dart';
 import 'dart:convert';
 
 import '../../../../../widget/Button/my_elevatedbutton.dart';
+
+var dayID = "";
 
 class Monday extends StatefulWidget {
   String selectedClass;
@@ -563,7 +124,6 @@ class _MondayState extends State<Monday> {
       clearTextFields();
       cardWidgets = timetableData.map((periodData) {
         return Container(
-          padding: EdgeInsets.all(8),
           margin: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -656,9 +216,9 @@ class _MondayState extends State<Monday> {
 
         cardWidgets = timetableData.map((periodData) {
           return Container(
-            padding: EdgeInsets.all(8),
             margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
+              border: Border.all(color: deepBlue),
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
@@ -670,66 +230,69 @@ class _MondayState extends State<Monday> {
                 ),
               ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Period: ${periodData.period}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text("Start Time:  ${periodData.startTime}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text("End Time:  ${periodData.endTime}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text("Subject:  ${periodData.subject}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text("Teacher Name:  ${periodData.teacher}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Period: ${periodData.period}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 5,
                           ),
-                          onPressed: () {
-                            populateTextFields(periodData);
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
+                          Text("Start Time:  ${periodData.startTime}"),
+                          const SizedBox(
+                            height: 3,
                           ),
-                          onPressed: () {
-                            deletePeriod(timetableData.indexOf(periodData));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                          Text("End Time:  ${periodData.endTime}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Subject:  ${periodData.subject}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Teacher Name:  ${periodData.teacher}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              populateTextFields(periodData);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              deletePeriod(timetableData.indexOf(periodData));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         }).toList();
@@ -738,8 +301,9 @@ class _MondayState extends State<Monday> {
   }
 
   Future<void> postData() async {
-    final apiUrl = Uri.parse("http://13.232.53.26:3000/setWeeklyTimeTable");
-
+    final apiUrl = Uri.parse(
+        "http://13.232.53.26:3000/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/setWeeklyTimeTable");
+    log(apiUrl.toString());
     final inputData = {
       "day": "Monday",
       "class": widget.selectedClass,
@@ -762,20 +326,22 @@ class _MondayState extends State<Monday> {
       body: jsonEncode(inputData),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': '${TeacherSharedServices.loginDetails()?.data?.token}',
       },
     );
-    print(response.statusCode);
+    log(response.statusCode.toString());
     if (response.statusCode == 201) {
       showPostSnackbar();
-      print("Data saved successfully.");
+      log("Data saved successfully.");
     } else {
-      print("Failed to save data.");
+      log("Failed to save data.");
     }
   }
 
   Future<void> updateData() async {
-    final updateApiUrl = Uri.parse("http://13.232.53.26:3000/updateTimeTable");
-
+    final updateApiUrl = Uri.parse(
+        "http://13.232.53.26:3000/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/updateTimeTable-day/$dayID");
+    log(updateApiUrl.toString());
     final inputData = {
       "day": "Monday",
       "class": widget.selectedClass,
@@ -797,32 +363,40 @@ class _MondayState extends State<Monday> {
       updateApiUrl,
       body: jsonEncode(inputData),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json',
+        'Authorization': '${TeacherSharedServices.loginDetails()?.data?.token}',
       },
     );
 
     if (response.statusCode == 200) {
       showUpdateSnackbar();
-      print("Data updated successfully.");
+      log("Data updated successfully.");
     } else {
-      print("Failed to update data. Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
+      log("Failed to update data. Status Code: ${response.statusCode}");
+      log("Response Body: ${response.body}");
     }
   }
 
   Future<void> fetchData() async {
     final apiUrl = Uri.parse(
-        "http://13.232.53.26:3000/dayWiseTimeTable?class=${widget.selectedClass}&day=Monday&section=${widget.selectedSection}");
+        "http://13.232.53.26:3000/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/dayWiseTimeTable?class=${widget.selectedClass}&day=Monday&section=${widget.selectedSection}");
 
-    final response = await http.get(apiUrl);
-    print(response.body);
-    print(response.statusCode);
+    final Map<String, String> headers = {
+      'Authorization':
+          '${TeacherSharedServices.loginDetails()?.data?.token}', // Add your token here
+      'Content-Type': 'application/json',
+    };
+
+    final response = await http.get(apiUrl, headers: headers);
+    log(response.body);
+    log(response.statusCode.toString());
 
     if (response.statusCode == 200) {
       flag = true;
       final jsonResponse = jsonDecode(response.body);
       final timeTableData = jsonResponse['data']['timeTable'];
       var day_id = jsonResponse['data']['_id'];
+      dayID = day_id;
       setState(() {
         cardWidgets.clear();
         for (var periodData in timeTableData) {
@@ -837,10 +411,10 @@ class _MondayState extends State<Monday> {
 
         cardWidgets = timetableData.map((periodData) {
           return Container(
-            padding: EdgeInsets.all(8),
             margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.white,
+              border: Border.all(color: deepBlue),
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -851,73 +425,76 @@ class _MondayState extends State<Monday> {
                 ),
               ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Period: ${periodData.period}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text("Start Time:  ${periodData.startTime}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text("End Time:  ${periodData.endTime}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text("Subject:  ${periodData.subject}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text("Teacher Name:  ${periodData.teacher}"),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Period: ${periodData.period}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 5,
                           ),
-                          onPressed: () {
-                            populateTextFields(periodData);
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
+                          Text("Start Time :  ${periodData.startTime}"),
+                          const SizedBox(
+                            height: 3,
                           ),
-                          onPressed: () {
-                            deletePeriod(timetableData.indexOf(periodData));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                          Text("End Time:  ${periodData.endTime}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Subject:  ${periodData.subject}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text("Teacher Name:  ${periodData.teacher}"),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              populateTextFields(periodData);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              deletePeriod(timetableData.indexOf(periodData));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         }).toList();
       });
     } else {
       flag = false;
-      print("Failed to fetch data from the API");
+      log("Failed to fetch data from the API");
     }
   }
 
@@ -1004,7 +581,6 @@ class _MondayState extends State<Monday> {
                         );
 
                         timetableData.add(periodData);
-                        //////////
 
                         t2.clear();
                         t3.clear();
@@ -1012,10 +588,10 @@ class _MondayState extends State<Monday> {
                         t5.clear();
                         cardWidgets = timetableData.map((periodData) {
                           return Container(
-                            padding: EdgeInsets.all(8),
                             margin: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
+                              border: Border.all(color: deepBlue),
                               borderRadius: BorderRadius.circular(10.0),
                               boxShadow: [
                                 BoxShadow(
@@ -1026,73 +602,77 @@ class _MondayState extends State<Monday> {
                                 ),
                               ],
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Period: ${periodData.period}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                            "Start Time:  ${periodData.startTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "End Time:  ${periodData.endTime}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text("Subject:  ${periodData.subject}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                            "Teacher Name:  ${periodData.teacher}"),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.black,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Period: ${periodData.period}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 5,
                                           ),
-                                          onPressed: () {
-                                            populateTextFields(periodData);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
+                                          Text(
+                                              "Start Time:  ${periodData.startTime}"),
+                                          const SizedBox(
+                                            height: 3,
                                           ),
-                                          onPressed: () {
-                                            deletePeriod(timetableData
-                                                .indexOf(periodData));
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                          Text(
+                                              "End Time:  ${periodData.endTime}"),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                              "Subject:  ${periodData.subject}"),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                              "Teacher Name:  ${periodData.teacher}"),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.edit,
+                                              color: Colors.black,
+                                            ),
+                                            onPressed: () {
+                                              populateTextFields(periodData);
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () {
+                                              deletePeriod(timetableData
+                                                  .indexOf(periodData));
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }).toList();
@@ -1143,7 +723,7 @@ class _MondayState extends State<Monday> {
             flag == true ? "UPDATE" : "SUBMIT",
             style: const TextStyle(fontSize: 20, color: Colors.white),
           ),
-        ),
+        )
       ],
     );
   }

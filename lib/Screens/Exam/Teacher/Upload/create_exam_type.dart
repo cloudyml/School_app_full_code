@@ -298,19 +298,13 @@ class CreateExamTypeView extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            listOfBool[index] =
-                                                !listOfBool[index];
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all()),
-                                            height: containerSize,
-                                            width: containerSize,
-                                            child: Center(
-                                              child: Text("${index + 1}"),
-                                            ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all()),
+                                          height: containerSize,
+                                          width: containerSize,
+                                          child: Center(
+                                            child: Text("${index + 1}"),
                                           ),
                                         ),
                                       ),

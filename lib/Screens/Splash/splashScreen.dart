@@ -114,6 +114,8 @@
 
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Screens/Gallery/student/view_gallery_student.dart';
+import 'package:school_management_system/Screens/Gallery/teacher/select_gallery_options.dart';
 import 'package:school_management_system/Screens/Login/role_choose_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../Dashboard.dart';

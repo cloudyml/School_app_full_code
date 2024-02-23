@@ -1,18 +1,8 @@
 import 'dart:convert';
-
-import 'package:school_management_system/Models/teacher_model.dart';
-import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/Models/teacher_login_response_model.dart';
 import 'package:school_management_system/constants/constants.dart';
 
 class TeacherSharedServices {
-  // static String? type() {
-  //   return preferences!.getString("type");
-  // }
-
-  // Future<void> userType(String type) {
-  //   return preferences!.setString("type", type);
-  // }
-
   static Future<void> setLoginDetailsTeacher(
       TeacherLoginResponseModel? responseModel) async {
     if (responseModel != null) {
@@ -60,7 +50,6 @@ class TeacherSharedServices {
   static Future<bool> logout() async {
     await preferences!.clear();
     preferences?.remove('login_details');
-    SharedServiceParentChildren.type() == null;
     return true;
   }
 
