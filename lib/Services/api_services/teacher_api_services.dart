@@ -87,6 +87,40 @@ class TeacherApiServices {
 
     return ret;
   }
+//.... Update my account details Teacher....................................
+
+  static Future<bool> updateMyAccountTeacher(
+    String password,
+  ) async {
+    var ret = false;
+
+    try {
+      var response = await ApiBase.putRequest(
+        extendedURL:
+            "/teacher/${SharedServiceParentChildren.loginDetails()?.data!.id}${ApiUrl.updateMytAccountTeacher}",
+        body: {
+          "password": password,
+        },
+      );
+
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful");
+        }
+      } else {
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
 
 // ***************************8******** Fees ***********************************
 

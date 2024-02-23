@@ -1578,49 +1578,6 @@ class ApiServices {
     return ret;
   }
 
-//.... Update my account details Teacher....................................
-
-  static Future<bool> updateMyAccountTeacher(
-    String name,
-    String email,
-    String phone,
-    String password,
-    String city,
-  ) async {
-    var ret = false;
-
-    try {
-      var response = await ApiBase.putRequest(
-        extendedURL:
-            "${ApiUrl.updateMytAccountTeacher}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
-        body: {
-          "name": name,
-          "email": email,
-          "phoneNumber": phone,
-          "password": password,
-          "address": city,
-        },
-      );
-
-      log(response.statusCode.toString());
-      log(response.body.toString());
-      if (response.statusCode == 200) {
-        if (jsonDecode(response.body)['status'] == true) {
-          ret = true;
-        } else {
-          ret = false;
-          log("Not Successful");
-        }
-      } else {
-        ret = false;
-        log("Not Successful");
-      }
-    } catch (e) {
-      log("error: $e");
-    }
-    return ret;
-  }
-
 // Student enroll for event ( Eligibility verify)............................
 
   static Future<StudentEnrollEventEligibilityResponseModel>
