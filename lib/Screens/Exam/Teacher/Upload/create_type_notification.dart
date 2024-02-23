@@ -8,8 +8,10 @@ import 'create_exam_type.dart';
 
 class CreateExamTypeAndNotification extends StatelessWidget {
   List<String> examTypeList;
+  String examListId;
 
-  CreateExamTypeAndNotification({super.key, required this.examTypeList});
+  CreateExamTypeAndNotification(
+      {super.key, required this.examTypeList, required this.examListId});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class CreateExamTypeAndNotification extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => CreateExamTypeView(
                                   examTypeList: examTypeList,
+                                  examListId: examListId,
                                 )));
                   }
                 },

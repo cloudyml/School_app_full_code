@@ -612,30 +612,26 @@ class TeacherApiServices {
 
   // Teacher create List of Exam Type
 
-  static Future<bool> teacherCreateExamType(
-    context, {
-    required String classofStudent,
-    required List examTypeList,
-  }) async {
+  static Future<bool> teacherCreateExamType(context,
+      {
+      // required String classofStudent,
+      required List examTypeList,
+      required String examListId}) async {
     var ret = false;
-    String schoolName =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
-    String institutionId = TeacherSharedServices.loginDetails()!
-        .data!
-        .data!
-        .institutionId
-        .toString();
-    String schoolId =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    // String schoolName =
+    //     TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    // String institutionId = TeacherSharedServices.loginDetails()!
+    //     .data!
+    //     .data!
+    //     .institutionId
+    //     .toString();
+    // String schoolId =
+    //     TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
     String id = TeacherSharedServices.loginDetails()!.data!.id.toString();
     try {
-      var response = await ApiBase.postRequest(
-        extendedURL: "/teacher/$id/createExamTypeList",
+      var response = await ApiBase.putRequest(
+        extendedURL: "/teacher/$id/updateExamTypeList/$examListId",
         body: {
-          "institutionId": institutionId,
-          "schoolId": schoolId,
-          "schoolName": schoolName,
-          "class": classofStudent,
           "examTypeList": examTypeList,
         },
       );
@@ -659,6 +655,32 @@ class TeacherApiServices {
       log("error: $e");
     }
     return ret;
+  }
+
+  // delete examType
+
+  static Future<bool> deleteExamType(context,
+      {required examListId, required testName}) async {
+    bool sucessFul = false;
+    String id = TeacherSharedServices.loginDetails()!.data!.id.toString();
+    try {
+      var response = await ApiBase.deleteRequest(
+        extendedURL: "/teacher/$id${ApiUrl.deleteExamType}/$examListId",
+        body: {
+          "examTypeList": ["$testName"],
+        },
+      );
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          showSnackbar(context, message: jsonDecode(response.body)['message']);
+        }
+      } else {
+        showSnackbar(context, message: jsonDecode(response.body)['message']);
+      }
+      return !sucessFul;
+    } catch (e) {
+      return sucessFul;
+    }
   }
 
   // Teacher post grading data
