@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
-
 import '../constants/style.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/About/view_about_school.dart';
@@ -33,7 +32,6 @@ class _DashboardState extends State<Dashboard> {
       log("Parent");
       return const ParentMyAccount();
     }
-    // throw ("My account error from Dashboard line number 38");
   }
 
   Widget _noticeScreen() {

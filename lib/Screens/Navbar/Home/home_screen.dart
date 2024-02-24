@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _MyWidgetState extends State<HomeScreen> {
   bool check = false;
-  @override
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -182,7 +182,6 @@ class _MyWidgetState extends State<HomeScreen> {
                       ]),
                     ),
                     Expanded(
-                      // Wrap the Column with Expanded
                       child: GridView.builder(
                         itemCount: categoryList.length,
                         gridDelegate:
@@ -193,6 +192,7 @@ class _MyWidgetState extends State<HomeScreen> {
                         ),
                         itemBuilder: (context, index) {
                           CategoryData category = categoryList[index];
+            
                           return CategoryBox(
                             data: category,
                           );

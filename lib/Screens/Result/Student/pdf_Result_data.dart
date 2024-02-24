@@ -271,12 +271,12 @@ class MakeOfPdf {
                                   )
                                 ],
                               ))),
-                  pw.SizedBox(
-                    height: 10.h,
-                  ),
-                  pw.SizedBox(
-                    height: 15.h,
-                  ),
+                  // pw.SizedBox(
+                  //   height: 10.h,
+                  // ),
+                  // pw.SizedBox(
+                  //   height: 15.h,
+                  // ),
                 ],
               ),
             ),
@@ -296,15 +296,14 @@ class MakeOfPdf {
       ),
     );
     final filename =
-        '${examType}_Roll_${data.data?.data?.rollNumber}_${data.data?.data?.studentName}_${data.data?.data?.month}_${data.data?.data?.year}.pdf';
-    final file = File(
-        '/storage/emulated/0/Documents/${filename}_${SharedServiceParentChildren.loginDetails()?.data?.data?.role}');
+        '${examType}_Roll_${data.data?.data?.rollNumber}_${data.data?.data?.studentName}_${data.data?.data?.month}_${data.data?.data?.year}_${SharedServiceParentChildren.loginDetails()?.data?.data?.role}.pdf';
+    final file = File('/storage/emulated/0/Documents/$filename');
 
     try {
       final pdfData = await pdf.save();
 
-    // File.fromRawPath(file).exists() 
-     await file.writeAsBytes(pdfData);
+      // File.fromRawPath(file).exists()
+      await file.writeAsBytes(pdfData);
 
       log("PDF saved successfully: ${file.path}");
 
