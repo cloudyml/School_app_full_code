@@ -1050,9 +1050,16 @@ class ApiServices {
   static Future<StudentFeesDetailsModel> viewFees() async {
     StudentFeesDetailsModel feeDetails = StudentFeesDetailsModel();
     try {
-      var response = await ApiBase.getRequest(
-        extendedURL: ApiUrl.studentFeeDetails,
-      );
+      var response = SharedServiceParentChildren.type() == "parent"
+          ? await ApiBase.getRequest(
+              token: SharedServiceParentChildren.childDetails()?.data?.token,
+              extendedURL:
+                  "/student/${SharedServiceParentChildren.childDetails()?.data?.data?.id}${ApiUrl.studentFeeDetails}",
+            )
+          : await ApiBase.getRequest(
+              extendedURL:
+                  "/student/${SharedServiceParentChildren.loginDetails()?.data?.id}${ApiUrl.studentFeeDetails}",
+            );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
@@ -1070,6 +1077,26 @@ class ApiServices {
     return feeDetails;
   }
 
+
+
+//to raise a payment request
+  static Future<bool> feesPaidRequestRaise(int amount) async {
+    var response = await ApiBase.postRequest(
+        extendedURL:
+            "/parent/${SharedServiceParentChildren.loginDetails()?.data?.id}/raised-feeRequest",
+        body: {
+          "studentId":
+              SharedServiceParentChildren.childDetails()?.data?.data?.id,
+          "amount": amount
+        });
+    log(response.body);
+    if (response.statusCode == 200) {
+      log(response.body);
+      return true;
+    } else {
+      return false;
+    }
+  }
 //....................... Teacher see submitted students assignments ...........
 
   // static Future<TeacherSeeSubmittedStudentsAssignments>

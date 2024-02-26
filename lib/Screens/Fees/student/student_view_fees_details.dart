@@ -20,6 +20,7 @@ class StudentSeeFees extends StatefulWidget {
 }
 
 class _StudentSeeFeesState extends State<StudentSeeFees> {
+  TextEditingController amount = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -273,7 +274,7 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
                 fabSize: ExpandableFabSize.regular,
                 shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(5.r)),
-                child: Text("₹"),
+                child: const Text("₹"),
                 foregroundColor: Colors.white,
                 backgroundColor: deepBlue,
               ),
@@ -298,107 +299,119 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
                       builder: (context) {
                         return AlertDialog(
                           shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(0.r)),
+                              borderRadius: BorderRadius.circular(10.r)),
                           contentPadding: EdgeInsets.all(0),
-                          content: Container(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5.h),
-                                  color: deepBlue,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Raise payment request",
-                                        style: GoogleFonts.inter(
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w800,
-                                            color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 5.h, horizontal: 10.w),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      PopUpRowWidget(
-                                          heading: "Name",
-                                          subheading:
-                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.name}"),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      PopUpRowWidget(
-                                          heading: "Roll No",
-                                          subheading:
-                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.rollNumber}"),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      PopUpRowWidget(
-                                          heading: "Class",
-                                          subheading:
-                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}"),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      PopUpRowWidget(
-                                          heading: "section",
-                                          subheading:
-                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.section}"),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      PopUpRowWidget(
-                                          heading: "School Name",
-                                          subheading:
-                                              "${SharedServiceParentChildren.childDetails()?.data?.data?.schoolName}"),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
-                                          ),
-                                          hintText: "Enter Amount",
+                          content: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.r),
+                            child: Container(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 8.h),
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            colors: [deepBlue, lightBlue])),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Raise payment request",
+                                          style: GoogleFonts.inter(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w800,
+                                              color: Colors.white),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                MyElevatedButton(
-                                    height: 50.h,
-                                    width: 0.25.sw,
-                                    borderRadius: BorderRadius.circular(10.r),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      "Send",
-                                      style: GoogleFonts.inter(
-                                          fontSize: 14.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                              ],
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5.h, horizontal: 10.w),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        PopUpRowWidget(
+                                            heading: "Name",
+                                            subheading:
+                                                "${SharedServiceParentChildren.childDetails()?.data?.data?.name}"),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        PopUpRowWidget(
+                                            heading: "Roll No",
+                                            subheading:
+                                                "${SharedServiceParentChildren.childDetails()?.data?.data?.rollNumber}"),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        PopUpRowWidget(
+                                            heading: "Class",
+                                            subheading:
+                                                "${SharedServiceParentChildren.childDetails()?.data?.data?.dataClass}"),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        PopUpRowWidget(
+                                            heading: "section",
+                                            subheading:
+                                                "${SharedServiceParentChildren.childDetails()?.data?.data?.section}"),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        PopUpRowWidget(
+                                            heading: "School Name",
+                                            subheading:
+                                                "${SharedServiceParentChildren.childDetails()?.data?.data?.schoolName}"),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        TextFormField(
+                                          controller: amount,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.r),
+                                            ),
+                                            hintText: "Enter Amount",
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  MyElevatedButton(
+                                      height: 50.h,
+                                      width: 0.25.sw,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      onPressed: () {
+                                        ApiServices.feesPaidRequestRaise(
+                                                int.parse(amount.text))
+                                            .whenComplete(() {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                      child: Text(
+                                        "Send",
+                                        style: GoogleFonts.inter(
+                                            fontSize: 14.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
