@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management_system/Payment/teacher_choose_class_section_for_payment_request_accept.dart';
 import 'package:school_management_system/Screens/Splash/splashScreen.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const SplashScreen(),
+        //  home: TeacherChooseClassForPaymentRequestAccept(),
         builder: EasyLoading.init(),
       ),
     );
