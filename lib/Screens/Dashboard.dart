@@ -24,10 +24,7 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   Widget _myAccountScreen() {
-    if (SharedServiceParentChildren.type() == "student") {
-      log("Student");
-      return const StudentMyAccount();
-    } else if (SharedServiceParentChildren.type() == "teacher") {
+   if (SharedServiceParentChildren.type() == "teacher") {
       log("Teacher");
       return const TeacherMyAccount();
     } else {
