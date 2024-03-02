@@ -32,9 +32,9 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
           height: 250,
           decoration: BoxDecoration(
             border: Border.all(
-                color: widget.category == 'all'
+                color: widget.category == "all"
                     ? deepBlue
-                    : widget.category == 'paid'
+                    : widget.category == "paid"
                         ? Colors.green
                         : Colors.red),
             borderRadius: BorderRadius.circular(20),
