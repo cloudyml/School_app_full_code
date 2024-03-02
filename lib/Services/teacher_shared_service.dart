@@ -25,24 +25,12 @@ class TeacherSharedServices {
   }
 
   static Future<void> updateMyAccountDetails({
-    String? name,
-    String? email,
-    String? phoneNumber,
     String? password,
-    String? address,
   }) async {
     var loginDetails = TeacherSharedServices.loginDetails();
 
     if (loginDetails != null) {
-      if (name != null) loginDetails.data?.data?.name = name;
-      if (email != null) loginDetails.data?.data?.email = email;
-      if (phoneNumber != null) {
-        loginDetails.data?.data?.phoneNumber = phoneNumber;
-      }
       if (password != null) loginDetails.data?.data?.password = password;
-      if (address != null) loginDetails.data?.data?.address = address;
-
-      // Save the updated login details to shared preferences
       await setLoginDetailsTeacher(loginDetails);
     }
   }

@@ -1,12 +1,30 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Attendance/Student/choose_attendance.dart';
+import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
+import 'package:school_management_system/Screens/Awards/student/student_view_awards.dart';
+import 'package:school_management_system/Screens/Awards/teacher/first_page_select_award_options.dart';
+import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
+import 'package:school_management_system/Screens/Events/student/student_view_events.dart';
+import 'package:school_management_system/Screens/Events/teacher/select_event_options.dart';
+import 'package:school_management_system/Screens/Exam/Student/student_choose_examtype.dart';
+import 'package:school_management_system/Screens/Exam/Teacher/choose_view_or_upload_exam.dart';
+import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
+import 'package:school_management_system/Screens/Fees/student/student_view_fees_details.dart';
+import 'package:school_management_system/Screens/Fees/teacher/teacher_view_fees.dart';
+import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
+import 'package:school_management_system/Screens/Gallery/student/view_gallery_student.dart';
+import 'package:school_management_system/Screens/Gallery/teacher/select_gallery_options.dart';
+import 'package:school_management_system/Screens/Homework/Student/assignment_start_page.dart';
+import 'package:school_management_system/Screens/Homework/Teacher/upload_view_homework_options.dart';
+import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
+import 'package:school_management_system/Screens/Result/Teacher/first_page_select_result_options.dart';
+import 'package:school_management_system/Screens/Routine/student/days_routine.dart';
+import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
-
 import '../../../constants/style.dart';
 import '../../../widget/Role_Control/dashboard_gridview_data.dart';
 import '../../Splash/splashScreen.dart';
@@ -20,7 +38,125 @@ class HomeScreen extends StatefulWidget {
 
 class _MyWidgetState extends State<HomeScreen> {
   bool check = false;
+  late List<Widget> categoryList; // Declare categoryList
 
+  @override
+  void initState() {
+    super.initState();
+    categoryList = [
+      getEventsScreen(),
+      examination(),
+      feeDetails(),
+      getGalleryScreen(),
+      routine(),
+      getAttendanceScreen(),
+      getAssignmentScreen(),
+      result(),
+      getAwardstScreen()
+    ];
+  }
+
+  Widget getAttendanceScreen() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherAttendanceOptions();
+    } else {
+      return const StuChooseAttendance();
+    }
+  }
+
+  Widget getAssignmentScreen() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherAssignmentFirstPage();
+    } else {
+      return const StudentAssignmentChoose();
+    }
+  }
+
+  Widget getAwardstScreen() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherAwardOptions();
+    } else {
+      return const StudentViewAwards();
+    }
+  }
+
+  Widget getGalleryScreen() {
+    if (SharedServiceParentChildren.type() == "student") {
+      return const ViewGallery();
+    } else if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherGalleryOptions();
+    } else {
+      return const ParentViewGallery();
+    }
+  }
+
+  Widget getEventsScreen() {
+    if (SharedServiceParentChildren.type() == "student") {
+      return const StudentsViewEvents();
+    } else if (SharedServiceParentChildren.type() == "parent") {
+      return const ParentsViewEvents();
+    } else {
+      return const TeacherEventOptions();
+    }
+  }
+
+  Widget routine() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherTimetableOptions();
+    } else {
+      return const DayRoutine();
+    }
+  }
+
+  Widget feeDetails() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherSeeFees();
+    } else {
+      return const StudentSeeFees();
+    }
+  }
+
+  Widget examination() {
+    if (SharedServiceParentChildren.type() == "student") {
+      return const SelectExamType();
+    } else if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherExamOptions();
+    } else {
+      return const ParentSelectExamType();
+    }
+  }
+
+  Widget result() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherResultOptions();
+    } else {
+      return const SelectResultType();
+    }
+  }
+
+  List dashboardImages = [
+    'assets/events_dashboard.png',
+    'assets/exam.png',
+    'assets/fees.png',
+    'assets/gallery.png',
+    'assets/routine.png',
+    'assets/checking-attendance.png',
+    'assets/_assignment.png',
+    'assets/result.png',
+    'assets/awards.png',
+  ];
+
+  List dashboardNames = [
+    "Events",
+    "Examination",
+    "Fees",
+    "Gallery",
+    "Timetable",
+    "Attendance",
+    "Assignments",
+    "Results",
+    "Awards"
+  ];
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -191,11 +327,13 @@ class _MyWidgetState extends State<HomeScreen> {
                           mainAxisSpacing: 8.0,
                         ),
                         itemBuilder: (context, index) {
-                          CategoryData category = categoryList[index];
-            
+                          // CategoryData category = categoryList[index];
+
                           return CategoryBox(
-                            data: category,
-                          );
+                              data: CategoryData(
+                                  image: dashboardImages[index],
+                                  name: dashboardNames[index],
+                                  screen: categoryList[index]));
                         },
                       ),
                     ),

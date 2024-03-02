@@ -5,10 +5,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management_system/Payment/teacher_choose_class_section_for_payment_request_accept.dart';
+import 'package:school_management_system/Screens/Splash/splashScreen.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Screens/Splash/splashScreen.dart';
 import 'constants/constants.dart';
 
 void main() async {
@@ -22,7 +23,6 @@ void main() async {
           messagingSenderId: "167650873505",
           projectId: "school-app-94046"),
     );
-    
   } else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
@@ -50,7 +50,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        //  home: const SplashScreen(),
+        home: TeacherChooseClassForPaymentRequestAccept(),
         builder: EasyLoading.init(),
       ),
     );
