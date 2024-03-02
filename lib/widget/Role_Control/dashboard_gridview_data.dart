@@ -1,8 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:school_management_system/constants/style.dart';
-
 
 class CategoryData {
   final String image;
@@ -24,7 +21,6 @@ class CategoryBox extends StatefulWidget {
 }
 
 class _CategoryBoxState extends State<CategoryBox> {
-  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

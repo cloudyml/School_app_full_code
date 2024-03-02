@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +24,6 @@ import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_
 import 'package:school_management_system/Models/teacher_login_response_model.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
-
 import '../api_urls.dart';
 import '../base_api_service.dart';
 

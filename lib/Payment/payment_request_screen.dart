@@ -9,7 +9,7 @@ import '../../../widget/appBar/decorative_apbar_widget.dart';
 class PaymentRequestScreen extends StatefulWidget {
   final String selectedClass;
   final String selectedSection;
-  const PaymentRequestScreen(
+  PaymentRequestScreen(
       {super.key, required this.selectedClass, required this.selectedSection});
 
   @override
@@ -24,7 +24,7 @@ class _PaymentRequestScreenState extends State<PaymentRequestScreen>
   bool isClicked = false;
   late DateTime _selectedDate;
   late TabController _tabController;
-  String currentTab = "all";
+  String currentTab = "all"; // Variable to hold current tab value
 
   List name = [
     "Arpan Mukherjee",
@@ -103,6 +103,7 @@ class _PaymentRequestScreenState extends State<PaymentRequestScreen>
 
   @override
   Widget build(BuildContext context) {
+    //  final requests = Provider.of<PaymentRequestList>(context).requests;
     log("Rebuild");
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -200,6 +201,7 @@ class _PaymentRequestScreenState extends State<PaymentRequestScreen>
             Container(
               //  color: Colors.grey,
               child: TabBar(
+                controller: _tabController,
                 indicatorColor: deepBlue,
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.black,
@@ -249,6 +251,11 @@ class _PaymentRequestScreenState extends State<PaymentRequestScreen>
                       }
                     },
                   ),
+                  // ListView.builder(
+                  //   itemCount: requests.length,
+                  //   itemBuilder: (context, index) =>
+                  //       PaymentRequestCard(index: index), // Pass index
+                  // ),
                   ListView.builder(
                     itemCount: name.length,
                     itemBuilder: (context, index) {
