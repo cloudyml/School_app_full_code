@@ -28,6 +28,7 @@ class _TeacherSelectExamTypeState extends State<TeacherSelectExamType> {
   }
 
   final listOfTypes = <String>[].obs;
+  final examListId = "".obs;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,7 @@ class _TeacherSelectExamTypeState extends State<TeacherSelectExamType> {
                 MaterialPageRoute(
                     builder: (context) => CreateExamTypeAndNotification(
                           examTypeList: listOfTypes.value,
+                          examListId: examListId.value,
                         )));
           },
           backgroundColor: Colors.white,
@@ -68,7 +70,7 @@ class _TeacherSelectExamTypeState extends State<TeacherSelectExamType> {
       ),
       body: Column(
         children: [
-          Text(
+          const Text(
             "Select exam to upload routine",
             style: TextStyle(
                 fontSize: 23, color: Colors.black, fontWeight: FontWeight.w500),
@@ -97,11 +99,44 @@ class _TeacherSelectExamTypeState extends State<TeacherSelectExamType> {
                         String examType =
                             snapshot.data!.data!.examTypeList![examIndex];
                         listOfTypes.value = snapshot.data!.data!.examTypeList!;
+                        examListId.value = snapshot.data!.data!.id!;
                         return Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: height * 0.02,
                               horizontal: width * 0.27),
                           child: InkWell(
+                            onLongPress: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "Do you want to delete this exam type?"),
+                                      actions: [
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.red),
+                                            onPressed: () async {
+                                              await TeacherApiServices
+                                                  .deleteExamType(context,
+                                                      examListId: examListId,
+                                                      testName: examType);
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Delete",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Cancel")),
+                                      ],
+                                    );
+                                  });
+                            },
                             onTap: () {
                               Navigator.push(
                                   context,

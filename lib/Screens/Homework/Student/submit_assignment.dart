@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Homework/Student/assignment_start_page.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
@@ -83,200 +84,201 @@ class _StudentSubmitAssignmentState extends State<StudentSubmitAssignment> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: width * 0.05, right: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Submit Date*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: dateInput,
-                      decoration: InputDecoration(
-                        suffixIcon: const Icon(
-                          Icons.calendar_month,
-                        ),
-                        hintText: "Select date",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                      readOnly: true,
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1950),
-                          lastDate: DateTime(2100),
-                        );
+            // Padding(
+            //   padding: EdgeInsets.only(left: width * 0.05, right: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Submit Date*",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: dateInput,
+            //           decoration: InputDecoration(
+            //             suffixIcon: const Icon(
+            //               Icons.calendar_month,
+            //             ),
+            //             hintText: "Select date",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //           readOnly: true,
+            //           onTap: () async {
+            //             DateTime? pickedDate = await showDatePicker(
+            //               context: context,
+            //               initialDate: DateTime.now(),
+            //               firstDate: DateTime(1950),
+            //               lastDate: DateTime(2100),
+            //             );
 
-                        if (pickedDate != null) {
-                          String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
-                          setState(() {
-                            dateInput.text = formattedDate;
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Standard*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: wclass,
-                      decoration: InputDecoration(
-                        hintText: "Enter your class",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Section*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: section,
-                      decoration: InputDecoration(
-                        hintText: "Enter your section",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Subject*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: subject,
-                      decoration: InputDecoration(
-                        hintText: "Enter subject of assignment",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Headline*",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: headline,
-                      decoration: InputDecoration(
-                        hintText: "Enter headline of assignment",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05, top: width * 0.05),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Comments",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: const Color.fromARGB(255, 96, 96, 96),
-                      ),
-                    ),
-                    TextField(
-                      controller: comments,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        hintText: "Enter any comments",
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 135, 135, 135),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            //             if (pickedDate != null) {
+            //               String formattedDate =
+            //                   DateFormat('yyyy-MM-dd').format(pickedDate);
+            //               setState(() {
+            //                 dateInput.text = formattedDate;
+            //               });
+            //             }
+            //           },
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: width * 0.05, right: width * 0.05, top: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Enter Standard*",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: wclass,
+            //           decoration: InputDecoration(
+            //             hintText: "Enter your class",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: width * 0.05, right: width * 0.05, top: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Enter Section*",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: section,
+            //           decoration: InputDecoration(
+            //             hintText: "Enter your section",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: width * 0.05, right: width * 0.05, top: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Enter Subject*",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: subject,
+            //           decoration: InputDecoration(
+            //             hintText: "Enter subject of assignment",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: width * 0.05, right: width * 0.05, top: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Enter Headline*",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: headline,
+            //           decoration: InputDecoration(
+            //             hintText: "Enter headline of assignment",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: width * 0.05, right: width * 0.05, top: width * 0.05),
+            //   child: Container(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Enter Comments",
+            //           style: GoogleFonts.poppins(
+            //             fontWeight: FontWeight.w600,
+            //             fontSize: 17,
+            //             color: const Color.fromARGB(255, 96, 96, 96),
+            //           ),
+            //         ),
+            //         TextField(
+            //           controller: comments,
+            //           maxLines: 4,
+            //           decoration: InputDecoration(
+            //             hintText: "Enter any comments",
+            //             hintStyle: GoogleFonts.poppins(
+            //               fontSize: 12,
+            //               color: const Color.fromARGB(255, 135, 135, 135),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // 
             const SizedBox(
               height: 20,
             ),
@@ -338,24 +340,15 @@ class _StudentSubmitAssignmentState extends State<StudentSubmitAssignment> {
       persistentFooterButtons: [
         RecElevatedButton(
           onPressed: () {
-            ApiServices.StudentUploadAssignment(
-                    wclass.text,
-                    section.text,
-                    subject.text,
-                    dateInput.text,
-                    SharedServiceParentChildren.loginDetails()!
-                        .data!
-                        .data!
-                        .rollNumber
-                        .toString(),
-                    file!,
-                    widget.submitAssignmentID.toString(),
-                    context)
-                .then((value) {
+            ApiServices.StudentUploadAssignmentFile(
+              file!,
+              widget.submitAssignmentID.toString(),
+
+            ).then((value) {
               if (value == true) {
                 showSuccessSnackbar();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const StudentAssignmentChoose()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const Dashboard()));
               } else {
                 showFalureSnackbar();
               }

@@ -61,7 +61,7 @@ class ApiBase {
 
     var client = http.Client();
     // log("URL : ${ApiUrl.baseUrl}$extendedURL");
-    log(jsonEncode(body));
+    log(jsonEncode(body.toString()));
     return client.post(url(extendedURL: extendedURL),
         headers: newHeaders, body: jsonEncode(body));
   }

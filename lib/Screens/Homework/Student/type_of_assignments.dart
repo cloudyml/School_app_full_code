@@ -54,7 +54,11 @@ class ChooseHomeWorkType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    SharedServiceParentChildren.loginDetails()?.data?.data?.role == "parent"
+                    SharedServiceParentChildren.loginDetails()
+                                ?.data
+                                ?.data
+                                ?.role ==
+                            "parent"
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -68,7 +72,8 @@ class ChooseHomeWorkType extends StatelessWidget {
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => StudentPendingAssignmentFileList(
+                              builder: (context) =>
+                                  StudentPendingAssignmentFileList(
                                 type: typeOfAssignment,
                                 form: "File",
                               ),
@@ -114,7 +119,11 @@ class ChooseHomeWorkType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    SharedServiceParentChildren.loginDetails()?.data?.data?.role == "parent"
+                    SharedServiceParentChildren.loginDetails()
+                                ?.data
+                                ?.data
+                                ?.role ==
+                            "parent"
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -128,7 +137,8 @@ class ChooseHomeWorkType extends StatelessWidget {
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => StudentPendingAssignmentTextList(
+                              builder: (context) =>
+                                  StudentPendingAssignmentTextList(
                                 type: typeOfAssignment,
                                 form: "Text",
                               ),

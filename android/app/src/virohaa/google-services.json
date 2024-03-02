@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "537641951743",
+    "firebase_url": "https://school-app-new-cb621-default-rtdb.firebaseio.com",
+    "project_id": "school-app-new-cb621",
+    "storage_bucket": "school-app-new-cb621.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537641951743:android:f446fd77a6e811e2cf47ca",
+        "android_client_info": {
+          "package_name": "com.natkhat.school_management_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQDfVheBahIKEAjrNdeT5xrRogvDfJIYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537641951743:android:84bb6496a2f58e01cf47ca",
+        "android_client_info": {
+          "package_name": "com.nobunk.school_management_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQDfVheBahIKEAjrNdeT5xrRogvDfJIYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537641951743:android:2844b2028843894ecf47ca",
+        "android_client_info": {
+          "package_name": "com.virohaa.school_management_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQDfVheBahIKEAjrNdeT5xrRogvDfJIYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

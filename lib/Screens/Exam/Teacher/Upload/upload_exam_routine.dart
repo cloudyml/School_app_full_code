@@ -91,6 +91,7 @@ class _UploadResultState extends State<UploadExamRoutine> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    double containerSize = MediaQuery.of(context).size.width / 6;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -110,10 +111,10 @@ class _UploadResultState extends State<UploadExamRoutine> {
           }),
         ),
       ),
-      body: Column(
-        children: [
-          SingleChildScrollView(
-            child: Column(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(
@@ -245,11 +246,15 @@ class _UploadResultState extends State<UploadExamRoutine> {
                     if (isEditing) {
                       updatePeriod();
                     } else {
-                      examData.add(ExamRoutineData(
-                        subject: subjectController.text,
-                        date: dateController.text,
-                        time: timeController.text,
-                      ));
+                      if (subjectController.text.isNotEmpty &&
+                          timeController.text.isNotEmpty &&
+                          dateController.text.isNotEmpty) {
+                        examData.add(ExamRoutineData(
+                          subject: subjectController.text,
+                          date: dateController.text,
+                          time: timeController.text,
+                        ));
+                      }
                     }
                     clearTextFields();
                   },
@@ -260,61 +265,167 @@ class _UploadResultState extends State<UploadExamRoutine> {
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-          ),
-          Expanded(
-            child: ListView(
-              children: examData.map((periodData) {
-                return Card(
-                  child: ListTile(
-                    tileColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: deepBlue,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Row(
+                // Additional Row for the top row of containers
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15)),
+                          border: Border.all(),
+                          color: deepBlue),
+                      height: containerSize,
+                      width: containerSize,
+                      child: const Center(
+                        child: Text(
+                          "Subject",
+                          style: TextStyle(color: Colors.white),
                         ),
-                        borderRadius: BorderRadius.circular(12)),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Subject: ${periodData.subject}"),
-                        Text("Date: ${periodData.date}"),
-                        Text("Time: ${periodData.time}"),
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            setState(() {
-                              subjectController.text = periodData.subject;
-                              dateController.text = periodData.date;
-                              timeController.text = periodData.time;
-                              selectPaper = periodData;
-                              isEditing = true;
-                            });
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ),
-                          onPressed: () {
-                            deletePeriod(examData.indexOf(periodData));
-                          },
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                );
-              }).toList(),
+                  Expanded(
+                    child: Container(
+                      decoration:
+                          BoxDecoration(border: Border.all(), color: deepBlue),
+                      height: containerSize,
+                      width: containerSize,
+                      child: const Center(
+                        child: Text(
+                          "Date",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        color: deepBlue,
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(15)),
+                      ),
+                      height: containerSize,
+                      width: containerSize,
+                      child: const Center(
+                        child: Text(
+                          "Time",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              child: GridView.builder(
+                itemCount: examData.length,
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  childAspectRatio: 8,
+                ),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(border: Border.all()),
+                            height: containerSize,
+                            width: containerSize,
+                            child: Center(
+                              child: Text("${examData[index].subject}"),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(border: Border.all()),
+                            height: containerSize,
+                            width: containerSize,
+                            child: Center(
+                              child: Text("${examData[index].date}"),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(border: Border.all()),
+                            height: containerSize,
+                            width: containerSize,
+                            child: Center(
+                              child: Text("${examData[index].time}"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            // Expanded(
+            //   child: ListView(
+            //     children: examData.map((periodData) {
+            //       return Card(
+            //         child: ListTile(
+            //           tileColor: Colors.white,
+            //           shape: RoundedRectangleBorder(
+            //               side: BorderSide(
+            //                 color: deepBlue,
+            //               ),
+            //               borderRadius: BorderRadius.circular(12)),
+            //           subtitle: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Text("Subject: ${periodData.subject}"),
+            //               Text("Date: ${periodData.date}"),
+            //               Text("Time: ${periodData.time}"),
+            //             ],
+            //           ),
+            //           trailing: Row(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               IconButton(
+            //                 icon: const Icon(Icons.edit),
+            //                 onPressed: () {
+            //                   setState(() {
+            //                     subjectController.text = periodData.subject;
+            //                     dateController.text = periodData.date;
+            //                     timeController.text = periodData.time;
+            //                     selectPaper = periodData;
+            //                     isEditing = true;
+            //                   });
+            //                 },
+            //               ),
+            //               IconButton(
+            //                 icon: const Icon(
+            //                   Icons.delete,
+            //                   color: Colors.red,
+            //                 ),
+            //                 onPressed: () {
+            //                   deletePeriod(examData.indexOf(periodData));
+            //                 },
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
+          ],
+        ),
       ),
       persistentFooterButtons: [
         RecElevatedButton(

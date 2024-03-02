@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -62,12 +63,16 @@ class _DetailHomeworkScreenStudentState
     log("pref initilized ------> $instance");
     if (instance!.containsKey(widget.assignmentId)) {
       print(instance?.getStringList(widget.assignmentId));
+      // for (int i = 0; i < widget.listOfquestions.length; i++) {
       answeredList.addAll(
           instance?.getStringList(widget.assignmentId) as List<dynamic>);
       setState(() {});
       for (int i = 0; i < answeredList.length; i++) {
         log(answeredList[i]);
       }
+      // }
+
+      ;
     } else {
       for (int i = 0; i < widget.listOfquestions.length; i++) {
         answeredList.add('Enter Answer');
@@ -191,7 +196,7 @@ class _DetailHomeworkScreenStudentState
                                                   temp = value;
                                                 },
                                                 decoration: InputDecoration(
-                                                  fillColor: Colors.white,
+                                                  fillColor: Colors.yellow,
                                                   filled: true,
                                                   border: OutlineInputBorder(
                                                     borderRadius:
@@ -215,7 +220,7 @@ class _DetailHomeworkScreenStudentState
                                                 controller: answerControllers[
                                                     currentindex],
                                                 decoration: InputDecoration(
-                                                  fillColor: Colors.white,
+                                                  fillColor: Colors.red,
                                                   filled: true,
                                                   border: OutlineInputBorder(
                                                     borderRadius:
@@ -400,31 +405,37 @@ class _DetailHomeworkScreenStudentState
                             if (answeredList[i] == "Enter Answer") {
                               sendAnswerLIst.add(TextSubmitModel(
                                   question: widget.listOfquestions[i].question,
-                                  answer: ""));
+                                  answer: "Not Answered"));
                             } else {
-                              for (int i = 0; i < sendAnswerLIst.length; i++) {}
+                              // for (int i = 0; i < sendAnswerLIst.length; i++) {
+
+                              // }
                               sendAnswerLIst.add(TextSubmitModel(
-                                  question: widget.listOfquestions[i].question
-                                      .toString(),
+                                  question: widget.listOfquestions[i].question,
                                   answer: answeredList[i]));
+                              // log(sendAnswerLIst[i].questionKey.toString());
+                              // log(sendAnswerLIst[i].answer.toString());
                             }
                           }
+
                           String jsonData = jsonEncode(
                               sendAnswerLIst.map((e) => e.toJson()).toList());
 
-                          log("This is the json data                                 " +
-                              jsonData);
+                          log(jsonEncode(jsonData));
+                          log(jsonDecode(jsonEncode(jsonData)));
                           ApiServices.studentUploadAssignmentText(
                                   widget.assignmentId, jsonData)
                               .whenComplete(() {
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(
                               builder: (context) {
-                                return Dashboard();
+                                return const Dashboard();
                               },
                             ));
                             EasyLoading.showSuccess("Uploaded Successfully");
                             instance?.remove(widget.assignmentId);
+                            // ApiServices.studentSeeAssignmentText(
+                            //     "getPendingAssignment", "text");
                           });
                           // ApiServices.StudentSubmittedAssignment()
                           for (int i = 0; i < sendAnswerLIst.length; i++) {
