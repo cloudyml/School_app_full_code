@@ -8,6 +8,7 @@ import 'package:school_management_system/Models/Student/Exam/exam_routine_respon
 import 'package:school_management_system/Screens/Exam/parent/table_for_timetable.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
@@ -18,7 +19,7 @@ class ParentSeeExamRoutine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double containerSize = MediaQuery.of(context).size.width / 8;
+    // double containerSize = MediaQuery.of(context).size.width / 8;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -76,6 +77,7 @@ class ParentSeeExamRoutine extends StatelessWidget {
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500),
             ),
+             
             FutureBuilder(
                 future: ApiServices.viewExamRoutineParentStudent(
                     SharedServiceParentChildren.loginDetails()!.data!.data!.role.toString(),

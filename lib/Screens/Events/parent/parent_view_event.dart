@@ -37,7 +37,7 @@ class _EventScreen extends State<ParentsViewEvents> {
               gradient1: lightBlue,
               gradient2: deepBlue,
               extra: appbar("assets/add_events.png", " Events", context, () {
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Dashboard()));
               }),
             ),

@@ -1079,24 +1079,24 @@ class ApiServices {
 
 
 
-//to raise a payment request
-  static Future<bool> feesPaidRequestRaise(int amount) async {
-    var response = await ApiBase.postRequest(
-        extendedURL:
-            "/parent/${SharedServiceParentChildren.loginDetails()?.data?.id}/raised-feeRequest",
-        body: {
-          "studentId":
-              SharedServiceParentChildren.childDetails()?.data?.data?.id,
-          "amount": amount
-        });
-    log(response.body);
-    if (response.statusCode == 200) {
-      log(response.body);
-      return true;
-    } else {
-      return false;
-    }
-  }
+// //to raise a payment request
+//   static Future<bool> feesPaidRequestRaise(int amount) async {
+//     var response = await ApiBase.postRequest(
+//         extendedURL:
+//             "/parent/${SharedServiceParentChildren.loginDetails()?.data?.id}/raised-feeRequest",
+//         body: {
+//           "studentId":
+//               SharedServiceParentChildren.childDetails()?.data?.data?.id,
+//           "amount": amount
+//         });
+//     log(response.body);
+//     if (response.statusCode == 200) {
+//       log(response.body);
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
 //....................... Teacher see submitted students assignments ...........
 
   // static Future<TeacherSeeSubmittedStudentsAssignments>

@@ -48,7 +48,7 @@ class _SwitchChildOptionForParentState
                 decoration: BoxDecoration(
                     // color: Colors.pink,
                     borderRadius: BorderRadius.circular(10.r)),
-                padding: EdgeInsets.all(10.h),
+                padding: EdgeInsets.all(10.w),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -64,6 +64,9 @@ class _SwitchChildOptionForParentState
                             children: [
                               const CircleAvatar(
                                 child: Icon(Icons.person),
+                              ),
+                              SizedBox(
+                                width: 10.w,
                               ),
                               Container(
                                 // height: 50.h,
@@ -119,6 +122,9 @@ class _SwitchChildOptionForParentState
                                                   Navigator.pop(context);
                                                 });
                                               });
+                                              setState(() {
+                                                
+                                              });
                                             },
                                             child: Text(
                                               "Select",
@@ -144,7 +150,7 @@ class _SwitchChildOptionForParentState
         );
       },
       child: Container(
-        width: 150.w,
+        width: 0.43.sw,
         decoration: BoxDecoration(
           // color: Colors.white,
           border: Border.all(color: Colors.white),

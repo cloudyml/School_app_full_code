@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _MyWidgetState extends State<HomeScreen> {
   bool check = false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +149,7 @@ class _MyWidgetState extends State<HomeScreen> {
                                         .childrens!
                                         .length >
                                     1)
-                            ? const SwitchChildOptionForParent()
+                            ?  SwitchChildOptionForParent()
                             : Container(),
                       ],
                     ),
