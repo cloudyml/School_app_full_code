@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_see_exam_routine.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
@@ -31,7 +32,11 @@ class ParentchildrenSelectExamType extends StatelessWidget {
           extra: Column(
             children: [
               appbar("assets/flaticon/_exam.png", " Examination", context, () {
-                Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return Dashboard();
+                  },
+                ));
               }),
               Row(
                 children: [

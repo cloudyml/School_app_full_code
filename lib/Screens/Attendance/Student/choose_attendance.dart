@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Attendance/Student/Week_attendance_student.dart';
 import 'package:school_management_system/Screens/Attendance/Student/month_year_choose.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../constants/style.dart';
@@ -68,7 +69,10 @@ class StuChooseAttendance extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                            return Dashboard();
+                          },));
+
                         },
                         child: Icon(
                           Icons.arrow_back,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 
@@ -32,35 +33,39 @@ class SelectResultType extends StatelessWidget {
           extra: Column(
             children: [
               appbar("assets/result1.png", " Results", context, () {
-                Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return Dashboard();
+                  },
+                ));
               }),
               Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 20.w, top: 10.h),
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SharedServiceParentChildren.loginDetails()
-                                            ?.data
-                                            ?.data
-                                            ?.role ==
-                                        "parent" &&
-                                    (SharedServiceParentChildren.loginDetails()!
-                                            .data!
-                                            .data!
-                                            .childrens!
-                                            .length >
-                                        1)
-                                ? const SwitchChildOptionForParent()
-                                : Container(),
-                          ],
-                        ),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SharedServiceParentChildren.loginDetails()
+                                          ?.data
+                                          ?.data
+                                          ?.role ==
+                                      "parent" &&
+                                  (SharedServiceParentChildren.loginDetails()!
+                                          .data!
+                                          .data!
+                                          .childrens!
+                                          .length >
+                                      1)
+                              ? const SwitchChildOptionForParent()
+                              : Container(),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

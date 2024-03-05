@@ -23,7 +23,9 @@ void main() async {
           projectId: "school-app-94046"),
     );
     
-  } else {
+  
+  }
+   else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
   }

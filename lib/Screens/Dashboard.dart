@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
+import 'package:school_management_system/Screens/chat/chat_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 
 import '../constants/style.dart';
@@ -114,6 +115,14 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       body: screens[_currentIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ChatRoomScreen();
+          },));
+        },
+        child: Icon(Icons.messenger),
+      ),
     );
   }
 }

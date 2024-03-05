@@ -6,9 +6,14 @@ var fcmToken;
 Future<void> handelBackgroundNotification(RemoteMessage message) async {
   log('TITLE: ${message.notification?.title}');
   log('Body: ${message.notification?.body}');
-  log('Payload: ${message.notification?.android?.imageUrl}');
+  log('type: ${message.messageType.toString()}');
+  // log('tag: ${message.data['tags'] as List<String>}');
+  // log('dataaaaaaaaaaaaaaaaaaaaaaaaaa: ${message.data}');
+  // log('image :${message.notification?.android?.imageUrl}');
 }
-
+// "/fees"
+// "/events"
+// ""
 class FirebaseApi {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   Future<void> initNotification() async {
