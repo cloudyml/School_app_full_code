@@ -53,7 +53,7 @@ dependencies:
   flutter_full_pdf_viewer_null_safe: ^1.0.0
   path_provider: ^2.1.2
   flutter_launcher_icons: ^0.13.1
-  flutter_native_splash: ^2.3.10
+  flutter_native_splash:
   flutter_expandable_fab: ^2.0.0
 
 dev_dependencies:
