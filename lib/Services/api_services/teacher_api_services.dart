@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -22,8 +23,10 @@ import 'package:school_management_system/Models/Teacher/Notice/teacher_view_noti
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/class_wise_result_response_model.dart';
 import 'package:school_management_system/Models/Teacher/Result/Get%20models/get_students_list_response_model.dart';
 import 'package:school_management_system/Models/teacher_login_response_model.dart';
+import 'package:school_management_system/Models/Teacher/Payment%20request/teacher_payment_request_response_model.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
+
 import '../api_urls.dart';
 import '../base_api_service.dart';
 
@@ -1467,6 +1470,89 @@ class TeacherApiServices {
   }
 
   //.................................................................................................................
+//teacher accept payment request....
+
+  static teacherPaymentRequest(
+      String selectedClass, String selectSection, int month, int year) async {
+    TeacherPaymentStatusResponseModel studentList =
+        TeacherPaymentStatusResponseModel();
+    try {
+      var queryParam =
+          "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/getAllFeeList?class=$selectedClass&section=$selectSection&month=$month&year=$year";
+      var response = await ApiBase.getRequest(
+        extendedURL: queryParam,
+      );
+      log(response.statusCode.toString());
+
+      log(response.statusCode.toString());
+      log(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (jsonDecode(response.body)['status'] == true) {
+          log("success");
+          studentList =
+              teacherPaymentStatusResponseModelFromJson(response.body);
+        } else {
+          log("else 2");
+          studentList = TeacherPaymentStatusResponseModel();
+        }
+      } else {
+        log("else 2");
+        studentList = TeacherPaymentStatusResponseModel();
+      }
+    } catch (e) {
+      log("Catch");
+      studentList = TeacherPaymentStatusResponseModel();
+    }
+
+    return studentList;
+  }
+
+//...............................................................................
+//Submit payment request.....
+  static Future<bool> TeacheSubmitPaymentRequest({
+    required String studentid,
+    required String docId,
+    required String category,
+    required String paymentDate,
+  }) async {
+    var ret = false;
+    String schooleName =
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    String institutionId = TeacherSharedServices.loginDetails()!
+        .data!
+        .data!
+        .institutionId
+        .toString();
+    String schoolId =
+        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    try {
+      var response = await ApiBase.putRequest(
+        extendedURL:
+            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/marked-paid/${docId}",
+        body: {
+          "studentId": studentid,
+          "category": category,
+          "paymentDate": paymentDate,
+        },
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)['status'] == true) {
+          ret = true;
+        } else {
+          ret = false;
+          log("Not Successful");
+        }
+      } else {
+        ret = false;
+        log("Not Successful");
+      }
+    } catch (e) {
+      log("error: $e");
+    }
+    return ret;
+  }
 }
 
 void showSnackbar(context, {message}) {
