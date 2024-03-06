@@ -82,7 +82,7 @@ class _UploadResultState extends State<UploadExamRoutine> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Exam Routine already added for this class'),
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 15),
       ),
     );
   }
