@@ -50,8 +50,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const SplashScreen(),
-        //   home: TeacherChooseClassForPaymentRequestAccept(),
-        //  home: TwoFloatingButton(),
         builder: EasyLoading.init(),
       ),
     );

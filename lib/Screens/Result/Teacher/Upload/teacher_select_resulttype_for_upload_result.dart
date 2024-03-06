@@ -83,31 +83,34 @@ class TeacherSelectResultTypeForUpload extends StatelessWidget {
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );
-          } else if (snapshot.hasData) {
-            TeacherSeeExamTypesResponseModel? examTypes = snapshot.data;
-            return ListView.builder(
-              itemCount: examTypes?.data?.examTypeList?.length ?? 0,
-              itemBuilder: (context, index) {
-                return ExamTypesCard(
-                  examTypeName: examTypes!.data!.examTypeList![index],
-                  onPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChooseClassSectionForUploadResult(
-                          testType: examTypes.data!.examTypeList![index],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+          } else if (!snapshot.hasData) {
+            return Center(
+              child: Text('No data available.'),
             );
-          } else {
-            return const Center(
+          } else if (snapshot.data!.data == null){
+            return Center(
               child: Text('No data available.'),
             );
           }
+          TeacherSeeExamTypesResponseModel? examTypes = snapshot.data;
+          return ListView.builder(
+            itemCount: examTypes?.data?.examTypeList?.length ?? 0,
+            itemBuilder: (context, index) {
+              return ExamTypesCard(
+                examTypeName: examTypes!.data!.examTypeList![index],
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChooseClassSectionForUploadResult(
+                        testType: examTypes.data!.examTypeList![index],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          );
         },
       ),
     );
