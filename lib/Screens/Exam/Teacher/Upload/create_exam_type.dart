@@ -400,13 +400,15 @@ class CreateExamTypeView extends StatelessWidget {
                           examListId: examListId);
 
                       listOfCriteria.toList();
-                      await TeacherApiServices.teacherPostGradingData(context,
-                          examType: nameController.value.text,
-                          selectedClass: selectedClass.value,
-                          selectedSection: selectedSection.value,
-                          passingMarks: textOfPassingTotalMarks[1].value.text,
-                          totalMarks: textOfPassingTotalMarks[0].value.text,
-                          gradingCriteria: listOfCriteria);
+                      if(listOfCriteria.isNotEmpty) {
+                        await TeacherApiServices.teacherPostGradingData(context,
+                            examType: nameController.value.text,
+                            selectedClass: selectedClass.value,
+                            selectedSection: selectedSection.value,
+                            passingMarks: textOfPassingTotalMarks[1].value.text,
+                            totalMarks: textOfPassingTotalMarks[0].value.text,
+                            gradingCriteria: listOfCriteria);
+                      }
                       textOfPassingTotalMarks.forEach((element) {
                         element.value.clear();
                       });
