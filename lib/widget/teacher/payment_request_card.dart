@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Services/api_services/teacher_api_services.dart';
 import 'package:school_management_system/constants/style.dart';
 
 class PaymentRequestCard extends StatefulWidget {
@@ -8,6 +12,9 @@ class PaymentRequestCard extends StatefulWidget {
   final String amount;
   final String date;
   bool isDone;
+  final String studenId;
+  final String documentId;
+  final VoidCallback getDataForRefresh;
   PaymentRequestCard({
     super.key,
     required this.name,
@@ -16,6 +23,9 @@ class PaymentRequestCard extends StatefulWidget {
     required this.amount,
     required this.date,
     required this.isDone,
+    required this.studenId,
+    required this.documentId,
+    required this.getDataForRefresh,
   });
 
   @override
@@ -88,7 +98,7 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
                   ),
                 ),
               ),
-              widget.category == 'all'
+              widget.category == 'all' || widget.category == 'paid'
                   ? Transform.scale(
                       scale: 2.5,
                       child: MouseRegion(
@@ -104,6 +114,57 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
                             setState(() {
                               widget.isDone = value!;
                             });
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Payment Status       '),
+                                  content: Text(
+                                      'Are you sure to perform this action ?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        if (widget.category == "all") {
+                                          TeacherApiServices
+                                                  .TeacheSubmitPaymentRequest(
+                                                      studentid:
+                                                          widget.studenId,
+                                                      docId: widget.documentId,
+                                                      category: 'Paid',
+                                                      paymentDate: "2024-03-12")
+                                              .whenComplete(() {
+                                            return widget.getDataForRefresh();
+                                          });
+                                        } else if (widget.category == "paid") {
+                                          TeacherApiServices
+                                                  .TeacheSubmitPaymentRequest(
+                                                      studentid:
+                                                          widget.studenId,
+                                                      docId: widget.documentId,
+                                                      category: 'All',
+                                                      paymentDate: "2024-03-12")
+                                              .whenComplete(() {
+                                            return widget.getDataForRefresh();
+                                          });
+                                        }
+
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Action when 'Cancel' button is pressed
+                                        Navigator.of(context).pop();
+                                        log(widget.date.toString());
+                                      },
+                                      child: Text('Cancel'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                         ),
                       ),
