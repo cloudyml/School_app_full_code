@@ -33,12 +33,12 @@ import '../base_api_service.dart';
 class TeacherApiServices {
 // teacher login ....................................................................
   static Future<bool> teacherLogin(
-    String email,
-    String password,
-    String selectedrole,
-    String fcmTokenn,
-    BuildContext context,
-  ) async {
+      String email,
+      String password,
+      String selectedrole,
+      String fcmTokenn,
+      BuildContext context,
+      ) async {
     var ret = false;
 
     try {
@@ -91,14 +91,14 @@ class TeacherApiServices {
 //.... Update my account details Teacher....................................
 
   static Future<bool> updateMyAccountTeacher(
-    String password,
-  ) async {
+      String password,
+      ) async {
     var ret = false;
 
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${SharedServiceParentChildren.loginDetails()?.data!.id}${ApiUrl.updateMytAccountTeacher}",
+        "/teacher/${SharedServiceParentChildren.loginDetails()?.data!.id}${ApiUrl.updateMytAccountTeacher}",
         body: {
           "password": password,
         },
@@ -132,7 +132,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.studentFeeDetails}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.studentFeeDetails}",
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -153,16 +153,16 @@ class TeacherApiServices {
 //........ Update Fees Teacher..................................................
 
   static Future<bool> updateFees(
-    String feesID,
-    String wClass,
-    String admissionFees,
-    String tuitionFees,
-    String examinationFees,
-    String libraryFees,
-    String transportFees,
-    String miscellaneousFees,
-    String discountAmount,
-  ) async {
+      String feesID,
+      String wClass,
+      String admissionFees,
+      String tuitionFees,
+      String examinationFees,
+      String libraryFees,
+      String transportFees,
+      String miscellaneousFees,
+      String discountAmount,
+      ) async {
     var ret = false;
     UpdateFeesDetailsModel updateFee = UpdateFeesDetailsModel();
     try {
@@ -177,7 +177,7 @@ class TeacherApiServices {
 
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUpdateFees}/$feesID",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUpdateFees}/$feesID",
         body: {
           "class": wClass,
           "admissionFees": admissionFeesInt,
@@ -213,15 +213,15 @@ class TeacherApiServices {
 //......................Teacher Upload Fees....................................
 
   static Future<bool> uploadFees(
-    String wClass,
-    String admissionFees,
-    String tuitionFees,
-    String examinationFees,
-    String libraryFees,
-    String transportFees,
-    String miscellaneousFees,
-    String discountFees,
-  ) async {
+      String wClass,
+      String admissionFees,
+      String tuitionFees,
+      String examinationFees,
+      String libraryFees,
+      String transportFees,
+      String miscellaneousFees,
+      String discountFees,
+      ) async {
     var ret = false;
     try {
       int admissionFeesInt = int.tryParse(admissionFees) ?? 0;
@@ -233,7 +233,7 @@ class TeacherApiServices {
       int discountFeesInt = int.tryParse(discountFees) ?? 0;
       var response = await ApiBase.postRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUploadFees}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUploadFees}",
         body: {
           "class": wClass,
           "admissionFees": admissionFeesInt,
@@ -269,13 +269,13 @@ class TeacherApiServices {
 // ............Teacher delete fees..............................................
 
   static Future<bool> deleteFees(
-    String feesID,
-  ) async {
+      String feesID,
+      ) async {
     var ret = false;
     try {
       var response = await ApiBase.deleteRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherDeleteFees}/$feesID",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherDeleteFees}/$feesID",
         body: {},
       );
       log(response.statusCode.toString());
@@ -302,15 +302,15 @@ class TeacherApiServices {
   //......Teacher Upload File Assignments..................................................
 
   static Future<bool> TeacherUploadFileAssignment(
-    String givenDate,
-    String subjectDate,
-    String wclass,
-    String section,
-    String subject,
-    String topic,
-    File file,
-    BuildContext context,
-  ) async {
+      String givenDate,
+      String subjectDate,
+      String wclass,
+      String section,
+      String subject,
+      String topic,
+      File file,
+      BuildContext context,
+      ) async {
     var ret = false;
 
     try {
@@ -324,7 +324,7 @@ class TeacherApiServices {
       // Added headers here
       Map<String, String> headers = {
         'Authorization':
-            "${TeacherSharedServices.loginDetails()?.data!.token.toString()}",
+        "${TeacherSharedServices.loginDetails()?.data!.token.toString()}",
       };
       request.headers.addAll(headers);
 
@@ -370,7 +370,7 @@ class TeacherApiServices {
         var jsonResponse = json.decode(response.body);
         if (jsonResponse['status'] == true) {
           var teacherUploadassign =
-              teacherAssignmentUploadModelFromJson(response.body);
+          teacherAssignmentUploadModelFromJson(response.body);
           ret = true;
         } else {
           log(response.statusCode.toString());
@@ -403,18 +403,18 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schooleName =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
     String institutionId = TeacherSharedServices.loginDetails()!
         .data!
         .data!
         .institutionId
         .toString();
     String schoolId =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
     try {
       var response = await ApiBase.postRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/createAssignment",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/createAssignment",
         body: {
           "institutionId": institutionId,
           "schoolId": schoolId,
@@ -450,12 +450,12 @@ class TeacherApiServices {
   // Teacher View Assignments his own uploaded assignments...................................................
 
   static Future<TeacherSeeOwnAssignmentsListModel>
-      teacherSeeOwnGivenFileAssignment(
-    String selectesClass,
-    String selectesSection,
-  ) async {
+  teacherSeeOwnGivenFileAssignment(
+      String selectesClass,
+      String selectesSection,
+      ) async {
     TeacherSeeOwnAssignmentsListModel teacherGivenAssignment =
-        TeacherSeeOwnAssignmentsListModel();
+    TeacherSeeOwnAssignmentsListModel();
     try {
       var queryParam =
           "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.teacherSeeOwnUploadedAssignments}?class=$selectesClass&section=$selectesSection&schoolId=${TeacherSharedServices.loginDetails()!.data!.data!.schoolId}&institutionId=${TeacherSharedServices.loginDetails()!.data!.data!.institutionId}";
@@ -488,12 +488,12 @@ class TeacherApiServices {
   // Teacher View Assignments his own uploaded assignments...................................................
 
   static Future<TeacherUploadedTextAssignmentResponseModel>
-      teacherSeeOwnGivenTextAssignment(
-    String selectesClass,
-    String selectesSection,
-  ) async {
+  teacherSeeOwnGivenTextAssignment(
+      String selectesClass,
+      String selectesSection,
+      ) async {
     TeacherUploadedTextAssignmentResponseModel teacherGivenAssignment =
-        TeacherUploadedTextAssignmentResponseModel();
+    TeacherUploadedTextAssignmentResponseModel();
     try {
       var queryParam =
           "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.teacherSeeOwnUploadedTextAssignments}?class=$selectesClass&section=$selectesSection&schoolId=${TeacherSharedServices.loginDetails()!.data!.data!.schoolId}&institutionId=${TeacherSharedServices.loginDetails()!.data!.data!.institutionId}";
@@ -525,8 +525,8 @@ class TeacherApiServices {
 
 // Gallery Teacher Upload ...................................................
   static Future<bool> teacherUploadGallery(
-    List<XFile> files,
-  ) async {
+      List<XFile> files,
+      ) async {
     var ret = false;
 
     try {
@@ -605,7 +605,7 @@ class TeacherApiServices {
   static Future<GetStudentListForResultResponseModel> StudentListForResult(
       String selectedClass, String selectSection) async {
     GetStudentListForResultResponseModel studentList =
-        GetStudentListForResultResponseModel();
+    GetStudentListForResultResponseModel();
     try {
       var queryParam =
           "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.getDefaultDataForResult}?institutionId=${TeacherSharedServices.loginDetails()?.data!.data?.institutionId}&schoolId=${TeacherSharedServices.loginDetails()?.data?.data?.schoolId}&class=$selectedClass&section=$selectSection";
@@ -640,9 +640,9 @@ class TeacherApiServices {
   // Teacher see List of Exam Type...................................................
 
   static Future<TeacherSeeExamTypesResponseModel>
-      teacherSeeListOfExamTypes() async {
+  teacherSeeListOfExamTypes() async {
     TeacherSeeExamTypesResponseModel examTypes =
-        TeacherSeeExamTypesResponseModel();
+    TeacherSeeExamTypesResponseModel();
     try {
       var queryParam =
           "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/getExamTypeList?institutionId=${TeacherSharedServices.loginDetails()?.data?.data?.institutionId}&schoolId=${TeacherSharedServices.loginDetails()?.data?.data?.schoolId}";
@@ -677,9 +677,9 @@ class TeacherApiServices {
 
   static Future<bool> teacherCreateExamType(context,
       {
-      // required String classofStudent,
-      required List examTypeList,
-      required String examListId}) async {
+        // required String classofStudent,
+        required List examTypeList,
+        required String examListId}) async {
     var ret = false;
     // String schoolName =
     //     TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
@@ -749,24 +749,24 @@ class TeacherApiServices {
   // Teacher post grading data
 
   static Future<bool> teacherPostGradingData(
-    context, {
-    required examType,
-    required selectedClass,
-    required selectedSection,
-    required passingMarks,
-    required totalMarks,
-    required gradingCriteria,
-  }) async {
+      context, {
+        required examType,
+        required selectedClass,
+        required selectedSection,
+        required passingMarks,
+        required totalMarks,
+        required gradingCriteria,
+      }) async {
     var ret = false;
     String schoolName =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
     String institutionId = TeacherSharedServices.loginDetails()!
         .data!
         .data!
         .institutionId
         .toString();
     String schoolId =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
     String id = TeacherSharedServices.loginDetails()!.data!.data!.id.toString();
     try {
       var response = await ApiBase.postRequest(
@@ -818,7 +818,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.postRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.uploadResult}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.uploadResult}",
         body: {
           "class": selectedClass,
           "section": section,
@@ -852,15 +852,15 @@ class TeacherApiServices {
   //........ Teacher Upload Events.....................................................
 
   static Future<bool> teacherUploadEvents(
-    String eventName,
-    String description,
-    String date,
-    String eventTime,
-    String status,
-    String eligibleClass,
-    String remark,
-    List<XFile> files,
-  ) async {
+      String eventName,
+      String description,
+      String date,
+      String eventTime,
+      String status,
+      String eligibleClass,
+      String remark,
+      List<XFile> files,
+      ) async {
     var ret = false;
 
     try {
@@ -878,7 +878,7 @@ class TeacherApiServices {
       // Add headers
       Map<String, String> headers = {
         'Authorization':
-            "Bearer ${TeacherSharedServices.loginDetails()?.data!.token}", // Assuming 'Bearer' is required for the token
+        "Bearer ${TeacherSharedServices.loginDetails()?.data!.token}", // Assuming 'Bearer' is required for the token
       };
       request.headers.addAll(headers);
 
@@ -944,14 +944,14 @@ class TeacherApiServices {
   // View Events Teacher...........................................................
 
   static Future<StudentsViewEventsResponseModel> teacherViewSchoolEvents(
-    String status,
-  ) async {
+      String status,
+      ) async {
     StudentsViewEventsResponseModel viewEvents =
-        StudentsViewEventsResponseModel();
+    StudentsViewEventsResponseModel();
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${TeacherSharedServices.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${TeacherSharedServices.loginDetails()?.data!.data!.institutionId}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.viewSchoolEvents}?schoolName=${TeacherSharedServices.loginDetails()?.data!.data!.schoolName}&status=$status&institutionId=${TeacherSharedServices.loginDetails()?.data!.data!.institutionId}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -975,19 +975,19 @@ class TeacherApiServices {
   //................... Teacher Update About school..........................................
 
   static Future<bool> teacherUpdateAboutUs(
-    String schoolAddress,
-    String websiteLink,
-    String schoolEmailId,
-    String aboutSchool,
-    String coreValues,
-    String principalOffice,
-    String admissionDepartment,
-    String enquiryDepartment,
-    File rulesAndRegulation,
-    File profilePic,
-    File coverPic,
-    BuildContext context,
-  ) async {
+      String schoolAddress,
+      String websiteLink,
+      String schoolEmailId,
+      String aboutSchool,
+      String coreValues,
+      String principalOffice,
+      String admissionDepartment,
+      String enquiryDepartment,
+      File rulesAndRegulation,
+      File profilePic,
+      File coverPic,
+      BuildContext context,
+      ) async {
     var ret = false;
 
     try {
@@ -1026,7 +1026,7 @@ class TeacherApiServices {
 
       // Add rulesAndRegulation file
       var rulesAndRegulationStream =
-          http.ByteStream(rulesAndRegulation.openRead());
+      http.ByteStream(rulesAndRegulation.openRead());
       var rulesAndRegulationLength = await rulesAndRegulation.length();
       var rulesAndRegulationMultipartFile = http.MultipartFile(
         'rulesAndRegulation',
@@ -1093,7 +1093,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/${TeacherSharedServices.loginDetails()?.data?.data?.role}/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.teacherViewReqsultClassWise}?examType=$examType&class=$selectedClass&section=$selectedSection",
+        "/${TeacherSharedServices.loginDetails()?.data?.data?.role}/${TeacherSharedServices.loginDetails()?.data!.id}${ApiUrl.teacherViewReqsultClassWise}?examType=$examType&class=$selectedClass&section=$selectedSection",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1122,7 +1122,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUpadteResult}/$resultId/$studentId",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherUpadteResult}/$resultId/$studentId",
         body: {
           "subject": subject,
           "marks": marks,
@@ -1150,15 +1150,15 @@ class TeacherApiServices {
   // Teacher Upload Awards.........................................
 
   static Future<bool> teacherUploadAwards(
-    String studentName,
-    String wclass,
-    String section,
-    String rollNumber,
-    String certificationHeading,
-    String date,
-    File file,
-    BuildContext context,
-  ) async {
+      String studentName,
+      String wclass,
+      String section,
+      String rollNumber,
+      String certificationHeading,
+      String date,
+      File file,
+      BuildContext context,
+      ) async {
     var ret = false;
 
     try {
@@ -1174,7 +1174,7 @@ class TeacherApiServices {
       // Add headers here
       Map<String, String> headers = {
         'Authorization':
-            "${TeacherSharedServices.loginDetails()?.data!.token}", // Replace with your token
+        "${TeacherSharedServices.loginDetails()?.data!.token}", // Replace with your token
       };
       request.headers.addAll(headers);
 
@@ -1238,13 +1238,13 @@ class TeacherApiServices {
   //.... View awards class wise Students List ( Teacher view)...................
 
   static Future<HeadingWiseAwardsListOfStudentsResponseModel>
-      awardsListOfStudents() async {
+  awardsListOfStudents() async {
     HeadingWiseAwardsListOfStudentsResponseModel awardList =
-        HeadingWiseAwardsListOfStudentsResponseModel();
+    HeadingWiseAwardsListOfStudentsResponseModel();
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.getAllAwards}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.getAllAwards}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1268,12 +1268,12 @@ class TeacherApiServices {
   // Teacher Upload Notice........................................................
 
   static Future<bool> teacherUploadNotice(
-    String noticeNeading,
-    String noticeDescription,
-    String noticeDate,
-    File file,
-    BuildContext context,
-  ) async {
+      String noticeNeading,
+      String noticeDescription,
+      String noticeDate,
+      File file,
+      BuildContext context,
+      ) async {
     var ret = false;
 
     try {
@@ -1350,10 +1350,10 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()!.data?.id}${ApiUrl.verifyReadUnreadNoticeTeacher}",
+        "/teacher/${TeacherSharedServices.loginDetails()!.data?.id}${ApiUrl.verifyReadUnreadNoticeTeacher}",
         body: {
           "schoolName":
-              TeacherSharedServices.loginDetails()!.data!.data!.schoolName,
+          TeacherSharedServices.loginDetails()!.data!.data!.schoolName,
           "read": "true",
           "noticeId": noticeID,
         },
@@ -1383,7 +1383,7 @@ class TeacherApiServices {
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.viewNoticeTeacher}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.viewNoticeTeacher}",
       );
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -1405,13 +1405,13 @@ class TeacherApiServices {
 
   //Delete Notice Teacher .......................................................
   static Future<bool> deleteNoticeTeacher(
-    String noticeID,
-  ) async {
+      String noticeID,
+      ) async {
     var ret = false;
     try {
       var response = await ApiBase.deleteRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.deleteNoticeTeacher}",
+        "/teacher/${TeacherSharedServices.loginDetails()!.data!.id}${ApiUrl.deleteNoticeTeacher}",
         body: {
           "noticeId": noticeID,
         },
@@ -1438,17 +1438,17 @@ class TeacherApiServices {
   // Teacher See Attendance of the whole class date wise......................................
 
   static Future<TeacherViewAttendanceOfClassResponseModel>
-      teacherSeeAttendanceOfWholeClassOfAday(
-    String selectedClass,
-    String selectedSection,
-    String selectedDate,
-  ) async {
+  teacherSeeAttendanceOfWholeClassOfAday(
+      String selectedClass,
+      String selectedSection,
+      String selectedDate,
+      ) async {
     TeacherViewAttendanceOfClassResponseModel attendanceModel =
-        TeacherViewAttendanceOfClassResponseModel();
+    TeacherViewAttendanceOfClassResponseModel();
     try {
       var response = await ApiBase.getRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}${ApiUrl.teacherSeeAttendanceOfWholeClassOfAday}?class=$selectedClass&section=$selectedSection&date=$selectedDate",
       );
       log(response.statusCode.toString());
 
@@ -1475,7 +1475,7 @@ class TeacherApiServices {
   static teacherPaymentRequest(
       String selectedClass, String selectSection, int month, int year) async {
     TeacherPaymentStatusResponseModel studentList =
-        TeacherPaymentStatusResponseModel();
+    TeacherPaymentStatusResponseModel();
     try {
       var queryParam =
           "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/getAllFeeList?class=$selectedClass&section=$selectSection&month=$month&year=$year";
@@ -1517,18 +1517,18 @@ class TeacherApiServices {
   }) async {
     var ret = false;
     String schooleName =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
+    TeacherSharedServices.loginDetails()!.data!.data!.schoolName.toString();
     String institutionId = TeacherSharedServices.loginDetails()!
         .data!
         .data!
         .institutionId
         .toString();
     String schoolId =
-        TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
+    TeacherSharedServices.loginDetails()!.data!.data!.schoolId.toString();
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
-            "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/marked-paid/${docId}",
+        "/teacher/${TeacherSharedServices.loginDetails()?.data?.id}/marked-paid/${docId}",
         body: {
           "studentId": studentid,
           "category": category,

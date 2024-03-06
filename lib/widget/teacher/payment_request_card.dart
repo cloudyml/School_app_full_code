@@ -45,8 +45,8 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
                 color: widget.category == "all"
                     ? deepBlue
                     : widget.category == "paid"
-                    ? Colors.green
-                    : Colors.red),
+                        ? Colors.green
+                        : Colors.red),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -86,13 +86,13 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
                       ),
                       widget.category == "paid"
                           ? Padding(
-                        padding: const EdgeInsets.only(bottom: 6.0),
-                        child: Text(
-                          "Date : ${widget.date}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 26),
-                        ),
-                      )
+                              padding: const EdgeInsets.only(bottom: 6.0),
+                              child: Text(
+                                "Date : ${widget.date}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 26),
+                              ),
+                            )
                           : Container(),
                     ],
                   ),
@@ -100,75 +100,75 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
               ),
               widget.category == 'all' || widget.category == 'paid'
                   ? Transform.scale(
-                scale: 2.5,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Checkbox(
-                    checkColor: Colors.white,
-                    activeColor: Colors.green,
-                    side: const BorderSide(width: 0.5),
-                    shape: const ContinuousRectangleBorder(),
-                    value: widget.isDone,
-                    onChanged: (value) {
-                      // Do api call inside the value, if isDone == true then do POST api call esle UPDATE
-                      setState(() {
-                        widget.isDone = value!;
-                      });
+                      scale: 2.5,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          activeColor: Colors.green,
+                          side: const BorderSide(width: 0.5),
+                          shape: const ContinuousRectangleBorder(),
+                          value: widget.isDone,
+                          onChanged: (value) {
+                            // Do api call inside the value, if isDone == true then do POST api call esle UPDATE
+                            setState(() {
+                              widget.isDone = value!;
+                            });
 
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Payment Status       '),
-                            content: Text(
-                                'Are you sure to perform this action ?'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  if (widget.category == "all") {
-                                    TeacherApiServices
-                                        .TeacheSubmitPaymentRequest(
-                                        studentid:
-                                        widget.studenId,
-                                        docId: widget.documentId,
-                                        category: 'Paid',
-                                        paymentDate: "2024-03-12")
-                                        .whenComplete(() {
-                                      return widget.getDataForRefresh();
-                                    });
-                                  } else if (widget.category == "paid") {
-                                    TeacherApiServices
-                                        .TeacheSubmitPaymentRequest(
-                                        studentid:
-                                        widget.studenId,
-                                        docId: widget.documentId,
-                                        category: 'All',
-                                        paymentDate: "2024-03-12")
-                                        .whenComplete(() {
-                                      return widget.getDataForRefresh();
-                                    });
-                                  }
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Payment Status       '),
+                                  content: Text(
+                                      'Are you sure to perform this action ?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        if (widget.category == "all") {
+                                          TeacherApiServices
+                                                  .TeacheSubmitPaymentRequest(
+                                                      studentid:
+                                                          widget.studenId,
+                                                      docId: widget.documentId,
+                                                      category: 'Paid',
+                                                      paymentDate: "2024-03-12")
+                                              .whenComplete(() {
+                                            return widget.getDataForRefresh();
+                                          });
+                                        } else if (widget.category == "paid") {
+                                          TeacherApiServices
+                                                  .TeacheSubmitPaymentRequest(
+                                                      studentid:
+                                                          widget.studenId,
+                                                      docId: widget.documentId,
+                                                      category: 'All',
+                                                      paymentDate: "2024-03-12")
+                                              .whenComplete(() {
+                                            return widget.getDataForRefresh();
+                                          });
+                                        }
 
-                                  Navigator.pop(context);
-                                },
-                                child: Text('OK'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Action when 'Cancel' button is pressed
-                                  Navigator.of(context).pop();
-                                  log(widget.date.toString());
-                                },
-                                child: Text('Cancel'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              )
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Action when 'Cancel' button is pressed
+                                        Navigator.of(context).pop();
+                                        log(widget.date.toString());
+                                      },
+                                      child: Text('Cancel'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    )
                   : Container(),
             ],
           ),
