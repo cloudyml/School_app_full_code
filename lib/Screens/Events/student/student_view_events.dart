@@ -10,11 +10,12 @@ import 'detailed_screen_upcoming_events.dart';
 import '../../../widget/student/Events/new_events_card.dart';
 import 'package:intl/intl.dart';
 
+
 import 'detailed_screen_completed_events.dart';
 
 class StudentsViewEvents extends StatefulWidget {
   const StudentsViewEvents({super.key});
-  static const route = '/events';
+  static const route = 'student/events';
   @override
   State<StudentsViewEvents> createState() => _EventScreen();
 }

@@ -5,6 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management_system/Screens/Awards/student/student_view_awards.dart';
+import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
 import 'package:school_management_system/Screens/Splash/splashScreen.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
@@ -36,6 +38,8 @@ void main() async {
   ], child: const MyApp()));
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -49,7 +53,14 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        initialRoute: "/",
+        routes: {
+          '/': (context) => const SplashScreen(),
+          ParentsViewEvents.route: (context) => const ParentsViewEvents(),
+          StudentViewAwards.route: (context) => const StudentViewAwards(),
+        },
+        // home: const SplashScreen(),
+        navigatorKey: navigatorKey,
         builder: EasyLoading.init(),
       ),
     );

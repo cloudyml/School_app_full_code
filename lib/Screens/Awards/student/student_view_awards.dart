@@ -8,6 +8,7 @@ import '../../../widget/student/Awards/view_awards_card.dart';
 
 class StudentViewAwards extends StatelessWidget {
   const StudentViewAwards({super.key});
+   static const route = '/events';
 
   @override
   Widget build(BuildContext context) {

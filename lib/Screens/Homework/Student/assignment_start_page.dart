@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Homework/Student/type_of_assignments.dart';
 
 import '../../../constants/style.dart';
@@ -26,7 +27,11 @@ class StudentAssignmentChoose extends StatelessWidget {
           gradient2: deepBlue,
           extra: appbar(
               "assets/flaticon/_assignments.png", " Homework", context, () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) {
+                return const Dashboard();
+              },
+            ));
           }),
         ),
       ),
@@ -71,7 +76,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                         ]),
                     child: Column(
                       children: [
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.14,
                           child: Image.asset("assets/_assignment.png"),
@@ -120,7 +125,7 @@ class StudentAssignmentChoose extends StatelessWidget {
                         ]),
                     child: Column(
                       children: [
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.16,
                           child: Image.asset("assets/_assignment.png"),

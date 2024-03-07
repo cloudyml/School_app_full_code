@@ -1,13 +1,17 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
-import 'package:school_management_system/Screens/Navbar/Account/ParentChildren/parent_my_account_home_page.dart';
+import 'package:school_management_system/Screens/chat/all_chats_screen.dart';
+import 'package:school_management_system/Screens/chat/chat_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
+
 import '../constants/style.dart';
+import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/About/view_about_school.dart';
+import 'Navbar/Account/ParentChildren/parent_my_account_home_page.dart';
 import 'Navbar/Account/Teacher/teacher_my_account_home_page.dart';
 import 'Navbar/Home/home_screen.dart';
-import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
 
@@ -24,6 +28,7 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   Widget _myAccountScreen() {
+
    if (SharedServiceParentChildren.type() == "teacher") {
       log("Teacher");
       return const TeacherMyAccount();
@@ -84,7 +89,8 @@ class _DashboardState extends State<Dashboard> {
             });
           },
 
-          backgroundColor: Colors.white, // Set the background color to blue
+          backgroundColor: Colors.white,
+          // Set the background color to blue
           selectedItemColor: deepBlue,
           unselectedItemColor: const Color.fromARGB(255, 178, 177, 177),
 
@@ -111,6 +117,14 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       body: screens[_currentIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return AllChatLIstScreen();
+          },));
+        },
+        child: Icon(Icons.messenger),
+      ),
     );
   }
 }
