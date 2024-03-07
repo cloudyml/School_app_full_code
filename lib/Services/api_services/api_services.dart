@@ -58,15 +58,11 @@ class ApiServices {
         },
       );
 
-      // log(response.statusCode.toString());
-      // log(selectedrole.toString());
-      // log("\n${response.body}");
-
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['status'] == true) {
           var responseModel = loginResponseModelFromJson(response.body);
           Future.delayed(
-            const Duration(seconds: 2),
+            const Duration(seconds: 1),
             () {
               fetchChildData();
             },

@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 
 class ParentsViewEvents extends StatefulWidget {
   const ParentsViewEvents({super.key});
-  // static const route = '/events';
+  static const route = 'parent/events';
   @override
   State<ParentsViewEvents> createState() => _EventScreen();
 }

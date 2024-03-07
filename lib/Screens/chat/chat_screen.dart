@@ -29,9 +29,9 @@ class ChatRoomScreen extends StatefulWidget {
     "camera",
   ];
   static List optionicon = [
-    Icon(Icons.image),
-    Icon(Icons.picture_as_pdf),
-    Icon(Icons.camera),
+    const Icon(Icons.image),
+    const Icon(Icons.picture_as_pdf),
+    const Icon(Icons.camera),
   ];
   static List<msgmodel> msgs1 = [
     msgmodel(
@@ -156,11 +156,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                               width: 0.3.sw,
                                               child: Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    child: Image(
-                                                        fit: BoxFit.cover,
-                                                        image: NetworkImage(
-                                                            "https://imgs.search.brave.com/k_9AIFjJQjBjTnvKm5YAOLa9e8uZdzUSj15RoL4t4yc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzU1LzA0Lzk3/LzM2MF9GXzE1NTA0/OTc4Nl9DaDE3Z1Jm/UGptS0c1TjlTMjFW/TXM4TFdCa2prZlZE/aS5qcGc")),
+                                                  const CircleAvatar(
+                                                    backgroundImage: NetworkImage(
+                                                        "https://imgs.search.brave.com/k_9AIFjJQjBjTnvKm5YAOLa9e8uZdzUSj15RoL4t4yc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzU1LzA0Lzk3/LzM2MF9GXzE1NTA0/OTc4Nl9DaDE3Z1Jm/UGptS0c1TjlTMjFW/TXM4TFdCa2prZlZE/aS5qcGc"),
                                                   ),
                                                   SizedBox(
                                                     width: 10.w,
@@ -241,7 +239,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                               width: 0.3.sw,
                                               child: Row(
                                                 children: [
-                                                  CircleAvatar(
+                                                  const CircleAvatar(
                                                     child: Image(
                                                         fit: BoxFit.cover,
                                                         image: NetworkImage(
@@ -306,7 +304,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 SizedBox(
                   width: 0.72.sw,
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey.withOpacity(0.9)),
                         borderRadius: BorderRadius.circular(10.r)),
@@ -331,10 +329,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         return Container(
                           height: 0.16.sh,
                           child: GridView.builder(
-                            
                             itemCount: ChatRoomScreen.option.length,
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3),
                             itemBuilder: (context, index) {
                               return Container(
@@ -372,8 +369,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: isVioceMsg
-                          ? Icon(Icons.voice_chat)
-                          : Icon(Icons.send),
+                          ? const Icon(Icons.mic)
+                          : const Icon(Icons.send),
                     ),
                   ),
                 )
