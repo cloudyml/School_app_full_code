@@ -88,6 +88,8 @@ class _TeacherSelectExamTypeState extends State<TeacherSelectExamType> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData) {
                     return Center(child: Text('There are no exams.'));
+                  } else if (snapshot.data == null || snapshot.data!.data == null) {
+                    return Center(child: Text('There are no exams.'));
                   }
                   return ListView.builder(
                       itemCount: snapshot.data!.data!.examTypeList!.length,

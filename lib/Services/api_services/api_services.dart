@@ -1558,9 +1558,11 @@ class ApiServices {
     return ret;
   }
 
+
 //.... Update my account details Teacher....................................
 
   static Future<bool> updateMyAccountTeacher(
+
     String name,
     String email,
     String phone,
@@ -1572,7 +1574,9 @@ class ApiServices {
     try {
       var response = await ApiBase.putRequest(
         extendedURL:
+
             "${ApiUrl.updateMytAccountTeacher}/${SharedServiceParentChildren.loginDetails()?.data!.id}",
+
         body: {
           "name": name,
           "email": email,

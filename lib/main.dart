@@ -7,11 +7,10 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management_system/Screens/Awards/student/student_view_awards.dart';
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
-import 'package:school_management_system/Screens/Events/student/student_view_events.dart';
+import 'package:school_management_system/Screens/Splash/splashScreen.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Screens/Splash/splashScreen.dart';
 import 'constants/constants.dart';
 
 void main() async {

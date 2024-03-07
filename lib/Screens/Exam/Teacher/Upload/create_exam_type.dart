@@ -45,10 +45,7 @@ class CreateExamTypeView extends StatelessWidget {
   ].obs;
 
   final listOfCriteria = [].obs;
-
   final srNo = 0.obs;
-
-  final marksRange = [];
   final listOfBool = [].obs;
 
   @override
@@ -379,16 +376,6 @@ class CreateExamTypeView extends StatelessWidget {
                         height: 0.025.sh,
                         child: ElevatedButton(
                             onPressed: () {
-                              // srNo.value++;
-                              // marksRange.add(textOfmarksRange[0].value.text);
-                              // marksRange.add(textOfmarksRange[1].value.text);
-                              // marksRange.toList();
-                              // listOfCriteria.add({
-                              //   "marksRange": marksRange,
-                              //   "grades": "",
-                              //   "comments": ""
-                              // });
-                              // listOfBool.add(false);
                               showRowDialogue(context);
                             },
                             child: Row(
@@ -402,84 +389,6 @@ class CreateExamTypeView extends StatelessWidget {
                               ],
                             ))),
                   )),
-              // FutureBuilder<ExamRoutineResponseModel>(
-              //   future: ApiServices.viewExamRoutine(widget.selectedClass,
-              //       widget.testType, widget.selectedSection),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return const Center(
-              //           child:
-              //               CircularProgressIndicator()); // Show loading indicator
-              //     } else if (snapshot.hasError) {
-              //       return Text('Error: ${snapshot.error}');
-              //     } else if (!snapshot.hasData || snapshot.data!.data == null) {
-              //       return const Center(child: Text('No Exam Found.'));
-              //     } else {
-              //       ExamRoutineResponseModel? exam = snapshot.data;
-              //       log("Message= ${exam!.message.toString()}");
-              //       log("Status= ${exam.status.toString()}");
-              //
-              //       return GridView.builder(
-              //         shrinkWrap: true,
-              //         gridDelegate:
-              //             const SliverGridDelegateWithFixedCrossAxisCount(
-              //           crossAxisCount: 1,
-              //           childAspectRatio: 8,
-              //         ),
-              //         itemBuilder: (context, index) {
-              //           return Padding(
-              //             padding: const EdgeInsets.symmetric(horizontal: 8),
-              //             child: Row(
-              //               children: [
-              //                 Expanded(
-              //                   child: Container(
-              //                     decoration:
-              //                         BoxDecoration(border: Border.all()),
-              //                     height: containerSize,
-              //                     width: containerSize,
-              //                     child: Center(
-              //                       child: Text(exam
-              //                           .data!.examDetails![index].subject
-              //                           .toString()),
-              //                     ),
-              //                   ),
-              //                 ),
-              //                 Expanded(
-              //                   child: Container(
-              //                     decoration:
-              //                         BoxDecoration(border: Border.all()),
-              //                     height: containerSize,
-              //                     width: containerSize,
-              //                     child: Center(
-              //                       child: Text(DateFormat('dd-MM-yyyy').format(
-              //                           DateTime.parse(exam
-              //                               .data!.examDetails![index].date
-              //                               .toString()))),
-              //                     ),
-              //                   ),
-              //                 ),
-              //                 Expanded(
-              //                   child: Container(
-              //                     decoration:
-              //                         BoxDecoration(border: Border.all()),
-              //                     height: containerSize,
-              //                     width: containerSize,
-              //                     child: Center(
-              //                       child: Text(exam
-              //                           .data!.examDetails![index].time
-              //                           .toString()),
-              //                     ),
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //           );
-              //         },
-              //         itemCount: exam.data!.examDetails!.length,
-              //       );
-              //     }
-              //   },
-              // ),
               ElevatedButton(
                   onPressed: () async {
                     if (selectedClass.value != "Choose Class" &&
@@ -491,13 +400,15 @@ class CreateExamTypeView extends StatelessWidget {
                           examListId: examListId);
 
                       listOfCriteria.toList();
-                      await TeacherApiServices.teacherPostGradingData(context,
-                          examType: nameController.value.text,
-                          selectedClass: selectedClass.value,
-                          selectedSection: selectedSection.value,
-                          passingMarks: textOfPassingTotalMarks[1].value.text,
-                          totalMarks: textOfPassingTotalMarks[0].value.text,
-                          gradingCriteria: listOfCriteria);
+                      if(listOfCriteria.isNotEmpty) {
+                        await TeacherApiServices.teacherPostGradingData(context,
+                            examType: nameController.value.text,
+                            selectedClass: selectedClass.value,
+                            selectedSection: selectedSection.value,
+                            passingMarks: textOfPassingTotalMarks[1].value.text,
+                            totalMarks: textOfPassingTotalMarks[0].value.text,
+                            gradingCriteria: listOfCriteria);
+                      }
                       textOfPassingTotalMarks.forEach((element) {
                         element.value.clear();
                       });
@@ -545,14 +456,10 @@ class CreateExamTypeView extends StatelessWidget {
               ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: deepBlue),
                   onPressed: () {
-                    marksRange.addAll([
-                      textOfmarksRange[0].value.text.toString(),
-                      textOfmarksRange[1].value.text.toString()
-                    ]);
-                    print("object $marksRange");
-                    marksRange.toList();
+
                     listOfCriteria.add({
-                      "marksRange": marksRange,
+                      "marksRange": [textOfmarksRange[0].value.text.toString(),
+                        textOfmarksRange[1].value.text.toString()],
                       "grades": textOfGradeComment[0].value.text,
                       "comments": textOfGradeComment[1].value.text
                     });
@@ -562,6 +469,8 @@ class CreateExamTypeView extends StatelessWidget {
                     textOfGradeComment.forEach((element) {
                       element.value.clear();
                     });
+                    print("Mark range = ${textOfmarksRange[0].value.text.toString()} ${textOfmarksRange[1].value.text.toString()}");
+                    print("Mark range = $listOfCriteria");
                     Navigator.pop(context);
                   },
                   child: Text(
