@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import '../../../../Models/Student/Notice/view_notice_response_model.dart';
 import '../../../../constants/style.dart';
 import '../../../../widget/appBar/decorative_apbar_widget.dart';
@@ -8,6 +9,7 @@ import '../../../../widget/student/Notice/student_notice_card.dart';
 import 'notice_detailed_screen.dart';
 
 class ViewNoticeScreen extends StatefulWidget {
+  static const route = RouteConstants.parentChildrenviewnotice;
   const ViewNoticeScreen({Key? key}) : super(key: key);
 
   @override

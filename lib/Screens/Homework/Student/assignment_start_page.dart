@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Homework/Student/type_of_assignments.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
-class StudentAssignmentChoose extends StatelessWidget {
-  const StudentAssignmentChoose({super.key});
+class StudentAssignmentChooseAssignmentType extends StatelessWidget {
+  static const route = RouteConstants.parentstudentviewassignment;
+  const StudentAssignmentChooseAssignmentType({super.key});
 
   @override
   Widget build(BuildContext context) {

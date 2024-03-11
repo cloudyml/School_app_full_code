@@ -48,16 +48,6 @@ class _TakeAttendanceCardState extends State<TakeAttendanceCard> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // CircleAvatar(
-                      //   radius: 20,
-                      //   backgroundColor: Buttonc,
-                      //   child: ClipOval(
-                      //     child: Text(
-                      //       widget.model.firstChar ?? '',
-                      //       style: TextStyle(color: Colors.white),
-                      //     ), // Access widget's properties using widget.
-                      //   ),
-                      // ),
                       const SizedBox(width: 10),
                       Expanded(
                         // Wrap the Column with Expanded
@@ -74,7 +64,6 @@ class _TakeAttendanceCardState extends State<TakeAttendanceCard> {
                                 color: Colors.black,
                               ),
                             ),
-                            //    const SizedBox(height: 5),
                             Text(
                               providerr.attendanceResponseModel!
                                   .data![widget.index].rollNumber
