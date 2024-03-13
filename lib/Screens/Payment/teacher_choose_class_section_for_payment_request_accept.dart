@@ -5,6 +5,7 @@ import '../../../../../constants/style.dart';
 import '../../../../../widget/Button/my_elevatedbutton.dart';
 import '../../../../../widget/appBar/appbar_widget.dart';
 import '../../../../../widget/appBar/decorative_apbar_widget.dart';
+import '../../constants/constants.dart';
 
 class TeacherChooseClassForPaymentRequestAccept extends StatefulWidget {
   const TeacherChooseClassForPaymentRequestAccept({Key? key}) : super(key: key);
@@ -176,7 +177,7 @@ class _TeacherChooseClassForPaymentRequestAccept
                   onPressed: () {
                     if (selectedClass == 'Choose Class' ||
                         selectedSection == 'Choose Section') {
-                      showSnackBar("Please select class and section.");
+                      showSnackBar("Please select class and section.", context);
                     } else {
                       log("Selected Class= $selectedClass");
                       log("Selected Section = $selectedSection");
