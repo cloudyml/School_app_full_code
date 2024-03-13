@@ -5,6 +5,7 @@ import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Events/parent/detail_of_the_event.dart';
 import 'package:school_management_system/Screens/Events/student/detailed_screen_completed_events.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import '../../../Models/Student/Events/view_events_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -14,7 +15,7 @@ import 'package:intl/intl.dart';
 
 class ParentsViewEvents extends StatefulWidget {
   const ParentsViewEvents({super.key});
-  // static const route = '/events';
+  // static const route = RouteConstants.parentviewevents;
   @override
   State<ParentsViewEvents> createState() => _EventScreen();
 }
@@ -37,7 +38,7 @@ class _EventScreen extends State<ParentsViewEvents> {
               gradient1: lightBlue,
               gradient2: deepBlue,
               extra: appbar("assets/add_events.png", " Events", context, () {
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Dashboard()));
               }),
             ),

@@ -37,7 +37,9 @@ class HomeScreen extends StatefulWidget {
 
 class _MyWidgetState extends State<HomeScreen> {
   bool check = false;
+
   late List<Widget> categoryList; // Declare categoryList
+
 
   @override
   void initState() {
@@ -67,7 +69,7 @@ class _MyWidgetState extends State<HomeScreen> {
     if (SharedServiceParentChildren.type() == "teacher") {
       return const TeacherAssignmentFirstPage();
     } else {
-      return const StudentAssignmentChoose();
+      return const StudentAssignmentChooseAssignmentType();
     }
   }
 
@@ -281,7 +283,7 @@ class _MyWidgetState extends State<HomeScreen> {
                                         .childrens!
                                         .length >
                                     1)
-                            ? const SwitchChildOptionForParent()
+                            ?  SwitchChildOptionForParent()
                             : Container(),
                       ],
                     ),

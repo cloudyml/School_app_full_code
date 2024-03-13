@@ -108,7 +108,9 @@ class _PaymentRequestCardState extends State<PaymentRequestCard> {
                           activeColor: Colors.green,
                           side: const BorderSide(width: 0.5),
                           shape: const ContinuousRectangleBorder(),
-                          value: widget.isDone,
+                          value: widget.category == 'paid'
+                              ? !widget.isDone
+                              : widget.isDone,
                           onChanged: (value) {
                             // Do api call inside the value, if isDone == true then do POST api call esle UPDATE
                             setState(() {

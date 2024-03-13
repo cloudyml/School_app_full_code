@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
+import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/constants/route_constant.dart';
+import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -7,6 +12,7 @@ import '../../../widget/appBar/decorative_apbar_widget.dart';
 import 'view_result.dart';
 
 class SelectResultType extends StatelessWidget {
+  static const route = RouteConstants.parentstudentviewresult;
   const SelectResultType({super.key});
 
   @override
@@ -26,9 +32,44 @@ class SelectResultType extends StatelessWidget {
           background: Colors.white,
           gradient1: lightBlue,
           gradient2: deepBlue,
-          extra: appbar("assets/result1.png", " Results", context, () {
-            Navigator.pop(context);
-          }),
+          extra: Column(
+            children: [
+              appbar("assets/result1.png", " Results", context, () {
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return Dashboard();
+                  },
+                ));
+              }),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SharedServiceParentChildren.loginDetails()
+                                          ?.data
+                                          ?.data
+                                          ?.role ==
+                                      "parent" &&
+                                  (SharedServiceParentChildren.loginDetails()!
+                                          .data!
+                                          .data!
+                                          .childrens!
+                                          .length >
+                                      1)
+                              ? const SwitchChildOptionForParent()
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -51,7 +92,6 @@ class SelectResultType extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 30),
                 child: InkWell(
                   onTap: () {
-                    
                     Navigator.push(
                         context,
                         MaterialPageRoute(

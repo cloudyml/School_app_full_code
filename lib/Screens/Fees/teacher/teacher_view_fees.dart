@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:school_management_system/Screens/Payment/teacher_choose_class_section_for_payment_request_accept.dart';
@@ -315,21 +316,23 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
           ),
           children: [
             FloatingActionButton.large(
+              heroTag: "Button1",
               backgroundColor: deepBlue,
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const UploadFees()));
               },
-              child: const Text("Fees", style: TextStyle(color: Colors.white)),
+              child: Text("Fees", style: TextStyle(color: Colors.white)),
             ),
             FloatingActionButton.large(
+              heroTag: "Button2",
               backgroundColor: deepBlue,
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         const TeacherChooseClassForPaymentRequestAccept()));
               },
-              child: const Text(
+              child: Text(
                 "Payment",
                 style: TextStyle(color: Colors.white),
               ),

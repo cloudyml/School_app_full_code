@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:school_management_system/Screens/Navbar/Account/Teacher/Coaching/register_new_student.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
@@ -39,8 +38,8 @@ class AddStudentCoaching extends StatelessWidget {
             Container(
               height: height * 0.45,
               width: width,
-              child:
-                  Lottie.asset("assets/Lottie/Animation - 1703833016615.json"),
+              // child:
+                  // Lottie.asset("assets/Lottie/Animation - 1703833016615.json"),
             ),
             SizedBox(
               height: height * 0.05,

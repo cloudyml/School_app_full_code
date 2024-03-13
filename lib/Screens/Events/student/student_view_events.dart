@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import '../../../Models/Student/Events/view_events_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -10,11 +11,12 @@ import 'detailed_screen_upcoming_events.dart';
 import '../../../widget/student/Events/new_events_card.dart';
 import 'package:intl/intl.dart';
 
+
 import 'detailed_screen_completed_events.dart';
 
 class StudentsViewEvents extends StatefulWidget {
   const StudentsViewEvents({super.key});
-  static const route = '/events';
+  // static const route = RouteConstants.studentviewevents;
   @override
   State<StudentsViewEvents> createState() => _EventScreen();
 }

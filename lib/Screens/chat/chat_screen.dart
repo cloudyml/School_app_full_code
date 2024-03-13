@@ -1,14 +1,16 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/constants/style.dart';
 
-class MessageModel {
+class msgmodel {
   String keyname;
   String username;
   String sentTime;
   String value;
-  MessageModel({
+  msgmodel({
     required this.keyname,
     required this.value,
     required this.username,
@@ -29,37 +31,43 @@ class ChatRoomScreen extends StatefulWidget {
     const Icon(Icons.picture_as_pdf),
     const Icon(Icons.camera),
   ];
-  static List<MessageModel> msgs1 = [
-    MessageModel(
-        keyname: "user1", value: "Hello", sentTime: "5:05", username: "User1"),
-    MessageModel(
-        keyname: "user2", value: "HI", sentTime: "5:31", username: "User2"),
-    MessageModel(
+  static List<msgmodel> msgs1 = [
+    msgmodel(
+        keyname: "user1", value: "Hello", sentTime: "17:30", username: "User1"),
+    msgmodel(
+        keyname: "user2", value: "HI!!", sentTime: "17:31", username: "User2"),
+    msgmodel(
         keyname: "user1",
-        value: "Whats going on",
+        value: "Hey! How have you been lately",
         sentTime: "17:33",
         username: "User1"),
-    MessageModel(
-        keyname: "user2", value: "", sentTime: "17:36", username: "User2"),
-    MessageModel(
-        keyname: "user1",
+    msgmodel(
+        keyname: "user2",
         value:
-            "ok i had a doubt can you help?? plz help me in stuck at a issue and rellay can help ",
+            "Hey! I've been doing pretty well, thanks for asking. How about you",
+        sentTime: "17:36",
+        username: "User2"),
+    msgmodel(
+        keyname: "user1",
+        value: "What's the most interesting thing you've done recently? ",
         sentTime: "17:40",
         username: "User1"),
-    MessageModel(
+    msgmodel(
         keyname: "user2",
-        value: "ya sure ask ",
+        value:
+            "Recently, I started learning how to cook new recipes, which has been quite fun.",
         sentTime: "17:45",
         username: "User2"),
-    MessageModel(
+    msgmodel(
         keyname: "user1",
-        value: "Thanks a lot that helped me a lot",
+        value:
+            "Have you watched any good movies or TV shows lately? Any recommendations?",
         sentTime: "17:30",
         username: "User1"),
-    MessageModel(
+    msgmodel(
         keyname: "user2",
-        value: "No Problem anytime...",
+        value:
+            "I watched this amazing documentary last night called The Social Dilemma. You should definitely check it out if you haven't already.",
         sentTime: "17:50",
         username: "User2"),
   ];
@@ -70,6 +78,23 @@ class ChatRoomScreen extends StatefulWidget {
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   bool isVioceMsg = false;
+
+  File? file;
+
+  Future<void> getGal() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      File selectedFile = File(result.files.single.path!);
+
+      setState(() {
+        file = selectedFile;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +123,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     width: 0.05.sw,
                   ),
                   Text(
-                    "Maths XII class",
+                    "Maths Group",
                     style: GoogleFonts.inter(
                         fontSize: 22.sp,
                         color: Colors.white,
@@ -119,6 +144,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     return Container(
                       child: ChatRoomScreen.msgs1[index].keyname == "user1"
                           ? Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -149,8 +175,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                               child: Row(
                                                 children: [
                                                   const CircleAvatar(
-                                                    backgroundImage: NetworkImage(
-                                                        "https://imgs.search.brave.com/k_9AIFjJQjBjTnvKm5YAOLa9e8uZdzUSj15RoL4t4yc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzU1LzA0Lzk3/LzM2MF9GXzE1NTA0/OTc4Nl9DaDE3Z1Jm/UGptS0c1TjlTMjFW/TXM4TFdCa2prZlZE/aS5qcGc"),
+                                                    backgroundImage: AssetImage(
+                                                        "assets/chat_user.jpg"),
                                                   ),
                                                   SizedBox(
                                                     width: 10.w,
@@ -206,6 +232,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
                                     padding: EdgeInsets.symmetric(
                                         vertical: 10.h, horizontal: 8.w),
                                     decoration: BoxDecoration(
@@ -220,7 +248,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                             BorderRadius.circular(10.r)),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Column(
@@ -232,10 +260,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                               child: Row(
                                                 children: [
                                                   const CircleAvatar(
-                                                    child: Image(
-                                                        fit: BoxFit.cover,
-                                                        image: NetworkImage(
-                                                            "https://imgs.search.brave.com/owWs2b4cFs6FcmEi2Leqo0iZhZshDyB93lYO0ACQiKA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzYwMzkyOS9waG90/by9wb3J0cmFpdC1v/Zi1tYXR1cmUtYnVz/aW5lc3NtYW4ud2Vi/cD9iPTEmcz02MTJ4/NjEyJnc9MCZrPTIw/JmM9S3ZXRGJ4RkVJ/VklBR2J0U0VBb0FZ/c0hrOVRBRy14b2ZP/TzBXSXJrbXdzST0")),
+                                                    backgroundImage: AssetImage(
+                                                        "assets/chat_user2.jpg"),
                                                   ),
                                                   SizedBox(
                                                     width: 10.w,
@@ -331,9 +357,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    CircleAvatar(
-                                      radius: 35.r,
-                                      child: ChatRoomScreen.optionicon[index],
+                                    GestureDetector(
+                                      onTap: () {
+                                        getGal();
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 35.r,
+                                        child: ChatRoomScreen.optionicon[index],
+                                      ),
                                     ),
                                     Text(ChatRoomScreen.option[index])
                                   ],

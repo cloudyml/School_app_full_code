@@ -67,8 +67,7 @@ class ParentMyAccount extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  width: MediaQuery.of(context).size.width * 0.9,
+                  width: 0.9.sw,
                   decoration: BoxDecoration(
                     border: Border.all(color: deepBlue),
                     borderRadius: BorderRadius.circular(18),
@@ -82,8 +81,10 @@ class ParentMyAccount extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CircleAvatar(
@@ -101,8 +102,8 @@ class ParentMyAccount extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 20,
+                        SizedBox(
+                          width: 5.w,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,

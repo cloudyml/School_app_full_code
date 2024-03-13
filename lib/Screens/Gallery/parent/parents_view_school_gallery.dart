@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Screens/Gallery/student/view_single_photo.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import '../../../Models/Student/Gallery/view_gallery_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -9,6 +10,8 @@ import '../../../widget/appBar/decorative_apbar_widget.dart';
 import '../../Dashboard.dart';
 
 class ParentViewGallery extends StatefulWidget {
+
+//  static const route = RouteConstants.parentviewgallery;
   const ParentViewGallery({
     super.key,
   });

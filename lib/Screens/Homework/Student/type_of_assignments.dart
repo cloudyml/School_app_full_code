@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Homework/Parent/pending_Assignment_text.dart';
 import 'package:school_management_system/Screens/Homework/Parent/pending_assignment_parent_file.dart';
 import 'package:school_management_system/Screens/Homework/Student/pending_assignment_file_list.dart';
 import 'package:school_management_system/Screens/Homework/Student/pending_assignment_text_list.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -33,10 +35,41 @@ class ChooseHomeWorkType extends StatelessWidget {
           background: Colors.white,
           gradient1: lightBlue,
           gradient2: deepBlue,
-          extra: appbar(
-              "assets/flaticon/_assignments.png", " Homework", context, () {
-            Navigator.pop(context);
-          }),
+          extra: Column(
+            children: [
+              appbar("assets/flaticon/_assignments.png", " Homework", context,
+                  () {
+                Navigator.pop(context);
+              }),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SharedServiceParentChildren.loginDetails()
+                                          ?.data
+                                          ?.data
+                                          ?.role ==
+                                      "parent" &&
+                                  (SharedServiceParentChildren.loginDetails()!
+                                          .data!
+                                          .data!
+                                          .childrens!
+                                          .length >
+                                      1)
+                              ? const SwitchChildOptionForParent()
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(

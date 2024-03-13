@@ -1,13 +1,16 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
-import 'package:school_management_system/Screens/Navbar/Account/ParentChildren/parent_my_account_home_page.dart';
+import 'package:school_management_system/Screens/chat/all_chats_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import '../constants/style.dart';
+import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/About/view_about_school.dart';
+import 'Navbar/Account/ParentChildren/parent_my_account_home_page.dart';
 import 'Navbar/Account/Teacher/teacher_my_account_home_page.dart';
 import 'Navbar/Home/home_screen.dart';
-import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
 
@@ -24,7 +27,7 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   Widget _myAccountScreen() {
-   if (SharedServiceParentChildren.type() == "teacher") {
+    if (SharedServiceParentChildren.type() == "teacher") {
       log("Teacher");
       return const TeacherMyAccount();
     } else {
@@ -84,7 +87,8 @@ class _DashboardState extends State<Dashboard> {
             });
           },
 
-          backgroundColor: Colors.white, // Set the background color to blue
+          backgroundColor: Colors.white,
+          // Set the background color to blue
           selectedItemColor: deepBlue,
           unselectedItemColor: const Color.fromARGB(255, 178, 177, 177),
 
@@ -111,6 +115,64 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       body: screens[_currentIndex],
+      floatingActionButtonLocation:
+          SharedServiceParentChildren.type() == "student"
+              ? ExpandableFab.location
+              : FloatingActionButtonLocation.endFloat,
+      floatingActionButton: SharedServiceParentChildren.type() == "student"
+          ? ExpandableFab(
+              openButtonBuilder: RotateFloatingActionButtonBuilder(
+                child: const Icon(Icons.messenger),
+                fabSize: ExpandableFabSize.regular,
+                foregroundColor: lightBlue,
+                backgroundColor: deepBlue,
+                shape: const CircleBorder(),
+              ),
+              closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+                child: const Icon(Icons.close),
+                fabSize: ExpandableFabSize.small,
+                foregroundColor: Colors.white,
+                backgroundColor: deepBlue,
+                shape: const CircleBorder(),
+              ),
+              overlayStyle: ExpandableFabOverlayStyle(
+                // color: Colors.black.withOpacity(0.5),
+                blur: 5,
+              ),
+              children: [
+                  FloatingActionButton(
+                    heroTag: "hello",
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const AllChatLIstScreen();
+                        },
+                      ));
+                    },
+                    child: const Icon(Icons.messenger),
+                  ),
+                  FloatingActionButton(
+                    heroTag: "bye",
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const AllChatLIstScreen();
+                        },
+                      ));
+                    },
+                    child: const Icon(Icons.group),
+                  )
+                ])
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const AllChatLIstScreen();
+                  },
+                ));
+              },
+              child: const Icon(Icons.messenger),
+            ),
     );
   }
 }

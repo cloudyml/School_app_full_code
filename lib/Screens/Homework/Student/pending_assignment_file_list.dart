@@ -52,7 +52,7 @@ class StudentPendingAssignmentFileList extends StatelessWidget {
                 child: Text("No Assignment available"),
               ); // Handle the case where there is no data
             } else {
-              // todo THERE IS WRONG NULL CHECK ABOVE FOR TEXT ASSIGNMENTS
+              //  todo THERE IS WRONG NULL CHECK ABOVE FOR TEXT ASSIGNMENTS
               StudentViewAssignmentModel studentAssignment = snapshot.data!;
 
               return ListView.builder(
