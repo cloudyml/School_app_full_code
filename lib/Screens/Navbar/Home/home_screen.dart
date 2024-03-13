@@ -69,7 +69,7 @@ class _MyWidgetState extends State<HomeScreen> {
     if (SharedServiceParentChildren.type() == "teacher") {
       return const TeacherAssignmentFirstPage();
     } else {
-      return const StudentAssignmentChooseAssignmentType();
+      return const StudentAssignmentChoose();
     }
   }
 

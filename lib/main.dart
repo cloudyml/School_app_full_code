@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:school_management_system/Screens/Attendance/Student/choose_attendance.dart';
 import 'package:school_management_system/Screens/Awards/student/student_view_awards.dart';
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
+
 import 'package:school_management_system/Screens/Events/student/student_view_events.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
 import 'package:school_management_system/Screens/Fees/student/request_status_page.dart';
@@ -18,6 +19,8 @@ import 'package:school_management_system/Screens/Navbar/Notice/Student/student_n
 import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
 import 'package:school_management_system/Screens/Splash/splashScreen.dart';
 import 'package:school_management_system/Screens/routine/student/days_routine.dart';
+
+import 'package:school_management_system/Screens/Splash/splashScreen.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';
 import 'package:school_management_system/constants/route_constant.dart';
