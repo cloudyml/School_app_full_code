@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Fees/student/request_status_page.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 
@@ -265,17 +266,17 @@ class _StudentSeeFeesState extends State<StudentSeeFees> {
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: SharedServiceParentChildren.type() == "student"
-            ? Container()
-            : FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return RequestStatusPage();
-                  },));  
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return RequestStatusPage();
                 },
-                child: Text(
-                  "₹",
-                  style: TextStyle(fontSize: 22.sp),
-                )));
+              ));
+            },
+            child: Text(
+              "₹",
+              style: TextStyle(fontSize: 22.sp),
+            )));
   }
 }

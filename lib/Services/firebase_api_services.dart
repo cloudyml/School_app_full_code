@@ -39,7 +39,7 @@ class FirebaseApi {
   void handelMsg(RemoteMessage? msg) {
     if (msg != null) {
       navigatorKey.currentState
-          ?.pushNamed(msg.notification!.android!.tag!, arguments: msg);
+          ?.pushNamed(msg.data["tag"], arguments: msg);
     }
   }
 

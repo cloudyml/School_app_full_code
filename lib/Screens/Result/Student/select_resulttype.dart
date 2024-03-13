@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 
 import '../../../constants/style.dart';
@@ -11,6 +12,7 @@ import '../../../widget/appBar/decorative_apbar_widget.dart';
 import 'view_result.dart';
 
 class SelectResultType extends StatelessWidget {
+  static const route = RouteConstants.parentstudentviewresult;
   const SelectResultType({super.key});
 
   @override

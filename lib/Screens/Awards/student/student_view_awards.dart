@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import '../../../Models/Student/Awards/view_awards_response_model.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
@@ -8,7 +9,7 @@ import '../../../widget/student/Awards/view_awards_card.dart';
 
 class StudentViewAwards extends StatelessWidget {
   const StudentViewAwards({super.key});
-   static const route = '/events';
+   static const route = RouteConstants.parentChildrenviewawards;
 
   @override
   Widget build(BuildContext context) {

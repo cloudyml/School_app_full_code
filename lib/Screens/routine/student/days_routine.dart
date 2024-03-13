@@ -1,12 +1,15 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:school_management_system/Services/api_services/api_services.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import 'package:school_management_system/widget/appBar/appbar_widget.dart';
 import 'package:school_management_system/widget/appBar/decorative_apbar_widget.dart';
 import '../../../Models/Student/day_Routine_response_medel.dart';
 import '../../../constants/style.dart';
 
 class DayRoutine extends StatefulWidget {
+
+  static const route = RouteConstants.parentChildrenviewRoutine;
   const DayRoutine({Key? key}) : super(key: key);
 
   @override

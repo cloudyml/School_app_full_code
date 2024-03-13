@@ -4,12 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_see_exam_routine.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
+import 'package:school_management_system/constants/route_constant.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class ParentchildrenSelectExamType extends StatelessWidget {
+    // static const route = RouteConstants.parentChildrenviewExamination;
   const ParentchildrenSelectExamType({super.key});
 
   @override

@@ -7,54 +7,18 @@ import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../constants/style.dart';
-import '../../../widget/appBar/appbar_widget.dart';
-import '../../../widget/appBar/decorative_apbar_widget.dart';
 
-//  SizedBox(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     SharedServiceParentChildren.loginDetails()
-//                                     ?.data
-//                                     ?.data
-//                                     ?.role ==
-//                                 "parent" &&
-//                             (SharedServiceParentChildren.loginDetails()!
-//                                     .data!
-//                                     .data!
-//                                     .childrens!
-//                                     .length >
-//                                 1)
-//                         ? const SwitchChildOptionForParent()
-//                         : Container(),
-//                   ],
-//                 ),
-//               ),
+
 
 class StuChooseAttendance extends StatelessWidget {
+  // static const route = RouteConstants.parentChildrenviewattendance;
   const StuChooseAttendance({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        // appBar: PreferredSize(
-        //   preferredSize: Size.fromHeight(
-        //     MediaQuery.of(context).size.height * 0.3,
-        //   ),
-        //   child: DecorativeAppBar(
-        //     barHeight: MediaQuery.of(context).size.height * 0.24,
-        //     barPad: MediaQuery.of(context).size.height * 0.19,
-        //     radii: 30,
-        //     background: Colors.white,
-        //     gradient1: lightBlue,
-        //     gradient2: deepBlue,
-        //     extra: appbar("assets/attendance_appbar.png", " Attendance", context,
-        //         () {
-        //       Navigator.pop(context);
-        //     }),
-        //   ),
-        // ),
+        
         body: Container(
           height: 1.0.sh,
           width: 1.0.sw,
@@ -70,7 +34,7 @@ class StuChooseAttendance extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                            return Dashboard();
+                            return const Dashboard();
                           },));
 
                         },
@@ -84,7 +48,7 @@ class StuChooseAttendance extends StatelessWidget {
                         width: 0.05.sw,
                       ),
                       Image(
-                        image: AssetImage(
+                        image: const AssetImage(
                           "assets/attendance_appbar.png",
                         ),
                         height: 30.h,
@@ -134,7 +98,7 @@ class StuChooseAttendance extends StatelessWidget {
                 ),
                 Expanded(
                     child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   width: 1.0.sw,
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -208,7 +172,7 @@ class StuChooseAttendance extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MonthYearSelectForSeeingAttendance()));
+                                          const MonthYearSelectForSeeingAttendance()));
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.45,

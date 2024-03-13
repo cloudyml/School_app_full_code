@@ -1,11 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
 import 'package:school_management_system/Screens/chat/all_chats_screen.dart';
-import 'package:school_management_system/Screens/chat/chat_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
-
 import '../constants/style.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/About/view_about_school.dart';
@@ -117,14 +116,64 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       body: screens[_currentIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AllChatLIstScreen();
-          },));
-        },
-        child: Icon(Icons.messenger),
-      ),
+      floatingActionButtonLocation:
+          SharedServiceParentChildren.type() == "student"
+              ? ExpandableFab.location
+              : FloatingActionButtonLocation.endFloat,
+      floatingActionButton: SharedServiceParentChildren.type() == "student"
+          ? ExpandableFab(
+              openButtonBuilder: RotateFloatingActionButtonBuilder(
+                child: const Icon(Icons.messenger),
+                fabSize: ExpandableFabSize.regular,
+                foregroundColor: lightBlue,
+                backgroundColor: deepBlue,
+                shape: const CircleBorder(),
+              ),
+              closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+                child: const Icon(Icons.close),
+                fabSize: ExpandableFabSize.small,
+                foregroundColor: Colors.white,
+                backgroundColor: deepBlue,
+                shape: const CircleBorder(),
+              ),
+              overlayStyle: ExpandableFabOverlayStyle(
+                // color: Colors.black.withOpacity(0.5),
+                blur: 5,
+              ),
+              children: [
+                  FloatingActionButton(
+                    heroTag: "hello",
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const AllChatLIstScreen();
+                        },
+                      ));
+                    },
+                    child: const Icon(Icons.messenger),
+                  ),
+                  FloatingActionButton(
+                    heroTag: "bye",
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const AllChatLIstScreen();
+                        },
+                      ));
+                    },
+                    child: const Icon(Icons.group),
+                  )
+                ])
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const AllChatLIstScreen();
+                  },
+                ));
+              },
+              child: const Icon(Icons.messenger),
+            ),
     );
   }
 }
