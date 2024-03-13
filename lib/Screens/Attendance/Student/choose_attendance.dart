@@ -224,3 +224,4 @@ class StuChooseAttendance extends StatelessWidget {
         ));
   }
 }
+

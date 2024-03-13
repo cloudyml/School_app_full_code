@@ -318,3 +318,4 @@ class _EventScreen extends State<StudentsViewEvents> {
         ));
   }
 }
+

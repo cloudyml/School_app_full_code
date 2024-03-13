@@ -1,5 +1,11 @@
 import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'package:flutter/cupertino.dart';
+import 'package:school_management_system/Screens/Awards/student/student_view_awards.dart';
+import 'package:school_management_system/Screens/Dashboard.dart';
+import 'package:school_management_system/Screens/Events/student/student_view_events.dart';
+
 import 'package:school_management_system/main.dart';
 
 var fcmToken;
@@ -34,7 +40,8 @@ class FirebaseApi {
 
   void handelMsg(RemoteMessage? msg) {
     if (msg != null) {
-      navigatorKey.currentState?.pushNamed(msg.data["tag"], arguments: msg);
+      navigatorKey.currentState
+          ?.pushNamed(msg.data["tag"], arguments: msg);
     }
   }
 

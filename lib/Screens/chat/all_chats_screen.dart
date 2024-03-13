@@ -1,4 +1,7 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_management_system/Screens/chat/chat_screen.dart';
@@ -56,11 +59,9 @@ class AllChatLIstScreen extends StatelessWidget {
                 children: List.generate(6, (index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return ChatRoomScreen();
-                        },
-                      ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return ChatRoomScreen();
+                      },));
                     },
                     child: Container(
                       padding:
@@ -81,8 +82,8 @@ class AllChatLIstScreen extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 radius: 32.r,
-                                backgroundImage:
-                                    AssetImage("assets/chat_user.jpg"),
+                                backgroundImage: NetworkImage(
+                                    "https://imgs.search.brave.com/k_9AIFjJQjBjTnvKm5YAOLa9e8uZdzUSj15RoL4t4yc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzU1LzA0Lzk3/LzM2MF9GXzE1NTA0/OTc4Nl9DaDE3Z1Jm/UGptS0c1TjlTMjFW/TXM4TFdCa2prZlZE/aS5qcGc"),
                               ),
                               SizedBox(
                                 width: 15.w,
