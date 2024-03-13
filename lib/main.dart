@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,19 +26,19 @@ import 'constants/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey:
-              "BE3w4u8FT55cFWx915NdSlyskwI3AWW0uaCy_AY9l3EGqp7VX7NHQq1hx6P2YNjg1PbayoBEeiojS_KzAiCWpaw",
-          appId: "1:167650873505:android:cf329f9030a49eeb67e0e0",
-          messagingSenderId: "167650873505",
-          projectId: "school-app-94046"),
-    );
-  } else {
+  // if (kIsWeb) {
+  //   await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey:
+  //             "BE3w4u8FT55cFWx915NdSlyskwI3AWW0uaCy_AY9l3EGqp7VX7NHQq1hx6P2YNjg1PbayoBEeiojS_KzAiCWpaw",
+  //         appId: "1:167650873505:android:cf329f9030a49eeb67e0e0",
+  //         messagingSenderId: "167650873505",
+  //         projectId: "school-app-94046"),
+  //   );
+  // } else {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
-  }
+  // }
 
   preferences = await SharedPreferences.getInstance();
 

@@ -5,7 +5,6 @@ import 'package:school_management_system/Screens/Attendance/Student/Week_attenda
 import 'package:school_management_system/Screens/Attendance/Student/month_year_choose.dart';
 import 'package:school_management_system/Screens/Dashboard.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
-import 'package:school_management_system/constants/route_constant.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../constants/style.dart';
 
@@ -35,7 +34,7 @@ class StuChooseAttendance extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                            return Dashboard();
+                            return const Dashboard();
                           },));
 
                         },
@@ -49,7 +48,7 @@ class StuChooseAttendance extends StatelessWidget {
                         width: 0.05.sw,
                       ),
                       Image(
-                        image: AssetImage(
+                        image: const AssetImage(
                           "assets/attendance_appbar.png",
                         ),
                         height: 30.h,
@@ -99,7 +98,7 @@ class StuChooseAttendance extends StatelessWidget {
                 ),
                 Expanded(
                     child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   width: 1.0.sw,
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -173,7 +172,7 @@ class StuChooseAttendance extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MonthYearSelectForSeeingAttendance()));
+                                          const MonthYearSelectForSeeingAttendance()));
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.45,

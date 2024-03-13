@@ -316,21 +316,23 @@ class _StudentSeeFeesState extends State<TeacherSeeFees> {
           ),
           children: [
             FloatingActionButton.large(
+              heroTag: "Button1",
               backgroundColor: deepBlue,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const UploadFees()));
               },
-              child: Text("Fees", style: TextStyle(color: Colors.white)),
+              child: const Text("Fees", style: TextStyle(color: Colors.white)),
             ),
             FloatingActionButton.large(
+              heroTag: "Button2",
               backgroundColor: deepBlue,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         const TeacherChooseClassForPaymentRequestAccept()));
               },
-              child: Text(
+              child: const Text(
                 "Payment",
                 style: TextStyle(color: Colors.white),
               ),
