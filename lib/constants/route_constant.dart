@@ -1,3 +1,4 @@
+
 class RouteConstants {
   //event screen
   static const String studentviewevents = 'student/events';
@@ -30,4 +31,8 @@ class RouteConstants {
 
   //notice
   static const String parentChildrenviewnotice = 'parentchild/notice';
+//..............................................................................
+  // Teacher....................................................................
+  static const String teacherviewEvents = 'teacher/events';
 }
+
