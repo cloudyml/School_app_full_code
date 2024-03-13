@@ -176,7 +176,7 @@ class _TeacherChooseClassForPaymentRequestAccept
                   onPressed: () {
                     if (selectedClass == 'Choose Class' ||
                         selectedSection == 'Choose Section') {
-                      return;
+                      showSnackBar("Please select class and section.");
                     } else {
                       log("Selected Class= $selectedClass");
                       log("Selected Section = $selectedSection");
