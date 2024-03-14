@@ -1,4 +1,3 @@
-
 class RouteConstants {
   //event screen
   static const String studentviewevents = 'student/events';
@@ -34,5 +33,5 @@ class RouteConstants {
 //..............................................................................
   // Teacher....................................................................
   static const String teacherviewEvents = 'teacher/events';
+  static const String teacherviewFees = 'teacher/fees';
 }
-
