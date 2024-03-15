@@ -21,7 +21,7 @@ class TeacherComplaintScreen extends StatelessWidget {
             background: Colors.white,
             gradient1: lightBlue,
             gradient2: deepBlue,
-            extra: appbar("assets/awards_trophy.png", "Complaint", context, () {
+            extra: appbar("assets/flaticon/complaint_icon.png", "Complaint", context, () {
               Navigator.pop(context);
             }),
           ),

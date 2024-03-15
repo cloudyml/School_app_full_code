@@ -89,7 +89,7 @@ class _MyWidgetState extends State<HomeScreen> {
 
   Widget getStudentDetailsScreen() {
     if (SharedServiceParentChildren.type() == "teacher") {
-      return const TeacherSearchStudent();
+      return TeacherSearchStudent();
     } else {
       return const StudentDetailsScreen();
     }
@@ -165,8 +165,8 @@ class _MyWidgetState extends State<HomeScreen> {
     'assets/_assignment.png',
     'assets/result.png',
     'assets/awards.png',
-    'assets/exam.png',
-    'assets/exam.png',
+    'assets/student_details_icon.png',
+    'assets/complaint_icon.jpg',
   ];
 
   List dashboardNames = [
@@ -180,7 +180,7 @@ class _MyWidgetState extends State<HomeScreen> {
     "Results",
     "Awards",
     "Student Details",
-    "Raise a Complaint"
+    "Raise Complaint"
   ];
   @override
   Widget build(BuildContext context) {
