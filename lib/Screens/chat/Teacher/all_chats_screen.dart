@@ -1,14 +1,13 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_management_system/Screens/chat/chat_screen.dart';
+import 'package:school_management_system/Screens/chat/Teacher/chat_screen.dart';
 import 'package:school_management_system/constants/style.dart';
 
-class AllChatLIstScreen extends StatelessWidget {
-  const AllChatLIstScreen({super.key});
+class TeacherAllChatLIstScreen extends StatelessWidget {
+  const TeacherAllChatLIstScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +58,11 @@ class AllChatLIstScreen extends StatelessWidget {
                 children: List.generate(6, (index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return ChatRoomScreen();
-                      },));
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ChatRoomScreen();
+                        },
+                      ));
                     },
                     child: Container(
                       padding:
