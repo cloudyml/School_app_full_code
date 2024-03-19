@@ -146,7 +146,7 @@ class _DashboardState extends State<Dashboard> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const TeacherAllChatLIstScreen();
+                          return const AllChatLIstScreen();
                         },
                       ));
                     },
@@ -157,23 +157,67 @@ class _DashboardState extends State<Dashboard> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const TeacherAllChatLIstScreen();
+                          return const AllChatLIstScreen();
                         },
                       ));
                     },
                     child: const Icon(Icons.group),
                   )
                 ])
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const TeacherAllChatLIstScreen();
+          : SharedServiceParentChildren.type() == "teacher"
+              ? ExpandableFab(
+                  openButtonBuilder: RotateFloatingActionButtonBuilder(
+                    child: const Icon(Icons.messenger),
+                    fabSize: ExpandableFabSize.regular,
+                    foregroundColor: lightBlue,
+                    backgroundColor: deepBlue,
+                    shape: const CircleBorder(),
+                  ),
+                  closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+                    child: const Icon(Icons.close),
+                    fabSize: ExpandableFabSize.small,
+                    foregroundColor: Colors.white,
+                    backgroundColor: deepBlue,
+                    shape: const CircleBorder(),
+                  ),
+                  overlayStyle: ExpandableFabOverlayStyle(
+                    // color: Colors.black.withOpacity(0.5),
+                    blur: 5,
+                  ),
+                  children: [
+                      FloatingActionButton(
+                        heroTag: "hello",
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return const TeacherAllChatLIstScreen();
+                            },
+                          ));
+                        },
+                        child: const Icon(Icons.messenger),
+                      ),
+                      FloatingActionButton(
+                        heroTag: "bye",
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return const TeacherAllChatLIstScreen();
+                            },
+                          ));
+                        },
+                        child: const Icon(Icons.group),
+                      )
+                    ])
+              : FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const AllChatLIstScreen();
+                      },
+                    ));
                   },
-                ));
-              },
-              child: const Icon(Icons.messenger),
-            ),
+                  child: const Icon(Icons.messenger),
+                ),
     );
   }
 }
