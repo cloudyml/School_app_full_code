@@ -28,7 +28,7 @@ Widget appbar(
             Container(
               width: 35,
               height: 35,
-              child: Image.asset(imageLink),
+              child: Image.asset(imageLink, color: Colors.white,),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),

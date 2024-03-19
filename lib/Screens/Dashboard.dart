@@ -13,6 +13,7 @@ import 'Navbar/Account/Teacher/teacher_my_account_home_page.dart';
 import 'Navbar/Home/home_screen.dart';
 import 'Navbar/Notice/Student/student_notice_screen.dart';
 import 'Navbar/Notice/Teacher/choose_notice_options.dart';
+import 'chat/Student/all_chats_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({
