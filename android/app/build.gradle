@@ -74,24 +74,24 @@ android {
 //        }
 //    }
 
-   flavorDimensions "app"
+//    flavorDimensions "app"
 
-    productFlavors {
+//     productFlavors {
 
-        virohaa {
-            dimension "app"
-            applicationId "com.virohaa.school_management_system"
-            versionCode 1
-            versionName "1.0"
-        }
+//         virohaa {
+//             dimension "app"
+//             applicationId "com.virohaa.school_management_system"
+//             versionCode 1
+//             versionName "1.0"
+//         }
 
-        natkhat {
-            dimension "app"
-            applicationId "com.natkhat.school_management_system"
-            versionCode 1
-            versionName "1.0"
-        }
-    }
+//         natkhat {
+//             dimension "app"
+//             applicationId "com.natkhat.school_management_system"
+//             versionCode 1
+//             versionName "1.0"
+//         }
+//     }
    buildTypes {
        release {
            signingConfig signingConfigs.debug

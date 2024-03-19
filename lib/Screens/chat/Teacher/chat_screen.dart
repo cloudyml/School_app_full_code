@@ -1,103 +1,100 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:flutter_full_pdf_viewer_null_safe/full_pdf_viewer_scaffold.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:school_management_system/Screens/chat/Teacher/teacher_view_chat_image.dart';
+import 'package:school_management_system/Services/Url_launcher.dart/method.dart';
 import 'package:school_management_system/constants/style.dart';
+import 'package:swipe_to/swipe_to.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class msgmodel {
-  String keyname;
-  String username;
-  String sentTime;
-  String value;
+  String? keyname;
+  String? username;
+  String? sentTime;
+  String? value;
+  List<XFile>? images;
+  File? pdf;
   msgmodel({
-    required this.keyname,
-    required this.value,
-    required this.username,
-    required this.sentTime,
+    this.keyname,
+    this.value,
+    this.username,
+    this.sentTime,
+    this.images,
+    this.pdf,
   });
 }
 
 class ChatRoomScreen extends StatefulWidget {
-  ChatRoomScreen({super.key});
-
-  static List option = [
-    "Image",
-    "Pdf",
-    "camera",
-  ];
-  static List optionicon = [
-    //const Icon(Icons.image),
-    const Icon(Icons.picture_as_pdf),
-    const Icon(Icons.camera),
-  ];
-
-  static List<msgmodel> msgs1 = [
-    msgmodel(
-        keyname: "user1", value: "Hello", sentTime: "17:30", username: "User1"),
-    msgmodel(
-        keyname: "user2", value: "HI", sentTime: "17:31", username: "User2"),
-    msgmodel(
-        keyname: "user1",
-        value: "Whats up ?",
-        sentTime: "17:33",
-        username: "User1"),
-    msgmodel(
-        keyname: "user2",
-        value: "Nothing Revising maths rn",
-        sentTime: "17:36",
-        username: "User2"),
-    msgmodel(
-        keyname: "user1",
-        value:
-            "ok i had a doubt can you help?? plz help me in stuck at a issue and rellay can help ",
-        sentTime: "17:40",
-        username: "User1"),
-    msgmodel(
-        keyname: "user2",
-        value:
-            "ya sure ask, ok i had a doubt can you help?? plz help me in stuck at a issue and rellay can help ",
-        sentTime: "17:45",
-        username: "User2"),
-    msgmodel(
-        keyname: "user1",
-        value: "Thanks a lot that helped me a lot",
-        sentTime: "17:30",
-        username: "User1"),
-    msgmodel(
-        keyname: "user2",
-        value: "No Problem anytime...",
-        sentTime: "17:50",
-        username: "User2"),
-  ];
-
+  const ChatRoomScreen({
+    super.key,
+  });
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
+  bool isPhotoSelected = false;
   bool isVioceMsg = false;
   bool show = false;
   bool sendButton = true;
   List<msgmodel> newMsg1 = [];
   TextEditingController messageController = TextEditingController();
+  List<XFile> selectedImages = []; // Store selected images
+  ImagePicker image = ImagePicker();
+  bool isChecked = false;
   File? file;
-  Future<void> getGal() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'jpeg', 'png'],
-    );
 
-    if (result != null && result.files.isNotEmpty) {
-      File selectedFile = File(result.files.single.path!);
+  //...........................................................................
 
+  Future<void> pickImages() async {
+    final List<XFile>? images = await ImagePicker().pickMultiImage();
+    if (images != null && images.isNotEmpty) {
       setState(() {
-        file = selectedFile;
+        selectedImages = images;
       });
+    }
+    if (sendButton == true) {
+      setState(() {
+        newMsg1.add(
+          msgmodel(
+            keyname: "user1",
+            value: messageController.text,
+            sentTime: "17:30",
+            username: "user1",
+            images: selectedImages,
+            pdf: file,
+          ),
+        );
+      });
+      messageController.clear();
+      selectedImages = [];
+      file = null;
+    } else {
+      setState(() {
+        newMsg1.add(
+          msgmodel(
+            keyname: "user2",
+            value: messageController.text,
+            sentTime: "17:30",
+            username: "User2",
+            images: selectedImages,
+            pdf: file,
+          ),
+        );
+      });
+      messageController.clear();
+      selectedImages = [];
+      file = null;
     }
   }
 
@@ -114,23 +111,96 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         file = selectedFile;
       });
     }
+
+    if (sendButton == true) {
+      setState(() {
+        newMsg1.add(
+          msgmodel(
+            keyname: "user1",
+            value: messageController.text,
+            sentTime: "17:30",
+            username: "user1",
+            images: selectedImages,
+            pdf: file,
+          ),
+        );
+      });
+      messageController.clear();
+      selectedImages = [];
+      file = null;
+    } else {
+      setState(() {
+        newMsg1.add(
+          msgmodel(
+            keyname: "user2",
+            value: messageController.text,
+            sentTime: "17:30",
+            username: "User2",
+            images: selectedImages,
+            pdf: file,
+          ),
+        );
+      });
+      messageController.clear();
+      selectedImages = [];
+      file = null;
+    }
   }
 
-  Future<XFile?> takePictureFromCamera() async {
+  Future<void> takePictureFromCamera() async {
     try {
       final imagePicker = ImagePicker();
       final XFile? pickedImage = await imagePicker.pickImage(
         source: ImageSource.camera,
+        imageQuality: 50, // Adjust image quality as needed
+        preferredCameraDevice: CameraDevice.rear, // Specify camera device
       );
-      return pickedImage;
+      if (pickedImage != null) {
+        setState(() {
+          selectedImages.add(pickedImage);
+        });
+      }
     } on PlatformException catch (e) {
       log('Failed to pick image: $e');
-      return null;
+    }
+    if (sendButton == true) {
+      setState(() {
+        newMsg1.add(
+          msgmodel(
+            keyname: "user1",
+            value: messageController.text,
+            sentTime: "17:30",
+            username: "user1",
+            images: selectedImages,
+            pdf: file,
+          ),
+        );
+      });
+      messageController.clear();
+      selectedImages = [];
+      file = null;
+    } else {
+      setState(() {
+        newMsg1.add(
+          msgmodel(
+            keyname: "user2",
+            value: messageController.text,
+            sentTime: "17:30",
+            username: "User2",
+            images: selectedImages,
+            pdf: file,
+          ),
+        );
+      });
+      messageController.clear();
+      selectedImages = [];
+      file = null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    LaunceToWeb launceweb = LaunceToWeb();
     return Scaffold(
       body: Column(
         children: [
@@ -201,32 +271,88 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       children: [
                                         SizedBox(
                                           width:
-                                              newMsg1[index].value.length > 30
+                                              newMsg1[index].value!.length > 30
                                                   ? 0.7.sw
                                                   : null,
                                           child: Text(
                                               overflow: TextOverflow.ellipsis,
-                                              newMsg1[index].username,
+                                              newMsg1[index].username ?? "",
                                               style: GoogleFonts.inter(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w400)),
                                         ),
+
                                         SizedBox(
                                           width:
-                                              newMsg1[index].value.length > 30
+                                              newMsg1[index].value!.length > 30
                                                   ? 0.7.sw
                                                   : null,
-                                          child: Text(newMsg1[index].value,
-                                              style: GoogleFonts.inter(
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600)),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                newMsg1[index].value ?? "",
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              // For Image View
+                                              if (newMsg1[index].images !=
+                                                      null &&
+                                                  newMsg1[index]
+                                                      .images!
+                                                      .isNotEmpty)
+                                                Column(
+                                                  children: newMsg1[index]
+                                                      .images!
+                                                      .map((image) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    TeacherChatDetailedPhotoView(
+                                                                        file:
+                                                                            image)));
+                                                      },
+                                                      child: Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 4.0),
+                                                        height: 200,
+                                                        width: 200,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          image:
+                                                              DecorationImage(
+                                                            image: FileImage(
+                                                                File(image
+                                                                    .path)),
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              //For pdf view
+                                            ],
+                                          ),
                                         ),
+
+                                        //.......
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
                                             Text(
-                                              newMsg1[index].sentTime,
+                                              newMsg1[index].sentTime ?? "",
                                               style: GoogleFonts.inter(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500),
@@ -257,11 +383,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       children: [
                                         SizedBox(
                                           width:
-                                              newMsg1[index].value.length > 30
+                                              newMsg1[index].value!.length > 30
                                                   ? 0.7.sw
                                                   : null,
                                           child: Text(
-                                            newMsg1[index].username,
+                                            newMsg1[index].username ?? "",
                                             overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.inter(
                                               fontSize: 12.sp,
@@ -273,14 +399,63 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                         ),
                                         SizedBox(
                                           width:
-                                              newMsg1[index].value.length > 30
+                                              newMsg1[index].value!.length > 30
                                                   ? 0.7.sw
                                                   : null,
-                                          child: Text(
-                                            newMsg1[index].value,
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                newMsg1[index].value ?? "",
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              if (newMsg1[index].images !=
+                                                      null &&
+                                                  newMsg1[index]
+                                                      .images!
+                                                      .isNotEmpty)
+                                                Column(
+                                                  children: newMsg1[index]
+                                                      .images!
+                                                      .map((image) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    TeacherChatDetailedPhotoView(
+                                                                        file:
+                                                                            image)));
+                                                      },
+                                                      child: Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 4.0),
+                                                        height: 200,
+                                                        width: 200,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          image:
+                                                              DecorationImage(
+                                                            image: FileImage(
+                                                                File(image
+                                                                    .path)),
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                            ],
                                           ),
                                         ),
                                         Row(
@@ -288,7 +463,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Text(
-                                              newMsg1[index].sentTime,
+                                              newMsg1[index].sentTime ?? "",
                                               style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12),
@@ -310,7 +485,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             child: Row(
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width - 80,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: Card(
                     color: deepBlue,
                     margin: const EdgeInsets.only(left: 2, right: 2, bottom: 8),
@@ -359,6 +534,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                           GestureDetector(
                                             onTap: () {
                                               takePictureFromCamera();
+                                              selectedImages = [];
                                             },
                                             child: CircleAvatar(
                                                 backgroundColor: deepBlue,
@@ -370,7 +546,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              getGal();
+                                              pickImages();
+                                              //getGal();
                                             },
                                             child: CircleAvatar(
                                                 backgroundColor: deepBlue,
@@ -418,10 +595,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   keyname: "user1",
                                   value: messageController.text,
                                   sentTime: "17:30",
-                                  username: "user1"),
+                                  username: "user1",
+                                  images: selectedImages),
                             );
                           });
                           messageController.clear();
+                          selectedImages = [];
                         } else {
                           setState(() {
                             newMsg1.add(
@@ -429,10 +608,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   keyname: "user2",
                                   value: messageController.text,
                                   sentTime: "17:30",
-                                  username: "User2"),
+                                  username: "User2",
+                                  images: selectedImages),
                             );
                           });
                           messageController.clear();
+                          selectedImages = [];
                         }
                       },
                       child: Icon(
