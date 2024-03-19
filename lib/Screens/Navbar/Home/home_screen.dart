@@ -5,6 +5,7 @@ import 'package:school_management_system/Screens/Attendance/Student/choose_atten
 import 'package:school_management_system/Screens/Attendance/Teacher/teacher_attendance_options.dart';
 import 'package:school_management_system/Screens/Awards/student/student_view_awards.dart';
 import 'package:school_management_system/Screens/Awards/teacher/first_page_select_award_options.dart';
+import 'package:school_management_system/Screens/Complaint/Student/student_complaint_screen.dart';
 import 'package:school_management_system/Screens/Events/parent/parent_view_event.dart';
 import 'package:school_management_system/Screens/Events/student/student_view_events.dart';
 import 'package:school_management_system/Screens/Events/teacher/select_event_options.dart';
@@ -20,13 +21,16 @@ import 'package:school_management_system/Screens/Homework/Teacher/upload_view_ho
 import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
 import 'package:school_management_system/Screens/Result/Teacher/first_page_select_result_options.dart';
 import 'package:school_management_system/Screens/Routine/student/days_routine.dart';
+import 'package:school_management_system/Screens/Student_details/Teacher/teacher_student_search.dart';
 import 'package:school_management_system/Screens/routine/teacher/choose_view_or_upload_timetable.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
 import 'package:school_management_system/Services/teacher_shared_service.dart';
 import 'package:school_management_system/widget/switchStudentParentControl/switchChildRole.dart';
 import '../../../constants/style.dart';
 import '../../../widget/Role_Control/dashboard_gridview_data.dart';
+import '../../Complaint/Teacher/teacher_complaint_screen.dart';
 import '../../Splash/splashScreen.dart';
+import '../../Student_details/Student/student_details.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,7 +57,9 @@ class _MyWidgetState extends State<HomeScreen> {
       getAttendanceScreen(),
       getAssignmentScreen(),
       result(),
-      getAwardstScreen()
+      getAwardstScreen(),
+      getStudentDetailsScreen(),
+      getComplaintScreen()
     ];
   }
 
@@ -78,6 +84,22 @@ class _MyWidgetState extends State<HomeScreen> {
       return const TeacherAwardOptions();
     } else {
       return const StudentViewAwards();
+    }
+  }
+
+  Widget getStudentDetailsScreen() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return TeacherSearchStudent();
+    } else {
+      return const StudentDetailsScreen();
+    }
+  }
+
+  Widget getComplaintScreen() {
+    if (SharedServiceParentChildren.type() == "teacher") {
+      return const TeacherComplaintScreen();
+    } else {
+      return const StudentComplaintScreen();
     }
   }
 
@@ -143,6 +165,8 @@ class _MyWidgetState extends State<HomeScreen> {
     'assets/_assignment.png',
     'assets/result.png',
     'assets/awards.png',
+    'assets/student_details_icon.png',
+    'assets/complaint_icon.jpg',
   ];
 
   List dashboardNames = [
@@ -152,9 +176,11 @@ class _MyWidgetState extends State<HomeScreen> {
     "Gallery",
     "Timetable",
     "Attendance",
-    "Assignments",
+    "Homework",
     "Results",
-    "Awards"
+    "Awards",
+    "Student Details",
+    "Raise Complaint"
   ];
   @override
   Widget build(BuildContext context) {

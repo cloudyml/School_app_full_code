@@ -13,6 +13,7 @@ import 'package:school_management_system/Screens/Events/student/student_view_eve
 import 'package:school_management_system/Screens/Events/teacher/View/view_events_teacher.dart';
 import 'package:school_management_system/Screens/Exam/parent/parent_select_exam_type.dart';
 import 'package:school_management_system/Screens/Fees/student/request_status_page.dart';
+import 'package:school_management_system/Screens/Fees/teacher/teacher_view_fees.dart';
 import 'package:school_management_system/Screens/Gallery/parent/parents_view_school_gallery.dart';
 import 'package:school_management_system/Screens/Gallery/student/view_gallery_student.dart';
 import 'package:school_management_system/Screens/Homework/Student/assignment_start_page.dart';
@@ -100,6 +101,8 @@ class MyApp extends StatelessWidget {
 
           RouteConstants.teacherviewEvents: (context) =>
               const TeacherViewEvents(),
+
+          RouteConstants.teacherviewFees: (context) => const TeacherSeeFees(),
         },
         // home: const SplashScreen(),
         navigatorKey: navigatorKey,
@@ -108,4 +111,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

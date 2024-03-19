@@ -26,11 +26,11 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: "com.google.gms.google-services"
 
-// def keystoreProperties = new Properties()
-// def keystorePropertiesFile = rootProject.file('key.properties')
-// if (keystorePropertiesFile.exists()) {
-//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-// }
+ def keystoreProperties = new Properties()
+ def keystorePropertiesFile = rootProject.file('key.properties')
+ if (keystorePropertiesFile.exists()) {
+     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+ }
 
 
 
@@ -73,6 +73,25 @@ android {
 //            storePassword keystoreProperties['storePassword']
 //        }
 //    }
+
+   flavorDimensions "app"
+
+    productFlavors {
+
+        virohaa {
+            dimension "app"
+            applicationId "com.virohaa.school_management_system"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        natkhat {
+            dimension "app"
+            applicationId "com.natkhat.school_management_system"
+            versionCode 1
+            versionName "1.0"
+        }
+    }
    buildTypes {
        release {
            signingConfig signingConfigs.debug
@@ -94,3 +113,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
 }
+
+
