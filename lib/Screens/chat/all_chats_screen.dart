@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,16 +16,22 @@ class AllChatLIstScreen extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              lightBlue,
-              deepBlue,
-            ])),
-            height: 0.11.sh,
+                gradient: LinearGradient(
+                  colors: [
+                    lightBlue,
+                    deepBlue,
+                  ],
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(25.r),
+                  bottomRight: Radius.circular(25.r),
+                )),
+            height: 0.15.sh,
             width: 1.0.sw,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -42,7 +47,7 @@ class AllChatLIstScreen extends StatelessWidget {
                     width: 0.05.sw,
                   ),
                   Text(
-                    "All Chats",
+                    "Chat Group for Mentor",
                     style: GoogleFonts.inter(
                         fontSize: 22.sp,
                         color: Colors.white,
@@ -59,73 +64,74 @@ class AllChatLIstScreen extends StatelessWidget {
                 children: List.generate(6, (index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return ChatRoomScreen();
-                      },));
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ChatRoomScreen();
+                        },
+                      ));
                     },
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+                          EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.4),
-                                blurRadius: 10.r)
-                          ],
-                          borderRadius: BorderRadius.circular(10.r)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 32.r,
-                                backgroundImage: NetworkImage(
-                                    "https://imgs.search.brave.com/k_9AIFjJQjBjTnvKm5YAOLa9e8uZdzUSj15RoL4t4yc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzU1LzA0Lzk3/LzM2MF9GXzE1NTA0/OTc4Nl9DaDE3Z1Jm/UGptS0c1TjlTMjFW/TXM4TFdCa2prZlZE/aS5qcGc"),
-                              ),
-                              SizedBox(
-                                width: 15.w,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 0.3.sw,
-                                    child: Text(
-                                      "User$index",
-                                      style: GoogleFonts.inter(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  SizedBox(
-                                    width: 0.7.sw,
-                                    child: Text("Hello User whats up",
-                                        style: GoogleFonts.inter(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600)),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          border: Border(
+                            bottom: BorderSide(color: Colors.grey),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "9:30",
-                                style: GoogleFonts.inter(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          )
-                        ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r)),
+                      child: SizedBox(
+                        width: 1.0.sw,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              radius: 32.r,
+                              backgroundImage: NetworkImage(
+                                  "https://imgs.search.brave.com/k_9AIFjJQjBjTnvKm5YAOLa9e8uZdzUSj15RoL4t4yc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzU1LzA0Lzk3/LzM2MF9GXzE1NTA0/OTc4Nl9DaDE3Z1Jm/UGptS0c1TjlTMjFW/TXM4TFdCa2prZlZE/aS5qcGc"),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  // color: Colors.amber,
+                                  width: 0.65.sw,
+                                  child: Text(
+                                    "Data Science Combination class",
+                                    style: GoogleFonts.inter(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 4.h,
+                                ),
+                                SizedBox(
+                                  width: 0.65.sw,
+                                  child: Text("Hello User whats up",
+                                      style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400)),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "9:30",
+                                  style: GoogleFonts.inter(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
