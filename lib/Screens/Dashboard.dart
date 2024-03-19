@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:school_management_system/Screens/Navbar/About/parent_about_school_view.dart';
+import 'package:school_management_system/Screens/chat/Teacher/all_chats_screen.dart';
 import 'package:school_management_system/Services/shared_services_parent_children.dart';
-
 import '../constants/style.dart';
 import 'Navbar/About/teacher_about_school_upload_view_options.dart';
 import 'Navbar/About/view_about_school.dart';
@@ -146,7 +146,7 @@ class _DashboardState extends State<Dashboard> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const AllChatLIstScreen();
+                          return const TeacherAllChatLIstScreen();
                         },
                       ));
                     },
@@ -157,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const AllChatLIstScreen();
+                          return const TeacherAllChatLIstScreen();
                         },
                       ));
                     },
@@ -168,7 +168,7 @@ class _DashboardState extends State<Dashboard> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return const AllChatLIstScreen();
+                    return const TeacherAllChatLIstScreen();
                   },
                 ));
               },

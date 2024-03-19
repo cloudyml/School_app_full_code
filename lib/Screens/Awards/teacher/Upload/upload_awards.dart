@@ -28,7 +28,7 @@ class _UploadAwardsState extends State<UploadAwards> {
   TextEditingController dateInput = TextEditingController();
   TextEditingController rollNumber = TextEditingController();
   bool isClicked = false;
-  File? file; // Store selected file
+  File? file;
   bool dataMatches = false;
   Future<void> getGal() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
