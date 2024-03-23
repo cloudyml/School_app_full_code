@@ -1051,7 +1051,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       repliedToMsgContent: replyingtoMsg,
                                       repliedToWhom: whomWeAreReplying,
                                       sentTime:
-                                          "${DateTime.now().hour}:${DateTime.now().minute}",  
+                                          "${DateTime.now().hour}:${DateTime.now().minute}",
                                       username: "User2"));
                                   messageController.clear();
                                 })
