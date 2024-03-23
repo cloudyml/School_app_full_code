@@ -21,7 +21,6 @@ import 'package:school_management_system/Screens/Navbar/About/parent_about_schoo
 import 'package:school_management_system/Screens/Navbar/Notice/Student/student_notice_screen.dart';
 import 'package:school_management_system/Screens/Result/Student/select_resulttype.dart';
 import 'package:school_management_system/Screens/Splash/splashScreen.dart';
-import 'package:school_management_system/Screens/chat/Teacher/all_chats_screen.dart';
 import 'package:school_management_system/Screens/routine/student/days_routine.dart';
 import 'package:school_management_system/Services/Provider/attendance_provider.dart';
 import 'package:school_management_system/Services/firebase_api_services.dart';

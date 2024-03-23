@@ -117,7 +117,8 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: screens[_currentIndex],
       floatingActionButtonLocation:
-          SharedServiceParentChildren.type() == "student"
+          SharedServiceParentChildren.type() == "student" ||
+                  SharedServiceParentChildren.type() == "teacher"
               ? ExpandableFab.location
               : FloatingActionButtonLocation.endFloat,
       floatingActionButton: SharedServiceParentChildren.type() == "student"
