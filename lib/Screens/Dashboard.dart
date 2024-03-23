@@ -187,7 +187,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   children: [
                       FloatingActionButton(
-                        heroTag: "hello2",
+                        heroTag: "hello",
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
@@ -198,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                         child: const Icon(Icons.messenger),
                       ),
                       FloatingActionButton(
-                        heroTag: "bye2",
+                        heroTag: "bye",
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
