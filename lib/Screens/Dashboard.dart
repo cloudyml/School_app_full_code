@@ -117,8 +117,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: screens[_currentIndex],
       floatingActionButtonLocation:
-          SharedServiceParentChildren.type() == "student" ||
-                  SharedServiceParentChildren.type() == "teacher"
+          SharedServiceParentChildren.type() == "student"
               ? ExpandableFab.location
               : FloatingActionButtonLocation.endFloat,
       floatingActionButton: SharedServiceParentChildren.type() == "student"
@@ -166,49 +165,20 @@ class _DashboardState extends State<Dashboard> {
                   )
                 ])
           : SharedServiceParentChildren.type() == "teacher"
-              ? ExpandableFab(
-                  openButtonBuilder: RotateFloatingActionButtonBuilder(
-                    child: const Icon(Icons.messenger),
-                    fabSize: ExpandableFabSize.regular,
-                    foregroundColor: lightBlue,
-                    backgroundColor: deepBlue,
-                    shape: const CircleBorder(),
+              ? FloatingActionButton(
+                  backgroundColor: deepBlue,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const TeacherAllChatLIstScreen();
+                      },
+                    ));
+                  },
+                  child: const Icon(
+                    Icons.messenger,
+                    color: Colors.white,
                   ),
-                  closeButtonBuilder: DefaultFloatingActionButtonBuilder(
-                    child: const Icon(Icons.close),
-                    fabSize: ExpandableFabSize.small,
-                    foregroundColor: Colors.white,
-                    backgroundColor: deepBlue,
-                    shape: const CircleBorder(),
-                  ),
-                  overlayStyle: ExpandableFabOverlayStyle(
-                    // color: Colors.black.withOpacity(0.5),
-                    blur: 5,
-                  ),
-                  children: [
-                      FloatingActionButton(
-                        heroTag: "hello",
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return const TeacherAllChatLIstScreen();
-                            },
-                          ));
-                        },
-                        child: const Icon(Icons.messenger),
-                      ),
-                      FloatingActionButton(
-                        heroTag: "bye",
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return const TeacherAllChatLIstScreen();
-                            },
-                          ));
-                        },
-                        child: const Icon(Icons.group),
-                      )
-                    ])
+                )
               : FloatingActionButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
@@ -217,7 +187,9 @@ class _DashboardState extends State<Dashboard> {
                       },
                     ));
                   },
-                  child: const Icon(Icons.messenger),
+                  child: const Icon(
+                    Icons.messenger,
+                  ),
                 ),
     );
   }
