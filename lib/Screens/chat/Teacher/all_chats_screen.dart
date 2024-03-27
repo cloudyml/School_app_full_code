@@ -73,6 +73,7 @@ class _TeacherAllChatLIstScreenState extends State<TeacherAllChatLIstScreen> {
       'transports': ['websocket'],
     });
 
+
     socket.on('connected', (data) {
       log('Socket Connected Successfully');
       log("---------------------------------------------------------------------------------------------------------------------");
