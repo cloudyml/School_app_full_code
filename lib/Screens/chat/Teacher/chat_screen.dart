@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:school_management_system/Screens/chat/Student/pdf_in%20_chat_view.dart';
 import 'package:school_management_system/Screens/chat/Teacher/pdf_in%20_chat_view.dart';
 import 'package:school_management_system/Screens/chat/Teacher/teacher_view_chat_image.dart';
 import 'package:school_management_system/constants/style.dart';
@@ -29,6 +29,7 @@ class MessageModel {
   String? value;
   List<XFile>? images;
   File? pdf;
+
   MessageModel({
     required this.keyname,
     this.value,
@@ -48,6 +49,7 @@ class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen({
     super.key,
   });
+
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
 }
