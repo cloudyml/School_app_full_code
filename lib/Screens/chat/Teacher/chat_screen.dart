@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:school_management_system/Screens/chat/Student/pdf_in%20_chat_view.dart';
+import 'package:school_management_system/Screens/chat/Teacher/pdf_in%20_chat_view.dart';
 import 'package:school_management_system/Screens/chat/Teacher/teacher_view_chat_image.dart';
 import 'package:school_management_system/constants/style.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -1051,7 +1052,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       repliedToMsgContent: replyingtoMsg,
                                       repliedToWhom: whomWeAreReplying,
                                       sentTime:
-                                          "${DateTime.now().hour}:${DateTime.now().minute}",  
+                                          "${DateTime.now().hour}:${DateTime.now().minute}",
                                       username: "User2"));
                                   messageController.clear();
                                 })

@@ -29,37 +29,36 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   dio: ^5.3.2
+  file_picker: ^6.1.1
   firebase_core: ^2.24.0
   firebase_messaging: ^14.7.6
-  flutter_easyloading: ^3.0.5
-  flutter_file_downloader: ^1.2.1
-  flutter_screenutil: ^5.9.0
-  file_picker: ^6.1.1
   flutter:
     sdk: flutter
+  flutter_chat_bubble: ^2.0.2
+  flutter_easyloading: ^3.0.5
+  flutter_expandable_fab: null
+  flutter_file_downloader: ^1.2.1
+  flutter_full_pdf_viewer_null_safe: ^1.0.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_local_notifications: ^16.3.3
+  flutter_native_splash: null
   flutter_pdfview: ^1.0.0
+  flutter_screenutil: ^5.9.0
+  get: null
   google_fonts: 6.1.0
   http: ^1.1.0
   image_picker: ^1.0.2
   intl: ^0.19.0
-  get:
-  provider:
-  shared_preferences: ^2.2.2
+  lottie: null
   path: ^1.8.3
-  url_launcher: ^6.1.14
-  lottie:
-  pdf: ^3.10.7
-  syncfusion_flutter_pdfviewer: ^24.2.4
-  flutter_full_pdf_viewer_null_safe: ^1.0.0
   path_provider: ^2.1.2
-  flutter_launcher_icons: ^0.13.1
-  flutter_native_splash:
-  flutter_expandable_fab:
-  flutter_local_notifications: ^16.3.3
-  flutter_chat_bubble: ^2.0.2
+  pdf: ^3.10.7
+  provider: null
+  shared_preferences: ^2.2.2
   swipe_to: ^1.0.6
+  syncfusion_flutter_pdfviewer: ^24.2.4
+  url_launcher: ^6.1.14
   socket_io_client: ^2.0.3+1
-
 
 dev_dependencies:
   flutter_lints: ^3.0.1
