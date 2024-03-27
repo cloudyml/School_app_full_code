@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:school_management_system/Screens/Student_details/Teacher/student_details.dart';
 
 import '../../../constants/style.dart';
 import '../../../widget/appBar/appbar_widget.dart';
 import '../../../widget/appBar/decorative_apbar_widget.dart';
 
 class TeacherSearchStudent extends StatefulWidget {
-   TeacherSearchStudent({super.key});
+  TeacherSearchStudent({super.key});
 
   @override
   State<TeacherSearchStudent> createState() => _TeacherSearchStudentState();
@@ -26,7 +27,10 @@ class _TeacherSearchStudentState extends State<TeacherSearchStudent> {
 
   void _filterStudents(String query) {
     setState(() {
-      filteredStudents = students.where((student) => student.toLowerCase().contains(query.toLowerCase())).toList();
+      filteredStudents = students
+          .where(
+              (student) => student.toLowerCase().contains(query.toLowerCase()))
+          .toList();
     });
   }
 
@@ -46,11 +50,13 @@ class _TeacherSearchStudentState extends State<TeacherSearchStudent> {
           gradient2: deepBlue,
           extra: Column(
             children: [
-              appbar("assets/flaticon/student.png", "Student Details", context, () {
+              appbar("assets/flaticon/student.png", "Student Details", context,
+                  () {
                 Navigator.pop(context);
               }),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: SizedBox(
                   height: 50,
                   child: TextField(
@@ -61,17 +67,28 @@ class _TeacherSearchStudentState extends State<TeacherSearchStudent> {
                     textAlign: TextAlign.start,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search, color: Colors.white,),
-                      hintStyle: TextStyle(color: Colors.white, decorationThickness: 0.0),
-                      hintText: "Search student details by name",
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.white),),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.white),),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.white),)
-                  ),),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        hintStyle: TextStyle(
+                            color: Colors.white, decorationThickness: 0.0),
+                        hintText: "Search student details by name",
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.white),
+                        )),
+                  ),
                 ),
               )
             ],
@@ -81,29 +98,49 @@ class _TeacherSearchStudentState extends State<TeacherSearchStudent> {
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
-          children: filteredStudents.isNotEmpty ? List.generate(filteredStudents.length, (index) {
-            return ListTile(
-              tileColor: Colors.white,
-              onTap: (){},
-              splashColor: lightBlue,
-              title: Text(filteredStudents[index]),
-              subtitle: Text("Class $index"),
-              leading: CircleAvatar(maxRadius: 22, child: Icon(Icons.person, color: Colors.grey,),),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Total: ${index+10}"),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Present: ",),
-                      Text("${index+4}", style: TextStyle(color: Colors.green),),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          }) : [Center(child: Text("No data found."))],
+          children: filteredStudents.isNotEmpty
+              ? List.generate(filteredStudents.length, (index) {
+                  return ListTile(
+                    tileColor: Colors.white,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StudentDetails(
+                                    index: index,
+                                  )));
+                    },
+                    splashColor: lightBlue,
+                    title: Text(filteredStudents[index]),
+                    subtitle: Text("Class $index"),
+                    leading: CircleAvatar(
+                      maxRadius: 22,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    trailing: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Total: ${index + 10}"),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Present: ",
+                            ),
+                            Text(
+                              "${index + 4}",
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                })
+              : [Center(child: Text("No data found."))],
         ),
       ),
     );
