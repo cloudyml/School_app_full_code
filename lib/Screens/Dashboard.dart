@@ -146,7 +146,7 @@ class _DashboardState extends State<Dashboard> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const AllChatLIstScreen();
+                          return const StudentAllChatScreen();
                         },
                       ));
                     },
@@ -157,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const AllChatLIstScreen();
+                          return const StudentAllChatScreen();
                         },
                       ));
                     },
@@ -183,7 +183,7 @@ class _DashboardState extends State<Dashboard> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return const AllChatLIstScreen();
+                        return const StudentAllChatScreen();
                       },
                     ));
                   },

@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:school_management_system/Screens/chat/Student/pdf_in%20_chat_view.dart';
 import 'package:school_management_system/Screens/chat/Teacher/pdf_in%20_chat_view.dart';
 import 'package:school_management_system/Screens/chat/Teacher/teacher_view_chat_image.dart';
 import 'package:school_management_system/constants/style.dart';
