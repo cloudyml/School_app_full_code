@@ -73,18 +73,17 @@ class _TeacherAllChatLIstScreenState extends State<TeacherAllChatLIstScreen> {
       'transports': ['websocket'],
     });
 
-
     socket.on('connected', (data) {
       log('Socket Connected Successfully');
       log("---------------------------------------------------------------------------------------------------------------------");
       log("Socket Connection Data: $data");
     });
 
-    socket.emit('get STP-group', {
+    socket.emit('get subject-wise STP-group', {
       'token': TeacherSharedServices.loginDetails()!.data!.token.toString(),
       'memberId': TeacherSharedServices.loginDetails()!.data!.id.toString(),
     });
-    socket.on('get group', (data) {
+    socket.on('subject-wise group', (data) {
       handleSocketData(data);
     });
     socket.on('disconnect', (_) => log('Disconnected from socket server'));
