@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:school_management_system/constants/style.dart';
 
-class ChatPdfPreviewPage extends StatelessWidget {
+class ChatPdfPreviewStudentPage extends StatelessWidget {
   final path;
-  const ChatPdfPreviewPage({
+
+  const ChatPdfPreviewStudentPage({
     Key? key,
     required this.path,
   }) : super(key: key);

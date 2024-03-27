@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +29,7 @@ class MessageModel {
   String? value;
   List<XFile>? images;
   File? pdf;
+
   MessageModel({
     required this.keyname,
     this.value,
@@ -47,10 +49,12 @@ class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen({
     super.key,
   });
+
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
 }
-// 
+
+//
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   bool isPhotoSelected = false;
   bool isVioceMsg = false;
@@ -366,10 +370,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       child: GestureDetector(
                                         onTap: () {
                                           if (newMsg1[index].pdf != null) {
-                                            Get.to(() => ChatPdfPreviewPage(
-                                                  path:
-                                                      newMsg1[index].pdf?.path,
-                                                ));
+                                            Get.to(
+                                                () => ChatPdfPreviewStudentPage(
+                                                      path: newMsg1[index]
+                                                          .pdf
+                                                          ?.path,
+                                                    ));
                                           } else {
                                             log("It is not pdf");
                                           }
@@ -598,10 +604,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       child: GestureDetector(
                                         onTap: () {
                                           if (newMsg1[index].pdf != null) {
-                                            Get.to(() => ChatPdfPreviewPage(
-                                                  path:
-                                                      newMsg1[index].pdf?.path,
-                                                ));
+                                            Get.to(
+                                                () => ChatPdfPreviewStudentPage(
+                                                      path: newMsg1[index]
+                                                          .pdf
+                                                          ?.path,
+                                                    ));
                                           } else {
                                             log("It is not pdf");
                                           }
@@ -1051,7 +1059,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       repliedToMsgContent: replyingtoMsg,
                                       repliedToWhom: whomWeAreReplying,
                                       sentTime:
-                                          "${DateTime.now().hour}:${DateTime.now().minute}",  
+                                          "${DateTime.now().hour}:${DateTime.now().minute}",
                                       username: "User2"));
                                   messageController.clear();
                                 })
